@@ -48,6 +48,6 @@ func Init(){
 
   n := negroni.Classic()
   n.UseHandler(finalHandler)
-  n.Run(":5000")
+  n.Run(":" + port)
 }
 
