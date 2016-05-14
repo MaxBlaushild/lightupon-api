@@ -2,7 +2,7 @@ package routes
 
 import(
        "net/http"
-       "trip-advisor-backend/models"
+       "lightupon-api/models"
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"

@@ -2,7 +2,7 @@ package websockets
 
 import (
 	"fmt"
-	"trip-advisor-backend/models"
+	"lightupon-api/models"
 )
 
 type hub struct {

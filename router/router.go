@@ -7,8 +7,8 @@ import(
       "github.com/rs/cors"
       "github.com/codegangsta/negroni"
 
-      "trip-advisor-backend/router/routes"
-      "trip-advisor-backend/router/middleware"
+      "lightupon-api/router/routes"
+      "lightupon-api/router/middleware"
       )
 
 func Init(){

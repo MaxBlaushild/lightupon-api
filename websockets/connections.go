@@ -2,7 +2,7 @@ package websockets
 
 import (
 	"github.com/gorilla/websocket"
-	"trip-advisor-backend/models"
+	"lightupon-api/models"
 	"log"
 	"time"
 )

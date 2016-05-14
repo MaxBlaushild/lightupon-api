@@ -2,9 +2,9 @@ package main
 
 import (
         "github.com/joho/godotenv"
-        "trip-advisor-backend/router"
-        "trip-advisor-backend/models"
-        "trip-advisor-backend/websockets"
+        "lightupon-api/router"
+        "lightupon-api/models"
+        "lightupon-api/websockets"
 
         )
 

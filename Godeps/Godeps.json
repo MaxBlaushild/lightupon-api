@@ -1,5 +1,5 @@
 {
-	"ImportPath": "trip-advisor-backend",
+	"ImportPath": "lightupon-api",
 	"GoVersion": "go1.5",
 	"Deps": [
 		{

@@ -1,1 +1,1 @@
-web: trip-advisor-backend
+web: lightupon-api

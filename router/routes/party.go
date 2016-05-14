@@ -2,14 +2,14 @@ package routes
 
 import(
        "net/http"
-       "trip-advisor-backend/models"
+       "lightupon-api/models"
        "github.com/gorilla/context"
        "github.com/dgrijalva/jwt-go"
        "encoding/json"
        "strconv"
        "fmt"
        "github.com/gorilla/mux"
-       "trip-advisor-backend/websockets"
+       "lightupon-api/websockets"
        )
 
 func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
