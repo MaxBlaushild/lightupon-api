@@ -50,13 +50,13 @@ func UpdatePartyHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(pullResponse)
 }
 
-func StartPartyHandler(w http.ResponseWriter, r *http.Request) {
+func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   partyID, _ := strconv.Atoi(vars["partyID"])
   party := models.Party{}
 
   models.DB.First(&party, partyID)
-  models.DB.Model(&party).Update("started", true)
+  party.MoveToNextScene()
   pullResponse := models.PullResponse{ Action: "StartParty", Passcode: party.Passcode }
   websockets.H.Broadcast <- pullResponse
 }
