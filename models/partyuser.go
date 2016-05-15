@@ -15,8 +15,6 @@ type Partyuser struct {
 	Scene Scene
 }
 
-const threshold float64 = 0.000001
-
 func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {
   DB.Where("trip_id = ? AND scene_order = ?", p.Party.TripID, p.CurrentSceneID + 1).First(&nextScene)
 

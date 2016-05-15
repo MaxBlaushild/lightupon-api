@@ -1,7 +1,7 @@
 package models
 
 type PullResponse struct {
-	AdvanceToNextScene bool
+	NextSceneAvailable bool
 	NextScene Scene
 	Passcode string
 	Action string

@@ -10,23 +10,23 @@ type Party struct {
   gorm.Model
   TripID uint
   Trip Trip
+  SceneID uint
+  Scene Scene
   CurrentSceneID int `gorm:"default:0"`
   Passcode string
-  AllUsersTogether bool
   Active bool `gorm:"default:true"`
   Started bool `gorm:"default:false"`
   Users []User `gorm:"many2many:partyusers;"`
 }
 
-
-func (p *Party) BeforeCreate() (err error) {
-  p.Passcode = makePasscode()
-  return
-}
-
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
 
-func makePasscode() string {
+func (p *Party) BeforeCreate() {
+  p.setPasscode()
+  p.SetFirstScene()
+}
+
+func (p *Party) setPasscode() {
   rand.Seed(time.Now().UnixNano())
   
   b := make([]byte, 4)
@@ -34,7 +34,18 @@ func makePasscode() string {
       index := rand.Intn(len(letterBytes))
       b[i] = letterBytes[index]
   }
-  return string(b)
+  p.Passcode = string(b)
+}
+
+func (p *Party) SetFirstScene() {
+  scene := Scene{}
+  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, 1).First(&scene)
+  p.SceneID = scene.ID
+}
+
+func (p *Party) NextScene()(nextScene Scene) {
+  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.Scene.SceneOrder + 1).First(&nextScene)
+  return
 }
 
 func UpdatePartyStatus(partyID int, userID uint, user_lat float64, user_lon float64)(pullResponse PullResponse){
@@ -59,7 +70,7 @@ func UpdatePartyStatus(partyID int, userID uint, user_lat float64, user_lon floa
 
   }
 
-  pullResponse.AdvanceToNextScene = arrivedAtNextScene
+  pullResponse.NextSceneAvailable = arrivedAtNextScene
 
   return
 }

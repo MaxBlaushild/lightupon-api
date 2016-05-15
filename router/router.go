@@ -28,7 +28,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/status", routes.UpdatePartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyId}/users", routes.PartyMembersHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/pull", routes.PartyManagerHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/start", routes.StartPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/leave", routes.LeavePartyHandler)
