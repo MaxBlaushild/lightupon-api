@@ -37,8 +37,15 @@ func (p *Party) setPasscode() {
 }
 
 func (p *Party) NextScene()(nextScene Scene) {
-  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.Scene.SceneOrder + 1).First(&nextScene)
+  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneID + 1).First(&nextScene)
   return
+}
+
+func (p *Party) MoveToNextScene() {
+  DB.Model(&p).Update(map[string]interface{}{
+    "current_scene_id": p.CurrentSceneID + 1,
+    "scene": p.NextScene(),
+  })
 }
 
 func UpdatePartyStatus(partyID int, userID uint, user_lat float64, user_lon float64)(pullResponse PullResponse){
