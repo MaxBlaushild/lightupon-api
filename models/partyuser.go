@@ -15,13 +15,6 @@ type Partyuser struct {
 	Scene Scene
 }
 
-type PullResponse struct {
-	AdvanceToNextScene bool
-	NextScene Scene
-	Passcode string
-	Action string
-}
-
 const threshold float64 = 0.000001
 
 func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {

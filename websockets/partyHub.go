@@ -24,23 +24,42 @@ func (h *hub) StartHub() {
 	for {
 		select {
 		case c := <- h.Register:
-			h.Connections[c.Passcode] = make(map[*Connection]bool)
-			h.Connections[c.Passcode][c] = true
+			h.RegisterConnection(c)
 		case c := <-h.Unregister:
-			if _, ok := h.Connections[c.Passcode][c]; ok {
-				delete(h.Connections[c.Passcode], c)
-				close(c.Send)
-			}
+			h.UnregisterConnection(c)
 		case pullResponse := <- h.Broadcast:
-			for c := range h.Connections[pullResponse.Passcode] {
-				select {
-				case c.Send <- pullResponse:
-				default:
-					close(c.Send)
-					delete(h.Connections[c.Passcode], c)
-				}
-			}
+			h.GatherUsers(&pullResponse)
+			h.PushToParty(pullResponse)
 		}
+	}
+}
+
+func (h *hub) RegisterConnection(c *Connection) {
+	h.Connections[c.Passcode] = make(map[*Connection]bool)
+	h.Connections[c.Passcode][c] = true
+}
+
+func (h *hub) GatherUsers(pullResponse *models.PullResponse) {
+	for c := range h.Connections[pullResponse.Passcode] {
+		pullResponse.Users = append(pullResponse.Users, c.User)
+	}
+}
+
+func (h *hub) PushToParty(pullResponse models.PullResponse) {
+	for c := range h.Connections[pullResponse.Passcode] {
+		select {
+		case c.Send <- pullResponse:
+		default:
+			close(c.Send)
+			delete(h.Connections[c.Passcode], c)
+		}
+	}
+}
+
+func (h *hub) UnregisterConnection(c *Connection) {
+	if _, ok := h.Connections[c.Passcode][c]; ok {
+		delete(h.Connections[c.Passcode], c)
+		close(c.Send)
 	}
 }
 

@@ -2,9 +2,12 @@ package websockets
 
 import (
 	"github.com/gorilla/websocket"
-	"lightupon-api/models"
 	"log"
 	"time"
+	"encoding/json"
+	"lightupon-api/models"
+	"bytes"
+  "fmt"
 )
 
 const (
@@ -37,12 +40,7 @@ func (c *Connection) ReadPump() {
 		c.WS.Close()
 	}()
 
-	c.WS.SetReadLimit(maxMessageSize)
-	c.WS.SetReadDeadline(time.Now().Add(pongWait))
-	c.WS.SetPongHandler(func(string) error { 
-		c.WS.SetReadDeadline(time.Now().Add(pongWait))
-		return nil 
-	})
+	c.ConfigureRead()
 
 	for {
 		_, message, err := c.WS.ReadMessage()
@@ -52,14 +50,39 @@ func (c *Connection) ReadPump() {
 			}
 			break
 		}
-		RouteIncomingMessage(message, c)
+		c.UpdateLocation(message)
+		c.UpdateClient()
 	}
+}
+
+func (c *Connection) ConfigureRead() {
+	c.WS.SetReadLimit(maxMessageSize)
+	c.WS.SetReadDeadline(time.Now().Add(pongWait))
+	c.WS.SetPongHandler(func(string) error { 
+		c.WS.SetReadDeadline(time.Now().Add(pongWait))
+		return nil 
+	})
+}
+
+func (c *Connection) UpdateLocation(message []byte) {
+	location := models.Location{}
+	buffer := bytes.NewBuffer(message)
+  decoder := json.NewDecoder(buffer)
+  err := decoder.Decode(&location); if err != nil {
+  	fmt.Println(err)
+  }
+	c.User.Location = location
+	fmt.Println(c.User.Location)
 }
 
 func (c *Connection) Write(mt int, payload []byte) error {
 	c.WS.SetWriteDeadline(time.Now().Add(writeWait))
 	message := Message{Content: payload}
 	return c.WS.WriteJSON(message)
+}
+func (c *Connection) UpdateClient() {
+	pullResponse := models.PullResponse{ Passcode: c.Passcode }
+  H.Broadcast <- pullResponse
 }
 
 func (c *Connection) WritePump() {
@@ -72,7 +95,6 @@ func (c *Connection) WritePump() {
 	for {
 		select {
 		case pullResponse, ok := <- c.Send:
-
 			if !ok {
 				c.Write(websocket.CloseMessage, []byte{})
 				return
@@ -80,7 +102,6 @@ func (c *Connection) WritePump() {
 			if err := c.WS.WriteJSON(pullResponse); err != nil {
 				return
 			}
-
 		case <-ticker.C:
 
 			if err := c.Write(websocket.PingMessage, []byte{}); err != nil {
