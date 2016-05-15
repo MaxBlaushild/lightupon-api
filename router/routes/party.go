@@ -37,7 +37,6 @@ func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   passcode, _ := vars["passcode"]
   party := models.Party{}
-  fmt.Println(passcode)
   models.DB.Where("passcode = ? AND active = true", passcode).First(&party).Association("Users").Append(&user)
   // json.NewEncoder(w).Encode(party)
 }

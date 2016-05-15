@@ -27,12 +27,3 @@ func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
   token := models.RefreshTokenByFacebookId(id)
   json.NewEncoder(w).Encode(token)
 }
-
-func PartyMembersHandler(w http.ResponseWriter, r *http.Request) {
-  vars := mux.Vars(r)
-  partyId, _ := vars["partyID"]
-  party := models.Party{}
-  users := []models.User{}
-  models.DB.First(&party, partyId).Association("Users").Find(&users)
-  json.NewEncoder(w).Encode(users)
-}

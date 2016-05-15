@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"os"
 	"time"
+	"math"
 )
 
 type User struct {
@@ -18,6 +19,8 @@ type User struct {
 	Location Location `gorm:"-"`
 }
 
+const threshold float64 = 0.000001
+
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
   return
@@ -28,13 +31,18 @@ func createToken(facebookId string) string {
 	token.Claims["facebookId"] = facebookId
 	token.Claims["exp"] = time.Now().Add(time.Hour * 72000).Unix() // For now, set tokens to expire never
 	signingSecret := []byte(os.Getenv("JWT_SECRET"))
-	tokenString, err := token.SignedString(signingSecret)
-
-	if err != nil {
+	tokenString, err := token.SignedString(signingSecret); if err != nil {
   	fmt.Println(err)
   }
-
   return tokenString
+}
+
+func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
+	latDiff := scene.Latitude - u.Location.Latitude
+  lonDiff := scene.Longitude - u.Location.Longitude
+  distanceFromScene := math.Pow(latDiff, 2) + math.Pow(lonDiff, 2)
+  isAtNextScene = distanceFromScene < threshold
+  return
 }
 
 func RefreshTokenByFacebookId(facebookId string) string {

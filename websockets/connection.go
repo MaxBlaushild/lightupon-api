@@ -72,7 +72,6 @@ func (c *Connection) UpdateLocation(message []byte) {
   	fmt.Println(err)
   }
 	c.User.Location = location
-	fmt.Println(c.User.Location)
 }
 
 func (c *Connection) Write(mt int, payload []byte) error {
@@ -81,8 +80,24 @@ func (c *Connection) Write(mt int, payload []byte) error {
 	return c.WS.WriteJSON(message)
 }
 func (c *Connection) UpdateClient() {
-	pullResponse := models.PullResponse{ Passcode: c.Passcode }
+	party := models.Party{}
+	models.DB.Where("passcode = ?", c.Passcode).First(&party)
+	pullResponse := c.CreatePullResponse(party)
   H.Broadcast <- pullResponse
+}
+
+func (c *Connection) CreatePullResponse(party models.Party) models.PullResponse {
+	nextScene := party.NextScene()
+	pullResponse := models.PullResponse{ Passcode: c.Passcode, NextScene: nextScene }
+	pullResponse.NextSceneAvailable = c.IsNextSceneAvailable(nextScene)
+	return pullResponse
+}
+
+func (c *Connection) IsNextSceneAvailable(nextScene models.Scene)(nextSceneAvailable bool) {
+	for c := range H.Connections[c.Passcode] {
+		nextSceneAvailable = nextSceneAvailable || c.User.IsAtScene(nextScene)
+	}
+	return
 }
 
 func (c *Connection) WritePump() {

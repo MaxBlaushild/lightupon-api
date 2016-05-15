@@ -11,6 +11,5 @@ type Scene struct {
   Longitude float64
   TripID uint
   SceneOrder uint
-  NextScene *Scene `gorm:"ForeignKey:NextSceneId"`
   Cards []Card
 }
