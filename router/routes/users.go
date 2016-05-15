@@ -12,15 +12,12 @@ import(
 func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
   jsonUser := models.User{}
   decoder := json.NewDecoder(r.Body)
-  err := decoder.Decode(&jsonUser)
-
-  if err != nil {
+  err := decoder.Decode(&jsonUser); if err != nil {
   	fmt.Println(err)
   }
 
   user := models.User{}
   models.DB.FirstOrCreate(&user, jsonUser)
-
   json.NewEncoder(w).Encode(user.Token)
 }
 

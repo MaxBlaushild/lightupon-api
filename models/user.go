@@ -15,6 +15,7 @@ type User struct {
 	DeviceID string
 	Token string
 	Parties []Party `gorm:"many2many:partyusers;"`
+	Location Location `gorm:"-"`
 }
 
 func (u *User) BeforeCreate() (err error) {
