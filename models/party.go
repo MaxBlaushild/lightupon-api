@@ -23,7 +23,6 @@ const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567
 
 func (p *Party) BeforeCreate() {
   p.setPasscode()
-  p.SetFirstScene()
 }
 
 func (p *Party) setPasscode() {
@@ -35,12 +34,6 @@ func (p *Party) setPasscode() {
       b[i] = letterBytes[index]
   }
   p.Passcode = string(b)
-}
-
-func (p *Party) SetFirstScene() {
-  scene := Scene{}
-  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, 1).First(&scene)
-  p.SceneID = scene.ID
 }
 
 func (p *Party) NextScene()(nextScene Scene) {
