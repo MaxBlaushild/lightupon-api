@@ -11,12 +11,12 @@ type Partyuser struct {
 	UserID uint `gorm:"index"`
 	Party Party
 	PartyID uint `gorm:"index"`
-	CurrentSceneID uint `gorm:"default:0"`
+	CurrentSceneOrderID uint `gorm:"default:0"`
 	Scene Scene
 }
 
 func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {
-  DB.Where("trip_id = ? AND scene_order = ?", p.Party.TripID, p.CurrentSceneID + 1).First(&nextScene)
+  DB.Where("trip_id = ? AND scene_order = ?", p.Party.TripID, p.CurrentSceneOrderID + 1).First(&nextScene)
 
   // Decide whether we're at the next scene
   latDiff := nextScene.Latitude - lat

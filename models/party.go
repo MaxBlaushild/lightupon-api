@@ -12,7 +12,7 @@ type Party struct {
   Trip Trip
   SceneID uint
   Scene Scene
-  CurrentSceneID int `gorm:"default:0"`
+  CurrentSceneOrderID int `gorm:"default:0"`
   Passcode string
   Active bool `gorm:"default:true"`
   Started bool `gorm:"default:false"`
@@ -37,13 +37,13 @@ func (p *Party) setPasscode() {
 }
 
 func (p *Party) NextScene()(nextScene Scene) {
-  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneID + 1).First(&nextScene)
+  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneOrderID + 1).First(&nextScene)
   return
 }
 
 func (p *Party) MoveToNextScene() {
   DB.Model(&p).Update(map[string]interface{}{
-    "current_scene_id": p.CurrentSceneID + 1,
+    "current_scene_id": p.CurrentSceneOrderID + 1,
     "scene": p.NextScene(),
   })
 }
