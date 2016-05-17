@@ -2,7 +2,7 @@ package models
 
 type PullResponse struct {
 	NextSceneAvailable bool
-	NextScene Scene
+	Scene Scene
 	Passcode string
 	Action string
 	Users []User

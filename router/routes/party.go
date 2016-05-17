@@ -55,10 +55,9 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   partyID, _ := strconv.Atoi(vars["partyID"])
   party := models.Party{}
 
-  models.DB.First(&party, partyID)
+  models.DB.Preload("Scene.Cards").First(&party, partyID)
   party.MoveToNextScene()
-  pullResponse := models.PullResponse{ Action: "StartParty", Passcode: party.Passcode }
-  websockets.H.Broadcast <- pullResponse
+  websockets.H.Broadcast <- party
 }
 
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
