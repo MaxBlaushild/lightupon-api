@@ -37,7 +37,7 @@ func (p *Party) setPasscode() {
 }
 
 func (p *Party) NextScene()(nextScene Scene) {
-  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneOrderID + 1).First(&nextScene)
+  DB.Preload("Cards").Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneID + 1).First(&nextScene)
   return
 }
 
