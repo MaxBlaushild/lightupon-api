@@ -26,6 +26,7 @@ func Connect() {
 
   DB.LogMode(true)
   DB.AutoMigrate(&User{}, &Trip{}, &Party{}, &Scene{}, &Card{}, &Partyuser{})
+  DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }
 
 
