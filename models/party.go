@@ -43,7 +43,7 @@ func (p *Party) NextScene()(nextScene Scene) {
 
 func (p *Party) MoveToNextScene() {
   DB.Model(&p).Update(map[string]interface{}{
-    "current_scene_id": p.CurrentSceneOrderID + 1,
+    "current_scene_order_id": p.CurrentSceneOrderID + 1,
     "scene": p.NextScene(),
   })
 }
@@ -66,7 +66,7 @@ func UpdatePartyStatus(partyID int, userID uint, user_lat float64, user_lon floa
       DB.Model(&partyuser.Party).Update("current_scene_id", uniqueCurrentScenes[0])
     }
 
-    pullResponse.NextScene = nextScene
+    pullResponse.Scene = nextScene
 
   }
 

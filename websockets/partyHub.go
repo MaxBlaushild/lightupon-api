@@ -7,13 +7,13 @@ import (
 
 type hub struct {
 	Connections map[string]map[*Connection]bool
-	Broadcast chan models.PullResponse
+	Broadcast chan models.Party
 	Register chan *Connection
 	Unregister chan *Connection
 }
 
 var H = hub{
-	Broadcast:   make(chan models.PullResponse),
+	Broadcast:   make(chan models.Party),
 	Register:    make(chan *Connection),
 	Unregister:  make(chan *Connection),
 	Connections: make(map[string]map[*Connection]bool),
@@ -27,8 +27,8 @@ func (h *hub) StartHub() {
 			h.RegisterConnection(c)
 		case c := <-h.Unregister:
 			h.UnregisterConnection(c)
-		case pullResponse := <- h.Broadcast:
-			h.GatherUsers(&pullResponse)
+		case party := <- h.Broadcast:
+			pullResponse := h.CreatePullResponse(party)
 			h.PushToParty(pullResponse)
 		}
 	}
@@ -39,10 +39,26 @@ func (h *hub) RegisterConnection(c *Connection) {
 	h.Connections[c.Passcode][c] = true
 }
 
-func (h *hub) GatherUsers(pullResponse *models.PullResponse) {
-	for c := range h.Connections[pullResponse.Passcode] {
-		pullResponse.Users = append(pullResponse.Users, c.User)
+func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
+  pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene}
+  pullResponse.Users = h.GatherUsersFromParty(party)
+  pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
+  return pullResponse
+}
+
+func (h *hub) IsNextSceneAvailable(party models.Party)(nextSceneAvailable bool) {
+	nextScene := party.NextScene()
+	for c := range h.Connections[party.Passcode] {
+		nextSceneAvailable = nextSceneAvailable || c.User.IsAtScene(nextScene)
 	}
+	return
+}
+
+func (h *hub) GatherUsersFromParty(party models.Party)(users []models.User) {
+	for c := range h.Connections[party.Passcode] {
+		users = append(users, c.User)
+	}
+	return
 }
 
 func (h *hub) PushToParty(pullResponse models.PullResponse) {

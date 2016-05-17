@@ -18,7 +18,7 @@ VALUES
 
 
 INSERT INTO cards
-(scene_id, card_order, dialogue, universal)
+(card_order, scene_id, text, universal)
 VALUES
 (1, 1, 'Good Morning! Thank God youre awake!', true),
 (2, 1, 'The sale is almost half over!', true),
