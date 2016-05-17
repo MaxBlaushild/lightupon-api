@@ -12,3 +12,4 @@ type Card struct {
   SceneID uint
   CardOrder uint
   Universal bool
+}
