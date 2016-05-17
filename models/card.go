@@ -6,8 +6,9 @@ import(
 
 type Card struct {
   gorm.Model
-  Dialogue string
+  CardType string
+  Text string
+  ImageURL string
   SceneID uint
   CardOrder uint
   Universal bool
-}
