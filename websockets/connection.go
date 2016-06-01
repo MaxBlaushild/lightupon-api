@@ -76,9 +76,9 @@ func (c *Connection) UpdateLocation(message []byte) {
 
 func (c *Connection) Write(mt int, payload []byte) error {
 	c.WS.SetWriteDeadline(time.Now().Add(writeWait))
-	message := Message{Content: payload}
-	return c.WS.WriteJSON(message)
+	return c.WS.WriteMessage(mt, payload)
 }
+
 func (c *Connection) UpdateClient() {
 	party := models.Party{}
 	models.DB.Preload("Scene.Cards").Where("passcode = ?", c.Passcode).First(&party)
@@ -96,14 +96,13 @@ func (c *Connection) WritePump() {
 		select {
 		case pullResponse, ok := <- c.Send:
 			if !ok {
-				c.Write(websocket.CloseMessage, []byte{})
+				H.Unregister <- c
 				return
 			}
 			if err := c.WS.WriteJSON(pullResponse); err != nil {
 				return
 			}
-		case <-ticker.C:
-
+		case <- ticker.C:
 			if err := c.Write(websocket.PingMessage, []byte{}); err != nil {
 				return
 			}
