@@ -12,5 +12,6 @@ type Trip struct {
   Distance float32
   Latitude float64
  	Longitude float64
+ 	EstimatedTime int
 }
 
