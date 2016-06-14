@@ -74,8 +74,8 @@ func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetUserFromRequest(r *http.Request)(user models.User){
   token := context.Get(r, "user")
-  id := token.(*jwt.Token).Claims["facebookId"].(string)
-  models.DB.Where("facebook_id = ?", id).First(&user)
+  facebookID := token.(*jwt.Token).Claims["facebookId"].(string)
+  models.DB.Where("facebook_id = ?", facebookID).First(&user)
   return
 }
 

@@ -36,3 +36,16 @@ func TripHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.First(&trip, id)
   json.NewEncoder(w).Encode(trip)
 }
+
+func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
+  // request body should consist of {Title: "Balls"}
+  decoder := json.NewDecoder(r.Body)
+  trip := models.Trip{}
+  err := decoder.Decode(&trip)
+  if err != nil {fmt.Println(err)}
+
+  user := GetUserFromRequest(r)
+  trip.Owner = int(user.ID)
+  models.DB.Create(&trip)
+  json.NewEncoder(w).Encode(trip)
+}
