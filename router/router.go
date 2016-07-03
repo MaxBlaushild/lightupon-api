@@ -22,7 +22,9 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler)
   routerWithAuth.HandleFunc("/lightupon/nearby_trips", routes.NearbyTripsHandler)
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler)
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneId}/cards", routes.CardsHandler)
+  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler)
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards_post", routes.CreateCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties", routes.CreatePartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler)
@@ -33,7 +35,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/leave", routes.LeavePartyHandler)
   // TODO: rename trips_post to trips and get it to not get confused with the above trips GET route
   routerWithAuth.HandleFunc("/lightupon/trips_post", routes.CreateTripHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),
