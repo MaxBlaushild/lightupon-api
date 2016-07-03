@@ -33,6 +33,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/leave", routes.LeavePartyHandler)
   // TODO: rename trips_post to trips and get it to not get confused with the above trips GET route
   routerWithAuth.HandleFunc("/lightupon/trips_post", routes.CreateTripHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),
