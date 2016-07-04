@@ -50,3 +50,10 @@ func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Create(&trip)
   json.NewEncoder(w).Encode(trip)
 }
+
+func GetTripsForUserHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  trips := []models.Trip{}
+  models.DB.Where("owner = $1", user.ID).Find(&trips)
+  json.NewEncoder(w).Encode(trips)
+}

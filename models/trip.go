@@ -11,7 +11,9 @@ type Trip struct {
   ImageUrl string
   Distance float32
   Latitude float64
-	Longitude float64
-	EstimatedTime int
-	Owner int
+  Longitude float64
+  EstimatedTime int
+  Owner int
+  Scenes []Scene
 }
+
