@@ -6,6 +6,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+       "fmt"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
