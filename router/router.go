@@ -24,13 +24,13 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler)
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneId}/cards", routes.CardsHandler)
   routerWithAuth.HandleFunc("/lightupon/parties", routes.CreatePartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler)
+  routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/status", routes.UpdatePartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/pull", routes.PartyManagerHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/leave", routes.LeavePartyHandler)
+  routerWithAuth.HandleFunc("/lightupon/parties", routes.LeavePartyHandler).Methods("DELETE")
   // TODO: rename trips_post to trips and get it to not get confused with the above trips GET route
   routerWithAuth.HandleFunc("/lightupon/trips_post", routes.CreateTripHandler).Methods("POST")
 

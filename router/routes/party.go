@@ -12,7 +12,7 @@ import(
        "lightupon-api/websockets"
        )
 
-func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
+func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {  
   decoder := json.NewDecoder(r.Body)
   trip := models.Trip{}
   err := decoder.Decode(&trip)
@@ -62,14 +62,11 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
 
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  vars := mux.Vars(r)
-  partyID, _ := strconv.Atoi(vars["partyID"])
-  party := models.Party{}
-
-  models.DB.First(&party, partyID)
-  models.DB.Model(user).Association("Parties").Delete(party)
-  party.DeactivateIfEmpty()
-  websockets.H.DeactivateUser(user, party.Passcode)
+  activeParty := user.ActiveParty()
+  models.DB.Model(user).Association("Parties").Delete(activeParty)
+  activeParty.DeactivateIfEmpty()
+  websockets.H.DeactivateUser(user, activeParty.Passcode)
+  json.NewEncoder(w).Encode(activeParty)
 }
 
 func GetUserFromRequest(r *http.Request)(user models.User){
@@ -88,14 +85,7 @@ func GetUserLocationFromRequest(r *http.Request)(lat float64, lon float64){
 
 func GetUsersPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  activeParty := models.Party{}
-  parties := []models.Party{}
-  models.DB.Model(&user).Association("Parties").Find(&parties)
-  for _, party := range parties {
-    if party.Active {
-      activeParty = party
-    }
-  }
+  activeParty := user.ActiveParty()
   json.NewEncoder(w).Encode(activeParty)
 }
 

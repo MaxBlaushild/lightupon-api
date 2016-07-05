@@ -10,6 +10,7 @@ type Scene struct {
   Latitude float64
   Longitude float64
   TripID uint
+  BackgroundUrl string
   SceneOrder uint
   Cards []Card
 }
