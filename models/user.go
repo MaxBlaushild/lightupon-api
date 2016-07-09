@@ -37,6 +37,17 @@ func createToken(facebookId string) string {
   return tokenString
 }
 
+func (u *User) ActiveParty() (activeParty Party) {
+  parties := []Party{}
+  DB.Model(&u).Association("Parties").Find(&parties)
+  for _, party := range parties {
+    if party.Active {
+      activeParty = party
+    }
+  }
+  return
+}
+
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
 	latDiff := scene.Latitude - u.Location.Latitude
   lonDiff := scene.Longitude - u.Location.Longitude
