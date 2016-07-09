@@ -20,6 +20,7 @@ func Init(){
   
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler)
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler)
+  routerWithAuth.HandleFunc("/lightupon/trips_for_user", routes.GetTripsForUserHandler)
   routerWithAuth.HandleFunc("/lightupon/nearby_trips", routes.NearbyTripsHandler)
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler)
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
