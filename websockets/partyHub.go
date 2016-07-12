@@ -40,7 +40,7 @@ func (h *hub) RegisterConnection(c *Connection) {
 }
 
 func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
-  pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene}
+  pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene, NextScene: party.NextScene()}
   pullResponse.Users = h.GatherUsersFromParty(party)
   pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
   return pullResponse
