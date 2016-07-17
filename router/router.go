@@ -22,8 +22,8 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/trips/{id}", routes.AdminTripHandler)
   // these serve/accept json
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler)
-  muxRouter.HandleFunc("/lightupon/admin/scenes_post", routes.CreateSceneHandler).Methods("POST")
-  muxRouter.HandleFunc("/lightupon/admin/cards_post", routes.CreateCardHandler).Methods("POST")
+  muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
+  muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards_post", routes.CreateCardHandler).Methods("POST")
 
   routerWithAuth := mux.NewRouter()
   

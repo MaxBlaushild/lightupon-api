@@ -68,35 +68,34 @@ const trip_detail_template = `
 </style>
 <html>
   <body>
+    <span style="visibility: hidden;" id="tripID">{{.ID}}</span>
     <div style="width: 100%; overflow: hidden;">
       <div class="scenes_for_trip block_container">
         <p class="bold"> TRIP {{.ID}}<p>
         <p class="bold"> SCENES </p>
+        <p class="bold"> SceneOrder / SceneID / Scene.Name</p>
         {{range $index, $element := .Scenes}}
-          <p class="scene-link" id="scene_{{$element.ID}}">{{$element.SceneOrder}}
-            <span class="">
-              {{$element.Name}}
-            </span>
+          <p class="scene-link" id="scene_{{$element.ID}}">
+            {{$element.SceneOrder}} / {{$element.ID}} / {{$element.Name}}
           </p>
         {{end}}
       </div>
       <div class="add_scene block_container" >
         <p class="bold"> ADD SCENE </p>
-        <p>Scene Title: <input type="text" name="input-scene_title"/></p>
-        <p>Scene Order: <input type="text" name="input-scene_order"/></p>
-        <p>Latitude: <input type="text" name="input-latitude"/></p>
-        <p>Longitude: <input type="text" name="input-longitude"/></p>
-        <p>TripID: <input type="text" disabled="disabled" name="input-longitude"/></p>
+        <p>Scene Title: <input type="text" id="input-scene_title"/></p>
+        <p>Scene Order: <input type="text" id="input-scene_order"/></p>
+        <p>Latitude: <input type="text" id="input-scene_latitude"/></p>
+        <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
         <p class="submit_scene submit_button">Submit</p>
       </div>
 
       <div class="add_card block_container" >
         <p class="bold"> ADD CARD </p>
-        <p>Text: <input type="text" name="input-card_text"/></p>
-        <p>ImageURL: <input type="text" name="input-card_image_url"/></p>
-        <p>SceneID: <input type="text" name="input-card_scene_id"/></p>
-        <p>CardOrder: <input type="text" name="input-card_card_order"/></p>
-        <p>NibID: <input type="text" name="input-card_nib_id"/></p>
+        <p>Text: <input type="text" id="input-card_text"/></p>
+        <p>ImageURL: <input type="text" id="input-card_image_url"/></p>
+        <p>SceneID: <input type="text" id="input-card_scene_id"/></p>
+        <p>CardOrder: <input type="text" id="input-card_card_order"/></p>
+        <p>NibID: <input type="text" id="input-card_nib_id"/></p>
         <p class="submit_card submit_button">Submit</p>
       </div>
 
@@ -106,14 +105,17 @@ const trip_detail_template = `
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
-
-console.log('working 1');
+(function(){
 
 $('.submit_scene').on('click', function(){
   post_scene();
+  window.location.reload(false);
 })
 
-console.log('working 2');
+$('.submit_card').on('click', function(){
+  post_card();
+  window.location.reload(false);
+})
 
 $('.scene-link').each(function(index, element){
   var scene_link = $(element);
@@ -121,7 +123,8 @@ $('.scene-link').each(function(index, element){
     var scene_id = scene_link.attr('id').split('_')[1];
     $.ajax({
       method: "GET",
-      url:"http://45.55.160.25/lightupon/admin/scenes/" + scene_id + "/cards",
+      // url:"http://localhost:5000/lightupon/admin/scenes/" + scene_id + "/cards",
+      url: "http://45.55.160.25/lightupon/admin/scenes/" + scene_id + "/cards",
       datatype:"json"
     }).done(function(cards_unparsed){
       var cards = JSON.parse(cards_unparsed);
@@ -135,22 +138,21 @@ $('.scene-link').each(function(index, element){
   })
 })
 
-$('.submit_card').on('click', function(){
-  post_card();
-})
 function post_card () {
+  sceneID = parseInt($("#input-card_scene_id").val());
   $.ajax({
     method: "POST",
-    url: "http://45.55.160.25/lightupon/admin/cards_post",
+    // url: "http://localhost:5000/lightupon/admin/scenes/" + sceneID + "/cards_post",
+    url: "http://45.55.160.25/lightupon/admin/scenes/" + sceneID + "/cards_post",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
     data:JSON.stringify({
-      "Text":"lebrezion",
-      "ImageURL":"sdfgdsfg",
-      "SceneID":1,
-      "CardOrder":1,
-      "NibID":"alksjdhf"
+      "Text":$("#input-card_text").val(),
+      "ImageURL":$("#input-card_image_url").val(),
+      "SceneID":parseInt($("#input-card_scene_id").val()),
+      "CardOrder":parseInt($("#input-card_card_order").val()),
+      "NibID":$("#input-card_nib_id").val()
     })
   }).done(function(stuff){
     console.log(stuff)
@@ -160,22 +162,24 @@ function post_card () {
 // sharknavion
 // {"SceneOrder":3, "Name":"new scene", "Latitude":76.567,"Longitude":87.345}
 function post_scene () {
+  tripID = $("#tripID").html();
   $.ajax({
     method: "POST",
-    url: "http://45.55.160.25/lightupon/admin/scenes_post",
+    // url: "http://localhost:5000/lightupon/admin/trips/" + tripID + "/scenes_post",
+    url: "http://45.55.160.25/lightupon/admin/trips/" + tripID + "/scenes_post",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
     data:JSON.stringify({
-      "Name":"lebrezion",
-      "SceneOrder":4,
-      "Latitude":1.234,
-      "Longitude":1.234
+      "Name":$("#input-scene_title").val(),
+      "SceneOrder":parseInt($("#input-scene_order").val()),
+      "Latitude":parseFloat($("#input-scene_latitude").val()),
+      "Longitude":parseFloat($("#input-scene_longitude").val())
     })
   }).done(function(stuff){
     console.log(stuff)
   });
 }
-
+})();
 </script>
 `
