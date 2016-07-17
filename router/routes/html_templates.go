@@ -143,13 +143,13 @@ function post_card () {
     method: "POST",
     url: "http://45.55.160.25/lightupon/admin/cards_post",
     dataType: "json",
-    data:{
+    data:JSON.stringify({
       "Text":"lebrezion",
       "ImageURL":"sdfgdsfg",
       "SceneID":1,
       "CardOrder":1,
       "NibID":"alksjdhf"
-    }
+    })
   }).done(function(stuff){
     console.log(stuff)
   });
@@ -162,12 +162,12 @@ function post_scene () {
     method: "POST",
     url: "http://45.55.160.25/lightupon/admin/scenes_post",
     dataType: "json",
-    data:{
+    data:JSON.stringify({
       "Name":"lebrezion",
       "SceneOrder":4,
       "Latitude":1.234,
       "Longitude":1.234
-    }
+    })
   }).done(function(stuff){
     console.log(stuff)
   });
