@@ -16,6 +16,15 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{facebookId}/token", routes.UserTokenRefreshHandler).Methods("PATCH")
 
+  // ADMIN
+  // these routes serve html
+  muxRouter.HandleFunc("/lightupon/admin/user/{id}/trips", routes.AdminGetTripsForUserHandler)
+  muxRouter.HandleFunc("/lightupon/admin/trips/{id}", routes.AdminTripHandler)
+  // these serve/accept json
+  muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler)
+  muxRouter.HandleFunc("/lightupon/admin/scenes_post", routes.CreateSceneHandler).Methods("POST")
+  muxRouter.HandleFunc("/lightupon/admin/cards_post", routes.CreateCardHandler).Methods("POST")
+
   routerWithAuth := mux.NewRouter()
   
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler)

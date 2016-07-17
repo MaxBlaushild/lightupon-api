@@ -31,8 +31,8 @@ func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TripHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+  vars := mux.Vars(r)
+  id := vars["id"]
   trip := models.Trip{}
   models.DB.First(&trip, id)
   json.NewEncoder(w).Encode(trip)
