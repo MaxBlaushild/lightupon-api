@@ -16,4 +16,3 @@ type Trip struct {
   Owner int
   Scenes []Scene
 }
-
