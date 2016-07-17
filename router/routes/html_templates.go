@@ -121,7 +121,7 @@ $('.scene-link').each(function(index, element){
     var scene_id = scene_link.attr('id').split('_')[1];
     $.ajax({
       method: "GET",
-      url:"http://localhost:5000/lightupon/admin/scenes/" + scene_id + "/cards",
+      url:"http://45.55.160.25/lightupon/admin/scenes/" + scene_id + "/cards",
       datatype:"json"
     }).done(function(cards_unparsed){
       var cards = JSON.parse(cards_unparsed);
@@ -141,7 +141,7 @@ $('.submit_card').on('click', function(){
 function post_card () {
   $.ajax({
     method: "POST",
-    url: "http://localhost:5000/lightupon/admin/cards_post",
+    url: "http://45.55.160.25/lightupon/admin/cards_post",
     dataType: "json",
     data:{
       "Text":"lebrezion",
@@ -160,7 +160,7 @@ function post_card () {
 function post_scene () {
   $.ajax({
     method: "POST",
-    url: "http://localhost:5000/lightupon/admin/scenes_post",
+    url: "http://45.55.160.25/lightupon/admin/scenes_post",
     dataType: "json",
     data:{
       "Name":"lebrezion",
