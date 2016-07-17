@@ -143,6 +143,8 @@ function post_card () {
     method: "POST",
     url: "http://45.55.160.25/lightupon/admin/cards_post",
     dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
     data:JSON.stringify({
       "Text":"lebrezion",
       "ImageURL":"sdfgdsfg",
@@ -162,6 +164,8 @@ function post_scene () {
     method: "POST",
     url: "http://45.55.160.25/lightupon/admin/scenes_post",
     dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
     data:JSON.stringify({
       "Name":"lebrezion",
       "SceneOrder":4,
