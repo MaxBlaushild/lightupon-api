@@ -24,6 +24,8 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler)
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards_post", routes.CreateCardHandler).Methods("POST")
+  muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}", routes.DeleteSceneHandler).Methods("DELETE")
+  muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
 
   routerWithAuth := mux.NewRouter()
   
