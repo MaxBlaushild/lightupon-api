@@ -30,7 +30,23 @@ func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
 
   scene.TripID = uint(tripID)
 
-  // models.DB.Query("UPDATE scenes SET scene_order = scene_order + 1 WHERE trip_id = $1 AND scene_order > $2", tripID, newSceneOrder)
-
   models.DB.Create(&scene)
+}
+
+func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
+  sceneID := uint(sceneIDint)
+  scene := models.Scene{}
+  scene.ID = sceneID
+  models.DB.Delete(&scene)
+}
+
+func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  cardIDint, _ := strconv.Atoi(vars["cardID"])
+  cardID := uint(cardIDint)
+  card := models.Card{}
+  card.ID = cardID
+  models.DB.Delete(&card)
 }

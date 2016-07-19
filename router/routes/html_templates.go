@@ -6,6 +6,12 @@ const trips_list_template = `
     font-weight: bold;
   }
 
+  .all-trips {
+    width: 400px;
+    float: left;
+
+  }
+
   .scenes_for_trip {
     width: 500px;
     border: 1px solid black;
@@ -13,17 +19,35 @@ const trips_list_template = `
 
   }
 
+  .add_trip {
+    margin-left: 420px;
+    width:300px;
+  }
+
+  .submit_button {
+    // border: 1px solid black;
+    // background-color:#EDA1E7;
+    // width:50px;
+  }
+
 </style>
 <html>
   <body>
-    <div class="all-trips">
-      <p class="bold"> YOUR TRIPS<p>
-        {{range $index, $element := .}}
-          <p class="bold">{{$element.Title}}</p>
-          <p>{{$element.Description}}</p>
-          <p><img src="{{$element.ImageUrl}} height="200" width="200"/></p>
-        {{end}}
-    </div><br><br>
+    <div style="width: 100%; overflow: hidden;">
+      <div class="all-trips block_container">
+        <p class="bold"> YOUR TRIPS<p>
+          {{range $index, $element := .}}
+            <p class="bold">{{$element.Title}}</p>
+            <p>{{$element.Description}}</p>
+            <p><img src="{{$element.ImageUrl}} height="200" width="200"/></p>
+          {{end}}
+      </div>
+      <div class="add_scene block_container" >
+        <p class="bold"> ADD TRIP </p>
+        <p>Trip Title: <input type="text" id="input-scene_title"/></p>
+        <p class="submit_scene submit_button">Submit</p>
+      </div>
+    </div>
   </body>
 </html>
 `
@@ -80,6 +104,7 @@ const trip_detail_template = `
           </p>
         {{end}}
       </div>
+
       <div class="add_scene block_container" >
         <p class="bold"> ADD SCENE </p>
         <p>Scene Title: <input type="text" id="input-scene_title"/></p>
