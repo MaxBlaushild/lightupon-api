@@ -37,8 +37,15 @@ func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   passcode, _ := vars["passcode"]
   party := models.Party{}
-  models.DB.Where("passcode = ? AND active = true", passcode).First(&party).Association("Users").Append(&user)
-  // json.NewEncoder(w).Encode(party)
+  models.DB.Where("passcode = ? AND active = true", passcode).First(&party)
+
+  if (party.ID != 0) {
+    models.DB.Model(party).Association("Users").Append(&user)
+    json.NewEncoder(w).Encode(party)
+  } else {
+    notFoundMessage := "The requested party does not exist."
+    respondWithNotFound(w, notFoundMessage)
+  }
 }
 
 func UpdatePartyHandler(w http.ResponseWriter, r *http.Request) {
