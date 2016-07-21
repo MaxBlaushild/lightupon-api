@@ -7,6 +7,7 @@ import(
        "github.com/gorilla/mux"
        "strconv"
        "fmt"
+       // "github.com/davecgh/go-spew/spew"
        )
 
 func ScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -21,15 +22,12 @@ func ScenesHandler(w http.ResponseWriter, r *http.Request) {
 func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   tripID, _ := strconv.Atoi(vars["tripID"])
-
   scene := models.Scene{}
-
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&scene)
   if err != nil {fmt.Println(err)}
-
+  models.ShiftScenesUp(int(scene.SceneOrder), tripID)
   scene.TripID = uint(tripID)
-
   models.DB.Create(&scene)
 }
 
