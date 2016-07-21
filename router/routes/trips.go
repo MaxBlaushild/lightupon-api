@@ -6,7 +6,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "fmt"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +42,9 @@ func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   trip := models.Trip{}
   err := decoder.Decode(&trip)
-  if err != nil {fmt.Println(err)}
+  if err != nil {
+    respondWithBadRequest(w, "The trip credentials you sent us were wack!")
+  }
 
   user := GetUserFromRequest(r)
   trip.Owner = int(user.ID)

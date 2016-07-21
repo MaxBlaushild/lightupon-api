@@ -6,7 +6,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "fmt"
        )
 
 func ScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -26,11 +25,14 @@ func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
 
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&scene)
-  if err != nil {fmt.Println(err)}
+  if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk.")
+  }
 
   scene.TripID = uint(tripID)
 
   models.DB.Create(&scene)
+  respondWithCreated(w, "The card was created.")
 }
 
 func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
@@ -40,6 +42,7 @@ func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
   scene := models.Scene{}
   scene.ID = sceneID
   models.DB.Delete(&scene)
+  respondWithNoContent(w, "The scene was deleted.")
 }
 
 func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
@@ -49,4 +52,5 @@ func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
   card := models.Card{}
   card.ID = cardID
   models.DB.Delete(&card)
+  respondWithNoContent(w, "The card was deleted.")
 }

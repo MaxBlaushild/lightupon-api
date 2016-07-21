@@ -7,7 +7,6 @@ import(
        "github.com/dgrijalva/jwt-go"
        "encoding/json"
        "strconv"
-       "fmt"
        "github.com/gorilla/mux"
        "lightupon-api/websockets"
        )
@@ -16,12 +15,15 @@ func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   trip := models.Trip{}
   err := decoder.Decode(&trip)
-  if err != nil {fmt.Println(err)}
+
+  if err != nil {
+    respondWithBadRequest(w, "The trip credentials you sent are no bueno!")
+  }
 
   user := GetUserFromRequest(r)
   party := models.Party{TripID: trip.ID}
   models.DB.Model(&user).Association("Parties").Append(&party)
-  json.NewEncoder(w).Encode(party)
+  respondWithCreated(w, "The party was created.")
 }
 
 func GetPartyHandler(w http.ResponseWriter, r *http.Request) {
@@ -65,6 +67,7 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Preload("Scene.Cards").First(&party, partyID)
   party.MoveToNextScene()
   websockets.H.Broadcast <- party
+  respondWithAccepted(w, "The party was moved to the next scene.")
 }
 
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +105,7 @@ func PartyManagerHandler(w http.ResponseWriter, r *http.Request) {
   passcode, _ := vars["passcode"]
 
   ws, err := websockets.Upgrader.Upgrade(w, r, nil); if err != nil {
-    fmt.Println(err)
+    respondWithBadRequest(w, "You done fucked up. Give us a real passcode.")
     return
   }
 

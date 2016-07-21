@@ -4,7 +4,6 @@ import(
        "net/http"
        "lightupon-api/models"
        "encoding/json"
-       "fmt"
        "github.com/gorilla/mux"
        // "strconv"
 )
@@ -13,7 +12,7 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
   jsonUser := models.User{}
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&jsonUser); if err != nil {
-  	fmt.Println(err)
+  	respondWithBadRequest(w, "The user you sent us was wack af.")
   }
 
   user := models.User{}
