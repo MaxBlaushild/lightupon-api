@@ -14,3 +14,15 @@ type Scene struct {
   SceneOrder uint
   Cards []Card
 }
+
+func ShiftScenesUp(sceneOrder int, tripID int) bool {
+  scene := Scene{}
+  DB.Where("trip_id = $1 AND scene_order = $2", tripID, sceneOrder).First(&scene)
+  if scene.ID == 0 {
+    return true
+  } else {
+    ShiftScenesUp(sceneOrder + 1, 1)
+    DB.Model(&scene).Update("scene_order", sceneOrder + 1)
+    return true
+  }
+}

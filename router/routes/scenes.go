@@ -20,17 +20,14 @@ func ScenesHandler(w http.ResponseWriter, r *http.Request) {
 func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   tripID, _ := strconv.Atoi(vars["tripID"])
-
   scene := models.Scene{}
-
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&scene)
   if err != nil {
     respondWithBadRequest(w, "The scene you sent us was bunk.")
   }
-
+  models.ShiftScenesUp(int(scene.SceneOrder), tripID)
   scene.TripID = uint(tripID)
-
   models.DB.Create(&scene)
   respondWithCreated(w, "The card was created.")
 }
