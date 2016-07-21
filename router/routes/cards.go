@@ -6,7 +6,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "fmt"
        )
 
 func CardsHandler(w http.ResponseWriter, r *http.Request) {
@@ -26,9 +25,12 @@ func CreateCardHandler(w http.ResponseWriter, r *http.Request) {
 
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&card)
-  if err != nil {fmt.Println(err)}
+  if err != nil {
+    respondWithBadRequest(w, "The card you sent us was wack. Get that weak shit out of here.")
+  }
 
   card.SceneID = uint(sceneID)
 
   models.DB.Create(&card)
+  respondWithCreated(w, "The card was created.")
 }
