@@ -6,11 +6,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-<<<<<<< HEAD
-       "fmt"
-       // "github.com/davecgh/go-spew/spew"
-=======
->>>>>>> master
        )
 
 func ScenesHandler(w http.ResponseWriter, r *http.Request) {
