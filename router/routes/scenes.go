@@ -49,5 +49,6 @@ func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
   card := models.Card{}
   card.ID = cardID
   models.DB.Delete(&card)
+  models.ShiftCardsDown(int(card.CardOrder), int(card.SceneID))
   respondWithNoContent(w, "The card was deleted.")
 }
