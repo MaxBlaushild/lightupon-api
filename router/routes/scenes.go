@@ -52,3 +52,15 @@ func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
   models.ShiftCardsDown(int(card.CardOrder), int(card.SceneID))
   respondWithNoContent(w, "The card was deleted.")
 }
+
+func DeleteTripHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  tripIDint, _ := strconv.Atoi(vars["tripID"])
+  tripID := uint(tripIDint)
+  trip := models.Trip{}
+  trip.ID = tripID
+  models.DB.Delete(&trip)
+  respondWithNoContent(w, "The trip was deleted.")
+}
+
+
