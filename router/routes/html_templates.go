@@ -29,10 +29,10 @@ const trips_list_template = `
     width:300px;
   }
 
-  .submit_button {
-    // border: 1px solid black;
-    // background-color:#EDA1E7;
-    // width:50px;
+  .button {
+    border: 1px solid black;
+    background-color:#EDA1E7;
+    width:50px;
   }
 
 </style>
@@ -45,16 +45,64 @@ const trips_list_template = `
             <p class="bold">{{$element.Title}}</p>
             <p>{{$element.Description}}</p>
             <p><img src="{{$element.ImageUrl}} height="200" width="200"/></p>
+            <p><span class="delete_trip button" id="trip_{{$element.ID}}">delete trip</span></p>
           {{end}}
       </div>
-      <div class="add_scene block_container" >
-        <p class="bold"> ADD TRIP </p>
+      <div class="add_trip block_container" >
+        <p class="bold"> CREATE TRIP </p>
         <p>Trip Title: <input type="text" id="input-scene_title"/></p>
-        <p class="submit_scene submit_button">Submit</p>
+        <p>Trip Image URL: <input type="text" id="input-trip_image_url"/></p>
+        <p class="submit_trip button">Submit</p>
       </div>
     </div>
   </body>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+(function(){
+
+$('.submit_trip').on('click', function(){
+  post_trip();
+  window.location.reload(false);
+})
+
+$('.delete_trip').each(function(index, element){
+  var delete_trip_element = $(element);
+  delete_trip_element.on('click', function(element_1){
+    var trip_id = delete_trip_element.attr('id').split('_')[1];
+    console.log(trip_id)
+      
+    $.ajax({
+      method: "DELETE",
+      url:"/lightupon/admin/trips/" + trip_id
+    }).done(function(cards_unparsed){
+      window.location.reload(false);
+    });
+  })
+})
+
+
+function post_trip () {
+  tripTitle = $("#input-scene_title").val();
+  tripImageURL = $("#input-trip_image_url").val();
+  
+  $.ajax({
+    method: "POST",
+    url: "/lightupon/admin/trips",
+    dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
+    data:JSON.stringify({
+      "Title":$("#input-scene_title").val(),
+      "ImageURL":$("#input-trip_image_url").val()
+    })
+  }).done(function(stuff){
+    console.log(stuff)
+  });
+}
+
+})();
+</script>
 `
 
 const trip_detail_template = `
@@ -78,12 +126,11 @@ const trip_detail_template = `
     width:300px;
   }
 
-  .submit_button {
+  .button {
     border: 1px solid black;
     background-color:#EDA1E7;
     width:50px;
   }
-  
 
   .cards_details {
     padding-left:20px;
@@ -113,7 +160,7 @@ const trip_detail_template = `
         <p>Scene Order: <input type="text" id="input-scene_order"/></p>
         <p>Latitude: <input type="text" id="input-scene_latitude"/></p>
         <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
-        <p class="submit_scene submit_button">Submit</p>
+        <p class="submit_scene button">Submit</p>
       </div>
     </div>
   </body>
@@ -192,7 +239,6 @@ const scene_detail_template = `
     width: 500px;
     border: 1px solid black;
     padding-left:5px;
-
   }
 
   .add_card {
@@ -201,10 +247,10 @@ const scene_detail_template = `
     width:300px;
   }
 
-  .submit_button {
-    // border: 1px solid black;
-    // background-color:#EDA1E7;
-    // width:50px;
+  .button {
+    border: 1px solid black;
+    background-color:#EDA1E7;
+    width:50px;
   }
 
 </style>
@@ -219,9 +265,8 @@ const scene_detail_template = `
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
             {{$element.CardOrder}} / {{$element.ID}} / {{$element.Text}}
+            <span class="delete_card_link button" id="card_{{$element.ID}}">delete card</span>
           </p>
-          <!-- <a href="/lightupon/admin/delete_card/{{$element.ID}}">(delete card)</a> -->
-          <span class="delete_card_link" id="card_{{$element.ID}}">(delete card)</span>
         {{end}}
       </div>
       <div class="add_card block_container" >
@@ -237,7 +282,7 @@ const scene_detail_template = `
             <option value="mapHero">mapHero</option>
           </select>
         </p>
-        <p class="submit_card submit_button">Submit</p>
+        <p class="submit_card button">Submit</p>
       </div>
     </div>
   </body>

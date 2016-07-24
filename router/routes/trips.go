@@ -58,3 +58,16 @@ func GetTripsForUserHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Where("owner = $1", user.ID).Find(&trips)
   json.NewEncoder(w).Encode(trips)
 }
+
+func AdminCreateTripHandler(w http.ResponseWriter, r *http.Request) {
+  // request body should consist of {Title: "Balls"}
+  decoder := json.NewDecoder(r.Body)
+  trip := models.Trip{}
+  err := decoder.Decode(&trip)
+  if err != nil {
+    respondWithBadRequest(w, "The trip credentials you sent us were wack!")
+  }
+  trip.Owner = 1
+  models.DB.Create(&trip)
+  json.NewEncoder(w).Encode(trip)
+}
