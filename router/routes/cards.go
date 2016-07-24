@@ -29,6 +29,8 @@ func CreateCardHandler(w http.ResponseWriter, r *http.Request) {
     respondWithBadRequest(w, "The card you sent us was wack. Get that weak shit out of here.")
   }
 
+  models.ShiftCardsUp(int(card.CardOrder), sceneID)
+  
   card.SceneID = uint(sceneID)
 
   models.DB.Create(&card)

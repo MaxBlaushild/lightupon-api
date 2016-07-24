@@ -19,7 +19,10 @@ func Init(){
   // ADMIN
   // these routes serve html
   muxRouter.HandleFunc("/lightupon/admin/user/{id}/trips", routes.AdminGetTripsForUserHandler)
-  muxRouter.HandleFunc("/lightupon/admin/trips/{id}", routes.AdminTripHandler)
+  muxRouter.HandleFunc("/lightupon/admin/trips/{id}", routes.AdminTripDetailsHandler)
+  muxRouter.HandleFunc("/lightupon/admin/scenes/{id}", routes.AdminSceneDetailsHandler)
+  muxRouter.HandleFunc("/lightupon/admin/delete_card/{cardID}", routes.DeleteCardHandler)
+
   // these serve/accept json
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler)
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes_post", routes.CreateSceneHandler).Methods("POST")

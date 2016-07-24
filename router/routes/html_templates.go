@@ -6,6 +6,11 @@ const trips_list_template = `
     font-weight: bold;
   }
 
+  .block_container {
+    border: 1px solid black;
+    padding-left:3px;
+  }
+
   .all-trips {
     width: 400px;
     float: left;
@@ -73,11 +78,6 @@ const trip_detail_template = `
     width:300px;
   }
 
-  .add_card {
-    margin-left: 840px;
-    width:300px;
-  }
-
   .submit_button {
     border: 1px solid black;
     background-color:#EDA1E7;
@@ -100,7 +100,9 @@ const trip_detail_template = `
         <p class="bold"> SceneOrder / SceneID / Scene.Name</p>
         {{range $index, $element := .Scenes}}
           <p class="scene-link" id="scene_{{$element.ID}}">
-            {{$element.SceneOrder}} / {{$element.ID}} / {{$element.Name}}
+            <a href="/lightupon/admin/scenes/{{.ID}}">
+              {{$element.SceneOrder}} / {{$element.ID}} / {{$element.Name}}
+            </a>
           </p>
         {{end}}
       </div>
@@ -113,24 +115,6 @@ const trip_detail_template = `
         <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
         <p class="submit_scene submit_button">Submit</p>
       </div>
-
-      <div class="add_card block_container" >
-        <p class="bold"> ADD CARD </p>
-        <p>Text: <input type="text" id="input-card_text"/></p>
-        <p>ImageURL: <input type="text" id="input-card_image_url"/></p>
-        <p>SceneID: <input type="text" id="input-card_scene_id"/></p>
-        <p>CardOrder: <input type="text" id="input-card_card_order"/></p>
-        <p>NibID:
-          <select id="input-card_nib_id">
-            <option value="textHero">textHero</option>
-            <option value="pictureHero">pictureHero</option>
-            <option value="mapHero">mapHero</option>
-          </select>
-        </p>
-        <p class="submit_card submit_button">Submit</p>
-      </div>
-
-
     </div>
   </body>
 </html>
@@ -148,33 +132,11 @@ $('.submit_card').on('click', function(){
   window.location.reload(false);
 })
 
-$('.scene-link').each(function(index, element){
-  var scene_link = $(element);
-  scene_link.on('click', function(element_1){
-    var scene_id = scene_link.attr('id').split('_')[1];
-    $.ajax({
-      method: "GET",
-      // url:"http://localhost:5000/lightupon/admin/scenes/" + scene_id + "/cards",
-      url: "http://45.55.160.25/lightupon/admin/scenes/" + scene_id + "/cards",
-      datatype:"json"
-    }).done(function(cards_unparsed){
-      var cards = JSON.parse(cards_unparsed);
-      var html_to_append = '<div class="cards_details" id="cards_for_scene_' + scene_id + '"><span class="bold">CARDS</span>';
-      for (i=0; i<cards.length; i++) {
-        html_to_append += '<p>' + i +  ' / ' + cards[i]["NibID"] + ' / ' +  ' / ' + cards[i]["Text"] + '</p>'
-      }
-      html_to_append += '</div>';
-      scene_link.after(html_to_append);
-    });
-  })
-})
-
 function post_card () {
   sceneID = parseInt($("#input-card_scene_id").val());
   $.ajax({
     method: "POST",
-    // url: "http://localhost:5000/lightupon/admin/scenes/" + sceneID + "/cards_post",
-    url: "http://45.55.160.25/lightupon/admin/scenes/" + sceneID + "/cards_post",
+    url: "/lightupon/admin/scenes/" + sceneID + "/cards_post",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
@@ -196,8 +158,8 @@ function post_scene () {
   tripID = $("#tripID").html();
   $.ajax({
     method: "POST",
-    // url: "http://localhost:5000/lightupon/admin/trips/" + tripID + "/scenes_post",
-    url: "http://45.55.160.25/lightupon/admin/trips/" + tripID + "/scenes_post",
+    url: "http://localhost:5000/lightupon/admin/trips/" + tripID + "/scenes_post",
+    // url: "http://45.55.160.25/lightupon/admin/trips/" + tripID + "/scenes_post",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
@@ -211,6 +173,120 @@ function post_scene () {
     console.log(stuff)
   });
 }
+})();
+</script>
+`
+
+const scene_detail_template = `
+<style>
+  .bold {
+    font-weight: bold;
+  }
+
+  .block_container {
+    border: 1px solid black;
+    padding-left:3px;
+  }
+
+  .scenes_for_trip {
+    width: 500px;
+    border: 1px solid black;
+    padding-left:5px;
+
+  }
+
+  .add_card {
+    margin-left: 600px;
+    margin-top: 10px;
+    width:300px;
+  }
+
+  .submit_button {
+    // border: 1px solid black;
+    // background-color:#EDA1E7;
+    // width:50px;
+  }
+
+</style>
+<html>
+  <body>
+    <span style="visibility: hidden;" id="sceneID">{{.ID}}</span>
+    <div style="width: 100%; overflow: hidden;">
+      <div class="scenes_for_trip block_container">
+        <p class="bold"> SCENE {{.ID}}<p>
+        <p class="bold"> CARDS </p>
+        <p class="bold"> CardOrder / CardID / Card.Text</p>
+        {{range $index, $element := .Cards}}
+          <p class="card-link" id="card_{{$element.ID}}">
+            {{$element.CardOrder}} / {{$element.ID}} / {{$element.Text}}
+          </p>
+          <!-- <a href="/lightupon/admin/delete_card/{{$element.ID}}">(delete card)</a> -->
+          <span class="delete_card_link" id="card_{{$element.ID}}">(delete card)</span>
+        {{end}}
+      </div>
+      <div class="add_card block_container" >
+        <p class="bold"> ADD CARD </p>
+        <p>Text: <input type="text" id="input-card_text"/></p>
+        <p>ImageURL: <input type="text" id="input-card_image_url"/></p>
+        <p>SceneID: <input type="text" id="input-card_scene_id"/></p>
+        <p>CardOrder: <input type="text" id="input-card_card_order"/></p>
+        <p>NibID:
+          <select id="input-card_nib_id">
+            <option value="textHero">textHero</option>
+            <option value="pictureHero">pictureHero</option>
+            <option value="mapHero">mapHero</option>
+          </select>
+        </p>
+        <p class="submit_card submit_button">Submit</p>
+      </div>
+    </div>
+  </body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+(function(){
+
+$('.submit_card').on('click', function(){
+  post_card();
+  window.location.reload(false);
+})
+
+$('.delete_card_link').each(function(index, element){
+  var delete_card_link = $(element);
+  delete_card_link.on('click', function(element_1){
+    var card_id = delete_card_link.attr('id').split('_')[1];
+    console.log(card_id)
+      
+    $.ajax({
+      method: "DELETE",
+      url:"/lightupon/admin/cards/" + card_id
+    }).done(function(cards_unparsed){
+      window.location.reload(false);
+    });
+  })
+})
+
+
+function post_card () {
+  sceneID = parseInt($("#input-card_scene_id").val());
+  $.ajax({
+    method: "POST",
+    url: "/lightupon/admin/scenes/" + sceneID + "/cards_post",
+    dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
+    data:JSON.stringify({
+      "Text":$("#input-card_text").val(),
+      "ImageURL":$("#input-card_image_url").val(),
+      "SceneID":parseInt($("#input-card_scene_id").val()),
+      "CardOrder":parseInt($("#input-card_card_order").val()),
+      "NibID":$("#input-card_nib_id").val()
+    })
+  }).done(function(stuff){
+    console.log(stuff)
+  });
+}
+
 })();
 </script>
 `
