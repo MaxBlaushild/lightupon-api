@@ -42,15 +42,16 @@ const trips_list_template = `
       <div class="all-trips block_container">
         <p class="bold"> YOUR TRIPS<p>
           {{range $index, $element := .}}
-            <p class="bold">{{$element.Title}}</p>
+            <p class="bold"><a href="/lightupon/admin/trips/{{$element.ID}}">{{$element.Title}}</a></p>
             <p>{{$element.Description}}</p>
-            <p><img src="{{$element.ImageUrl}} height="200" width="200"/></p>
+            <p><img src="{{$element.ImageUrl}}" height="200" width="200"/></p>
             <p><span class="delete_trip button" id="trip_{{$element.ID}}">delete trip</span></p>
           {{end}}
       </div>
       <div class="add_trip block_container" >
         <p class="bold"> CREATE TRIP </p>
-        <p>Trip Title: <input type="text" id="input-scene_title"/></p>
+        <p>Trip Title: <input type="text" id="input-trip_title"/></p>
+        <p>Trip Description: <input type="text" id="input-trip_description"/></p>
         <p>Trip Image URL: <input type="text" id="input-trip_image_url"/></p>
         <p class="submit_trip button">Submit</p>
       </div>
@@ -83,9 +84,6 @@ $('.delete_trip').each(function(index, element){
 
 
 function post_trip () {
-  tripTitle = $("#input-scene_title").val();
-  tripImageURL = $("#input-trip_image_url").val();
-  
   $.ajax({
     method: "POST",
     url: "/lightupon/admin/trips",
@@ -94,6 +92,7 @@ function post_trip () {
     contentType: "application/json; charset=utf-8",
     data:JSON.stringify({
       "Title":$("#input-scene_title").val(),
+      "Description":$("#input-trip_description").val(),
       "ImageURL":$("#input-trip_image_url").val()
     })
   }).done(function(stuff){
