@@ -173,39 +173,13 @@ $('.submit_scene').on('click', function(){
   window.location.reload(false);
 })
 
-$('.submit_card').on('click', function(){
-  post_card();
-  window.location.reload(false);
-})
-
-function post_card () {
-  sceneID = parseInt($("#input-card_scene_id").val());
-  $.ajax({
-    method: "POST",
-    url: "/lightupon/admin/scenes/" + sceneID + "/cards_post",
-    dataType: "json",
-    processData: false,
-    contentType: "application/json; charset=utf-8",
-    data:JSON.stringify({
-      "Text":$("#input-card_text").val(),
-      "ImageURL":$("#input-card_image_url").val(),
-      "SceneID":parseInt($("#input-card_scene_id").val()),
-      "CardOrder":parseInt($("#input-card_card_order").val()),
-      "NibID":$("#input-card_nib_id").val()
-    })
-  }).done(function(stuff){
-    console.log(stuff)
-  });
-}
-
 // sharknavion
 // {"SceneOrder":3, "Name":"new scene", "Latitude":76.567,"Longitude":87.345}
 function post_scene () {
   tripID = $("#tripID").html();
   $.ajax({
     method: "POST",
-    url: "http://localhost:5000/lightupon/admin/trips/" + tripID + "/scenes_post",
-    // url: "http://45.55.160.25/lightupon/admin/trips/" + tripID + "/scenes_post",
+    url: "/lightupon/admin/trips/" + tripID + "/scenes",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
@@ -315,7 +289,7 @@ function post_card () {
   sceneID = parseInt($("#input-card_scene_id").val());
   $.ajax({
     method: "POST",
-    url: "/lightupon/admin/scenes/" + sceneID + "/cards_post",
+    url: "/lightupon/admin/scenes/" + sceneID + "/cards",
     dataType: "json",
     processData: false,
     contentType: "application/json; charset=utf-8",
