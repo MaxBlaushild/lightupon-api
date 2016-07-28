@@ -232,7 +232,7 @@ const scene_detail_template = `
     <span style="visibility: hidden;" id="sceneID">{{.ID}}</span>
     <div style="width: 100%; overflow: hidden;">
       <div class="scenes_for_trip block_container">
-        <p class="bold"> SCENE {{.ID}}<p>
+        <p class="bold"> SCENE {{.SceneOrder}}<p>
         <p class="bold"> CARDS </p>
         <p class="bold"> CardOrder / CardID / Card.Text</p>
         {{range $index, $element := .Cards}}
