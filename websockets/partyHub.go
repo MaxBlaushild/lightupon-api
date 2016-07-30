@@ -3,6 +3,7 @@ package websockets
 import (
 	"fmt"
 	"lightupon-api/models"
+    "github.com/davecgh/go-spew/spew"
 )
 
 type hub struct {
@@ -43,6 +44,8 @@ func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
   pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene, NextScene: party.NextScene()}
   pullResponse.Users = h.GatherUsersFromParty(party)
   pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
+  fmt.Print("pullResponse")
+  spew.Dump(pullResponse)
   return pullResponse
 }
 
