@@ -84,7 +84,6 @@ func (h *hub) PushToParty(pullResponse models.PullResponse) {
 		select {
 		case c.Send <- pullResponse:
 		default:
-			close(c.Send)
 			fmt.Println("pull request get sent correctly")
 			H.UnregisterConnection(c)
 		}

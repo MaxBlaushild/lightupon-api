@@ -19,7 +19,7 @@ type User struct {
 	Location Location `gorm:"-"`
 }
 
-const threshold float64 = 0.05
+const threshold float64 = 0.0001
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
