@@ -7,7 +7,8 @@ import (
 	"encoding/json"
 	"lightupon-api/models"
 	"bytes"
-  "fmt"
+    "fmt"
+    "github.com/davecgh/go-spew/spew"
 )
 
 const (
@@ -65,6 +66,8 @@ func (c *Connection) ConfigureRead() {
 }
 
 func (c *Connection) UpdateLocation(message []byte) {
+	fmt.Println("stand next to this money like HEY HEY")
+	spew.Dump(location)
 	location := models.Location{}
 	buffer := bytes.NewBuffer(message)
   decoder := json.NewDecoder(buffer)
