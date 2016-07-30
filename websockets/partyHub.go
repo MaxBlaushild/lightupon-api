@@ -3,7 +3,6 @@ package websockets
 import (
 	"fmt"
 	"lightupon-api/models"
-    "github.com/davecgh/go-spew/spew"
 )
 
 type hub struct {
