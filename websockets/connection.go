@@ -66,12 +66,12 @@ func (c *Connection) ConfigureRead() {
 }
 
 func (c *Connection) UpdateLocation(message []byte) {
-	fmt.Println("stand next to this money like HEY HEY")
-	spew.Dump(location)
 	location := models.Location{}
 	buffer := bytes.NewBuffer(message)
   decoder := json.NewDecoder(buffer)
   err := decoder.Decode(&location); if err != nil {
+	fmt.Println("stand next to this money like HEY HEY")
+	spew.Dump(location)
   	fmt.Println(err)
   }
 	c.User.Location = location
