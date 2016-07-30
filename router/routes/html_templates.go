@@ -46,7 +46,6 @@ const trips_list_template = `
   <body>
     <div style="width: 100%; overflow: hidden;">
       <div class="all-trips block_container">
-        <p> Let it be known that the page must be reloaded in order to see something after it's been posted. Lmk if you really want me to change that shit, but I need to debug requests for now.<p>
         <p class="bold"> YOUR TRIPS<p>
           {{range $index, $element := .}}
             <p class="bold"><a href="/lightupon/admin/trips/{{$element.ID}}">{{$element.Title}}</a></p>
@@ -71,7 +70,7 @@ const trips_list_template = `
 
 $('.submit_trip').on('click', function(){
   post_trip();
-  // window.location.reload(false);
+  window.location.reload(false);
 })
 
 $('.delete_trip').each(function(index, element){
@@ -177,7 +176,7 @@ const trip_detail_template = `
 
 $('.submit_scene').on('click', function(){
   post_scene();
-  // window.location.reload(false);
+  window.location.reload(false);
 })
 
 // sharknavion
@@ -273,7 +272,7 @@ const scene_detail_template = `
 
 $('.submit_card').on('click', function(){
   post_card();
-  // window.location.reload(false);
+  window.location.reload(false);
 })
 
 $('.delete_card_link').each(function(index, element){
