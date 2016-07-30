@@ -19,7 +19,7 @@ type User struct {
 	Location Location `gorm:"-"`
 }
 
-const threshold float64 = 0.05
+const threshold float64 = 0.0001
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
@@ -52,7 +52,12 @@ func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
 	latDiff := scene.Latitude - u.Location.Latitude
   lonDiff := scene.Longitude - u.Location.Longitude
   distanceFromScene := math.Pow(latDiff, 2) + math.Pow(lonDiff, 2)
+  fmt.Println("distanceFromScene")
+  fmt.Println(distanceFromScene)
   isAtNextScene = distanceFromScene < threshold
+  fmt.Println("isAtNextScene")
+  fmt.Println(isAtNextScene)
+  
   return
 }
 

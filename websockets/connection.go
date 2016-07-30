@@ -7,7 +7,8 @@ import (
 	"encoding/json"
 	"lightupon-api/models"
 	"bytes"
-  "fmt"
+    "fmt"
+    "github.com/davecgh/go-spew/spew"
 )
 
 const (
@@ -36,6 +37,7 @@ type Connection struct {
 
 func (c *Connection) ReadPump() {
 	defer func() {
+		fmt.Print("the read pump's fucked up")
 		H.Unregister <- c
 		c.WS.Close()
 	}()
@@ -67,10 +69,12 @@ func (c *Connection) ConfigureRead() {
 func (c *Connection) UpdateLocation(message []byte) {
 	location := models.Location{}
 	buffer := bytes.NewBuffer(message)
-  decoder := json.NewDecoder(buffer)
-  err := decoder.Decode(&location); if err != nil {
-  	fmt.Println(err)
-  }
+	decoder := json.NewDecoder(buffer)
+	err := decoder.Decode(&location); if err != nil {
+	  	fmt.Println(err)
+  	}
+	fmt.Println("stand next to this money like HEY HEY")
+	spew.Dump(location)
 	c.User.Location = location
 }
 
@@ -96,6 +100,8 @@ func (c *Connection) WritePump() {
 		select {
 		case pullResponse, ok := <- c.Send:
 			if !ok {
+				fmt.Print("the pump's fucked up")
+  	// spew.Dump(c)
 				H.Unregister <- c
 				return
 			}
