@@ -69,11 +69,11 @@ func (c *Connection) UpdateLocation(message []byte) {
 	location := models.Location{}
 	buffer := bytes.NewBuffer(message)
 	decoder := json.NewDecoder(buffer)
-	fmt.Println("stand next to this money like HEY HEY")
-	spew.Dump(location)
 	err := decoder.Decode(&location); if err != nil {
 	  	fmt.Println(err)
   	}
+	fmt.Println("stand next to this money like HEY HEY")
+	spew.Dump(location)
 	c.User.Location = location
 }
 
