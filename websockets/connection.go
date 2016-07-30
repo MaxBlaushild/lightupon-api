@@ -37,6 +37,7 @@ type Connection struct {
 
 func (c *Connection) ReadPump() {
 	defer func() {
+		fmt.Print("the read pump's fucked up")
 		H.Unregister <- c
 		c.WS.Close()
 	}()
@@ -99,6 +100,8 @@ func (c *Connection) WritePump() {
 		select {
 		case pullResponse, ok := <- c.Send:
 			if !ok {
+				fmt.Print("the pump's fucked up")
+  	// spew.Dump(c)
 				H.Unregister <- c
 				return
 			}

@@ -55,6 +55,9 @@ func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
   fmt.Println("distanceFromScene")
   fmt.Println(distanceFromScene)
   isAtNextScene = distanceFromScene < threshold
+  fmt.Println("isAtNextScene")
+  fmt.Println(isAtNextScene)
+  
   return
 }
 

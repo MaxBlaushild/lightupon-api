@@ -44,8 +44,8 @@ func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
   pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene, NextScene: party.NextScene()}
   pullResponse.Users = h.GatherUsersFromParty(party)
   pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
-  fmt.Print("pullResponse")
-  spew.Dump(pullResponse)
+  // fmt.Print("pullResponse")
+  // spew.Dump(pullResponse)
   return pullResponse
 }
 
@@ -76,6 +76,8 @@ func (h *hub) PushToParty(pullResponse models.PullResponse) {
 }
 
 func (h *hub) UnregisterConnection(c *Connection) {
+	fmt.Print("damnnnnnn")
+  	spew.Dump(c)
 	if _, ok := h.Connections[c.Passcode][c]; ok {
 		delete(h.Connections[c.Passcode], c)
 		close(c.Send)
