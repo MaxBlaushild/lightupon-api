@@ -50,7 +50,7 @@ const trips_list_template = `
           {{range $index, $element := .}}
             <p class="bold"><a href="/lightupon/admin/trips/{{$element.ID}}">{{$element.Title}}</a></p>
             <p>{{$element.Description}}</p>
-            <p><img src="{{$element.ImageUrl}}" height="200" width="200"/></p>
+            <p><img src="{{$element.ImageUrl}}" height="50" width="150"/></p>
             <p><span class="delete_trip button" id="trip_{{$element.ID}}">delete trip</span></p>
           {{end}}
       </div>
