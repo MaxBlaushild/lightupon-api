@@ -43,6 +43,7 @@ func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
 
   if (party.ID != 0) {
     models.DB.Model(party).Association("Users").Append(&user)
+    websockets.H.AddUserConnectionToParty(user, party)
     json.NewEncoder(w).Encode(party)
   } else {
     notFoundMessage := "The requested party does not exist."
@@ -75,7 +76,7 @@ func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   activeParty := user.ActiveParty()
   models.DB.Model(user).Association("Parties").Delete(activeParty)
   activeParty.DeactivateIfEmpty()
-  websockets.H.DeactivateUser(user, activeParty.Passcode)
+  websockets.H.DeactivateUserFromParty(user, activeParty.Passcode)
   json.NewEncoder(w).Encode(activeParty)
 }
 
