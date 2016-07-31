@@ -299,6 +299,7 @@ const scene_detail_template = `
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
             {{$element.CardOrder}} / {{$element.ID}} / {{$element.Text}}
+            <img src="{{$element.ImageURL}}" style="width:100px;height:100px"/>
             <span class="delete_card_link button" id="card_{{$element.ID}}">delete card</span>
           </p>
         {{end}}
