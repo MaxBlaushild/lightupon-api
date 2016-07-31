@@ -311,9 +311,9 @@ const scene_detail_template = `
         <p>CardOrder: <input type="text" id="input-card_card_order"/></p>
         <p>NibID:
           <select id="input-card_nib_id">
-            <option value="textHero">textHero</option>
-            <option value="pictureHero">pictureHero</option>
-            <option value="mapHero">mapHero</option>
+            <option value="TextHero">TextHero</option>
+            <option value="PictureHero">PictureHero</option>
+            <option value="MapHero">MapHero</option>
           </select>
         </p>
         <p class="submit_card button">Submit</p>
