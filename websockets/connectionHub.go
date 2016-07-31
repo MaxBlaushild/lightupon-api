@@ -39,7 +39,9 @@ func (h *hub) StartHub() {
 }
 
 func (h *hub) RegisterPartyConnection(c *Connection) {
-	h.PartyConnections[c.Passcode] = make(map[*Connection]bool)
+	if (h.PartyConnections[c.Passcode] == nil) {
+		h.PartyConnections[c.Passcode] = make(map[*Connection]bool)
+	}
 	h.PartyConnections[c.Passcode][c] = true
 	fmt.Println("Registered party connection")
 }
