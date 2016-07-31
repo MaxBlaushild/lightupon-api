@@ -346,7 +346,7 @@ $('.delete_card_link').each(function(index, element){
 
 
 function post_card () {
-  sceneID = parseInt($("#input-card_scene_id").val());
+  sceneID = parseInt($('#sceneID').html());
   $.ajax({
     method: "POST",
     url: "/lightupon/admin/scenes/" + sceneID + "/cards",
@@ -356,6 +356,7 @@ function post_card () {
     data:JSON.stringify({
       "Text":$("#input-card_text").val(),
       "ImageURL":$("#input-card_image_url").val(),
+      "SceneID":sceneID,
       "CardOrder":parseInt($("#input-card_card_order").val()),
       "NibID":$("#input-card_nib_id").val()
     })
