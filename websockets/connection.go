@@ -7,14 +7,13 @@ import (
 	"encoding/json"
 	"lightupon-api/models"
 	"bytes"
-    "fmt"
-    "github.com/davecgh/go-spew/spew"
+  "fmt"
 )
 
 const (
 	writeWait = 10 * time.Second
-	pongWait = 60 * time.Hour
-	pingPeriod = (pongWait * 9) / 10
+	pongWait = 60 * time.Second
+	pingPeriod = (pongWait * 1) / 10
 	maxMessageSize = 512
 )
 
@@ -37,7 +36,7 @@ type Connection struct {
 
 func (c *Connection) ReadPump() {
 	defer func() {
-		fmt.Print("the read pump's fucked up")
+		fmt.Print("The read pump died a natural death.")
 		H.Unregister <- c
 		c.WS.Close()
 	}()
@@ -47,6 +46,7 @@ func (c *Connection) ReadPump() {
 	for {
 		_, message, err := c.WS.ReadMessage()
 		if err != nil {
+			log.Printf("error: %v", err)
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
 			}
@@ -61,6 +61,7 @@ func (c *Connection) ConfigureRead() {
 	c.WS.SetReadLimit(maxMessageSize)
 	c.WS.SetReadDeadline(time.Now().Add(pongWait))
 	c.WS.SetPongHandler(func(string) error { 
+		fmt.Print("Handling pong")
 		c.WS.SetReadDeadline(time.Now().Add(pongWait))
 		return nil 
 	})
@@ -73,8 +74,6 @@ func (c *Connection) UpdateLocation(message []byte) {
 	err := decoder.Decode(&location); if err != nil {
 	  	fmt.Println(err)
   	}
-	fmt.Println("stand next to this money like HEY HEY")
-	spew.Dump(location)
 	c.User.Location = location
 }
 
@@ -92,6 +91,7 @@ func (c *Connection) UpdateClient() {
 func (c *Connection) WritePump() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
+		fmt.Println("The write pump died a natural death.")
 		ticker.Stop()
 		c.WS.Close()
 	}()
@@ -100,8 +100,6 @@ func (c *Connection) WritePump() {
 		select {
 		case pullResponse, ok := <- c.Send:
 			if !ok {
-				fmt.Print("the pump's fucked up")
-  	// spew.Dump(c)
 				H.Unregister <- c
 				return
 			}
@@ -109,7 +107,9 @@ func (c *Connection) WritePump() {
 				return
 			}
 		case <- ticker.C:
+			fmt.Print("TIME TO PING")
 			if err := c.Write(websocket.PingMessage, []byte{}); err != nil {
+				fmt.Println(err)
 				return
 			}
 
