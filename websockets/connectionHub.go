@@ -3,7 +3,7 @@ package websockets
 import (
 	"fmt"
 	"lightupon-api/models"
-	// "github.com/davecgh/go-spew/spew"
+	"github.com/davecgh/go-spew/spew"
 )
 
 type hub struct {
@@ -85,9 +85,11 @@ func (h *hub) PushToParty(pullResponse models.PullResponse) {
 		fmt.Println(pullResponse.Passcode)
 	}
 	for c := range h.PartyConnections[pullResponse.Passcode] {
-		fmt.Println("pushing this ish to connection")
+		fmt.Println("pushing this ish to connection" )
+		spew.Dump(h.PartyConnections[pullResponse.Passcode])
 		select {
 		case c.Send <- pullResponse:
+			fmt.Println(c.User.FacebookId)
 		default:
 			fmt.Println("Pull request did not get broadcast correctly.")
 			H.UnregisterConnection(c)
