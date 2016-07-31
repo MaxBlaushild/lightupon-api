@@ -131,6 +131,13 @@ const trip_detail_template = `
     width:300px;
   }
 
+  .popular_scenes {
+    width:400px;
+    position: fixed;
+    top: 10;
+    left: 740;
+  }
+
   .button {
     border: 1px solid black;
     background-color:#EDA1E7;
@@ -147,7 +154,8 @@ const trip_detail_template = `
     <span style="visibility: hidden;" id="tripID">{{.ID}}</span>
     <div style="width: 100%; overflow: hidden;">
       <div class="scenes_for_trip block_container">
-        <p class="bold"> TRIP {{.ID}}<p>
+              <p class="bold"> {{.Title}} (TripID = {{.ID}})<p>
+        <p><img src="{{.ImageUrl}}" height="50" width="150"/></p>
         <p class="bold"> SCENES </p>
         <p class="bold"> SceneOrder / SceneID / Scene.Name</p>
         {{range $index, $element := .Scenes}}
@@ -160,12 +168,16 @@ const trip_detail_template = `
       </div>
 
       <div class="add_scene block_container" >
-        <p class="bold"> ADD SCENE </p>
+        <p class="bold"> CREATE NEW SCENE </p>
         <p>Scene Title: <input type="text" id="input-scene_title"/></p>
         <p>Scene Order: <input type="text" id="input-scene_order"/></p>
         <p>Latitude: <input type="text" id="input-scene_latitude"/></p>
         <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
         <p class="submit_scene button">Submit</p>
+      </div>
+      <div class="popular_scenes block_container" >
+        <p class="bold"> POPULAR SCENES </p>
+        <p> In order to add a popular scene to your trip, enter your desired SceneOrder for the scene and hit 'Add Scene' </p>
       </div>
     </div>
   </body>
@@ -173,6 +185,49 @@ const trip_detail_template = `
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 (function(){
+
+
+$.ajax({
+    method: "GET",
+    url: "/lightupon/admin/popular_scenes",
+    processData: false,
+    dataType: "json"
+  }).done(function(stuff){
+    print_popular_scenes(stuff);
+  });
+
+function print_popular_scenes (stuff) {
+  var popular_scenes = $('.popular_scenes');
+  stuff.forEach(function(element, index){
+    // First create the html and append it to the DOM
+    var scene = $('<div><p><span class="bold">' + element.Name + '</span>    <input type="text" id="add_popular_scene_' + element.ID + '_scene_order" style="width:30px"/><span class="button" id="add_popular_scene_' + element.ID + '">Add Scene</span></p></div>');
+    popular_scenes.append(scene);
+
+    // Then add that sweet sweet onclick action to allow the submitting of the scene
+    $('#add_popular_scene_' + element.ID).on("click", function () {
+      var scene_order = parseInt($('#add_popular_scene_' + element.ID + '_scene_order').val());
+      post_popular_scene(element.ID, scene_order)
+    })
+  })
+}
+
+function post_popular_scene (sceneID, sceneOrder) {
+  tripID = $("#tripID").html();
+  $.ajax({
+    method: "POST",
+    url: "/lightupon/admin/trips/" + tripID + "/scenes",
+    dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
+    data:JSON.stringify({
+      "SceneOrder":sceneOrder,
+      "ID":sceneID
+    })
+  }).done(function(stuff){
+    console.log(stuff)
+  });
+}
+
 
 $('.submit_scene').on('click', function(){
   post_scene();
@@ -252,7 +307,6 @@ const scene_detail_template = `
         <p class="bold"> ADD CARD </p>
         <p>Text: <input type="text" id="input-card_text"/></p>
         <p>ImageURL: <input type="text" id="input-card_image_url"/></p>
-        <p>SceneID: <input type="text" id="input-card_scene_id"/></p>
         <p>CardOrder: <input type="text" id="input-card_card_order"/></p>
         <p>NibID:
           <select id="input-card_nib_id">
@@ -302,7 +356,6 @@ function post_card () {
     data:JSON.stringify({
       "Text":$("#input-card_text").val(),
       "ImageURL":$("#input-card_image_url").val(),
-      "SceneID":parseInt($("#input-card_scene_id").val()),
       "CardOrder":parseInt($("#input-card_card_order").val()),
       "NibID":$("#input-card_nib_id").val()
     })
