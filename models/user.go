@@ -52,11 +52,7 @@ func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
 	latDiff := scene.Latitude - u.Location.Latitude
   lonDiff := scene.Longitude - u.Location.Longitude
   distanceFromScene := math.Pow(latDiff, 2) + math.Pow(lonDiff, 2)
-  fmt.Println("distanceFromScene")
-  fmt.Println(distanceFromScene)
   isAtNextScene = distanceFromScene < threshold
-  fmt.Println("isAtNextScene")
-  fmt.Println(isAtNextScene)
   
   return
 }

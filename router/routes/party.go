@@ -9,6 +9,7 @@ import(
        "strconv"
        "github.com/gorilla/mux"
        "lightupon-api/websockets"
+       "fmt"
        )
 
 func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {  
@@ -23,6 +24,7 @@ func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   party := models.Party{TripID: trip.ID}
   models.DB.Model(&user).Association("Parties").Append(&party)
+  websockets.H.AddUserConnectionToParty(user, party)
   respondWithCreated(w, "The party was created.")
 }
 
@@ -67,6 +69,7 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
 
   models.DB.Preload("Scene.Cards").First(&party, partyID)
   party.MoveToNextScene()
+  fmt.Println("next scene")
   websockets.H.Broadcast <- party
   respondWithAccepted(w, "The party was moved to the next scene.")
 }
@@ -98,23 +101,5 @@ func GetUsersPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()
   json.NewEncoder(w).Encode(activeParty)
-}
-
-func PartyManagerHandler(w http.ResponseWriter, r *http.Request) {
-  vars := mux.Vars(r)
-  user := GetUserFromRequest(r)
-  passcode, _ := vars["passcode"]
-
-  ws, err := websockets.Upgrader.Upgrade(w, r, nil); if err != nil {
-    respondWithBadRequest(w, "You done fucked up. Give us a real passcode.")
-    return
-  }
-
-  c := &websockets.Connection{Send: make(chan models.PullResponse), WS: ws, Passcode: passcode, User: user}
-
-  websockets.H.Register <- c
-
-  go c.ReadPump()
-  c.WritePump()
 }
 
