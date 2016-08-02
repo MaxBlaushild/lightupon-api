@@ -3,7 +3,7 @@ package websockets
 import (
 	"fmt"
 	"lightupon-api/models"
-	"github.com/davecgh/go-spew/spew"
+	// "github.com/davecgh/go-spew/spew"
 )
 
 type hub struct {
@@ -43,12 +43,10 @@ func (h *hub) RegisterPartyConnection(c *Connection) {
 		h.PartyConnections[c.Passcode] = make(map[*Connection]bool)
 	}
 	h.PartyConnections[c.Passcode][c] = true
-	fmt.Println("Registered party connection")
 }
 
 func (h *hub) RegisterConnection(c *Connection) {
 	h.Connections[c.User.FacebookId] = c
-	fmt.Println("Registered connection")
 	if (len(c.Passcode) > 0) {
 		h.RegisterPartyConnection(c)
 	}
@@ -87,8 +85,6 @@ func (h *hub) PushToParty(pullResponse models.PullResponse) {
 		fmt.Println(pullResponse.Passcode)
 	}
 	for c := range h.PartyConnections[pullResponse.Passcode] {
-		fmt.Println("pushing this ish to connection" )
-		spew.Dump(h.PartyConnections[pullResponse.Passcode])
 		select {
 		case c.Send <- pullResponse:
 			fmt.Println(c.User.FacebookId)
@@ -108,12 +104,11 @@ func (h *hub) UnregisterConnection(c *Connection) {
 }
 
 func (h *hub) DeactivateUserFromParty(user models.User, passcode string) {
-	c := h.Connections[user.FacebookId]
-	fmt.Println("deleting connection")
-	fmt.Println(c.Passcode)
-	if _, ok := h.PartyConnections[c.Passcode][c]; ok {
-		fmt.Println("found that sucker")
-		delete(h.PartyConnections[c.Passcode], c)
-		c.Passcode = ""
+	c := h.Connections[user.FacebookId]; if c != nil {
+		found := h.PartyConnections[c.Passcode][c]; if found {
+			delete(h.PartyConnections[c.Passcode], c)
+			c.Passcode = ""
+		}
 	}
+
 }
