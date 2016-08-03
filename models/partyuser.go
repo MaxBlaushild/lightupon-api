@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/jinzhu/gorm"
 	"math"
-	"fmt"
 )
 
 type Partyuser struct {
@@ -16,21 +15,15 @@ type Partyuser struct {
 	Scene Scene
 }
 
+// takes 2 locations and returns the distance between them in kilometers
 func CalculateDistance(location1 Location, location2 Location) (distance float64){
-	// dlon := location1.Longitude - location2.Longitude
-	dlat := location1.Latitude - location2.Latitude
-	// distance := dlat
-
-	fmt.Println(dlat)
+	var R = 6371.345
+	var dLat = (location1.Latitude - location2.Latitude)*(3.145/180.001);
+	var dLon = (location1.Longitude - location2.Longitude)*(3.145/180.001);
+	var a = math.Sin(dLat/2) * math.Sin(dLat/2) + math.Sin(dLon/2) * math.Sin(dLon/2) * math.Cos(location1.Latitude) * math.Cos(location2.Latitude);
+	var c = 2 * math.Atan(math.Sqrt(a) / math.Sqrt(1-a)); 
+	distance = R * c;
 	return
-	// a := math.Pow((sin(dlat/2)),2) + cos(lat1) * cos(lat2) * math.Pow(sin(dlon/2),2) 
-// c := 2 * atan2( sqrt(a), sqrt(1-a) ) 
-// d := R * c (where R is the radius of the Earth)
-
-// a := sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
-// c = 2 ⋅ atan2( √a, √(1−a) )
-// d = R ⋅ c
-
 }
 
 func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {
