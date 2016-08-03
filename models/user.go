@@ -6,8 +6,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"os"
 	"time"
-	"math"
-		// "github.com/davecgh/go-spew/spew"
 )
 
 type User struct {
@@ -20,7 +18,7 @@ type User struct {
 	Location Location `gorm:"-"`
 }
 
-const threshold float64 = 0.0001
+const threshold float64 = 0.05 // 0.05 km = 50 meters
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
@@ -53,12 +51,10 @@ func (u *User) ActiveParty() (activeParty Party) {
 }
 
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	latDiff := scene.Latitude - u.Location.Latitude
-  lonDiff := scene.Longitude - u.Location.Longitude
-  distanceFromScene := math.Pow(latDiff, 2) + math.Pow(lonDiff, 2)
-  isAtNextScene = distanceFromScene < threshold
-  
-  return
+	sceneLocation := Location{scene.Latitude, scene.Longitude}
+	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
+	isAtNextScene = distanceFromScene < threshold
+	return
 }
 
 func RefreshTokenByFacebookId(facebookId string) string {
