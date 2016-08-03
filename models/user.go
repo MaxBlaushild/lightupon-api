@@ -42,6 +42,9 @@ func (u *User) ActiveParty() (activeParty Party) {
   for _, party := range parties {
     if party.Active {
       activeParty = party
+      trip := Trip{}
+      DB.Model(&activeParty).Related(&trip)
+      activeParty.Trip = trip
     }
   }
   return

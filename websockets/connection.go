@@ -46,7 +46,6 @@ func (c *Connection) ReadPump() {
 	for {
 		_, message, err := c.WS.ReadMessage()
 		if err != nil {
-			log.Printf("error: %v", err)
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
 			}
@@ -61,7 +60,6 @@ func (c *Connection) ConfigureRead() {
 	c.WS.SetReadLimit(maxMessageSize)
 	c.WS.SetReadDeadline(time.Now().Add(pongWait))
 	c.WS.SetPongHandler(func(string) error { 
-		fmt.Print("Handling pong")
 		c.WS.SetReadDeadline(time.Now().Add(pongWait))
 		return nil 
 	})
@@ -107,7 +105,6 @@ func (c *Connection) WritePump() {
 				return
 			}
 		case <- ticker.C:
-			fmt.Print("TIME TO PING")
 			if err := c.Write(websocket.PingMessage, []byte{}); err != nil {
 				fmt.Println(err)
 				return
