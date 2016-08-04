@@ -162,6 +162,7 @@ const trip_detail_template = `
           <p class="scene-link" id="scene_{{$element.ID}}">
             <a href="/lightupon/admin/scenes/{{.ID}}">
               {{$element.SceneOrder}} / {{$element.ID}} / {{$element.Name}}
+              <img src="{{$element.BackgroundUrl}}" style="width:100px;height:100px"/>
             </a>
           </p>
         {{end}}
@@ -173,10 +174,12 @@ const trip_detail_template = `
         <p>Scene Order: <input type="text" id="input-scene_order"/></p>
         <p>Latitude: <input type="text" id="input-scene_latitude"/></p>
         <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
+        <p>Background Image URL: <input type="text" id="input-scene_backgroundURL"/></p>
         <p class="submit_scene button">Submit</p>
       </div>
       <div class="popular_scenes block_container" >
         <p class="bold"> POPULAR SCENES </p>
+        <p> This shit don't work yet!</p>
         <p> In order to add a popular scene to your trip, enter your desired SceneOrder for the scene and hit 'Add Scene' </p>
       </div>
     </div>
@@ -248,7 +251,8 @@ function post_scene () {
       "Name":$("#input-scene_title").val(),
       "SceneOrder":parseInt($("#input-scene_order").val()),
       "Latitude":parseFloat($("#input-scene_latitude").val()),
-      "Longitude":parseFloat($("#input-scene_longitude").val())
+      "Longitude":parseFloat($("#input-scene_longitude").val()),
+      "BackgroundUrl":$("#input-scene_backgroundURL").val()
     })
   }).done(function(stuff){
     console.log(stuff)
