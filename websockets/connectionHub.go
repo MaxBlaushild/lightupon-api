@@ -84,6 +84,7 @@ func (h *hub) PushToParty(pullResponse models.PullResponse) {
 		fmt.Println(pullResponse.Passcode)
 	}
 	for c := range h.PartyConnections[pullResponse.Passcode] {
+		pullResponse.Scene.PopulateSound()
 		select {
 		case c.Send <- pullResponse:
 			fmt.Println(c.User.FacebookId)
