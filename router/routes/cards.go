@@ -20,19 +20,26 @@ func CardsHandler(w http.ResponseWriter, r *http.Request) {
 func CreateCardHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   sceneID, _ := strconv.Atoi(vars["sceneID"])
-
   card := models.Card{}
-
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&card)
   if err != nil {
     respondWithBadRequest(w, "The card you sent us was wack. Get that weak shit out of here.")
   }
-
   models.ShiftCardsUp(int(card.CardOrder), sceneID)
-  
   card.SceneID = uint(sceneID)
-
   models.DB.Create(&card)
   respondWithCreated(w, "The card was created.")
+}
+
+func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  cardIDint, _ := strconv.Atoi(vars["cardID"])
+  cardID := uint(cardIDint)
+  card := models.Card{}
+  card.ID = cardID
+  models.DB.Find(&card)
+  models.ShiftCardsDown(int(card.CardOrder), int(card.SceneID))
+  models.DB.Delete(&card)
+  respondWithNoContent(w, "The card was deleted.")
 }

@@ -28,7 +28,11 @@ func AdminTripDetailsHandler(w http.ResponseWriter, r *http.Request) {
   t := template.New("fieldname example")
   t, _ = t.Parse(trip_detail_template)
   trip := models.Trip{}
-  models.DB.Preload("Scenes").Where("id = $1", trip_id).Find(&trip)
+
+  models.DB.Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
+    return DB.Order("Scenes.scene_order ASC")
+  }).Where("id = $1", trip_id).Find(&trip)
+
   t.Execute(w, trip)
 }
 
