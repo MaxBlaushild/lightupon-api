@@ -14,7 +14,6 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
-// TODO: the distance "threshold" filter needs to be changed to a neighborhood filter
 // To be used with something like http://www.localhost:5000/nearby_trips?lat=42.33865&lon=-71.079994&threshold=1
 // In this example, it will return all trips within one mile of headquarters
 func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {
@@ -50,6 +49,16 @@ func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
   trip.Owner = int(user.ID)
   models.DB.Create(&trip)
   json.NewEncoder(w).Encode(trip)
+}
+
+func DeleteTripHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  tripIDint, _ := strconv.Atoi(vars["tripID"])
+  tripID := uint(tripIDint)
+  trip := models.Trip{}
+  trip.ID = tripID
+  models.DB.Delete(&trip)
+  respondWithNoContent(w, "The trip was deleted.")
 }
 
 func GetTripsForUserHandler(w http.ResponseWriter, r *http.Request) {

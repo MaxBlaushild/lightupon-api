@@ -157,14 +157,15 @@ const trip_detail_template = `
               <p class="bold"> {{.Title}} (TripID = {{.ID}})<p>
         <p><img src="{{.ImageUrl}}" height="50" width="150"/></p>
         <p class="bold"> SCENES </p>
-        <p class="bold"> SceneOrder / SceneID / Scene.Name</p>
+        <p class="bold"> SceneOrder - Scene.Name</p>
         {{range $index, $element := .Scenes}}
           <p class="scene-link" id="scene_{{$element.ID}}">
             <a href="/lightupon/admin/scenes/{{.ID}}">
-              {{$element.SceneOrder}} / {{$element.ID}} / {{$element.Name}}
-              <img src="{{$element.BackgroundUrl}}" style="width:100px;height:100px"/>
+              {{$element.SceneOrder}} - {{$element.Name}}
             </a>
+            <span class="delete_scene_link button" id="scene_{{$element.ID}}">delete scene</span>
           </p>
+            <!--<p><img src="{{$element.BackgroundUrl}}" style="width:50px;height:50px"/></p>-->
         {{end}}
       </div>
 
@@ -178,9 +179,8 @@ const trip_detail_template = `
         <p class="submit_scene button">Submit</p>
       </div>
       <div class="popular_scenes block_container" >
-        <p class="bold"> POPULAR SCENES </p>
-        <p> This shit don't work yet!</p>
-        <p> In order to add a popular scene to your trip, enter your desired SceneOrder for the scene and hit 'Add Scene' </p>
+        <p class="bold"> PRE-MADE SCENES </p>
+        <p> In order to add a pre-made scene to your trip, enter your desired SceneOrder for the scene and hit 'Add Scene' </p>
       </div>
     </div>
   </body>
@@ -188,6 +188,19 @@ const trip_detail_template = `
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 (function(){
+
+$('.delete_scene_link').each(function(index, element){
+  var delete_scene_link = $(element);
+  delete_scene_link.on('click', function(element_1){
+    var scene_id = delete_scene_link.attr('id').split('_')[1];
+    $.ajax({
+      method: "DELETE",
+      url:"/lightupon/admin/scenes/" + scene_id
+    }).done(function(scenes_unparsed){
+      window.location.reload(false);
+    });
+  })
+})
 
 
 $.ajax({
@@ -210,6 +223,7 @@ function print_popular_scenes (stuff) {
     $('#add_popular_scene_' + element.ID).on("click", function () {
       var scene_order = parseInt($('#add_popular_scene_' + element.ID + '_scene_order').val());
       post_popular_scene(element.ID, scene_order)
+      window.location.reload(false);
     })
   })
 }
@@ -299,10 +313,10 @@ const scene_detail_template = `
       <div class="scenes_for_trip block_container">
         <p class="bold"> SCENE {{.SceneOrder}}<p>
         <p class="bold"> CARDS </p>
-        <p class="bold"> CardOrder / CardID / Card.Text</p>
+        <p class="bold"> CardOrder - Card.Text</p>
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
-            {{$element.CardOrder}} / {{$element.ID}} / {{$element.Text}}
+            {{$element.CardOrder}} - {{$element.Text}}
             <img src="{{$element.ImageURL}}" style="width:100px;height:100px"/>
             <span class="delete_card_link button" id="card_{{$element.ID}}">delete card</span>
           </p>
