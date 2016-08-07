@@ -3,6 +3,8 @@ package models
 import(
       "log"
       "time"
+      "os"
+      "fmt"
       "github.com/jinzhu/gorm"
       "github.com/aws/aws-sdk-go/aws"
       "github.com/aws/aws-sdk-go/aws/session"
@@ -48,6 +50,10 @@ func ShiftScenesDown(sceneOrder int, tripID int) bool {
 }
 
 func (s *Scene) PopulateSound() {
+  accesskey := os.Getenv("AWS_ACCESS_KEY_ID")
+  secretKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+  fmt.Println(accesskey)
+  fmt.Println(secretKey)
   svc := s3.New(session.New(&aws.Config{Region: aws.String("us-east-1")}))
   req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
     Bucket: aws.String("lightupon"),
