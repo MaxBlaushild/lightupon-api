@@ -23,9 +23,10 @@ func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
 
   user := GetUserFromRequest(r)
   party := models.Party{TripID: trip.ID}
+  party.MoveToNextScene()
   models.DB.Model(&user).Association("Parties").Append(&party)
   websockets.H.AddUserConnectionToParty(user, party)
-  respondWithCreated(w, "The party was created.")
+  json.NewEncoder(w).Encode(party)
 }
 
 func GetPartyHandler(w http.ResponseWriter, r *http.Request) {
@@ -102,4 +103,3 @@ func GetUsersPartyHandler(w http.ResponseWriter, r *http.Request) {
   activeParty := user.ActiveParty()
   json.NewEncoder(w).Encode(activeParty)
 }
-

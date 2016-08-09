@@ -8,6 +8,7 @@ type Trip struct {
   gorm.Model
   Title string
   Description string
+  Details string
   ImageUrl string
   Distance float32
   Latitude float64
