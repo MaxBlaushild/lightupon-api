@@ -58,7 +58,7 @@ func (h *hub) AddUserConnectionToParty(user models.User, party models.Party) {
 }
 
 func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
-  pullResponse := models.PullResponse{Passcode: party.Passcode, Scene: party.Scene, NextScene: party.NextScene()}
+  pullResponse := models.PullResponse{Passcode: party.Passcode, Party: party, Scene: party.Scene, NextScene: party.NextScene()}
   pullResponse.Users = h.GatherUsersFromParty(party)
   pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
   return pullResponse
@@ -80,15 +80,10 @@ func (h *hub) GatherUsersFromParty(party models.Party)(users []models.User) {
 }
 
 func (h *hub) PushToParty(pullResponse models.PullResponse) {
-	if len(pullResponse.Passcode) > 0 {
-		fmt.Println(pullResponse.Passcode)
-	}
 	for c := range h.PartyConnections[pullResponse.Passcode] {
 		pullResponse.Scene.PopulateSound()
-		fmt.Println(pullResponse.Scene.SoundResource)
 		select {
 		case c.Send <- pullResponse:
-			fmt.Println(c.User.FacebookId)
 		default:
 			fmt.Println("Pull request did not get broadcast correctly.")
 			H.UnregisterConnection(c)
