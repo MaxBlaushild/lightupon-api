@@ -157,11 +157,11 @@ const trip_detail_template = `
               <p class="bold"> {{.Title}} (TripID = {{.ID}})<p>
         <p><img src="{{.ImageUrl}}" height="50" width="150"/></p>
         <p class="bold"> SCENES </p>
-        <p class="bold"> SceneOrder - Scene.Name</p>
+        <p class="bold"> SceneOrder - Scene.Name - Coordinates</p>
         {{range $index, $element := .Scenes}}
           <p class="scene-link" id="scene_{{$element.ID}}">
             <a href="/lightupon/admin/scenes/{{.ID}}">
-              {{$element.SceneOrder}} - {{$element.Name}}
+              {{$element.SceneOrder}} - {{$element.Name}} - ({{$element.Latitude}},{{$element.Longitude}})
             </a>
             <span class="delete_scene_link button" id="scene_{{$element.ID}}">delete scene</span>
           </p>
