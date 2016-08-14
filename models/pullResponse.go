@@ -6,5 +6,6 @@ type PullResponse struct {
 	NextScene Scene
 	Passcode string
 	Action string
+	Party Party
 	Users []User
 }
