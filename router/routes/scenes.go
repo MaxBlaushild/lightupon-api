@@ -58,3 +58,24 @@ func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Delete(&scene)
   respondWithNoContent(w, "The scene was deleted.")
 }
+
+func ModifySceneHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
+  sceneID := uint(sceneIDint)
+  scene := models.Scene{}
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&scene)
+  if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk.")
+  }
+  scene.ID = sceneID
+
+  // TODO iterate through fields instead of doing this one-by-one
+  if (scene.Name != "") {models.DB.Model(&scene).Update("name", scene.Name)}
+  if (scene.Latitude != 0) {models.DB.Model(&scene).Update("Latitude", scene.Latitude)}
+  if (scene.Longitude != 0) {models.DB.Model(&scene).Update("Longitude", scene.Longitude)}
+  if (scene.BackgroundUrl != "") {models.DB.Model(&scene).Update("BackgroundUrl", scene.BackgroundUrl)}
+
+  respondWithNoContent(w, "The scene was modified.")
+}

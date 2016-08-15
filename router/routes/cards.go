@@ -43,3 +43,21 @@ func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Delete(&card)
   respondWithNoContent(w, "The card was deleted.")
 }
+
+func ModifyCardHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  cardIDint, _ := strconv.Atoi(vars["cardID"])
+  cardID := uint(cardIDint)
+  card := models.Card{}
+  card.ID = cardID
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&card)
+  if err != nil {
+    respondWithBadRequest(w, "The card you sent us was bunk.")
+  }
+
+  // TODO iterate through fields instead of doing this one-by-one
+  if (card.Text != "") {models.DB.Model(&card).Update("text", card.Text)}
+
+  respondWithNoContent(w, "The scene was modified.")
+}

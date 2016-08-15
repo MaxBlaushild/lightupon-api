@@ -287,16 +287,25 @@ const scene_detail_template = `
     padding-left:3px;
   }
 
-  .scenes_for_trip {
-    width: 500px;
+  .cards_for_scene {
+    position: fixed;
+    top: 10;
+    width: 400px;
     border: 1px solid black;
-    padding-left:5px;
   }
 
   .add_card {
-    margin-left: 600px;
-    margin-top: 10px;
     width:300px;
+    position: fixed;
+    top: 10;
+    left: 420;
+  }
+
+  .modify_scene {
+    width:300px;
+    position: fixed;
+    top: 10;
+    left: 730;
   }
 
   .button {
@@ -310,13 +319,13 @@ const scene_detail_template = `
   <body>
     <span style="visibility: hidden;" id="sceneID">{{.ID}}</span>
     <div style="width: 100%; overflow: hidden;">
-      <div class="scenes_for_trip block_container">
+      <div class="cards_for_scene block_container">
         <p class="bold"> SCENE {{.SceneOrder}}<p>
         <p class="bold"> CARDS </p>
         <p class="bold"> CardOrder - Card.Text</p>
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
-            {{$element.CardOrder}} - {{$element.Text}}
+            {{$element.CardOrder}} - <span class="card_text" id="card_{{$element.ID}}">{{$element.Text}}</span>
             <img src="{{$element.ImageURL}}" style="width:100px;height:100px"/>
             <span class="delete_card_link button" id="card_{{$element.ID}}">delete card</span>
           </p>
@@ -336,6 +345,16 @@ const scene_detail_template = `
         </p>
         <p class="submit_card button">Submit</p>
       </div>
+      <div class="modify_scene block_container" >
+        <p class="bold"> MODIFY SCENE </p>
+        <p> Just put in whatever fields you want to modify. Fields left blank will not be modified. </p>
+        <p>Scene Title: <input type="text" id="input-scene_title"/></p>
+        <p>Scene Order: <input type="text" id="input-scene_order" disabled/></p>
+        <p>Latitude: <input type="text" id="input-scene_latitude"/></p>
+        <p>Longitude: <input type="text" id="input-scene_longitude"/></p>
+        <p>Background Image URL: <input type="text" id="input-scene_backgroundURL"/></p>
+        <p class="submit_scene button">Submit</p>
+      </div>
     </div>
   </body>
 </html>
@@ -352,14 +371,43 @@ $('.delete_card_link').each(function(index, element){
   var delete_card_link = $(element);
   delete_card_link.on('click', function(element_1){
     var card_id = delete_card_link.attr('id').split('_')[1];
-    console.log(card_id)
-      
-    $.ajax({
-      method: "DELETE",
-      url:"/lightupon/admin/cards/" + card_id
-    }).done(function(cards_unparsed){
-      window.location.reload(false);
-    });
+    if (confirm("Are you sure you want to delete this card?")) {
+      $.ajax({
+        method: "DELETE",
+        url:"/lightupon/admin/cards/" + card_id
+      }).done(function(cards_unparsed){
+        window.location.reload(false);
+      });
+    }
+  })
+})
+
+$('.card_text').each(function(index, element){
+  var card_text_element = $(element);
+  var card_text = card_text_element.html()
+  var cardID = card_text_element.attr('id').split('_')[1];
+  card_text_element.on('click', function(element){
+    var editableText = $("<textarea>" + card_text + "</textarea>");
+    submitButton = $('<span class="submit_card_text button">Submit Card Text</span>')
+    submitButton.on('click', function(){
+      var newText = editableText.val();
+      $.ajax({
+        method: "PUT",
+        url: "/lightupon/admin/cards/" + cardID,
+        dataType: "json",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+        data:JSON.stringify({
+          "Text":newText
+        })
+      }).done(function(stuff){
+        console.log(stuff)
+      });
+    })
+    newSpan = $("<span></span>");
+    newSpan.append(editableText);
+    newSpan.append(submitButton);
+    $(card_text_element).replaceWith(newSpan);
   })
 })
 
@@ -378,6 +426,31 @@ function post_card () {
       "SceneID":sceneID,
       "CardOrder":parseInt($("#input-card_card_order").val()),
       "NibID":$("#input-card_nib_id").val()
+    })
+  }).done(function(stuff){
+    console.log(stuff)
+  });
+}
+
+$('.submit_scene').on('click', function(){
+  modify_scene();
+  setTimeout(window.location.reload(false), 1000);
+})
+
+function modify_scene () {
+  sceneID = $("#sceneID").html();
+  $.ajax({
+    method: "PUT",
+    url: "/lightupon/admin/scenes/" + sceneID,
+    dataType: "json",
+    processData: false,
+    contentType: "application/json; charset=utf-8",
+    data:JSON.stringify({
+      "Name":$("#input-scene_title").val(),
+      "SceneOrder":parseInt($("#input-scene_order").val()),
+      "Latitude":parseFloat($("#input-scene_latitude").val()),
+      "Longitude":parseFloat($("#input-scene_longitude").val()),
+      "BackgroundUrl":$("#input-scene_backgroundURL").val()
     })
   }).done(function(stuff){
     console.log(stuff)
