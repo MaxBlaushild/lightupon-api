@@ -322,6 +322,7 @@ const scene_detail_template = `
       <div class="cards_for_scene block_container">
         <p class="bold"> SCENE {{.SceneOrder}}<p>
         <p class="bold"> CARDS </p>
+        <p> Click on some card text to make it editable. </p>
         <p class="bold"> CardOrder - Card.Text</p>
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
