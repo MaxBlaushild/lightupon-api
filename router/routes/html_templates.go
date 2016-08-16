@@ -402,6 +402,7 @@ $('.card_text').each(function(index, element){
         })
       }).done(function(stuff){
         console.log(stuff)
+        window.location.reload(false);
       });
     })
     newSpan = $("<span></span>");
