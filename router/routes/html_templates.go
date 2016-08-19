@@ -133,7 +133,7 @@ const trip_detail_template = `
 
   .popular_scenes {
     width:400px;
-    position: fixed;
+    // position: fixed;
     top: 10;
     left: 740;
   }
@@ -288,7 +288,7 @@ const scene_detail_template = `
   }
 
   .cards_for_scene {
-    position: fixed;
+    // position: fixed;
     top: 10;
     width: 400px;
     border: 1px solid black;
@@ -296,14 +296,14 @@ const scene_detail_template = `
 
   .add_card {
     width:300px;
-    position: fixed;
+    // position: fixed;
     top: 10;
     left: 420;
   }
 
   .modify_scene {
     width:300px;
-    position: fixed;
+    // position: fixed;
     top: 10;
     left: 730;
   }
