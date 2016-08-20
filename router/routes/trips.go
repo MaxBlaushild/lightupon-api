@@ -10,7 +10,7 @@ import(
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
   trips := []models.Trip{}
-  models.DB.Find(&trips)
+  models.DB.Preload("Scenes").Find(&trips)
   json.NewEncoder(w).Encode(trips)
 }
 
