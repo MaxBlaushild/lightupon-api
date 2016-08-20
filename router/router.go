@@ -24,7 +24,7 @@ func Init(){
 
   // these serve/accept json
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/admin/popular_scenes", routes.PopularScenesHandler).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/admin/popularScenes", routes.PopularScenesHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/trips", routes.AdminCreateTripHandler).Methods("POST")
@@ -38,8 +38,8 @@ func Init(){
   
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips_for_user", routes.GetTripsForUserHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/nearby_trips", routes.NearbyTripsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/nearbyTrips", routes.NearbyTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
