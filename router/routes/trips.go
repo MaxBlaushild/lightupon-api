@@ -11,28 +11,11 @@ import(
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetUserLocationFromRequest(r)
-  latString := strconv.FormatFloat(lat, 'f', 6, 64)
-  lonString := strconv.FormatFloat(lon, 'f', 6, 64)
-
   trips := []models.Trip{}
   models.DB.Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
-  }).Order("((latitude - " + latString + ")^2.0 + ((longitude - " + lonString + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+  }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
-  json.NewEncoder(w).Encode(trips)
-}
-
-// To be used with something like http://www.localhost:5000/nearby_trips?lat=42.33865&lon=-71.079994&threshold=1
-// In this example, it will return all trips within one mile of headquarters
-func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {
-  // Pull all necessary parameters out of the URL
-  query := r.URL.Query()
-  lat, _ := strconv.ParseFloat(query["lat"][0], 64)
-  lon, _ := strconv.ParseFloat(query["lon"][0], 64)
-  threshold, _ := strconv.ParseFloat(query["threshold"][0], 64)
-
-  trips := []models.Trip{}
-  models.DB.Where("(pow(latitude - $1, 2) + pow(longitude - $2,2)) < $3 ORDER BY title", lat, lon, threshold/10000).Find(&trips)
   json.NewEncoder(w).Encode(trips)
 }
 

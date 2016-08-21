@@ -54,15 +54,6 @@ func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func UpdatePartyHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
-  vars := mux.Vars(r)
-  partyID, _ := strconv.Atoi(vars["partyID"])
-  lat, lon := GetUserLocationFromRequest(r)
-  pullResponse := models.UpdatePartyStatus(partyID, user.ID, lat, lon)
-  json.NewEncoder(w).Encode(pullResponse)
-}
-
 func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   partyID, _ := strconv.Atoi(vars["partyID"])
@@ -91,10 +82,10 @@ func GetUserFromRequest(r *http.Request)(user models.User){
   return
 }
 
-func GetUserLocationFromRequest(r *http.Request)(lat float64, lon float64){
+func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
   query := r.URL.Query()
-  lat, _ = strconv.ParseFloat(query["lat"][0], 64)
-  lon, _ = strconv.ParseFloat(query["lon"][0], 64)
+  lat = query["lat"][0]
+  lon = query["lon"][0]
   return
 }
 
