@@ -6,11 +6,19 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+       "github.com/jinzhu/gorm"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
+  lat, lon := GetUserLocationFromRequest(r)
+  latString := strconv.FormatFloat(lat, 'f', 6, 64)
+  lonString := strconv.FormatFloat(lon, 'f', 6, 64)
+
   trips := []models.Trip{}
-  models.DB.Preload("Scenes").Find(&trips)
+  models.DB.Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
+    return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
+  }).Order("((latitude - " + latString + ")^2.0 + ((longitude - " + lonString + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+
   json.NewEncoder(w).Encode(trips)
 }
 
