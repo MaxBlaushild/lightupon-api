@@ -323,11 +323,13 @@ const scene_detail_template = `
         <p class="bold"> SCENE {{.SceneOrder}}<p>
         <p class="bold"> CARDS </p>
         <p> Click on some card text to make it editable. </p>
-        <p class="bold"> CardOrder - Card.Text</p>
+        <p class="bold"> CardOrder (Card.NibID) - Card.Text</p>
         {{range $index, $element := .Cards}}
           <p class="card-link" id="card_{{$element.ID}}">
-            {{$element.CardOrder}} - <span class="card_text" id="card_{{$element.ID}}">{{$element.Text}}</span>
-            <img src="{{$element.ImageURL}}" style="width:100px;height:100px"/>
+            {{$element.CardOrder}} ({{$element.NibID}}) - <span class="card_text" id="card_{{$element.ID}}">{{$element.Text}}</span>
+            {{if $element.ImageURL}}
+              <img src="{{$element.ImageURL}}" style="width:100px;height:100px"/>
+            {{end}}
             <span class="delete_card_link button" id="card_{{$element.ID}}">delete card</span>
           </p>
         {{end}}
