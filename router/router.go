@@ -33,6 +33,7 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.ModifyCardHandler).Methods("PUT")
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}", routes.DeleteTripHandler).Methods("DELETE")
+  muxRouter.HandleFunc("/lightupon/admin/assets/uploadUrls/{assetType}/{assetName}", routes.UploadAssetUrlHandler).Methods("GET")
 
   routerWithAuth := mux.NewRouter()
   
