@@ -1,12 +1,9 @@
 package models
 
 import(
-      "log"
-      "time"
+      "fmt"
       "github.com/jinzhu/gorm"
-      "github.com/aws/aws-sdk-go/aws"
-      "github.com/aws/aws-sdk-go/aws/session"
-      "github.com/aws/aws-sdk-go/service/s3"
+      "lightupon-api/aws"
       )
 
 type Scene struct {
@@ -48,17 +45,11 @@ func ShiftScenesDown(sceneOrder int, tripID int) bool {
 }
 
 func (s *Scene) PopulateSound() {
-  svc := s3.New(session.New(&aws.Config{Region: aws.String("us-east-1")}))
-  req, _ := svc.GetObjectRequest(&s3.GetObjectInput{
-    Bucket: aws.String("lightupon"),
-    Key:    aws.String(s.SoundKey),
-  })
-
-  urlStr, err := req.Presign(15 * time.Minute)
+  url, err := aws.GetAsset("audio", s.SoundKey)
 
   if err != nil {
-      log.Println("Failed to sign request", err)
+    fmt.Println(err)
   }
 
-  s.SoundResource = urlStr
+  s.SoundResource = url
 }

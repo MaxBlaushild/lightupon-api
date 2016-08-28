@@ -85,7 +85,6 @@ func (h *hub) GatherUsersFromParty(party models.Party)(users []models.User) {
 
 func (h *hub) PushToParty(pullResponse models.PullResponse) {
 	for c := range h.PartyConnections[pullResponse.Passcode] {
-		pullResponse.Scene.PopulateSound()
 		select {
 		case c.Send <- pullResponse:
 		default:
