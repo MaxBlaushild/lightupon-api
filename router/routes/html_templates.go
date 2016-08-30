@@ -20,14 +20,12 @@ const trips_list_template = `
   .all-trips {
     width: 400px;
     float: left;
-
   }
 
   .scenes_for_trip {
     width: 500px;
     border: 1px solid black;
     padding-left:5px;
-
   }
 
   .add_trip {
@@ -358,6 +356,13 @@ const scene_detail_template = `
         <p>Background Image URL: <input type="text" id="input-scene_backgroundURL"/></p>
         <p class="submit_scene button">Submit</p>
       </div>
+      <div class="add_sound block_container" >
+        <p class="bold"> ADD SOUND </p>
+        <form id="form" method="POST">
+          <input type="file" id="file-select" name="photos[]" multiple/>
+          <button type="submit" id="upload-button">Upload</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>
@@ -440,6 +445,69 @@ $('.submit_scene').on('click', function(){
   modify_scene();
   setTimeout(window.location.reload(false), 1000);
 })
+
+
+$('form').on('submit', uploadFiles);
+
+function uploadFiles(event) {
+  event.stopPropagation(); // Stop stuff happening
+  event.preventDefault(); // Totally stop stuff happening
+
+  // First let's get the URL to oupload to
+  $.ajax({
+    url:'http://localhost:5000/lightupon/admin/assets/uploadUrls/mp3/blurg'
+  }).done(function(response_raw){
+    response = JSON.parse(response_raw)
+    var upload_url = response['message'];
+    upload_sound_file_to_aws(upload_url)
+  });
+}
+
+
+function upload_sound_file_to_aws(upload_url) {
+  var fileSelect = document.getElementById('file-select');
+  var files = fileSelect.files;
+  console.log('k here goes an upload to aws'); console.log('with this here url')
+  console.log(upload_url); console.log('and here go the files')
+  console.log(files)
+  // Create a formdata object and add the files
+  var data = new FormData();
+  $.each(files, function(key, value) {data.append(key, value);});
+  console.log(data);
+
+
+
+    $.ajax({
+        url: upload_url,
+        type: 'POST',
+        data: data,
+        cache: false,
+        dataType: 'json',
+        processData: false, // Don't process the files
+        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        success: function(data, textStatus, jqXHR)
+        {
+          alert('success');
+            if(typeof data.error === 'undefined')
+            {
+                // Success so call function to process the form
+                submitForm(event, data);
+            }
+            else
+            {
+                // Handle errors here
+                console.log('ERRORS: ' + data.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            // Handle errors here
+            console.log('ERRORS: ' + textStatus);
+            // STOP LOADING SPINNER
+        }
+    });
+}
+
 
 function modify_scene () {
   sceneID = $("#sceneID").html();
