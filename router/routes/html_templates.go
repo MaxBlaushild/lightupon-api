@@ -455,7 +455,7 @@ function uploadFiles(event) {
 
   // First let's get the URL to oupload to
   $.ajax({
-    url:'http://localhost:5000/lightupon/admin/assets/uploadUrls/mp3/blurg'
+    url:"/lightupon/admin/assets/uploadUrls/mp3/blurg"
   }).done(function(response_raw){
     response = JSON.parse(response_raw)
     var upload_url = response['message'];
