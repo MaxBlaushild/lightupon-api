@@ -453,59 +453,59 @@ function uploadFiles(event) {
   event.stopPropagation(); // Stop stuff happening
   event.preventDefault(); // Totally stop stuff happening
 
+  var fileSelect = document.getElementById('file-select');
+  var files = fileSelect.files;
+  
+  var fileName = files[0]['name'];
+  console.log('fileName');
+  console.log(fileName);
+
   // First let's get the URL to oupload to
   $.ajax({
-    url:"/lightupon/admin/assets/uploadUrls/mp3/blurg"
+    url:"/lightupon/admin/assets/uploadUrls/audio/" + fileName
   }).done(function(response_raw){
     response = JSON.parse(response_raw)
     var upload_url = response['message'];
-    upload_sound_file_to_aws(upload_url)
+    upload_sound_file_to_aws(upload_url, files)
   });
 }
 
 
-function upload_sound_file_to_aws(upload_url) {
-  var fileSelect = document.getElementById('file-select');
-  var files = fileSelect.files;
-  console.log('k here goes an upload to aws'); console.log('with this here url')
-  console.log(upload_url); console.log('and here go the files')
-  console.log(files)
+function upload_sound_file_to_aws(upload_url, files) {
+
   // Create a formdata object and add the files
   var data = new FormData();
   $.each(files, function(key, value) {data.append(key, value);});
-  console.log(data);
 
-
-
-    $.ajax({
-        url: upload_url,
-        type: 'PUT',
-        data: data,
-        cache: false,
-        dataType: 'json',
-        processData: false, // Don't process the files
-        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR)
-        {
-          alert('success');
-            if(typeof data.error === 'undefined')
-            {
-                // Success so call function to process the form
-                submitForm(event, data);
-            }
-            else
-            {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            // STOP LOADING SPINNER
-        }
-    });
+  $.ajax({
+      url: upload_url,
+      type: 'PUT',
+      data: data,
+      cache: false,
+      dataType: 'json',
+      processData: false, // Don't process the files
+      contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+      success: function(data, textStatus, jqXHR)
+      {
+        alert('success');
+          if(typeof data.error === 'undefined')
+          {
+              // Success so call function to process the form
+              submitForm(event, data);
+          }
+          else
+          {
+              // Handle errors here
+              console.log('ERRORS: ' + data.error);
+          }
+      },
+      error: function(jqXHR, textStatus, errorThrown)
+      {
+          // Handle errors here
+          console.log('ERRORS: ' + textStatus);
+          // STOP LOADING SPINNER
+      }
+  });
 }
 
 
