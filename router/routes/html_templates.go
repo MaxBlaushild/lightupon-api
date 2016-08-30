@@ -479,7 +479,7 @@ function upload_sound_file_to_aws(upload_url) {
 
     $.ajax({
         url: upload_url,
-        type: 'POST',
+        type: 'PUT',
         data: data,
         cache: false,
         dataType: 'json',
