@@ -54,3 +54,7 @@ func AdminGetAllTripsHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Find(&trips)
   t.Execute(w, trips)
 }
+
+func ServeHomepage(w http.ResponseWriter, r *http.Request) {
+  http.ServeFile(w, r, "html/Elevate/index.html")
+}

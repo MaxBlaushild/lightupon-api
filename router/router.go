@@ -2,11 +2,9 @@ package router
 
 import(
       "os"
-
       "github.com/gorilla/mux"
       "github.com/rs/cors"
       "github.com/codegangsta/negroni"
-
       "lightupon-api/router/routes"
       "lightupon-api/router/middleware"
       )
@@ -15,6 +13,9 @@ func Init(){
   muxRouter := mux.NewRouter().StrictSlash(true)
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{facebookId}/token", routes.UserTokenRefreshHandler).Methods("PATCH")
+
+  // HOMEPAGE
+  muxRouter.HandleFunc("/lightupon/home/", routes.ServeHomepage).Methods("GET")
 
   // ADMIN
   // these routes serve html
