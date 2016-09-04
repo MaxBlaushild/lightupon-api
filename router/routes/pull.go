@@ -3,7 +3,7 @@ package routes
 import(
        "net/http"
        "lightupon-api/models"
-       "lightupon-api/websockets"       // "strconv"
+       "lightupon-api/websockets"
 )
 
 func PullHandler(w http.ResponseWriter, r *http.Request) {

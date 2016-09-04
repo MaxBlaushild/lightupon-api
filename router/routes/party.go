@@ -53,6 +53,16 @@ func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
+func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  partyID, _ := strconv.Atoi(vars["partyID"])
+  party := models.Party{}
+  models.DB.Preload("Scene.Cards").First(&party, partyID)
+  party.MoveToNextScene()
+  websockets.H.Broadcast <- party
+  respondWithAccepted(w, "The party was moved to the next scene.")
+}
+
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()

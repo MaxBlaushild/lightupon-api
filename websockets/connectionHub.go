@@ -28,7 +28,7 @@ func (h *hub) StartHub() {
 		select {
 		case c := <- h.Register:
 			h.RegisterConnection(c)
-		case c := <-h.Unregister:
+		case c := <- h.Unregister:
 			h.UnregisterConnection(c)
 		case party := <- h.Broadcast:
 			pullResponse := h.CreatePullResponse(party)
@@ -60,18 +60,13 @@ func (h *hub) AddUserConnectionToParty(user models.User, party models.Party) {
 func (h *hub) CreatePullResponse(party models.Party) models.PullResponse {
   pullResponse := models.PullResponse{Passcode: party.Passcode, Party: party, Scene: party.Scene, NextScene: party.NextScene()}
   pullResponse.Users = h.GatherUsersFromParty(party)
-  pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(party)
-  if (pullResponse.NextSceneAvailable) {
-  	party.MoveToNextScene()
-  }
+  pullResponse.NextSceneAvailable = h.IsNextSceneAvailable(pullResponse)
   return pullResponse
 }
 
- // TODO: change this function to only return true if all users are at the next scene
-func (h *hub) IsNextSceneAvailable(party models.Party)(nextSceneAvailable bool) {
-	nextScene := party.NextScene() // TODO: either call this here or in CreatePullResponse, but not both
-	for c := range h.PartyConnections[party.Passcode] {
-		nextSceneAvailable = nextSceneAvailable || c.User.IsAtScene(nextScene)
+func (h *hub) IsNextSceneAvailable(pullResponse models.PullResponse)(nextSceneAvailable bool) {
+	for c := range h.PartyConnections[pullResponse.Passcode] {
+		nextSceneAvailable = nextSceneAvailable || c.User.IsAtScene(pullResponse.NextScene)
 	}
 	return
 }
