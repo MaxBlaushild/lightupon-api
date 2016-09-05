@@ -25,6 +25,11 @@ func (p *Party) BeforeCreate() {
   p.setPasscode()
 }
 
+func (p *Party) DropUser(user User) {
+  DB.Model(user).Association("Parties").Delete(p)
+  p.DeactivateIfEmpty()
+}
+
 func (p *Party) setPasscode() {
   rand.Seed(time.Now().UnixNano())
   
@@ -46,33 +51,6 @@ func (p *Party) MoveToNextScene() {
     "current_scene_order_id": p.CurrentSceneOrderID + 1,
     "scene": p.NextScene(),
   })
-}
-
-func UpdatePartyStatus(partyID int, userID uint, user_lat float64, user_lon float64)(pullResponse PullResponse){
-  partyuser := Partyuser{}
-  DB.Preload("Party").Where("user_id = ? AND party_id = ?", userID, partyID).First(&partyuser)
-  arrivedAtNextScene, nextScene := partyuser.IsUserAtNextScene(user_lat, user_lon)
-
-  if (arrivedAtNextScene) {
-    DB.Model(&partyuser).Update("current_scene_id", nextScene.ID) // Update the current_scene for partyUser
-
-    DB.Where("scene_id = ?", nextScene.ID).Find(&nextScene.Cards) // Poopulate cards for scene
-
-    // Get the current scene for each user, dedupe the list, and check if everyone is on the same scene
-    allCurrentScenes := []int64{}
-    DB.Model(&Partyuser{}).Where("party_id = ?", partyuser.Party.ID).Pluck("current_scene_id", &allCurrentScenes)
-    uniqueCurrentScenes := removeDuplicates(allCurrentScenes)
-    if (len(uniqueCurrentScenes) == 1) {
-      DB.Model(&partyuser.Party).Update("current_scene_id", uniqueCurrentScenes[0])
-    }
-
-    pullResponse.Scene = nextScene
-
-  }
-
-  pullResponse.NextSceneAvailable = arrivedAtNextScene
-
-  return
 }
 
 func (party *Party) DeactivateIfEmpty() {
