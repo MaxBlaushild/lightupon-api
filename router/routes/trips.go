@@ -19,6 +19,23 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
+func CreateSelfieTripHandler(w http.ResponseWriter, r *http.Request) {
+  selfie := models.Selfie{}
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&selfie)
+  if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk.")
+  }
+
+  trip := models.Trip{Title: "New Selfie" }
+  scene := models.Scene{ Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude, SceneOrder: 1, BackgroundUrl: selfie.ImageUrl }
+  card := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
+  scene.Cards = append (scene.Cards, card)
+  trip.Scenes = append (trip.Scenes, scene)
+  models.DB.Create(&trip)
+  respondWithCreated(w, "The trip was created.")
+}
+
 func TripHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   id := vars["id"]

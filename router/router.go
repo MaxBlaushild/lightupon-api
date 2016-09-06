@@ -39,6 +39,7 @@ func Init(){
   routerWithAuth := mux.NewRouter()
   
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler).Methods("GET")
