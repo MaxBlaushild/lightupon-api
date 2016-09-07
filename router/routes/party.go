@@ -9,7 +9,6 @@ import(
        "strconv"
        "github.com/gorilla/mux"
        "lightupon-api/websockets"
-       "fmt"
        )
 
 func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {  
@@ -39,9 +38,7 @@ func GetPartyHandler(w http.ResponseWriter, r *http.Request) {
 
 func FinishPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  fmt.Println("HURRRR")
   activeParty := user.ActiveParty()
-  fmt.Println("HURRRR")
   activeParty.DropUser(user)
   websockets.H.DeactivateUserFromParty(user, activeParty.Passcode)
   json.NewEncoder(w).Encode(activeParty)
