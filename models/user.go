@@ -37,7 +37,7 @@ func createToken(facebookId string) string {
 }
 
 func (u *User) ActiveParty() (activeParty Party) {
-  DB.Model(&u).Preload("Trip.Scenes").Where("active = true").Association("Parties").Find(&activeParty)
+  DB.Model(&u).Preload("Trip.Scenes.Cards").Where("active = true").Association("Parties").Find(&activeParty)
   return
 }
 
