@@ -13,6 +13,7 @@ type Partyuser struct {
 	PartyID uint `gorm:"index"`
 	CurrentSceneOrderID uint `gorm:"default:0"`
 	Scene Scene
+	Completed bool
 }
 
 // takes 2 locations and returns the distance between them in kilometers

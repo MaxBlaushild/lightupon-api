@@ -36,6 +36,14 @@ func GetPartyHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(party)
 }
 
+func FinishPartyHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  activeParty := user.ActiveParty()
+  activeParty.DropUser(user)
+  websockets.H.DeactivateUserFromParty(user, activeParty.Passcode)
+  json.NewEncoder(w).Encode(activeParty)
+}
+
 func AddUserToPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   vars := mux.Vars(r)
@@ -66,8 +74,7 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()
-  models.DB.Model(user).Association("Parties").Delete(activeParty)
-  activeParty.DeactivateIfEmpty()
+  activeParty.DropUser(user)
   websockets.H.DeactivateUserFromParty(user, activeParty.Passcode)
   json.NewEncoder(w).Encode(activeParty)
 }
