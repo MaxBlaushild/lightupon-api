@@ -11,7 +11,7 @@ type Card struct {
   SceneID uint
   CardOrder uint
   Universal bool
-  NibID string
+  NibID string `gorm:"not null"`
 }
 
 func ShiftCardsUp(cardOrder int, sceneID int) bool {

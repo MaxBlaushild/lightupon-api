@@ -11,9 +11,9 @@ type Scene struct {
   Name string
   Latitude float64
   Longitude float64
-  TripID uint
-  BackgroundUrl string
-  SceneOrder uint
+  TripID uint `gorm:"index"`
+  BackgroundUrl string `gorm:"not null"`
+  SceneOrder uint `gorm:"not null"`
   Featured bool
   Cards []Card
   SoundKey string

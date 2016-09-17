@@ -6,10 +6,10 @@ import(
 
 type Trip struct {
   gorm.Model
-  Title string
-  Description string
+  Title string `gorm:"not null"`
+  Description string `gorm:"not null"`
   Details string
-  ImageUrl string
+  ImageUrl string `gorm:"not null"`
   Distance float32
   Latitude float64
   Longitude float64

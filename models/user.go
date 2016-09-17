@@ -10,7 +10,7 @@ import (
 
 type User struct {
 	gorm.Model
-	FacebookId string
+	FacebookId string `gorm:"index"`
 	Email string
 	DeviceID string
 	Token string
