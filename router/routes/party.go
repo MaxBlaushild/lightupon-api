@@ -22,7 +22,6 @@ func CreatePartyHandler(w http.ResponseWriter, r *http.Request) {
 
   user := GetUserFromRequest(r)
   party := models.Party{TripID: trip.ID}
-  party.MoveToNextScene()
   models.DB.Model(&user).Association("Parties").Append(&party)
   websockets.H.AddUserConnectionToParty(user, party)
   json.NewEncoder(w).Encode(party)
