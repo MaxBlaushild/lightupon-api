@@ -7,6 +7,7 @@ import(
 type Card struct {
   gorm.Model
   Text string
+  TextTwo string
   ImageURL string
   SceneID uint
   CardOrder uint
