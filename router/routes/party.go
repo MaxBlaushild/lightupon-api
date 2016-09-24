@@ -70,6 +70,29 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   respondWithAccepted(w, "The party was moved to the next scene.")
 }
 
+func CreatePartyInviteHandler(w http.ResponseWriter, r *http.Request) {
+  // Get the partyID from the URL and populate a party model
+  vars := mux.Vars(r)
+  partyID, _ := strconv.Atoi(vars["partyID"])
+  party := models.Party{}
+  models.DB.First(&party, partyID)
+
+  // All this bullshit just to get the fucking userID out of the request body
+  user := models.User{}
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&user); if err != nil {
+    respondWithBadRequest(w, "That userID you sent us was all kinds of fucked up.")
+  }
+
+  invite := models.PartyInvite{UserID: user.ID, PartyID:party.ID}
+  models.DB.Create(&invite)
+
+  // This shit don't work yet
+  // c := websockets.H.Connections[user.FacebookId]
+  // websockets.H.Broadcast <- party
+  // respondWithAccepted(w, "The party was moved to the next scene.")
+}
+
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()
