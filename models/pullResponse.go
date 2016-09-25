@@ -8,4 +8,5 @@ type PullResponse struct {
 	Action string
 	Party Party
 	Users []User
+	PartyInvite PartyInvite
 }

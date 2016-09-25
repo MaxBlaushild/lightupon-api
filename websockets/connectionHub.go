@@ -11,7 +11,6 @@ type hub struct {
 	Broadcast chan models.Party
 	Register chan *Connection
 	Unregister chan *Connection
-
 }
 
 var H = hub{
