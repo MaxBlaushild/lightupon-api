@@ -1,6 +1,7 @@
 package routes
 
 import(
+       "fmt"
        "net/http"
        "lightupon-api/models"
        "github.com/gorilla/context"
@@ -68,6 +69,37 @@ func MovePartyToNextSceneHandler(w http.ResponseWriter, r *http.Request) {
   party.MoveToNextScene()
   websockets.H.Broadcast <- party
   respondWithAccepted(w, "The party was moved to the next scene.")
+}
+
+func CreatePartyInviteHandler(w http.ResponseWriter, r *http.Request) {
+  // Get the partyID from the URL and populate a party model
+  vars := mux.Vars(r)
+  partyID, _ := strconv.Atoi(vars["partyID"])
+  party := models.Party{}
+  models.DB.First(&party, partyID)
+
+  // Get the user
+  user := models.User{}
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&user); if err != nil {
+    respondWithBadRequest(w, "That userID you sent us was all kinds of fucked up.")
+  }
+
+  // Create the invitation and put that shit up in the DB
+  invite := models.PartyInvite{UserID: user.ID, PartyID:party.ID}
+  models.DB.Create(&invite)
+
+  // Notify the invitee of the invitation if they have an open connection
+  c := websockets.H.Connections[user.FacebookId]
+  if c != nil {
+    fmt.Println("The invitee has an active connection! Let's send them a pullResponse.")
+    pullResponse := models.PullResponse{Passcode: party.Passcode, Party: party, Scene: party.Scene, NextScene: party.NextScene(), PartyInvite:invite}
+    c.Send <- pullResponse
+  } else {
+    fmt.Println("The invitee doesn't have an active connection!")
+  }
+
+  respondWithAccepted(w, "The user has been invited.")
 }
 
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
