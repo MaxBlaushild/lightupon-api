@@ -18,6 +18,7 @@ type User struct {
 	DeviceID string
 	Token string
 	Parties []Party `gorm:"many2many:partyusers;"`
+	Trips []Trip
 	Location Location `gorm:"-"`
 }
 

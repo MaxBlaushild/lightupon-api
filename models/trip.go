@@ -14,6 +14,7 @@ type Trip struct {
   Latitude float64
   Longitude float64
   EstimatedTime int
-  Owner int
+  UserID uint
+  User User
   Scenes []Scene
 }

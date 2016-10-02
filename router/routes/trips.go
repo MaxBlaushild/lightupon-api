@@ -12,7 +12,7 @@ import(
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetUserLocationFromRequest(r)
   trips := []models.Trip{}
-  models.DB.Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
+  models.DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
@@ -54,7 +54,7 @@ func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   user := GetUserFromRequest(r)
-  trip.Owner = int(user.ID)
+  trip.UserID = user.ID
   models.DB.Create(&trip)
   json.NewEncoder(w).Encode(trip)
 }
@@ -84,7 +84,7 @@ func AdminCreateTripHandler(w http.ResponseWriter, r *http.Request) {
   if err != nil {
     respondWithBadRequest(w, "The trip credentials you sent us were wack!")
   }
-  trip.Owner = 1
+  trip.UserID = 1
   models.DB.Create(&trip)
   json.NewEncoder(w).Encode(trip)
 }
