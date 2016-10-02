@@ -17,6 +17,7 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
 
   user := models.User{}
   models.DB.FirstOrCreate(&user, jsonUser)
+  models.DB.Model(&user).Updates(jsonUser)
   json.NewEncoder(w).Encode(user.Token)
 }
 
