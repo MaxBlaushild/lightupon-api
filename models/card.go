@@ -7,11 +7,12 @@ import(
 type Card struct {
   gorm.Model
   Text string
+  TextTwo string
   ImageURL string
   SceneID uint
   CardOrder uint
   Universal bool
-  NibID string
+  NibID string `gorm:"not null"`
 }
 
 func ShiftCardsUp(cardOrder int, sceneID int) bool {

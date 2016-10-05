@@ -13,10 +13,12 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&jsonUser); if err != nil {
   	respondWithBadRequest(w, "The user you sent us was wack af.")
+    return
   }
 
   user := models.User{}
   models.DB.FirstOrCreate(&user, jsonUser)
+  models.DB.Model(&user).Updates(jsonUser)
   json.NewEncoder(w).Encode(user.Token)
 }
 

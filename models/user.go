@@ -10,11 +10,15 @@ import (
 
 type User struct {
 	gorm.Model
-	FacebookId string
+	FacebookId string `gorm:"index"`
 	Email string
+	FirstName string
+	ProfilePictureURL string
+	FullName string
 	DeviceID string
 	Token string
 	Parties []Party `gorm:"many2many:partyusers;"`
+	Trips []Trip
 	Location Location `gorm:"-"`
 }
 

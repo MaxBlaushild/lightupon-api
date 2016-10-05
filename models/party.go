@@ -8,9 +8,9 @@ import(
 
 type Party struct {
   gorm.Model
-  TripID uint
+  TripID uint `gorm:"index"`
   Trip Trip
-  SceneID uint
+  SceneID uint `gorm:"index"`
   Scene Scene
   CurrentSceneOrderID int `gorm:"default:0"`
   Passcode string
