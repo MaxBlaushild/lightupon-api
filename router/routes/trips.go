@@ -28,7 +28,12 @@ func CreateSelfieTripHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   trip := models.Trip{Title: "New Selfie" }
-  scene := models.Scene{ Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude, SceneOrder: 1, BackgroundUrl: selfie.ImageUrl }
+  scene := models.Scene{ 
+    Latitude: selfie.Location.Latitude, 
+    Longitude: selfie.Location.Longitude, 
+    SceneOrder: 1, 
+    BackgroundUrl: selfie.ImageUrl 
+  }
   card := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
   scene.Cards = append (scene.Cards, card)
   trip.Scenes = append (trip.Scenes, scene)
