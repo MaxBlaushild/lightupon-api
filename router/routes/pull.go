@@ -4,6 +4,7 @@ import(
        "net/http"
        "lightupon-api/models"
        "lightupon-api/websockets"
+       "fmt"
 )
 
 func PullHandler(w http.ResponseWriter, r *http.Request) {
@@ -13,6 +14,8 @@ func PullHandler(w http.ResponseWriter, r *http.Request) {
     respondWithBadRequest(w, "You done fucked up. Give us a real passcode.")
     return
   }
+
+  fmt.Println(activeParty)
 
   c := &websockets.Connection{Send: make(chan models.PullResponse), Passcode: activeParty.Passcode, WS: ws, User: user}
 

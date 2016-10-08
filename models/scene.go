@@ -4,6 +4,7 @@ import(
       "fmt"
       "github.com/jinzhu/gorm"
       "lightupon-api/aws"
+      "math"
       )
 
 type Scene struct {
@@ -42,6 +43,24 @@ func ShiftScenesDown(sceneOrder int, tripID int) bool {
     DB.Model(&scene).Update("scene_order", sceneOrder)
     return true
   }
+}
+
+func (s *Scene) IsAtScene(location Location)(isAtNextScene bool) {
+  sceneLocation := Location{Latitude: s.Latitude, Longitude: s.Longitude}
+  distanceFromScene := CalculateDistance(location, sceneLocation)
+  isAtNextScene = distanceFromScene < threshold
+  return
+}
+
+// takes 2 locations and returns the distance between them in kilometers
+func CalculateDistance(location1 Location, location2 Location) (distance float64){
+  var R = 6371.345
+  var dLat = (location1.Latitude - location2.Latitude)*(3.145/180.001);
+  var dLon = (location1.Longitude - location2.Longitude)*(3.145/180.001);
+  var a = math.Sin(dLat/2) * math.Sin(dLat/2) + math.Sin(dLon/2) * math.Sin(dLon/2) * math.Cos(location1.Latitude) * math.Cos(location2.Latitude);
+  var c = 2 * math.Atan(math.Sqrt(a) / math.Sqrt(1-a)); 
+  distance = R * c;
+  return
 }
 
 func (s *Scene) PopulateSound() {

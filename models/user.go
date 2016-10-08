@@ -18,8 +18,9 @@ type User struct {
 	DeviceID string
 	Token string
 	Parties []Party `gorm:"many2many:partyusers;"`
+	Lit bool
 	Trips []Trip
-	Location Location `gorm:"-"`
+	Location Location `gorm:"polymorphic:Owner;"`
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -45,16 +46,44 @@ func (u *User) ActiveParty() (activeParty Party) {
   return
 }
 
-func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	sceneLocation := Location{scene.Latitude, scene.Longitude}
-	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
-	isAtNextScene = distanceFromScene < threshold
-	return
-}
-
 func RefreshTokenByFacebookId(facebookId string) string {
 	user := User{}
 	token := createToken(facebookId)
 	DB.Model(&user).Where("facebookId = ?", facebookId).Update("token", token)
   return token
+}
+
+func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
+	sceneLocation := Location{Latitude:scene.Latitude, Longitude: scene.Longitude}
+	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
+	isAtNextScene = distanceFromScene < threshold
+	return
+}
+
+func (u *User) Light()(err error) {
+	tx := DB.Begin()
+
+  if err := tx.Model(&u).Update("lit", true).Error; err != nil {
+    tx.Rollback()
+    return err
+  }
+
+  trip := Trip{ Title: "LOG DATE: TANGO",
+  							ImageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
+  							Description: "This is the song that never ends.",
+  							Details: "And it goes on and on my friends.",
+  						}
+
+  if err := tx.Model(&u).Association("trips").Append(trip).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
+  tx.Commit()
+  return nil
+}
+
+func (u *User) Extinguish()(err error) {
+	err = DB.Model(&u).Update("lit", false).Error
+	return
 }
