@@ -11,10 +11,9 @@ type Trip struct {
   Details string
   ImageUrl string `gorm:"not null"`
   Distance float32
-  Latitude float64
-  Longitude float64
   EstimatedTime int
   UserID uint
   User User
   Scenes []Scene
+  Location []Location `gorm:polymorphic:Owner;`
 }

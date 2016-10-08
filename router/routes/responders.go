@@ -1,8 +1,6 @@
 package routes
 
-import (
-				"net/http"
-				)
+import ("net/http")
 
 func makeMessage(message string) []byte {
 	return []byte("{\"message\": \"" + message + "\"}")
@@ -30,5 +28,10 @@ func respondWithAccepted(w http.ResponseWriter, message string) {
 
 func respondWithNoContent(w http.ResponseWriter, message string) {
 	w.WriteHeader(http.StatusNoContent)
+	w.Write(makeMessage(message))
+}
+
+func respondeWithInternalServerError(w http.ResponseWriter, message string) {
+	w.WriteHeader(http.StatusInternalServerError)
 	w.Write(makeMessage(message))
 }

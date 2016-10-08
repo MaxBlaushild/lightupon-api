@@ -35,13 +35,14 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}", routes.DeleteTripHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/assets/uploadUrls/{assetType}/{assetName}", routes.UploadAssetUrlHandler).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
 
   routerWithAuth := mux.NewRouter()
   
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
