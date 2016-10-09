@@ -39,24 +39,32 @@ func Init(){
 
   routerWithAuth := mux.NewRouter()
   
-  routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler)
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
+  // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")
+  
+  // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/extinguish", routes.LightHandler).Methods("POST")
+  
+  // PARTY STUFF
+  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
+  
+  // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties", routes.CreatePartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties", routes.LeavePartyHandler).Methods("DELETE")
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/pull", routes.PullHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")

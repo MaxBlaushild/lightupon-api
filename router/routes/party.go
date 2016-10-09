@@ -4,8 +4,6 @@ import(
        "fmt"
        "net/http"
        "lightupon-api/models"
-       "github.com/gorilla/context"
-       "github.com/dgrijalva/jwt-go"
        "encoding/json"
        "strconv"
        "github.com/gorilla/mux"
@@ -110,12 +108,7 @@ func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(activeParty)
 }
 
-func GetUserFromRequest(r *http.Request)(user models.User){
-  token := context.Get(r, "user")
-  facebookID := token.(*jwt.Token).Claims["facebookId"].(string)
-  models.DB.Where("facebook_id = ?", facebookID).First(&user)
-  return
-}
+
 
 func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
   query := r.URL.Query()
