@@ -20,7 +20,7 @@ type User struct {
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
-	Location Location `gorm:"polymorphic:Owner;"`
+	Location UserLocation `gorm:"-"`
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -54,9 +54,16 @@ func RefreshTokenByFacebookId(facebookId string) string {
 }
 
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	sceneLocation := Location{Latitude:scene.Latitude, Longitude: scene.Longitude}
+	sceneLocation := UserLocation{Latitude:scene.Latitude, Longitude: scene.Longitude}
 	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
 	isAtNextScene = distanceFromScene < threshold
+	return
+}
+
+func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
+	trip := Trip{}
+	DB.Where("user_id = ?", u.ID).Last(&trip)
+	err = DB.Model(&trip).Association("Locations").Append(location).Error
 	return
 }
 

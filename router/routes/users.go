@@ -48,3 +48,8 @@ func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
 
   respondWithCreated(w, "User was Extinguished!")
 }
+
+func MeHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  json.NewEncoder(w).Encode(user)
+}

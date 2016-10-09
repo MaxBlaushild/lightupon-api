@@ -45,15 +45,15 @@ func ShiftScenesDown(sceneOrder int, tripID int) bool {
   }
 }
 
-func (s *Scene) IsAtScene(location Location)(isAtNextScene bool) {
-  sceneLocation := Location{Latitude: s.Latitude, Longitude: s.Longitude}
+func (s *Scene) IsAtScene(location UserLocation)(isAtNextScene bool) {
+  sceneLocation := UserLocation{Latitude: s.Latitude, Longitude: s.Longitude}
   distanceFromScene := CalculateDistance(location, sceneLocation)
   isAtNextScene = distanceFromScene < threshold
   return
 }
 
 // takes 2 locations and returns the distance between them in kilometers
-func CalculateDistance(location1 Location, location2 Location) (distance float64){
+func CalculateDistance(location1 UserLocation, location2 UserLocation) (distance float64){
   var R = 6371.345
   var dLat = (location1.Latitude - location2.Latitude)*(3.145/180.001);
   var dLon = (location1.Longitude - location2.Longitude)*(3.145/180.001);

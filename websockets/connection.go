@@ -66,13 +66,16 @@ func (c *Connection) ConfigureRead() {
 }
 
 func (c *Connection) UpdateLocation(message []byte) {
-	location := models.Location{}
+	location := models.UserLocation{}
 	buffer := bytes.NewBuffer(message)
 	decoder := json.NewDecoder(buffer)
 	err := decoder.Decode(&location); if err != nil {
 	  	fmt.Println(err)
-  	}
+  }
 	c.User.Location = location
+	if (c.User.Lit) {
+		c.User.AddLocationToCurrentTrip(models.Location{Latitude: location.Latitude, Longitude: location.Longitude})
+	}
 }
 
 func (c *Connection) Write(mt int, payload []byte) error {

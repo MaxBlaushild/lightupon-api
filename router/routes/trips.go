@@ -12,7 +12,7 @@ import(
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetUserLocationFromRequest(r)
   trips := []models.Trip{}
-  models.DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
+  models.DB.Preload("Locations").Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
@@ -32,7 +32,7 @@ func CreateSelfieTripHandler(w http.ResponseWriter, r *http.Request) {
     Latitude: selfie.Location.Latitude, 
     Longitude: selfie.Location.Longitude, 
     SceneOrder: 1, 
-    BackgroundUrl: selfie.ImageUrl 
+    BackgroundUrl: selfie.ImageUrl,
   }
   card := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
   scene.Cards = append (scene.Cards, card)

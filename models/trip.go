@@ -15,5 +15,5 @@ type Trip struct {
   UserID uint
   User User
   Scenes []Scene
-  Location []Location `gorm:polymorphic:Owner;`
+  Locations []Location
 }
