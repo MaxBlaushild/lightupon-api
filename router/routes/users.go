@@ -5,7 +5,6 @@ import(
        "lightupon-api/models"
        "encoding/json"
        "github.com/gorilla/mux"
-       // "strconv"
 )
 
 func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,4 +51,15 @@ func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
 func MeHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   json.NewEncoder(w).Encode(user)
+}
+
+func FollowHandler(w http.ResponseWriter, r *http.Request) {
+  followingUser := GetUserFromRequest(r)
+  userToFollow := GetUIntFromVars(r, "userID")
+
+  follow := models.Follow{FollowingUser:followingUser.ID, FollowedUser:userToFollow}
+
+  models.DB.FirstOrCreate(&follow) // using FirstOrCreate just to avoid adding dupes to the DB
+
+  respondWithCreated(w, "You just followed the shit out of that user!")
 }
