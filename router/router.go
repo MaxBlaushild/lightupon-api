@@ -11,6 +11,12 @@ import(
 
 func Init(){
   muxRouter := mux.NewRouter().StrictSlash(true)
+
+  // BOOKMARKS
+  muxRouter.HandleFunc("/lightupon/admin/user/{id}/bookmarks", routes.AdminGetTripsForUserHandlerx)
+  muxRouter.HandleFunc("/lightupon/admin/bookmarks/{bookmarkID}/mark_semiprivate", routes.MarkBookmarkSemiprivate).Methods("PUT")
+
+
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{facebookId}/token", routes.UserTokenRefreshHandler).Methods("PATCH")
 
@@ -42,6 +48,8 @@ func Init(){
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")
+  // routerWithAuth.HandleFunc("/lightupon/getFollowers", routes.GetFollowersHandler).Methods("GET")
+  // routerWithAuth.HandleFunc("/lightupon/getFolloweringUsers", routes.GetFollowingUsersHandler).Methods("GET")
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
