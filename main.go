@@ -5,7 +5,7 @@ import (
         "lightupon-api/router"
         "lightupon-api/models"
         "lightupon-api/websockets"
-
+        "lightupon-api/googleMaps"
         )
 
 func main() {
@@ -14,6 +14,9 @@ func main() {
 
   //connect to the database
   models.Connect()
+
+  //connect to google maps api
+  googleMaps.Init()
 
   //intialize the websocket hub and start waiting for connections
   go websockets.H.StartHub()
