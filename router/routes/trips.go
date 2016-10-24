@@ -18,8 +18,9 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
   for i := 0; i < len(trips); i++ {
-    snappedLocations := googleMaps.SnapLocations(trips[i].Locations)
-    trips[i].PutLocations(snappedLocations)
+    snappedLocations, err := googleMaps.SnapLocations(trips[i].Locations); if err == nil {
+      trips[i].PutLocations(snappedLocations)
+    }
   }
 
   json.NewEncoder(w).Encode(trips)

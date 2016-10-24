@@ -22,20 +22,34 @@ func Init() {
     }
 }
 
-func SnapLocations(locations []models.Location)(newLocations []models.Location) {
+func SnapLocation(location model.Location)(model.Location, error) {
     path := locationsToLatLngs(locations)
+    newLocations := []models.Location{}
 
     request := &maps.SnapToRoadRequest{
         Interpolate: true,
         Path: path,
     }
 
-    snapToRoadResponse, err := googleMaps.SnapToRoad(context.Background(), request); if err != nil {
-        log.Println(err)
-    } else {
+    snapToRoadResponse, err := googleMaps.SnapToRoad(context.Background(), request); if err == nil {
         newLocations = snappedPointsToLocations(snapToRoadResponse.SnappedPoints)
     }
-    return
+    return newLocations, err
+}
+
+func SnapLocations(locations []models.Location)([]models.Location, error) {
+    path := locationsToLatLngs(locations)
+    newLocations := []models.Location{}
+
+    request := &maps.SnapToRoadRequest{
+        Interpolate: true,
+        Path: path,
+    }
+
+    snapToRoadResponse, err := googleMaps.SnapToRoad(context.Background(), request); if err == nil {
+        newLocations = snappedPointsToLocations(snapToRoadResponse.SnappedPoints)
+    }
+    return newLocations, err
 }
 
 func locationsToLatLngs(locations []models.Location)(latLngs []maps.LatLng) {
