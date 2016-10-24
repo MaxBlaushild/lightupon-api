@@ -2,7 +2,6 @@ package googleMaps
 
 import (
     "log"
-    "fmt"
     "os"
     "googlemaps.github.io/maps"
     "golang.org/x/net/context"
@@ -32,7 +31,7 @@ func SnapLocations(locations []models.Location)(newLocations []models.Location) 
     }
 
     snapToRoadResponse, err := googleMaps.SnapToRoad(context.Background(), request); if err != nil {
-        fmt.Println(err)
+        log.Println(err)
     } else {
         newLocations = snappedPointsToLocations(snapToRoadResponse.SnappedPoints)
     }
