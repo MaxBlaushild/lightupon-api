@@ -7,6 +7,7 @@ import(
        "github.com/gorilla/mux"
        "strconv"
        "github.com/jinzhu/gorm"
+       "lightupon-api/googleMaps"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
@@ -15,6 +16,12 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Preload("Locations").Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+
+  for i := 0; i < len(trips); i++ {
+    snappedLocations, err := googleMaps.SnapLocations(trips[i].Locations); if err == nil {
+      trips[i].PutLocations(snappedLocations)
+    }
+  }
 
   json.NewEncoder(w).Encode(trips)
 }
@@ -25,6 +32,7 @@ func CreateSelfieTripHandler(w http.ResponseWriter, r *http.Request) {
   err := decoder.Decode(&selfie)
   if err != nil {
     respondWithBadRequest(w, "The scene you sent us was bunk.")
+    return
   }
 
   trip := models.Trip{Title: "New Selfie" }

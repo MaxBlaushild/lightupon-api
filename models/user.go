@@ -10,8 +10,8 @@ import (
 
 type User struct {
 	gorm.Model
-	FacebookId string `gorm:"index"`
-	Email string
+	FacebookId string `gorm:"type:varchar(100);unique_index"`
+	Email string `gorm:"type:varchar(100);unique_index"`
 	FirstName string
 	ProfilePictureURL string
 	FullName string
@@ -28,6 +28,21 @@ const threshold float64 = 0.05 // 0.05 km = 50 meters
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
   return
+}
+
+func UpsertUser(user User) {
+	DB.Where("facebook_id = ?", user.FacebookId).Assign(user).FirstOrCreate(&user)
+	
+	if !DB.NewRecord(user) {
+		DB.Save(user)
+	}
+}
+
+func FindUsers(query string) (users []User) {
+	fuzzyQuery := "%" + query
+	fuzzyQuery += "%"
+	DB.Where("full_name ILIKE ?", fuzzyQuery).Find(&users)
+	return
 }
 
 func createToken(facebookId string) string {

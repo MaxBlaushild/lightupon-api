@@ -55,8 +55,12 @@ func Init(){
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")
+
   // routerWithAuth.HandleFunc("/lightupon/getFollowers", routes.GetFollowersHandler).Methods("GET")
   // routerWithAuth.HandleFunc("/lightupon/getFolloweringUsers", routes.GetFollowingUsersHandler).Methods("GET")
+
+  routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
+
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")

@@ -17,3 +17,7 @@ type Trip struct {
   Scenes []Scene
   Locations []Location
 }
+
+func (t *Trip) PutLocations(locations []Location) {
+  DB.Model(&t).Association("Locations").Replace(locations)
+}

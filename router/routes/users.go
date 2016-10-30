@@ -15,10 +15,8 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  user := models.User{}
-  models.DB.FirstOrCreate(&user, jsonUser)
-  models.DB.Model(&user).Updates(jsonUser)
-  json.NewEncoder(w).Encode(user.Token)
+  models.UpsertUser(jsonUser)
+  json.NewEncoder(w).Encode(jsonUser.Token)
 }
 
 func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +24,12 @@ func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
   id, _ := vars["facebookId"]
   token := models.RefreshTokenByFacebookId(id)
   json.NewEncoder(w).Encode(token)
+}
+
+func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
+  query := r.FormValue("full_name")
+  users := models.FindUsers(query)
+  json.NewEncoder(w).Encode(users)
 }
 
 func LightHandler(w http.ResponseWriter, r *http.Request) {
