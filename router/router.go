@@ -14,7 +14,6 @@ func Init(){
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/admin/user/{id}/bookmarks", routes.AdminGetTripsForUserHandlerx)
-  muxRouter.HandleFunc("/lightupon/admin/bookmarks/{bookmarkID}/mark_semiprivate", routes.MarkBookmarkSemiprivate).Methods("PUT")
 
 
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
@@ -22,6 +21,8 @@ func Init(){
 
   // HOMEPAGE
   muxRouter.HandleFunc("/lightupon/home/", routes.ServeHomepage).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/bookmarks/", routes.ServeBookmarks).Methods("GET")
 
   // ADMIN
   // these routes serve html
@@ -45,6 +46,12 @@ func Init(){
 
   routerWithAuth := mux.NewRouter()
   
+
+  
+  routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
+
+
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")

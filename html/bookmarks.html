@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Facebook Login JavaScript Example</title>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<style>
+/*table {
+	cellpadding:40px
+}*/
+
+  table {
+    	border: solid black 1px;
+    	border-spacing: 10px;
+    }
+    table td.like {
+    	border: solid black 1px;
+    }
+    .like_square {
+    	width:10px;
+    	height:10px;
+    	background-color: red;
+    }
+    .liked {
+    	background-color: yellow;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+(function(){
+	init();
+
+  function init() {
+		var token = localStorage["lightuponToken"];
+		// TODO: actually make a request to lightupon server using token, and only try to proceed if successful
+		if (token) {
+	  		getBookmarks(token)
+		} else {
+			// You fucked up! Go to login!
+			window.alert("YA DONE GOOFED! You need to log in. Click ok and you'll be taken straight there.")
+			window.location = "/lightupon/login";
+		}
+  }
+
+
+  function getBookmarks(token) {
+  	 $.ajax({
+      method: "GET",
+      beforeSend: function (request) {
+        request.setRequestHeader("Authorization", "Bearer " + token);
+      },
+      url:"/lightupon/me/bookmarks"
+    }).done(function(response){
+    	bookmarksJSON = JSON.parse(response);
+    	displayBookmarks(bookmarksJSON)
+    });
+  }
+
+  function makeLikeOnClickFunction(bookmarkID, likeDiv) {
+  	var token = localStorage["lightuponToken"];
+  	var bookmarkID = bookmarkID
+  	return function(){
+  		$.ajax({
+		    method: "PUT",
+		    url: "/lightupon/bookmarks/" + bookmarkID + "/like",
+		    beforeSend: function (request) {
+	        request.setRequestHeader("Authorization", "Bearer " + token);
+	      },
+	      success: function(data, textStatus, xhr) {
+					console.log(xhr.status);
+  				likeDiv.toggleClass('liked')
+				},
+			})
+  	};
+  }
+
+  function displayBookmarks(bookmarks) {
+  	var table = $('<table></table>');
+
+  	// For each bookmark we get back, build a tr and stick it on the table
+  	for (var i = 0, len = bookmarks.length; i < len; i++) {
+  		var bookmark = bookmarks[i];
+
+  		// Start building the "link" td for this row
+  		var alreadyLikedString = (bookmark["Liked"] ? " liked" : "");
+  		var link = '<a href="' + bookmarks[i]["URL"] + '">' + bookmarks[i]["Title"] + '</a>';
+  		var linkTD = $('<td>' + link + '</td>');
+  		likeButtonDiv = $('<div class="like_square' + (bookmark["Liked"] ? " liked" : "") + '"></div>');
+
+  		// Start building the "like" td for this row
+  		var likeFunction = makeLikeOnClickFunction(bookmark["ID"], likeButtonDiv)
+  		likeButtonDiv.on("click", likeFunction);
+  		var likeTD = $('<td></td>');
+  		likeTD.append(likeButtonDiv);
+
+  		// Create the row and append the two td's we made
+  		var tr = $('<tr></tr>')
+  		tr.append(linkTD)
+  		tr.append(likeTD)
+
+  		// Now stick the row on the table
+  		table.append(tr)
+		}
+
+  	$(".bookmarks").html(table);
+  }
+
+})();
+
+
+
+
+
+</script>
+
+<div class="bookmarks">
+	here's a div
+</div>
+
+
+
+
+</body>
+</html>

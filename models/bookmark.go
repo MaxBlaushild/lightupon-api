@@ -8,4 +8,5 @@ type Bookmark struct {
   gorm.Model
   Title string `gorm:"not null"`
   URL string
+  Liked bool `sql:"-"`
 }
