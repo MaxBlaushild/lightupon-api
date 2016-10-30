@@ -38,6 +38,13 @@ func UpsertUser(user User) {
 	}
 }
 
+func FindUsers(query string) (users []User) {
+	fuzzyQuery := "%" + query
+	fuzzyQuery += "%"
+	DB.Where("full_name ILIKE ?", fuzzyQuery).Find(&users)
+	return
+}
+
 func createToken(facebookId string) string {
 	token := jwt.New(jwt.SigningMethodHS256)
 	token.Claims["facebookId"] = facebookId

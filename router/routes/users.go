@@ -26,6 +26,12 @@ func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(token)
 }
 
+func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
+  query := r.FormValue("full_name")
+  users := models.FindUsers(query)
+  json.NewEncoder(w).Encode(users)
+}
+
 func LightHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   if err := user.Light(); err != nil {
