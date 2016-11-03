@@ -41,7 +41,8 @@ func Init(){
   
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.FollowHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.UnfollowHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
   
   // LIGHT STUFF

@@ -12,7 +12,7 @@ import(
 func GetUserFromRequest(r *http.Request)(user models.User){
   token := context.Get(r, "user")
   facebookID := token.(*jwt.Token).Claims["facebookId"].(string)
-  models.DB.Where("facebook_id = ?", facebookID).First(&user)
+  models.DB.Preload("Follows").Where("facebook_id = ?", facebookID).First(&user)
   return
 }
 

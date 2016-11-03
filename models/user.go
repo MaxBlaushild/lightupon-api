@@ -21,6 +21,7 @@ type User struct {
 	Lit bool
 	Trips []Trip
 	Location UserLocation `gorm:"-"`
+	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
