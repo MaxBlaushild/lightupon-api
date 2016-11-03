@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 	"time"
-
+	"fmt"
 	"github.com/jinzhu/inflection"
 )
 
@@ -103,6 +103,9 @@ type Relationship struct {
 func getForeignField(column string, fields []*StructField) *StructField {
 	for _, field := range fields {
 		if field.Name == column || field.DBName == column || field.DBName == ToDBName(column) {
+			// if column == "user_followed_id" {
+			// 	fmt.Println(field)
+			// }
 			return field
 		}
 	}
@@ -111,6 +114,7 @@ func getForeignField(column string, fields []*StructField) *StructField {
 
 // GetModelStruct get value's model struct, relationships based on struct and tag definition
 func (scope *Scope) GetModelStruct() *ModelStruct {
+	// fmt.Println("in this like whats")
 	var modelStruct ModelStruct
 	// Scope value can't be nil
 	if scope.Value == nil {
@@ -220,8 +224,9 @@ func (scope *Scope) GetModelStruct() *ModelStruct {
 							if elemType.Kind() == reflect.Struct {
 								if many2many := field.TagSettings["MANY2MANY"]; many2many != "" {
 									relationship.Kind = "many_to_many"
-
+									// fmt.Println("in this like whats")
 									// if no foreign keys defined with tag
+									// fmt.Println(foreignKeys)
 									if len(foreignKeys) == 0 {
 										for _, field := range modelStruct.PrimaryFields {
 											foreignKeys = append(foreignKeys, field.DBName)

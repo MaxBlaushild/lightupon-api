@@ -17,11 +17,11 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
-  for i := 0; i < len(trips); i++ {
-    snappedLocations, err := googleMaps.SnapLocations(trips[i].Locations); if err == nil {
-      trips[i].PutLocations(snappedLocations)
-    }
-  }
+  // for i := 0; i < len(trips); i++ {
+  //   snappedLocations, err := googleMaps.SnapLocations(trips[i].Locations); if err == nil {
+  //     trips[i].PutLocations(snappedLocations)
+  //   }
+  // }
 
   json.NewEncoder(w).Encode(trips)
 }
