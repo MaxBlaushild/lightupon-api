@@ -3,7 +3,6 @@ package routes
 import(
        "net/http"
        "lightupon-api/models"
-       "fmt"
 )
 
 func FollowHandler(w http.ResponseWriter, r *http.Request) {

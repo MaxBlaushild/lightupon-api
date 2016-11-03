@@ -7,7 +7,6 @@ import(
        "github.com/gorilla/mux"
        "strconv"
        "github.com/jinzhu/gorm"
-       "lightupon-api/googleMaps"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
