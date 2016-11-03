@@ -15,7 +15,9 @@
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
     // for FB.getLoginStatus().
+    console.log(1)
     if (response.status === 'connected') {
+      console.log(2)
       // Logged into your app and Facebook.
       testAPI();
       logister();
@@ -100,7 +102,13 @@
   	}).done(function(token){
   		// do stuff with the jwt token
       // getBookmarks(token);
+      console.log("token")
+      console.log(token)
       localStorage.setItem('lightuponToken', token);
+
+    //   var token = localStorage["lightuponToken"];
+    // console.log("token")
+    // console.log(token)
   	});
   }
 

@@ -11,18 +11,11 @@ import(
 
 func Init(){
   muxRouter := mux.NewRouter().StrictSlash(true)
-
-  // BOOKMARKS
-  muxRouter.HandleFunc("/lightupon/admin/user/{id}/bookmarks", routes.AdminGetTripsForUserHandlerx)
-
-
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{facebookId}/token", routes.UserTokenRefreshHandler).Methods("PATCH")
 
   // HOMEPAGE
   muxRouter.HandleFunc("/lightupon/home/", routes.ServeHomepage).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/bookmarks/", routes.ServeBookmarks).Methods("GET")
 
   // ADMIN
   // these routes serve html
@@ -45,12 +38,6 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
 
   routerWithAuth := mux.NewRouter()
-  
-
-  
-  routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
-
 
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
@@ -60,7 +47,6 @@ func Init(){
   // routerWithAuth.HandleFunc("/lightupon/getFolloweringUsers", routes.GetFollowingUsersHandler).Methods("GET")
 
   routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
-
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
@@ -87,6 +73,12 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
+
+  // BOOKMARKS
+  muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/bookmarks/", routes.ServeBookmarks).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),

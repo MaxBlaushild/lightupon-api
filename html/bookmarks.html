@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Facebook Login JavaScript Example</title>
+<title>Bookmarks</title>
 <meta charset="UTF-8">
 </head>
 <body>
+<style>
 
-	<style>
-/*table {
-	cellpadding:40px
-}*/
+body {
+	font-family: 'Helvetica', 'Arial', sans-serif;
+  color: #444444;
+  font-size: 12pt;
+}
 
-  table {
-    	border: solid black 1px;
-    	border-spacing: 10px;
-    }
-    table td.like {
-    	border: solid black 1px;
-    }
-    .like_square {
-    	width:10px;
-    	height:10px;
-    	background-color: red;
-    }
-    .liked {
-    	background-color: yellow;
-    }
+a:link {text-decoration: none; color: black;}
+a:visited {color: green;}
+table {
+	border: solid black 1px;
+	border-spacing: 10px;
+	width:600px;
+}
+table td.like {
+	border: solid black 1px;
+}
+.like_square {
+	width:15px;
+	height:15px;
+	background-color: #8cb8bd;
+}
+.liked {
+	background-color: #f6e8ab;
+}
+.x {
+	width:15px;
+	height:15px;
+}
+    
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
@@ -34,6 +45,8 @@
 
   function init() {
 		var token = localStorage["lightuponToken"];
+		console.log("token")
+		console.log(token)
 		// TODO: actually make a request to lightupon server using token, and only try to proceed if successful
 		if (token) {
 	  		getBookmarks(token)
@@ -85,7 +98,7 @@
 
   		// Start building the "link" td for this row
   		var alreadyLikedString = (bookmark["Liked"] ? " liked" : "");
-  		var link = '<a href="' + bookmarks[i]["URL"] + '">' + bookmarks[i]["Title"] + '</a>';
+  		var link = '<a href="' + bookmarks[i]["URL"] + '" target="_blank">' + bookmarks[i]["Title"] + '</a>';
   		var linkTD = $('<td>' + link + '</td>');
   		likeButtonDiv = $('<div class="like_square' + (bookmark["Liked"] ? " liked" : "") + '"></div>');
 
@@ -94,11 +107,15 @@
   		likeButtonDiv.on("click", likeFunction);
   		var likeTD = $('<td></td>');
   		likeTD.append(likeButtonDiv);
+  		var xTD = $('<td><img class="x" src="https://cdn4.iconfinder.com/data/icons/geomicons/32/672366-x-128.png"/></td>');
+
+
 
   		// Create the row and append the two td's we made
   		var tr = $('<tr></tr>')
   		tr.append(linkTD)
   		tr.append(likeTD)
+  		tr.append(xTD)
 
   		// Now stick the row on the table
   		table.append(tr)
@@ -108,10 +125,6 @@
   }
 
 })();
-
-
-
-
 
 </script>
 

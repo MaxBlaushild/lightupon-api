@@ -59,27 +59,3 @@ func AdminGetAllTripsHandler(w http.ResponseWriter, r *http.Request) {
 func ServeHomepage(w http.ResponseWriter, r *http.Request) {
   http.ServeFile(w, r, "html/Elevate/index.html")
 }
-
-
-
-func AdminGetTripsForUserHandlerx(w http.ResponseWriter, r *http.Request) {
-  // vars := mux.Vars(r)
-  // id := vars["id"]
-
-  // t := template.New("fieldname example")
-  // t, _ = t.Parse(bookmark_template)
-  // trips := []models.Trip{}
-  // models.DB.Where("owner = $1", id).Find(&trips)
-  // t.Execute(w, trips)
-
-
-
-
-
-  t := template.New("fieldname example")
-  t, _ = t.Parse(bookmark_template)
-  bookmarks := []models.Bookmark{}
-  models.DB.Find(&bookmarks)
-  t.Execute(w, bookmarks)
-
-}
