@@ -7,6 +7,9 @@ import(
        "github.com/gorilla/mux"
        "strconv"
        "github.com/jinzhu/gorm"
+       "fmt"
+       "lightupon-api/googleMaps"
+       "github.com/davecgh/go-spew/spew"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,10 +19,17 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
+   // fmt.Println("trips[0]")
+   //  spew.Dump(trips[0])
   // for i := 0; i < len(trips); i++ {
-  //   snappedLocations, err := googleMaps.SnapLocations(trips[i].Locations); if err == nil {
-  //     trips[i].PutLocations(snappedLocations)
-  //   }
+    // fmt.Println("trips[i].Locations")
+    // spew.Dump(trips[0].Locations)
+    snappedLocations := googleMaps.SnapLocations(trips[0].Locations);
+     // if err == nil {
+      // trips[i].PutLocations(snappedLocations)
+    // }
+    fmt.Println("snappedLocations")
+    spew.Dump(snappedLocations)
   // }
 
   json.NewEncoder(w).Encode(trips)
