@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>Freedom Trail Boston - Ultimate Tour Map &amp; Guide</name>
+		<description><![CDATA[Companion Map for Freedom Trail Boston - Ultimate Tour & History Guide - Tips, Secrets & Tricks from http://www.StevesTravelGuide.com/  Includes official and unofficial sites, dining and touring recommendations. Download the Guide for more complete and up-to-date information.<br>Blue=Freedom Trail Official Site<br>Red=Worthwhile Unofficial Freedom Trail Site<br>Green=Historic or Notable Restaurant<br>Yellow=Other Noteworthy Site<br>We cannot accept responsibility for any inconvenience, loss or injury sustained by any person relying on information or advice contained in this map.  Travel information is subject to change at any time.  Please verify and confirm information prior to travel. ....]]></description>
+		<Folder>
+			<name>Untitled layer</name>
+			<Placemark>
+				<name>Freedom Trail Route</name>
+				<description><![CDATA[Primary Route for the Freedom Trail]]></description>
+				<styleUrl>#line-FF0000-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-71.063411,42.355341,0.0 -71.063197,42.355547,0.0 -71.063089,42.355666,0.0 -71.06365,42.35742,0.0 -71.06337,42.35772,0.0 -71.06354,42.35767,0.0 -71.06354,42.35772,0.0 -71.06354,42.35767,0.0 -71.06310000000002,42.35783,0.0 -71.06317,42.35822,0.0 -71.06305,42.3577,0.0 -71.0628,42.35738,0.0 -71.06204,42.35665,0.0 -71.06194,42.35663000000001,0.0 -71.06055,42.35795,0.0 -71.06052,42.35811,0.0 -71.05954,42.35777,0.0 -71.0584,42.35748,0.0 -71.05846,42.35739,0.0 -71.05826,42.35733,0.0 -71.05857,42.35707,0.0 -71.05826,42.35733,0.0 -71.05777,42.35802,0.0 -71.05769,42.35861,0.0 -71.05734,42.35861,0.0 -71.05715,42.35899,0.0 -71.05699,42.35894,0.0 -71.05676,42.35896,0.0 -71.05697,42.35983,0.0 -71.05597,42.35991,0.0 -71.05603,42.36025,0.0 -71.05648,42.36019,0.0 -71.05671,42.3605,0.0 -71.05704000000001,42.361270000000005,0.0 -71.05683,42.36206,0.0 -71.05653,42.36235,0.0 -71.05632,42.3629,0.0 -71.05619,42.36302,0.0 -71.05569,42.36269,0.0 -71.05529,42.36304,0.0 -71.05491,42.36347,0.0 -71.05462,42.36369,0.0 -71.0541,42.36313,0.0 -71.05365,42.36364,0.0 -71.05345,42.36409,0.0 -71.05385,42.36432,0.0 -71.05319,42.36499,0.0 -71.05292,42.36541,0.0 -71.05412,42.36611,0.0 -71.05464,42.36632,0.0 -71.05466,42.3664,0.0 -71.05661,42.36714,0.0 -71.05743,42.3678,0.0 -71.05828,42.36718,0.0 -71.05857,42.36724,0.0 -71.06104,42.37072,0.0 -71.06158,42.37114,0.0 -71.06145,42.37134,0.0 -71.06117,42.37152,0.0 -71.06075,42.37128,0.0 -71.06054,42.37134,0.0 -71.06003,42.37171000000001,0.0 -71.05698,42.373270000000005,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>Freedom Trail Charlestown</name>
+				<description><![CDATA[Charlestown segment of the Freedom Trail]]></description>
+				<styleUrl>#line-FF0000-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-71.0616,42.37117,0.0 -71.06201,42.37161,0.0 -71.062,42.37192,0.0 -71.06175,42.37203,0.0 -71.06186,42.37223,0.0 -71.061888,42.372686,0.0 -71.06192,42.37299,0.0 -71.06225,42.37343,0.0 -71.06167,42.37368,0.0 -71.06064,42.37443,0.0 -71.06018,42.37486,0.0 -71.06028,42.37519,0.0 -71.06046,42.37551,0.0 -71.06116,42.37575,0.0 -71.06086,42.37628,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>Freedom Trail Bunker Hill to Charlestown Navy Yard</name>
+				<description><![CDATA[Alternative Route on the Freedom Trail from Bunker Hill Monument to the Charlestown Navy Yard]]></description>
+				<styleUrl>#line-FF0000-5</styleUrl>
+				<LineString>
+					<tessellate>1</tessellate>
+					<coordinates>-71.060193,42.374864,0.0 -71.059173,42.374382,0.0 -71.058959,42.374366,0.0 -71.0589,42.374035,0.0 -71.058674,42.373816,0.0 -71.05839,42.373598,0.0 -71.057618,42.372959,0.0</coordinates>
+				</LineString>
+			</Placemark>
+			<Placemark>
+				<name>Freedom Trail Visitors Center</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/9yoGOF2xmUjvRhFjsFUSOBme6Qw9y9ALoXr4DngEPsK4lzmcSW8y1cEnyeQ_1goTKik_NMi9VcPRN0LsoK0nGDaWoGA-DfsnDtUfRkl_wSqZskql0GaqRyYpzLex2S0NvFyj9A" height="200" width="auto" /><br><br>This is the start of the Freedom Trail.  You can get information, purchase tours, etc. <br> <br>A good resource for Freedom Trail and General Boston information.   <br> <br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/9yoGOF2xmUjvRhFjsFUSOBme6Qw9y9ALoXr4DngEPsK4lzmcSW8y1cEnyeQ_1goTKik_NMi9VcPRN0LsoK0nGDaWoGA-DfsnDtUfRkl_wSqZskql0GaqRyYpzLex2S0NvFyj9A</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.063679,42.35531,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>National Park Service Visitor's Center</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/BFP_ApnmfgBzj4CDfaF_HOJVKid-OHBzxQbGhz5tmUizEpJ-9bKIdJ5QJp73wzHpVQR3bhYrYDZ45bH9q8TIb37xGaKZ4dH8PLwV1r99wxESe30hv_6xlwBuMMTwoRjOgb-Ur4mCRqmSaA7IZyGGthcO5N7MWG5goQ" height="200" width="auto" /><br><br>Beautiful new National Park Service visitor center just opened in the first floor of Faneuil Hall.<br>EXCELLENT place to gather information about the Freedom Trail and learn about free programs available from the National Park Service.  <br>Bathrooms<br><br><br>Official website (http://www.nps.gov/bost/planyourvisit/visitorcenters.htm)<br><br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/BFP_ApnmfgBzj4CDfaF_HOJVKid-OHBzxQbGhz5tmUizEpJ-9bKIdJ5QJp73wzHpVQR3bhYrYDZ45bH9q8TIb37xGaKZ4dH8PLwV1r99wxESe30hv_6xlwBuMMTwoRjOgb-Ur4mCRqmSaA7IZyGGthcO5N7MWG5goQ</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056464,42.36002,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 1:  Boston Common - 1634</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/lmls7AKEZHwzp6yjoVjj6aeQKoLqAQB2pG8UlyhRUxWmddBh3KMEqbyaesIlUNVJaObwimwEYpLDU2HzedaErTvYwZO20adDVC-bURSp1T2PQ-3iG3upNOhm50W32w" height="200" width="auto" /><br><br>Boston Common is the oldest public park in the United States. It was purchased by Boston's Puritan founders in 1634 from William Blaxton (Blackstone), the reclusive hermit and first white settler on the Shawmut peninsula (the Native American name for Boston).  In 1630, Blaxton invited the Puritans, who were in search of a better water supply, to settle on the peninsula and share the  water.  <br>Free<br>The Common is a public park  <br>Free<br>Official website (http://www.cityofboston.gov/freedomtrail/bostoncommon.asp)<br>617-536-4100<br>Handicap access: the park is generally accessible, but there are some steps at the exit to Beacon Street, which is required to access the State House, Freedom Trail Stop 2. <br>Restrooms are located in the Visitors Center, by Tremont Street<br>Public Transportation - Red or Green lines to the Park Street Station<br>Plan 1.5-2 hours to pass through security and take a tour.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1231)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/lmls7AKEZHwzp6yjoVjj6aeQKoLqAQB2pG8UlyhRUxWmddBh3KMEqbyaesIlUNVJaObwimwEYpLDU2HzedaErTvYwZO20adDVC-bURSp1T2PQ-3iG3upNOhm50W32w</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.062864,42.356062,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 2: State House - 1795 to 1797 </name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/jbyVU36-ACvfLp0QeMcPNApzzMkVzmnHCzQvVrpJhJeWL93HQ4xCirFogPgTzFP1SPGjCJLmUHKJscyRROTQDWJNt85YRBlxuEKXMB1VwsuH0_QJYjyQj4oIL06e0w" height="200" width="auto" /><br><br>Designed by Charles Bulfinch, the Massachusetts State House was started in 1795 and completed in 1797. It is located on land originally owned by John Hancock, whose house was on what is currently the State House west lawn (Hancock's house was torn down in 1863.)<br>The State House is the home to the Massachusetts legislative and executive offices and an outstanding piece of American history.  <br>Free.<br>Access is via the General Hooker Entrance on the right side of the building.  You will need to pass an airport-like security screening to enter the building.  <br>Excellent free tours are offered. It is suggested that you make a reservation for the tour, although this is often not required.<br>Monday-Friday 10-4<br>Official website (http://www.sec.state.ma.us/trs/)<br>617 727-3676<br>Handicap access: most of the building is accessible via elevators. To enter, use the entrance at Ashburton Park.<br>Public transportation: Red or Green lines to the Park Street Station.<br>The tours run about 45 minutes and are worthwhile. Passing through security may take a little on busy days. Overall, plan about 1.5 hours for your visit. <br>Auto-translate link. (http://www.stevestravelguide.com/?p=1264)<br><br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/jbyVU36-ACvfLp0QeMcPNApzzMkVzmnHCzQvVrpJhJeWL93HQ4xCirFogPgTzFP1SPGjCJLmUHKJscyRROTQDWJNt85YRBlxuEKXMB1VwsuH0_QJYjyQj4oIL06e0w</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.063658,42.357941,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 3: Park Street Church - 1809</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/niV9nnyPT2Z_4WRIO2QQcthJZqOiJDjcAMEeg7l7H3nB43QNUpzGV8YysidY0UDJbi99lEyholkKV5-YZLoiMMqFcYKG5oqFXYkEvhHKJ8TBPd9cmMbMSuaSNoEZ5n_jzBI4" height="200" width="auto" /><br><br>Founded in 1809, the Park Street Church was built on the site of original town granary. Famous as a bastion of human rights reform and social justice, the church hosted early anti-slavery lectures starting in 1823.  <br>Free<br>Tours late June-August, Tuesday - Saturday 9 - 4<br>Website (http://www.parkstreet.org/tours) for tours <br>617-523-3283<br>Handicap access via elevator - requires staff to be alerted.  <br>Public Transportation: Red or Green lines to the Park Street Station<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1274)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/niV9nnyPT2Z_4WRIO2QQcthJZqOiJDjcAMEeg7l7H3nB43QNUpzGV8YysidY0UDJbi99lEyholkKV5-YZLoiMMqFcYKG5oqFXYkEvhHKJ8TBPd9cmMbMSuaSNoEZ5n_jzBI4</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.061888,42.356697,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 4: Granary Burying Ground - 1660</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/HGhlbiQlaRtrnAVVmfVlzdWOzn_n-Zzn2hnmlRruZqCuelk79Q6yPV2ncUGZmYPAckaMqGgZCbQWSQjykh_wQpl7vztwYtf2k7DxHGhzyD-gbI3TQUKDMH5uDZCSYDCwkw" height="200" width="auto" /><br><br>Founded in 1660, the Granary Burying Ground is the third oldest burying ground in Boston, developed when the King's Chapel Burying Ground was reaching capacity. It is the final resting place for many of the most important Revolutionary-era personalities including three signers of the Declaration of Independence (John Hancock, Sam Adams and Robert Treat Paine), nine Massachusetts governors, Paul Revere, the Boston Massacre Victims, Ben Franklin's parents and even Mother Goose.<br>Free<br>Open daily 9 AM - 5 PM<br>Official website (http://www.cityofboston.gov/freedomtrail/granary.asp)<br>617-635-4505<br>Handicap access is via a ground entrance at the end of Tremont Place.  Go past the Tremont Street entrance, turn left on Beacon Street and left into alley.  Enter throught the gate on the right at the end of the alley.  <br>No restrooms.<br><br>Public Transportation: Red or Green lines to the Park Street Station.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1280)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/HGhlbiQlaRtrnAVVmfVlzdWOzn_n-Zzn2hnmlRruZqCuelk79Q6yPV2ncUGZmYPAckaMqGgZCbQWSQjykh_wQpl7vztwYtf2k7DxHGhzyD-gbI3TQUKDMH5uDZCSYDCwkw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.061367,42.357244,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 5: King's Chapel - 1689 / 1754</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/4r34HFrM9ww4iWkZ6pPWE84r7eaZ8gD8xo2I15cVBPRHtEk_AeAr3qQFBdFgQZJJxIgrL1zCHXDiK3WGU2C07V9D87wYxzxW_JPEE9pZK0TN5rxslPfn3nEeIEU2yxggbcV2DYReSg" height="200" width="auto" /><br><br>The first King's Chapel, a small wooden structure, was completed at this site in 1688 as home for the first Anglican congregation in Boston.<br>The current granite church was built in 1754 when the original was outgrown. It was erected around the original wooden church so as to not disrupt services. When the building was finished, the old church was broken up and removed through the windows.<br>Free, but there is a charge for crypt or tower tour.<br>Summer: Mon. Thu. Fri. Sat. 10 - 4 Winter: Sat. 10<br>Summer: Mon. Thu. Fri. Sat. 10 - 4 Winter: Sat. 10<br>Official website (http://www.kings-chapel.org/index.html)<br>617-523-1749<br>Handicap access: 2.5" sill at the entrance, otherwise accessible.<br>Public Transportation: Red or Green lines to the Park Street Station.  Alternative Red or Green lines to Government Center.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1304)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/4r34HFrM9ww4iWkZ6pPWE84r7eaZ8gD8xo2I15cVBPRHtEk_AeAr3qQFBdFgQZJJxIgrL1zCHXDiK3WGU2C07V9D87wYxzxW_JPEE9pZK0TN5rxslPfn3nEeIEU2yxggbcV2DYReSg</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.0603,42.358096,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 5a: King's Chapel Burying Ground - 1630</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/_v6xhwoFYPss4rn6PWcry1Jc7mT_3XhIZ96PJFKvbcfkjxGmnej0fFZWRYyA-Zx0sSvE4wxAL4deckjzEEEyM4TSHLCNC1Chj_fhqP_9gnGwHgwwiYNmsuIFWrND5CXApRtZTRTrlEuwXYqz0g" height="200" width="auto" /><br><br>The King's Chapel Burying Ground is the oldest burying ground in Boston. It is the final resting place for William Dawes (the other rider on Paul Revere's Midnight Ride), John Winthrop (the Puritan leader at the founding of Boston in 1630), and others.  There are many beautiful old headstones.  <br> <br>Free<br>Open daily 9 - 5<br>617-635-4505<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1307)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/_v6xhwoFYPss4rn6PWcry1Jc7mT_3XhIZ96PJFKvbcfkjxGmnej0fFZWRYyA-Zx0sSvE4wxAL4deckjzEEEyM4TSHLCNC1Chj_fhqP_9gnGwHgwwiYNmsuIFWrND5CXApRtZTRTrlEuwXYqz0g</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.060075,42.358344,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 6: Boston Latin, Old City Hall - 1635 / 1865</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/dWMv0vLLXLI3PW_E37nR-iPiBvwe2pRughK-V-qcr98tumcgvXJZhjLRt40uOElJuD9zHGQuRv5PAOreQvjXmHJ185CdA2dOZ3Xe5UUiuUPYvI9t3DfqutZ-ktVPGeY" height="200" width="auto" /><br><br>Site of the Boston Latin School,  the first school in the United States, founded in 1635.<br>The school was originally at the site of the Ben Franklin statue, which is the oldest portrait statue in the US. Also at this site is the Old City Hall, built between 1862 and 1865, which served as Boston City Hall until 1969.<br>Free - everything is outside<br>Public Transportation: Red, Silver or Orange lines to Downtown Crossing.<br>Plan for 5-10 minutes to see the statues and plaques.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1315)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/dWMv0vLLXLI3PW_E37nR-iPiBvwe2pRughK-V-qcr98tumcgvXJZhjLRt40uOElJuD9zHGQuRv5PAOreQvjXmHJ185CdA2dOZ3Xe5UUiuUPYvI9t3DfqutZ-ktVPGeY</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.059586,42.357777,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 7: Old Corner Book Store - 1711</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/Qtv9bk6X7-eMTREF0ej5CTmXk3KBbWsPoNUtlzE7DYUO4uzf6C3Ry0d_oU6pjgRXXa97UDKXfMs9urPRJOcCIQZiWAwZuJdT4vkAeCEGkpfdsrsztZcZz6W1yrTtsOfC4A_o5c1Zh-w" height="200" width="auto" /><br><br>This was originally the site of the home of the outspoken Quaker Anne Hutchinson, who was banished from Boston in 1637. Hutchinson lived there from 1634 until her banishment. That house burned during the great fire in 1711.<br>The current house was built in 1711 and was originally an apothecary. It became a bookstore and printing shop in 1828. Between 1833 and 1864 under Ticknor and Fields, it became the nation's leading publisher, producing works by Longfellow, Stowe, Hawthorne, Emerson, and Dickens.<br><br>Wiki more information (http://en.wikipedia.org/wiki/Old_Corner_Bookstore)<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1318)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/Qtv9bk6X7-eMTREF0ej5CTmXk3KBbWsPoNUtlzE7DYUO4uzf6C3Ry0d_oU6pjgRXXa97UDKXfMs9urPRJOcCIQZiWAwZuJdT4vkAeCEGkpfdsrsztZcZz6W1yrTtsOfC4A_o5c1Zh-w</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.058382,42.357456000000006,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 8: Old South Meeting House - 1729</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/262wwQkxaBCnRshjRUpsxyqXwBumnvxGsO8-ypTpDaWkFXCypfE0oarD_9v55k0c-ylJLSh8CmMqKgqLba9i-5_JDN8L71fIhVS1PSMT7-7WArI1VjJ41-cBCNRN7sat" height="200" width="auto" /><br><br>In 1669, a group of Pilgrim dissenters from Boston's First Church built their first meeting house on this site. In 1729, when that building was outgrown, the current brick structure was erected.<br>Throughout the Colonial period, Old South was Boston's largest building. Meetings too large for Faneuil Hall were held here. It was the site of many important Patriot gatherings including the meeting that immediately preceded the Boston Tea Party in 1770. At that meeting, 5,000 townspeople (1/3 of Boston's population) heard Sam Adams say "Gentlemen, this meeting can do nothing more to save the country." Legend says this was the signal for 100 Patriots dressed as Native Americans to march to Boston harbor and begin the Boston Tea Party.<br><br>Old South was so emblematic of the Rebel cause that when the British occupied Boston during 1775-6, they gutted it, filled it with dirt and used to practice horseback riding.<br> AAA/WGBH discount <br>Open Daily all year. <br>April 1 - October 31 9:30 - 5November 1 - March 31 10 - 4 <br>Closed Thanksgiving, Christmas Eve Day, Christmas, and New Year's Day.<br>Official website (http://www.oldsouthmeetinghouse.org/default.aspx)<br>617-482-6439<br>Handicap access: wheelchair accessible, listening devices available<br>Public transportation: State Street (Blue/Orange Lines), Government Center (Green Line) and Downtown Crossing (Red Line).<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1321)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/262wwQkxaBCnRshjRUpsxyqXwBumnvxGsO8-ypTpDaWkFXCypfE0oarD_9v55k0c-ylJLSh8CmMqKgqLba9i-5_JDN8L71fIhVS1PSMT7-7WArI1VjJ41-cBCNRN7sat</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.058586,42.357077,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 9: Old State House - 1713</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/F7v3s6XnoMn52CIgSrSWW1ZOYLrOWsJ3JxV1L_fTZMQpUrjz7gMzcv55QoXe4wwv4BhE5zi-PEsApdd5ACgzZC7YKtu7W-jPaMs-wQ1rYWB4d0XQviyy89McGcMvai0KYQ" height="200" width="auto" /><br><br>The Old State House (1713) is the oldest surviving public building in Boston, and was the seat of the state's legislature until 1798. It was the site of many important Revolutionary-era events.<br>The current building replaced the First Town-House (built on this site between 1657-68), which burned down in the great fire of 1711.<br>It is now the home of the Bostonian Society and houses an excellent museum and programs. <br>Open daily, 9 - 5, January 9 - 4, July and August 9- 6 Closed New Year's, Thanksgiving, and Christmas<br>Admission $7.50, Seniors & Students $6 Children (6-18) $3<br>Official website (http://www.bostonhistory.org/) <br>(617) 720-1713<br>The Old State house is not considered wheelchair accessible. There are plans to address this, but please call to confirm.<br>Public transportation: Orange or Blue lines to State Street. Alternative, Green line to Government Center, or Red line to Downtown Crossing.<br>The talks given by museum personnel are excellent and run 20-30 minutes covering subjects such as the Boston Massacre and Old State House History. The museum has interesting collections. Plan an hour for your visit.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1328)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/F7v3s6XnoMn52CIgSrSWW1ZOYLrOWsJ3JxV1L_fTZMQpUrjz7gMzcv55QoXe4wwv4BhE5zi-PEsApdd5ACgzZC7YKtu7W-jPaMs-wQ1rYWB4d0XQviyy89McGcMvai0KYQ</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.057344,42.358697,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 10: Boston Massacre Site - 1770</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/wfoz3ltKdhObupvSRxUQqk8C2eHauiRwYtDrC3O4bZvw_Xd2dSVTmjI5ymhmAUHVuaPaol0OOoO5bkCn0Orc6FaUwsr2RAjrX3p-6i9J67msmtD4TNHalhJGdCKpEGmhFL-NaPu0KKm3eCe8i5HiHtNFqB__vtBC_VE" height="200" width="auto" /><br><br>This was the site of the Boston Massacre, which took place on March 5, 1770. The Massacre took place after an unfortunate chain of events led British soldiers to fire on an angry Boston mob, killing five and wounding six. Although hardly a massacre (most of the soldiers were later acquitted of blame), it was to be an important propaganda event in provoking Colonial unrest. <br>There is a plaque on the ground, just beneath the balcony of the Old State House, that marks the site.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1332) <br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/wfoz3ltKdhObupvSRxUQqk8C2eHauiRwYtDrC3O4bZvw_Xd2dSVTmjI5ymhmAUHVuaPaol0OOoO5bkCn0Orc6FaUwsr2RAjrX3p-6i9J67msmtD4TNHalhJGdCKpEGmhFL-NaPu0KKm3eCe8i5HiHtNFqB__vtBC_VE</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.057119,42.35875600000001,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 11: Fanueil Hall 1742 / 1805</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/jPbkfKTGf1t8NtvmGBzmj_MitbeiJIcmJnscenpQoDYFFU7WmribPyglXdva9qrzDKmwafMxsxStbYZ42iEYmlp2Vwu5JWnUNYVkJkLnE5Jd683CKXKS-O2xiqk-Hq0" height="200" width="auto" /><br><br>Faneuil Hall was built and given to the town by wealthy merchant Peter Faneuil in 1742. In 1805, based on a Charles Bulfinch design, it was expanded and a third floor was added.<br>Referred to as the "Cradle of Liberty," it was host to many important Revolutionary-era meetings and events including speeches by James Otis and Sam Adams, the establishment of the first Committee of Correspondence, and the first meeting to protest the tea tax that led to the Boston Tea Party.<br>Free<br>Open daily, 9-5; ranger-led historical talks every thirty minutes. This is also home to the new National Park Service vistor center - an excellent place to plan your Freedom Trail visit.<br>Official  website (http://www.nps.gov/bost/historyculture/fh.htm) <br>617-242-5642 <br>Handicap elevators in the visitor center.<br>Public  transportation:  Green or Blue line to Government Center.  The Ancient & Honorable Artillery Company (http://www.ahac.us.com/), the oldest chartered military organization in North America has a museum on the 3rd floor.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1338)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/jPbkfKTGf1t8NtvmGBzmj_MitbeiJIcmJnscenpQoDYFFU7WmribPyglXdva9qrzDKmwafMxsxStbYZ42iEYmlp2Vwu5JWnUNYVkJkLnE5Jd683CKXKS-O2xiqk-Hq0</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055999,42.360049,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 12:  Paul Revere House - 1680</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/CluChL1ydjnWETkHhBHxYHHKWkf1CG34eDv_KORV5fckAB9vTI2qSHfDOaiSZZK8oiUMzvIbtLVN6FY8-vTOBdRgZ-osA_8JV1T7noc86UlrwL1vnTaMI8UWM75pdkf3VT5-j68" height="200" width="auto" /><br><br>Dating from 1680, this is oldest remaining structure in Boston. It was home to Paul Revere from 1770 - 1800.<br>It is located in North Square, which was the center of activity in the 18th century North End.<br><br>Adults $3.50, Seniors and College Students $3, Children (5-17) $1<br>Open Daily April 15 - October 31 - 9:30 - 5:15; November 1 - April 14 - 9:30 - 4:15; Closed on Mondays in January, February and March; Closed on Thanksgiving, Christmas Day and New Year's Day.<br>Official website (http://www.paulreverehouse.org/)<br>(617) 523-2338<br>Handicap accessible first floor, ask at ticket booth for a temporary ramp.<br>No restrooms<br>Public transportation:  Green or Orange line to Haymarket Station.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1346)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/CluChL1ydjnWETkHhBHxYHHKWkf1CG34eDv_KORV5fckAB9vTI2qSHfDOaiSZZK8oiUMzvIbtLVN6FY8-vTOBdRgZ-osA_8JV1T7noc86UlrwL1vnTaMI8UWM75pdkf3VT5-j68</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.053728,42.363566000000006,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 13: Old North Church - 1723</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/qjZ-3f2zBywIeUaM-yYVG1ztTEwXPykDC9QZqtW7lPC7BiAvHzKMhNR2tD9ctGC9Zki3_8ZlYP3N8tVmDmKvzsFR7NDbjiBUU2GyGrMuN5-UPlC8aSM4fbfWZdC4P3TOVMj10ggaoj0" height="200" width="auto" /><br><br>Officially known as Christ's Church, Old North was built in 1723 and is the oldest standing church in Boston.  <br>In April, 1775, it was the sight of the hanging lanterns that notified Patriots in Charlestown that the British were leaving "two if by sea" prior to Paul Revere's Midnight Ride and the Battles at Lexington and Concord.  <br>Free (donation)<br>Open:<br>January–February: 10– 4pm,  Tues – Sunday<br>March–May: 9 - 5 daily<br>June–October: 9 – 6 daily<br>November–December: 10 – 6 daily<br>Sunday services 9 and 11 AM<br>Official website (http://www.oldnorth.com/)<br>617-523-6676<br>Handicap access - 1/2" step at entrance to church; gift shop limited.  <br>No restrooms<br>Public transportation: Green or Orange line to Haymarket Station.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1352)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/qjZ-3f2zBywIeUaM-yYVG1ztTEwXPykDC9QZqtW7lPC7BiAvHzKMhNR2tD9ctGC9Zki3_8ZlYP3N8tVmDmKvzsFR7NDbjiBUU2GyGrMuN5-UPlC8aSM4fbfWZdC4P3TOVMj10ggaoj0</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.054622,42.366426000000004,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 14: Copp's Hill Burying Ground - 1659</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/Ja2F780_ipNkixsjU5oZ2reAA9x1yheTT9nXhuNb2Xo3COPUgvRuoIuVHmKVMpI38TYhAqawnKjadtQBppEZ0Q0qhKyn9XYlLa7oVa77o--ap6qNeg3D3WlusWE" height="200" width="auto" /><br><br>Copp's Hill Burying Ground was founded in 1659.  Famous Bostonians resting here include the Puritan ministers Increase and Cotton Mather, Robert Newman, the patriot who hung the lanterns that signaled "two if by sea" in Old North Church, and  Prince Hall, the father of Black Freemasonry.<br>The British mounted cannon on Copp's Hill that that were used to bombard Charlestown during the Battle of Bunker Hill.   <br>Free - public park<br>Official website (http://www.cityofboston.gov/parks/hbgi/CoppsHill.asp) <br>617-961-3034<br>Handicap access limited as it is up a steep hill from Old North Church and there are several steep granite steps up to burying ground<br>No restrooms<br>Public transportation: Green or Orange line to North Station.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1357)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/Ja2F780_ipNkixsjU5oZ2reAA9x1yheTT9nXhuNb2Xo3COPUgvRuoIuVHmKVMpI38TYhAqawnKjadtQBppEZ0Q0qhKyn9XYlLa7oVa77o--ap6qNeg3D3WlusWE</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055896,42.366927,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 15: USS Constitution - 1797</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/UFnmoFZVl87C-hSZWT3zGxFdDa5YyDiS-AkIF7nLRp9caGm5rC1l9lBEKN0P4ihqTE_d5_7UFusu9H79RQSiYSJyZ5GoJ0HcH8otB1T-DlP9Mv7wPFsXOGXjm5duE8_pLNfNxZQcxR4" height="200" width="auto" /><br><br>USS Constitution,  launched in 1797, is the oldest commissioned warship afloat in the world.   <br>The USS Constitution was involved in 33 fights, and never lost. The most famous, and the one that  gave her the name "Old Ironsides," was with British Frigate HMS Guerriere in the  War of 1812. During that engagement, cannonballs fired at the USS Constitution  bounced off as if she were made of iron.<br>Free - must show valid  ID to visit ship <br>Nov. 1- March 31 Thurs  - Sun 10 - 4.<br>April 1- Sept. 30 Tues - Sun 10 - 6.<br>Oct. 1- Oct. 31 Tues -  Sunday 10 - 4 <br>Wait required to take the worthwhile tour.  <br>Closed for Martin  Luther King Jr.'s Birthday, President's Day, Thanksgiving, Christmas and New  Years <br>Official website from NPS (http://www.nps.gov/bost/historyculture/ussconst.htm) <br>Official USS  Constitution website (http://www.history.navy.mil/ussconstitution/index.html) <br>617-242-5670   <br>Handicap access  via ramped gangplank to main deck, but deck has 1/2" raised ridges. Navy  personnel can assist. Lower decks are down steep staircases. <br>Restrooms  are in the Visitors Center.<br>Public  transportation: Green or Orange line to North Station. Alternative, 93 Bus to  Sullivan Station Bunker Hill <br>Also visit the wonderful USS Constituion Museum across the dock as well as the WWII destroyer, Cassin Young.<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1362)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/UFnmoFZVl87C-hSZWT3zGxFdDa5YyDiS-AkIF7nLRp9caGm5rC1l9lBEKN0P4ihqTE_d5_7UFusu9H79RQSiYSJyZ5GoJ0HcH8otB1T-DlP9Mv7wPFsXOGXjm5duE8_pLNfNxZQcxR4</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056845,42.37267,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Charlestown Navy Yard - 1800</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/58HgjC1b7QJzg0HwQYg6oGctXgaO8ap21NqCCSUUHA5cv97WsNs5AVk2-oYER6pEt4PoNjcC--_HSiBaT5Zjd2Hc_tewOi-SUgR3HOtriW0oTIjjZaANWlLpqyXCjQ" height="200" width="auto" /><br><br>The Charlestown Navy Yard was established in 1800 as one of the first official Navy facilities in the United States.  It ceased to be an active operations center in 1974.  <br>Today it is the site of the USS Constitution, the USS Cassin Young one of the first two dry docks in the US, and has a wonderful museum.  <br>Great fun.  Plan for a several hour visit.  <br><br>Official website (http://www.nps.gov/bost/historyculture/cny.htm)<br>Official Charlestown Navy Yard website (http://www.charlestownonline.net/navyyard.htm)<br>NPS Maritime History website (http://www.nps.gov/nr/travel/maritime/bns.htm)<br>Auto-translate link. (http://www.stevestravelguide.com/?p=1375)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/58HgjC1b7QJzg0HwQYg6oGctXgaO8ap21NqCCSUUHA5cv97WsNs5AVk2-oYER6pEt4PoNjcC--_HSiBaT5Zjd2Hc_tewOi-SUgR3HOtriW0oTIjjZaANWlLpqyXCjQ</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056443,42.37368,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Stop 16: Bunker Hill Monument - 1775/1843</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/kNf6uuupKpcRmsvt6Nv-f5u-dFI5jX7lR_UHNOnv771nAVPsKrmGCuOOlIiTC9pNDCfqkO9bBLUm4HYsjs2R9uhGe2U39eKbA6nHo2ZqGyUhxq7P1SpG2H5VXOwIdlM3TSQBy_9_uQ" height="200" width="auto" /><br><br>The monument is located on Breed's Hill at the site of the Patriot redoubt during the Battle of Bunker Hill, which was fought on June 17, 1775.  The monument was dedicated in 1843.  <br>Free<br>Daily 9 - 5; last climb at 4:30<br>July - August 9 - 6; last climb at 5:30<br>Official website (http://www.nps.gov/bost/historyculture/bhm.htm) 617-242-5641<br>Handicap access to lodge next to monument via a ramp. Monument has 294 steps to the top.<br>Restrooms in the lodge.<br>The Bunker Hill Museum (across the street), is fully accessible with elevators and restrooms.<br>Museum website (http://www.nps.gov/bost/historyculture/bhmuseum.htm).<br>Auto-translate link (http://www.stevestravelguide.com/?p=1370).<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-22</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/kNf6uuupKpcRmsvt6Nv-f5u-dFI5jX7lR_UHNOnv771nAVPsKrmGCuOOlIiTC9pNDCfqkO9bBLUm4HYsjs2R9uhGe2U39eKbA6nHo2ZqGyUhxq7P1SpG2H5VXOwIdlM3TSQBy_9_uQ</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.060815,42.376316,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Central Burying Ground - 1756</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/ViguxSegGLv4g82v4Q1QwBWCPDACP9soFyDY_-Y8mZw56v0Aw3OEV_erq_d3F3ZB-L_1AZvqswZFVYE9RY4BwRzqQTjipcBonQunM1ayOf1UW5p8UQXiAb-8c0TE-DlAVA2lVqQrsjS0" height="200" width="auto" /><br><br>The Central Burying Ground is one of the oldest burying grounds in Boston.  It is the last resting place for the remains of Gilbert Stuart (painter of George Washington (http://www.stevestravelguide.com/paul-revere-and-george-washington-face-to-face-at-boston-mfa.html)) and many who died during the Battle of Bunker Hill.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/ViguxSegGLv4g82v4Q1QwBWCPDACP9soFyDY_-Y8mZw56v0Aw3OEV_erq_d3F3ZB-L_1AZvqswZFVYE9RY4BwRzqQTjipcBonQunM1ayOf1UW5p8UQXiAb-8c0TE-DlAVA2lVqQrsjS0</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.06619,42.352613,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Parkman Bandstand</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/WhU_5b6KnGD99McB7Fj6ZLwikhrda7UwdlEuTkbiyaSlZBAXrGWX-x9uvx8eZX4XvE3VAvw-dMWyN28KQJ1eY_vjzxLWdILmM8uIl7JSfTxDj4dMFcsi30GU" height="200" width="auto" /><br><br>TheParkman Bandstand was built in 1912 in honor of George Parkman, who had willed$5 million to the parks of Boston.  Theland where it sits was originally Cow (or Horse) Pond – which was filled in aftercattle grazing on the Common was prohibited in 1830.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/WhU_5b6KnGD99McB7Fj6ZLwikhrda7UwdlEuTkbiyaSlZBAXrGWX-x9uvx8eZX4XvE3VAvw-dMWyN28KQJ1eY_vjzxLWdILmM8uIl7JSfTxDj4dMFcsi30GU</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.065471,42.354326,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Frog Pond and Tadpole Playground</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/H_wcSUFycz9o7zPbkdZV_T1pf4tDfV7Jsu7aJqkgAr5t5ewJsAoX6S_Zxh_uB6DnHR9VtVyv6Hb_a6Iz9vz5fyTfVgEpX0dL1cbB8JjyKzMj3lprY_shi4rk_Xo" height="200" width="auto" /><br><br>Great place for skating in the winter and playing in the summer.  Young children will enjoy the Tadpole playground.  <br> <br>Official Frog Pond website (http://www.bostonfrogpond.com/)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/H_wcSUFycz9o7zPbkdZV_T1pf4tDfV7Jsu7aJqkgAr5t5ewJsAoX6S_Zxh_uB6DnHR9VtVyv6Hb_a6Iz9vz5fyTfVgEpX0dL1cbB8JjyKzMj3lprY_shi4rk_Xo</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.06545,42.35637200000001,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Soldiers and Sailors Monument</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/rEPnpi-ZysMeVdlMAMlENUdG5bAZr1rgESKp1sTmTaItcUbpaNi2VIfb8uzRFua43ooJ8tDj7Ga_DOD9It_33CTqidaMUgZpjEC4x4gkGk2FqWLQ_oKgSd7Z7scB_T9AATAhoGE" height="200" width="auto" /><br><br>TheSoldiers and Sailors Monument is on top of Flagstaff Hill, the tallest hill inthe Common. Completed in 1877, it honors troops that perished in the CivilWar. <br>Themonument is 126 feet high and carved from white granite. There are fournoteworthy bas-relief tablets at the base.  The column istopped by a female figure titled "America" wearing a crown of thirteen starsand holding the United States flag, a sword, and a laurel wreath in her hands. <br><br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/rEPnpi-ZysMeVdlMAMlENUdG5bAZr1rgESKp1sTmTaItcUbpaNi2VIfb8uzRFua43ooJ8tDj7Ga_DOD9It_33CTqidaMUgZpjEC4x4gkGk2FqWLQ_oKgSd7Z7scB_T9AATAhoGE</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.066437,42.355531,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Robert Gould Shaw &amp; MA 54th Memorial</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/_zMyQfZEitQzi54IVprHog3ZOq_Eb90j2OTxWlk6q1CIEodygHQLHy8acNfNgOJ4mKpO82Daz99yiuKQWyJF3AX37bUCPszoCMOOzs5Yc0RIW6lL7o2R-7wAxIv_ld1sQvcWp0szX5-We8qpxQmV" height="200" width="auto" /><br><br>A beautiful Augustus Saint-Gaudens' haunting sculpture that memorializes Robert Gould Shaw and the Massachusetts 54th Regiment. Shaw was the son of a wealthy Boston family. He led the 54th, one of the first African American units to fight in the Civil War. Shaw died (along with 74 enlisted men and 3 officers) leading an assault on Fort Wagner, South Carolina in 1863. Sergeant William H. Carney, who was severely wounded, saved the regiment’s flag from being captured.  Carney was the first African American to be awarded the Congressional Medal of Honor.<br>Official website (http://www.nps.gov/boaf/historyculture/shaw.htm)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/_zMyQfZEitQzi54IVprHog3ZOq_Eb90j2OTxWlk6q1CIEodygHQLHy8acNfNgOJ4mKpO82Daz99yiuKQWyJF3AX37bUCPszoCMOOzs5Yc0RIW6lL7o2R-7wAxIv_ld1sQvcWp0szX5-We8qpxQmV</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.063553,42.357577,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Site of Spring that Led to Boston's Founding</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/hvGr8SZD3hUNj45_5h-M1anzRpJykePHZVNnpCG98IC4ol6bTdlRUN5q0y-qhpUMWBhqcofsyPVDVBQKp8JgG-eqRUwgWyXV4Pe7WgDp5CHXvJ7CAVNRWCpNg65kGFQq" height="200" width="auto" /><br><br>John Winthrop's Pilgrim's were invited by William Blaxton to move from Charlestown to Shawmut (Boston) because of an excellent water source. Here was the site of the Spring that Blaxton referenced.  It is now concreted over, but it is still running.<br>By Spring Lane<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/hvGr8SZD3hUNj45_5h-M1anzRpJykePHZVNnpCG98IC4ol6bTdlRUN5q0y-qhpUMWBhqcofsyPVDVBQKp8JgG-eqRUwgWyXV4Pe7WgDp5CHXvJ7CAVNRWCpNg65kGFQq</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.05776,42.357396,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Benjamin Franklin Statue</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/huucKqZCtRpqeFDmyhn72FfgwhEEaYRpK620TebVPlMHlWACnxhZ9grU9pEwcehT4_nJX2XGoRmfRx9mzYcVSttwD1lcR83Ci2Zf3jEQEX46i_jqFillBp7kYBz501aBROY" height="200" width="auto" /><br><br>Oldest portrait statue in the US, placed here in 1856. By Old City Hall. <br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/huucKqZCtRpqeFDmyhn72FfgwhEEaYRpK620TebVPlMHlWACnxhZ9grU9pEwcehT4_nJX2XGoRmfRx9mzYcVSttwD1lcR83Ci2Zf3jEQEX46i_jqFillBp7kYBz501aBROY</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.059629,42.357918,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Irish Famine Memorial</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/bsxU0PWv2HooaerDsA--I5U-RFD0z0uNxIFqaF8kUmWfrnoU_MMOrVWMrO4bqGicXhbFFyFSHACC-Zg-doggxl1twrQiCkBRr6XshuI0zTKFuue7XUs2fp3nAA" height="200" width="auto" /><br><br>Memorializes the Great Irish Famine, which took place between 1845 and 1852.  Many Irishmen emigrated to Boston, settling originally in the North End.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/bsxU0PWv2HooaerDsA--I5U-RFD0z0uNxIFqaF8kUmWfrnoU_MMOrVWMrO4bqGicXhbFFyFSHACC-Zg-doggxl1twrQiCkBRr6XshuI0zTKFuue7XUs2fp3nAA</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.058628,42.357356,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Site of Benjamin Franklin's Birthplace</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/6Yd3vjq6s55N2EpeZO1cOu17dZQeumDSq_EMVIIn2Ww85dJdJR3o8IQFF65AXt38vykN6sNZLxlruIkIlzBFBZ8U7hW_FKnh3b5kS-8ecV2r3i_O0XnHaQd0jtrCK_hzh3M8KoW-g5aW" height="200" width="auto" /><br><br>Site of Benjamin Franklin's birth in 1706.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/6Yd3vjq6s55N2EpeZO1cOu17dZQeumDSq_EMVIIn2Ww85dJdJR3o8IQFF65AXt38vykN6sNZLxlruIkIlzBFBZ8U7hW_FKnh3b5kS-8ecV2r3i_O0XnHaQd0jtrCK_hzh3M8KoW-g5aW</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.058369,42.356705,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Quincy Market - 1826</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/NEc-wYA45li46TwvT80UeEPXBvbMAHi0whs0ZpK4mhWZ1ktFNC5aKijI4pO5rpCQcfd2BFG16mGWqLoDo0f5Ydz8jK1-NvIv-GcpXqUtL1NCgppCeArNJagCpdISV7B2k2k7" height="200" width="auto" /><br><br>Quincy Market was built between 1824 and 1826 to provide additional market capacity for Faneuil Hall.  It is named in honor of the then mayor, Josiah Quincy.  At the time of its construction, it was at the harbor's edge.  Quincy Market was initially a foodstuff and produce shopping center.  The North Market and South Market buildings, which are immediately flanking Quincy Market, were built in the mid 1800's.  <br>By the middle 1970's the whole area had deteriorated.  It was revitalized as part of the preparations for the Bicentennial, in 1976.  Today, it is one of the busiest tourist destinations in Boston.  <br>Website for Faneuil Hall Marketplace (http://www.faneuilhallmarketplace.com/)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/NEc-wYA45li46TwvT80UeEPXBvbMAHi0whs0ZpK4mhWZ1ktFNC5aKijI4pO5rpCQcfd2BFG16mGWqLoDo0f5Ydz8jK1-NvIv-GcpXqUtL1NCgppCeArNJagCpdISV7B2k2k7</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055815,42.360112,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Samuel Adams / 1630 Water Line</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/kovTAAMAV-CYSp0UO9VJ0-UbK-JpUuB23hoJ4EHMnD4U7HM4I6nhnH0NHhHRh54kUoqgCPfWZWSmxiz_XMFVirmewBgVt2c8WNISB5U7hGbwim4QjdIQG0xoB0fPampAkiYcmn4YoA" height="200" width="auto" /><br><br>Sam Adams statue behind Faneuil Hall.  <br>The site of the original harbor water line from 1630 - all the land from here to the harbor is landfill.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/kovTAAMAV-CYSp0UO9VJ0-UbK-JpUuB23hoJ4EHMnD4U7HM4I6nhnH0NHhHRh54kUoqgCPfWZWSmxiz_XMFVirmewBgVt2c8WNISB5U7hGbwim4QjdIQG0xoB0fPampAkiYcmn4YoA</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.05681,42.359967,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Ebenezer Hancock House - 1767 &amp; The Boston Stone - 1737</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/BbDfsUN_0ifkjBdn29rXqqwElGcYb4-jJUZv6uY1XfDPQ3HCV5_UuAInS5_kYucsoNMuvI8ZVZ9aDW3F_rC9GqSyLrjDei43Mxjp3TOsQcUTF0lBG-j3UfM0k7XIQypROOQ7" height="200" width="auto" /><br><br>The Ebenezer Hancock House was built in 1767 by John Hancock's uncle.  John inherited it and gave it to his brother Ebenezer, later the deputy paymaster of the Continental Army during the Revolution.   <br><br>The Boston Stone, directly across from Ebenezer's house, has been a landmark since 1737. A painter, brought the stone from England to grind pigments prior to 1700. According to legend, it has served as the "zero milestone," for measuring official distance to Boston.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/BbDfsUN_0ifkjBdn29rXqqwElGcYb4-jJUZv6uY1XfDPQ3HCV5_UuAInS5_kYucsoNMuvI8ZVZ9aDW3F_rC9GqSyLrjDei43Mxjp3TOsQcUTF0lBG-j3UfM0k7XIQypROOQ7</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056883,42.361602,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>New England Holocaust Memorial</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/smLrdZfGgZXsaXwKBkugYbFXvkryD20CI6yggBpOavjngOnPP9v3e7oZauDMWXzhkmQFyEmUw4-t74LoCSiGT4v32sJkzghYfr-P9251P6wsKcQ9fi9_QjI2DC0Sxg" height="200" width="auto" /><br><br>Initiated by survivors of the Nazi concentration camps, the New England Holocaust Memorial is a moving and haunting reminder of one of the great tragedies of our time.<br>A chance to pause and reflect.   <br>Official website (http://www.nehm.org/intro.html)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/smLrdZfGgZXsaXwKBkugYbFXvkryD20CI6yggBpOavjngOnPP9v3e7oZauDMWXzhkmQFyEmUw4-t74LoCSiGT4v32sJkzghYfr-P9251P6wsKcQ9fi9_QjI2DC0Sxg</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.057261,42.361176,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>North Square &amp; Site of Second Church</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/LtZhEE59HZrt0Q3FLFFM2ssh8M1TuKy0QBpZpfPq0VBPJyv8UlsDaDQ-x9Gi0v2GZ-wyKVUPGojS_X1SdCOMQJKHrCkEAQTwS5hP9Gr8q8Nws4_WsLzWKl-HvEkISiKQYRHECw" height="200" width="auto" /><br><br>The North Square was the center of the NorthEnd life and commerce during Colonial times and the site of some of the town's mostimpressive mansions. It was also the location for the Second Meeting House(Church), which was built in 1649 and was presided over by Puritan ministersCotton and Increase Mather.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/LtZhEE59HZrt0Q3FLFFM2ssh8M1TuKy0QBpZpfPq0VBPJyv8UlsDaDQ-x9Gi0v2GZ-wyKVUPGojS_X1SdCOMQJKHrCkEAQTwS5hP9Gr8q8Nws4_WsLzWKl-HvEkISiKQYRHECw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.05335,42.363966,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>USS Constitution Museum</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/nlbNaMlt4TOmHlMaqc3UbjzSxvi8ZzpA_38R0CeE5XduRWU5SL41u3u2X8pHnV7gTJhbGuzCvY0womw_KRZEityOs2r7h7HGRQo0JscqowqgxILuwf3AbSqEijhEPSWZ-KDLdPYR" height="200" width="auto" /><br><br>A wonderful museum in the Charlestown Navy Yard.  <br>Great collections of information to make the USS Constitution come alive.  <br>Free (donation)<br>Official website (http://www.ussconstitutionmuseum.org/)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/nlbNaMlt4TOmHlMaqc3UbjzSxvi8ZzpA_38R0CeE5XduRWU5SL41u3u2X8pHnV7gTJhbGuzCvY0womw_KRZEityOs2r7h7HGRQo0JscqowqgxILuwf3AbSqEijhEPSWZ-KDLdPYR</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.05574000000001,42.373891,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>USS Cassin Young - 1943</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/YAnhHF7r3YWeeAdgkR5VgbmH6gn_lQChYbWg3NT5cUd8DvbKyyCHeIYK7lyB96--fBVcR3i8Vv24SeUYi0-l-f5nHjkkH0yFkLULsF_AbC26l8CelS1PGn0aNWQ" height="200" width="auto" /><br><br>WWII destroyer commissioned in 1943. <br>Great fun for kids of all ages.   <br>Free<br>Open 9-5 daily.  Closed Christmas, New Year's day and Thanksgiving<br>NPS website (http://www.nps.gov/bost/historyculture/usscassinyoung.htm)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/YAnhHF7r3YWeeAdgkR5VgbmH6gn_lQChYbWg3NT5cUd8DvbKyyCHeIYK7lyB96--fBVcR3i8Vv24SeUYi0-l-f5nHjkkH0yFkLULsF_AbC26l8CelS1PGn0aNWQ</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055016,42.372625,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Dry Dock 1 - 1827</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/7SrJFE0NgU9AkZTX4Fi7zBg-_mBLCt9ZuJuxHR4gcgqcEvshgvM0PzJgpBgcAIMoQwmXMSkVAQ5G_25cnVz0J30CBkvcqwF7D_F4BBHRiPMu3aCah4wJ-VCJXEqfFCkEDcfWRRI7vA" height="200" width="auto" /><br><br>Built in 1827, this is one of the first two naval dry docks in the United States.<br>Fascinating interpretive displays.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/7SrJFE0NgU9AkZTX4Fi7zBg-_mBLCt9ZuJuxHR4gcgqcEvshgvM0PzJgpBgcAIMoQwmXMSkVAQ5G_25cnVz0J30CBkvcqwF7D_F4BBHRiPMu3aCah4wJ-VCJXEqfFCkEDcfWRRI7vA</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056041,42.373671,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Bunker Hill Museum</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/YMJnjajcAIeJFjxKjc0uP2SMta950rwYL7T8jeU3OPoNbM8kqMUGBJUgekGMo3SWZ5AiIeat_qsmE7W6vW30D5_7PVu_HwWtpdZBSss4jYACJhVIDKSjqH10UuluDIj3CK3rug" height="200" width="auto" /><br><br>Excellent museum at the foot of the Bunker Hill Monument.  There are National Park Service guides and interpretive programs. <br> <br>Free<br>Official website (http://www.nps.gov/bost/historyculture/bhmuseum.htm)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/YMJnjajcAIeJFjxKjc0uP2SMta950rwYL7T8jeU3OPoNbM8kqMUGBJUgekGMo3SWZ5AiIeat_qsmE7W6vW30D5_7PVu_HwWtpdZBSss4jYACJhVIDKSjqH10UuluDIj3CK3rug</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.061311,42.375706,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Boston Tea Party Ship Museum</name>
+				<description><![CDATA[Site of the Boston Tea Party Ship Museum.<br>Admission:  $25 adult, $15 child. Various pre-visit purchase specials available online. <br><br>Official website. (http://www.bostonteapartyship.com/) <br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<Point>
+					<coordinates>-71.05073,42.351884,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Garden Court Street </name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/X6_b1wmpZzOFbGuDqinEFn7BlWPrHbdfH0eZi4xMBj7gpOYUpXIyl9_k7jhXA-RJNaOigwHX8R1MW4jBzJC9SQFTEPakwgPSnVgpR2OJ7JuF5EEEd77lkL2op830vZ2IV3Gez-yMSSpemuHESEQPPebG6p2gMTR4FEoWVdB-Xbif6rI" height="200" width="auto" /><br><br>Garden Court Street was the site of the Clark-Frankland and Thomas Hutchinson mansions.  <br>Hutchinson's mansion was gutted as part of a protest of the Stamp Act in 1765.  Both were torn down in 1834 as part of street widening.  <br>Rose Fitzgerald (Kennedy). the mother of President John F. Kennedy, was born at 2 Garden Court Street in 1890.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/X6_b1wmpZzOFbGuDqinEFn7BlWPrHbdfH0eZi4xMBj7gpOYUpXIyl9_k7jhXA-RJNaOigwHX8R1MW4jBzJC9SQFTEPakwgPSnVgpR2OJ7JuF5EEEd77lkL2op830vZ2IV3Gez-yMSSpemuHESEQPPebG6p2gMTR4FEoWVdB-Xbif6rI</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.053374,42.364177,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Saint Stephen's Church - 1804</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/CtjTJNP9JeHcrLDR0NJM4ZHGuxDHOi14YqUc1lQmhT2D97o6sMJV9iBaRr3KhHEdrrxBk2eP2MTMeJhgl5iEjjM29J8VwFhzLwvlZpgnNFTyJmOcWCFVFxjDKlOk" height="200" width="auto" /><br><br>Saint Stevens is the last remaining Bulfinch church in Boston.  Originally, it was called New North Church and was Unitarian.  <br> <br>Sold to a Roman Catholic parish in 1862, it was the site of Rose Fitzgerald's (Kennedy) baptism in 1890.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/CtjTJNP9JeHcrLDR0NJM4ZHGuxDHOi14YqUc1lQmhT2D97o6sMJV9iBaRr3KhHEdrrxBk2eP2MTMeJhgl5iEjjM29J8VwFhzLwvlZpgnNFTyJmOcWCFVFxjDKlOk</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.052884,42.365385,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Cyrus Dallin's Paul Revere Monument</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/w_B9BkpG6YLzB9wPgygZ1Vq78vGASvXecL0A02cIDLN7uuD0rMvmtjEelu8Jqs6KHiLK7uKZsBtz6GPdtIOIEbydpmISxevPjsWljf9nQKaz4HWGxo2j3Lki3nu-MkrO1VRbr_s" height="200" width="auto" /><br><br>Unveiled in 1940, this is one of the most photographed sculptures in Boston. It was begun by Cyrus Dallin 1883, when he won a competition for the commission.  This is likely the 8th version of the sculpture.  <br> <br>Website for Cyrus Dallin (http://dallin.org/)<br>Post on the Dallin Museum (http://www.stevestravelguide.com/?s=cyrus)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/w_B9BkpG6YLzB9wPgygZ1Vq78vGASvXecL0A02cIDLN7uuD0rMvmtjEelu8Jqs6KHiLK7uKZsBtz6GPdtIOIEbydpmISxevPjsWljf9nQKaz4HWGxo2j3Lki3nu-MkrO1VRbr_s</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.053133,42.365488,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Paul Revere Mall</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/yZ_8RcjwXw4Vnr1mHJfnBUciYrR9TtpFPngh8Gh6a5l6Jjx-xOGXFOGHjXf6NAJ67oreLus3b5tJDwhU2jV1ul0dtko3wi9xuamQs43iLSB2hSGpyIzDDbO39EHKBQwaONCMWw" height="200" width="auto" /><br><br>Created in 1933 and known as The Prado by locals, it is a brick passage / park that leads from Hanover Street to the Old North Church.  The mall walls are lined with bronze plaques that commemorate famous North Enders.  <br>It can provide a quiet place to sit if you need a break from the hysteria of touring.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/yZ_8RcjwXw4Vnr1mHJfnBUciYrR9TtpFPngh8Gh6a5l6Jjx-xOGXFOGHjXf6NAJ67oreLus3b5tJDwhU2jV1ul0dtko3wi9xuamQs43iLSB2hSGpyIzDDbO39EHKBQwaONCMWw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.053728,42.365782,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Clough House - 1712</name>
+				<description><![CDATA[One of the oldest homes remaining in Boston. It was home to Ebenezer Clough, a master mason who helped build Old North (Christ's) Church. This is representative of many houses that once made up this neighborhood. There is a great old printing museum on the first floor - check to see if it is open.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<Point>
+					<coordinates>-71.054254,42.366022,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Narrowest House in Boston</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/eQMcEvuDFqprb9bBaDkoH59kjstVw2POD6KsNyBl2uLXRDz48hkj7ZPbVlCalq9z7r185DibxIblMB7RraCh3dZ10FBB-9-ZuAnTgUaY3LU3Kdxuaz7y59RSITCNVrBC-aw" height="200" width="auto" /><br><br>OK, not really Revolutionary, but.... <br>it is 10.4 feet (3.16m) at it's widest, it tapers to 9.2 (2.82 m) feet at the back.  It was allegedly built as a "spite house" a little after 1874.  Boston real estate is expensive, but there should be limits.<br> <br>Wikipedia site (http://en.wikipedia.org/wiki/Skinny_House_(Boston))<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-123</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/eQMcEvuDFqprb9bBaDkoH59kjstVw2POD6KsNyBl2uLXRDz48hkj7ZPbVlCalq9z7r185DibxIblMB7RraCh3dZ10FBB-9-ZuAnTgUaY3LU3Kdxuaz7y59RSITCNVrBC-aw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056046,42.36688,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Cafe Marliave - 1875 / Province House Steps - 1679</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/aPz7QzjddEvyoONvpQcz-q_3TcJsWxJQTHQSnVwbrndSHS7H0nZsMnyWE3B-WEL3deCTLE5STyiZdPSL9Qm15Chah2LtcT6xkw7cPpe2At_4TEEXvixr8eEshlWr4EVgv-2XWudvtkDV2Vw6" height="200" width="auto" /><br><br>The oldest Italian restaurant in Boston, the Marliave dates from 1875. It has pleasant outside seating for the summer months. <br>It located right above the site of the Province House Steps (1679–1864).  The Province House was the official govenors residence during the Revolutionary Period.  <br> <br>Website (http://marliave.com/home/) 617-422-0004<br>Province House Wiki (http://en.wikipedia.org/wiki/Province_House_(Boston,_Massachusetts))<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/aPz7QzjddEvyoONvpQcz-q_3TcJsWxJQTHQSnVwbrndSHS7H0nZsMnyWE3B-WEL3deCTLE5STyiZdPSL9Qm15Chah2LtcT6xkw7cPpe2At_4TEEXvixr8eEshlWr4EVgv-2XWudvtkDV2Vw6</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.060268,42.356927,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Durgin Park - 1827</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/bmzWPrHg3do7M8RkF59AJuZLbLGPLcP3Ga5_h2rgly_i1oywyRhpAs7fE_Kjnut-ngvNi1rDzTpV-YkCLGBFGeynsAEq1RzAxFTLxnjBi3eLff_jk6ag1YkPv6FyCXLIEm67gw" height="200" width="auto" /><br><br>This iconic restaurant has been around since 1827.  Famous for old Yankee recipes, it is a real flash from the past and one of the oldest places you can dine in Boston.  Diners are seated at long tables with other patrons.  A lot of fun.<br>Official website (http://www.arkrestaurants.com/durgin_park.html).  <br>617-227-2038<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/bmzWPrHg3do7M8RkF59AJuZLbLGPLcP3Ga5_h2rgly_i1oywyRhpAs7fE_Kjnut-ngvNi1rDzTpV-YkCLGBFGeynsAEq1RzAxFTLxnjBi3eLff_jk6ag1YkPv6FyCXLIEm67gw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055206,42.360415,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Union Oyster House - 1713/1742/1826</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/73wyQSsIihM6pN7xoE66x5mwNl5uEmT9-YTOh3U0WqC1Wa2n3s5KUzYn3yTtcLukd077TQI61VU0QoCs56NQ1jXKuhIxhyEEQ00uewo5_VvngWC1BgCl_TdfOJ2tN7L-HZTM" height="200" width="auto" /><br><br>The Union Oyster House, which started serving in 1826,  is the oldest continuously operating restaurant in the US.  The building started operations as a dress shop and dates from 1742, although other sources date it to as early as 1713..  At that time, the harbor actually came up to the dress shop's back door.  <br>The Oyster Bar at the front of the restaurant is legend - regular Daniel Webster daily drank a tall tumbler of brandy and water with each half-dozen oysters, usually eating at least six plates.<br> <br>Offical website (http://www.unionoysterhouse.com/)  <br>617-227-2750<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/73wyQSsIihM6pN7xoE66x5mwNl5uEmT9-YTOh3U0WqC1Wa2n3s5KUzYn3yTtcLukd077TQI61VU0QoCs56NQ1jXKuhIxhyEEQ00uewo5_VvngWC1BgCl_TdfOJ2tN7L-HZTM</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056961,42.361218,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Green Dragon Tavern - 1654</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/boLacTSl-TtnQNPLFdRNn1akTghN0h-ywX1-uQpLj3P353G6Nu2eP8hwjyxZeJGp2hz8eGNbDZslUQiJMgkrZzUtJtbol7aWYsuY6skouR_OZE3V1I-CqTfrAhIp2bUoHtVcmJsNkIzD" height="200" width="auto" /><br><br>The original Green Dragon Tavern (around the corner at 84 Union Street) was founded in 1654 and an active pub by 1714. It was torn down in 1828. The Green Dragon was a regular haunt for the Sons of Liberty and the site of the planning meetings for the Boston Tea Party. <br>The current incarnation is fun and boasts decent bar food.<br>Website (http://www.somerspubs.com/green-dragon.html) 617-237-2114 <br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/boLacTSl-TtnQNPLFdRNn1akTghN0h-ywX1-uQpLj3P353G6Nu2eP8hwjyxZeJGp2hz8eGNbDZslUQiJMgkrZzUtJtbol7aWYsuY6skouR_OZE3V1I-CqTfrAhIp2bUoHtVcmJsNkIzD</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056907,42.361479,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Chart House - John Hancock's Counting House - 1730</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/y9In-eM8_pQoH6ILcqOVpLHV-Us3eHHaFxEvZRcQjFyMlufxBpBfPzJ5n7-ImwW9Bo-EKvcPvUHgI1R9CnlGYKvBWjG2nei0mbQWdLAwQPUTqYvPE9vbXj32tQm6mpnVJOSmeYezAw" height="200" width="auto" /><br><br>Currently the Chart House restaurant, this was originally the Gardiner House, built around 1760.  It was later John Hancock's "counting house" (business office).  It is a wonderful historic building with outside seating and great view of the harbor.<br>Official website (http://www.chart-house.com/)<br>617-227-1576<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/y9In-eM8_pQoH6ILcqOVpLHV-Us3eHHaFxEvZRcQjFyMlufxBpBfPzJ5n7-ImwW9Bo-EKvcPvUHgI1R9CnlGYKvBWjG2nei0mbQWdLAwQPUTqYvPE9vbXj32tQm6mpnVJOSmeYezAw</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.049571,42.360177,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Warren Tavern - 1780</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/7PYgjtDi-r76h0z_2-R070juCsf5WSyqAO2o4DEBI0e3crfAZXzBnKC5kdv-rhfjwS7icPJNyDuxvcRd-xNHyMw1VEScHNDQNlmyzQclyxL30qP-oSNpiaAfmvTF_e4" height="200" width="auto" /><br><br>Built in 1780, it was reportedly the first building raised after the British burned Charlestown during the Battle of Bunker Hill in 1775. It is named for Dr./General Joseph Warren, the famous Patriot, killed at Bunker Hill. It was visited by George Washington, Paul Revere, and Benjamin Franklin. <br>Good pub food, great slice of history. <br>Official website (http://warrentavern.com/)<br>617-241-8142<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-61</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/7PYgjtDi-r76h0z_2-R070juCsf5WSyqAO2o4DEBI0e3crfAZXzBnKC5kdv-rhfjwS7icPJNyDuxvcRd-xNHyMw1VEScHNDQNlmyzQclyxL30qP-oSNpiaAfmvTF_e4</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.063164,42.374184,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Mikes Pastry</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/LN8W_TTFooC-jSjh0TtvislbMv_BmKUH74gYOlIM4SM-uzdfXWmMGPl4NMChaxKLt6TecE-GbBJ1bBstLhTaGbvdVehA_eRo5Wr5TVqiVTZREDWLM5xSy_bKIgA" height="200" width="auto" /><br><br>OK, its not historic, but the lines mean something.  Pick up a pastry and wander over to Paul Revere Mall and enjoy.  More types of cannoli than you can imagine!  <br>Website (http://www.mikespastry.com/index.html)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/LN8W_TTFooC-jSjh0TtvislbMv_BmKUH74gYOlIM4SM-uzdfXWmMGPl4NMChaxKLt6TecE-GbBJ1bBstLhTaGbvdVehA_eRo5Wr5TVqiVTZREDWLM5xSy_bKIgA</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.054158,42.364188,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Galleria Umberto</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/QT9lIMCTNGd24XGKyig-iFqrBtF76GcHD9xMLB91XdL0uBLmMWLuFMAdNtAEmn1fNBdVW3QkOxhPZ36N6DxL_ew9acrcrEysCb9k2NAXNbdrpq1JgUISqp4ggQTNDADQWutzIPpSlZPl6WE0HLgwmUPSo0PP" height="200" width="auto" /><br><br>Galleria Umberto, for pizza-oriented lunch fare, is very popular with the locals. 289 Hanover Street <br>(617) 227-5709<br>Yelp website  (http://www.yelp.com/biz/galleria-umberto-boston)(They do not have their own web site.)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/QT9lIMCTNGd24XGKyig-iFqrBtF76GcHD9xMLB91XdL0uBLmMWLuFMAdNtAEmn1fNBdVW3QkOxhPZ36N6DxL_ew9acrcrEysCb9k2NAXNbdrpq1JgUISqp4ggQTNDADQWutzIPpSlZPl6WE0HLgwmUPSo0PP</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.055107,42.362983,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Pizzeria Regina - The Original</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/-0QGL9Qxw7VIiBQxkoqMDl-Zk_baka4z3uK6i2ur9t16_5t2mTJEpuSeGP3UXA42krgcMoiWNF04LjvyAHUMj_OEStr2OarSROAslk0Rg8Y_qeK_VErEnOfEoVRxiOQ4bkbRo0uQsZROP34g" height="200" width="auto" /><br><br>Pizzeria Regina, Boston’s oldest pizzeria and one of the oldest in the US has been here since 1926. The chain started at this location - this is much better than the branches. <br>Be prepared to wait in the evenings. <br>11 1/2 Thacher Street. <br>617-227-0765 <br>Website (http://www.reginapizzeria.com/location_detail.php?location_id=38&Brick%20Oven%20Pizza%20-%20North%20End%20-%20The%20Original%20-%20Boston%20-%20Boston)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/-0QGL9Qxw7VIiBQxkoqMDl-Zk_baka4z3uK6i2ur9t16_5t2mTJEpuSeGP3UXA42krgcMoiWNF04LjvyAHUMj_OEStr2OarSROAslk0Rg8Y_qeK_VErEnOfEoVRxiOQ4bkbRo0uQsZROP34g</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.056792,42.365481,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>La Summa</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/cXNg1S6VYCfCeOQwNJ-r28sj_MZOaO9qFJ2j_uYje1IoEYBZz42KeeYwSL4VoN_QVEbm2VSkivYqxUyPPc0KzQn8FgaVBVO5SVE071Jjuy89mEoyRiQFkbivGGQGHAjCj1jApwM" height="200" width="auto" /><br><br>La Summa, old world (not trendy) Italian, but very nice. Excellent for lunch or dinner. 30 Fleet St <br>617-523-9503<br>Website (http://lasumma.com/)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/cXNg1S6VYCfCeOQwNJ-r28sj_MZOaO9qFJ2j_uYje1IoEYBZz42KeeYwSL4VoN_QVEbm2VSkivYqxUyPPc0KzQn8FgaVBVO5SVE071Jjuy89mEoyRiQFkbivGGQGHAjCj1jApwM</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.052758,42.364609,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Modern Pastry</name>
+				<description><![CDATA[Modern Pastry at 257 Hanover Street<br>Great, and often less crowed alternative to Mike's across the street. Does not have seating.<br>617-523-3783<br>Website (http://www.modernpastry.com/)<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<Point>
+					<coordinates>-71.05485,42.363293,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>1st Bullfinch Otis House</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/MwT5PtnCaa8A_Ni2uLwmViKd-33YqiEqKkUlCmabhSP7nofQX7A49NzKFlfNQPlbNFZMsrwhXE92mOb2bfbzQMWJ05eSEimHIoVedw-6OAFqFkJo-ZuojJbZLLC5uanovhjbdHIr6cZWz6ygIUB7Z_2D" height="200" width="auto" /><br><br>The first mansion designed by Charles Bulfinch for Harrison Grey Otis.<br>141 Cambridge Street<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/MwT5PtnCaa8A_Ni2uLwmViKd-33YqiEqKkUlCmabhSP7nofQX7A49NzKFlfNQPlbNFZMsrwhXE92mOb2bfbzQMWJ05eSEimHIoVedw-6OAFqFkJo-ZuojJbZLLC5uanovhjbdHIr6cZWz6ygIUB7Z_2D</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.06487,42.361335,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>2nd Bulfinch Otis House</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/7DtW0rpo3jMDy82JPJQgyvsIzhfQxGMEgj1XHee1VyD0zN1XoGoxc_8ONUMTj3xy_Q_XOS0cQeED8DGVlsMcvpCJNPIEi9YYa6XxqJ1VyoF9oeTKsdHNqD8Fc9RHbWhvv8fvS3lG9P8GhxHXc3UyFkpS3vz9GkF7Jmh-sjrWpg46V8g62HIc11ydpYYmn6_Z5g" height="200" width="auto" /><br><br>Second Mansion designed by Charles Bulfinch for Harrison Grey Otis<br>85 Mt. Vernon Street, on Beacon Hill<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/7DtW0rpo3jMDy82JPJQgyvsIzhfQxGMEgj1XHee1VyD0zN1XoGoxc_8ONUMTj3xy_Q_XOS0cQeED8DGVlsMcvpCJNPIEi9YYa6XxqJ1VyoF9oeTKsdHNqD8Fc9RHbWhvv8fvS3lG9P8GhxHXc3UyFkpS3vz9GkF7Jmh-sjrWpg46V8g62HIc11ydpYYmn6_Z5g</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.06751,42.358286,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>3rd Bulfinch Otis House</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/uErABuIa6PHFxD3UFyXZfiOg1DEx1NqMrkQncv_QNZGjJEBR4Np1VVEDcXLvQ8Wn9Jjpxt0Er-hGrv6wCq2g4pfCmync5W4fkKcOPHMpY9SLlMi_d3fx8T1R0zFmkflAxccVUM7OAvrsQQ9w6at-AB2qyAIPTagF-BVYbM6AOKfQA_s8" height="200" width="auto" /><br><br>The third Harrison Grey Otis mansion designed by Charles Bulfinch. <br>At 45 Beacon Street.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/uErABuIa6PHFxD3UFyXZfiOg1DEx1NqMrkQncv_QNZGjJEBR4Np1VVEDcXLvQ8Wn9Jjpxt0Er-hGrv6wCq2g4pfCmync5W4fkKcOPHMpY9SLlMi_d3fx8T1R0zFmkflAxccVUM7OAvrsQQ9w6at-AB2qyAIPTagF-BVYbM6AOKfQA_s8</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.067182,42.356812,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Charles Street Meeting House</name>
+				<description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/ZlNaLJmN-IwCc9Rvgj23NmcJHqeZP63n9fzrn4l_tRXj6AxFj0Gk1oCO7WMPC9VplGqlLrYmMLjAydcads_Juzirw0gOFD5cYl6KFwrBon4B1H2quxcu9A3jNS8psWS7CtmUBjuzx3kXiFle8Dwb" height="200" width="auto" /><br><br>Asher Benjamin designed Charles Street Meeting House, built between 1804-7.<br>It was originally the Third Baptist Church, which used the Charles River for its baptisms.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh5.googleusercontent.com/proxy/ZlNaLJmN-IwCc9Rvgj23NmcJHqeZP63n9fzrn4l_tRXj6AxFj0Gk1oCO7WMPC9VplGqlLrYmMLjAydcads_Juzirw0gOFD5cYl6KFwrBon4B1H2quxcu9A3jNS8psWS7CtmUBjuzx3kXiFle8Dwb</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.070396,42.357799,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Water Shuttle Landing - Charlestown Navy Yard</name>
+				<description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/MOX2C96y5i0oH8lW7Px7Aoug6obA8YB13aVM_5sXzAg-wNWtS9Mm2bZYQ6X-OtynORK4Q0g9NrCH2zjNdjCAKk4eXOTnialSUIJM2FJimnJdSOKEWr1GEgbmcsELvuid7tU7s8bzJz-iIWTcLdL0UQKT1Ox5mrZK0QhcJsjt" height="200" width="auto" /><br><br>Water Shuttle Landing for inner harbor trip to Long Wharf. A beautiful ride on a nice day.<br><br>MBTA Schedule (http://www.mbta.com/schedules_and_maps/boats/lines/?route=F4).<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh3.googleusercontent.com/proxy/MOX2C96y5i0oH8lW7Px7Aoug6obA8YB13aVM_5sXzAg-wNWtS9Mm2bZYQ6X-OtynORK4Q0g9NrCH2zjNdjCAKk4eXOTnialSUIJM2FJimnJdSOKEWr1GEgbmcsELvuid7tU7s8bzJz-iIWTcLdL0UQKT1Ox5mrZK0QhcJsjt</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.052854,42.372226,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Water Shuttle Landing - Long Wharf</name>
+				<description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/v1KF6CT7kgdToVB_rzkJzDZIuu6NujmxfOTobrfRR_lQFaGyXlSCnYyRS0hoL12uQkZK6Ernf2SPhuMT0W6aATdCsjn81BEiw4raXkEtq2-0j6jxLirjN2XCCnK-ZH6CVQRfWpZ3DmWjR9oTv5k0CdhZ2w" height="200" width="auto" /><br><br>Water Shuttle landing for inner harbor trip  to the Charlestown Navy Yard.  A beautiful ride on a nice day. <br><br>MBTA Schedule (http://www.mbta.com/schedules_and_maps/boats/lines/?route=F4).<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh4.googleusercontent.com/proxy/v1KF6CT7kgdToVB_rzkJzDZIuu6NujmxfOTobrfRR_lQFaGyXlSCnYyRS0hoL12uQkZK6Ernf2SPhuMT0W6aATdCsjn81BEiw4raXkEtq2-0j6jxLirjN2XCCnK-ZH6CVQRfWpZ3DmWjR9oTv5k0CdhZ2w</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.050515,42.359432,0.0</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Acorn Street - Most Photographed in Boston</name>
+				<description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/R8vlVBL--iLZC2DDfAEjmXcZHcWyCgyKGAykqe8VpoSTrnXsDHbMQ0-RGi_4KZQLOMxNGAUS_hrfZIMSjOg-u4GcAYHU3JuguNNZ1sSEQ7ee3XI_FyjddthtMnoH_mrVNqvbasfkXXwgiUjtANk" height="200" width="auto" /><br><br>Acorn Street dates from the 1820's and is the most photographed street in Boston. A must stop on your hike of Beacon Hill.<br>Download the Guide from Amazon (http://www.amazon.com/Freedom-Trail-Boston-Ultimate-ebook/dp/B008H45KQA/ref=tmm_kin_title_0?ie=UTF8&qid=1349537507&sr=1-1)!]]></description>
+				<styleUrl>#icon-157</styleUrl>
+				<ExtendedData>
+					<Data name='gx_media_links'>
+						<value>https://lh6.googleusercontent.com/proxy/R8vlVBL--iLZC2DDfAEjmXcZHcWyCgyKGAykqe8VpoSTrnXsDHbMQ0-RGi_4KZQLOMxNGAUS_hrfZIMSjOg-u4GcAYHU3JuguNNZ1sSEQ7ee3XI_FyjddthtMnoH_mrVNqvbasfkXXwgiUjtANk</value>
+					</Data>
+				</ExtendedData>
+				<Point>
+					<coordinates>-71.068529,42.357664,0.0</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+		<Style id='icon-123-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/123-red-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-123-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/123-red-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-123'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-123-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-123-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-157-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/157-yellow-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-157-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/157-yellow-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-157'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-157-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-157-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-22-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-22-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-22'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-22-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-22-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='icon-61-normal'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/61-green-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>0.0</scale>
+			</LabelStyle>
+		</Style>
+		<Style id='icon-61-highlight'>
+			<IconStyle>
+				<scale>1.1</scale>
+				<Icon>
+					<href>http://www.gstatic.com/mapspro/images/stock/61-green-dot.png</href>
+				</Icon>
+				<hotSpot x='16' y='31' xunits='pixels' yunits='insetPixels'>
+				</hotSpot>
+			</IconStyle>
+			<LabelStyle>
+				<scale>1.1</scale>
+			</LabelStyle>
+		</Style>
+		<StyleMap id='icon-61'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#icon-61-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#icon-61-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='line-FF0000-5-normal'>
+			<LineStyle>
+				<color>ff0000FF</color>
+				<width>5</width>
+			</LineStyle>
+		</Style>
+		<Style id='line-FF0000-5-highlight'>
+			<LineStyle>
+				<color>ff0000FF</color>
+				<width>8.0</width>
+			</LineStyle>
+		</Style>
+		<StyleMap id='line-FF0000-5'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#line-FF0000-5-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#line-FF0000-5-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>

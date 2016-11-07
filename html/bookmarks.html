@@ -14,11 +14,11 @@ body {
 }
 
 a:link {text-decoration: none; color: black;}
-a:visited {color: green;}
+a:visited {color: black;}
 table {
 	border: solid black 1px;
 	border-spacing: 10px;
-	width:600px;
+	width:700px;
 }
 table td.like {
 	border: solid black 1px;
@@ -34,6 +34,9 @@ table td.like {
 .x {
 	width:15px;
 	height:15px;
+}
+.tab {
+  background-color: #8cb8bd;
 }
     
 
@@ -83,14 +86,37 @@ table td.like {
 	      },
 	      success: function(data, textStatus, xhr) {
 					console.log(xhr.status);
-  				likeDiv.toggleClass('liked')
+  				likeDiv.addClass('liked')
 				},
 			})
   	};
   }
 
+  function makeFuckThisOnClickFunction(bookmarkID, fuckThisTD) {
+    var token = localStorage["lightuponToken"];
+    var bookmarkID = bookmarkID
+    return function(){
+      $.ajax({
+        method: "PUT",
+        url: "/lightupon/bookmarks/" + bookmarkID + "/fuckThis",
+        beforeSend: function (request) {
+          request.setRequestHeader("Authorization", "Bearer " + token);
+        },
+        success: function(data, textStatus, xhr) {
+          fuckThisTD.parent().remove(); // remove the whole dern row
+        },
+      })
+    };
+  }
+
+  
+
+
+
   function displayBookmarks(bookmarks) {
   	var table = $('<table></table>');
+
+    if(!bookmarks) {alert("No bookmarks returned from the server!")}
 
   	// For each bookmark we get back, build a tr and stick it on the table
   	for (var i = 0, len = bookmarks.length; i < len; i++) {
@@ -107,15 +133,18 @@ table td.like {
   		likeButtonDiv.on("click", likeFunction);
   		var likeTD = $('<td></td>');
   		likeTD.append(likeButtonDiv);
-  		var xTD = $('<td><img class="x" src="https://cdn4.iconfinder.com/data/icons/geomicons/32/672366-x-128.png"/></td>');
+
+      // build the "fuck this" button
+      var fuckThisTD = $('<td><img class="x" src="https://cdn4.iconfinder.com/data/icons/geomicons/32/672366-x-128.png"/></td>');
+      var fuckThisFunction = makeFuckThisOnClickFunction(bookmark["ID"], fuckThisTD)
+      fuckThisTD.on("click", fuckThisFunction);
 
 
-
-  		// Create the row and append the two td's we made
+  		// Create the row and append the td's we made
   		var tr = $('<tr></tr>')
   		tr.append(linkTD)
   		tr.append(likeTD)
-  		tr.append(xTD)
+  		tr.append(fuckThisTD)
 
   		// Now stick the row on the table
   		table.append(tr)
@@ -128,8 +157,16 @@ table td.like {
 
 </script>
 
+<div>
+  <table><tr>
+    <td class="tab"><a href="/lightupon/bookmarks/">Feed</a></td>
+    <td class="tab"><a href="/lightupon/mycontent/">My Content</a></td>
+    <td class="tab"><a href="/lightupon/add_content/">Add A Thing</a></td>
+  </tr></table>
+  <br>
+</div>
 <div class="bookmarks">
-	here's a div
+	things are broke
 </div>
 
 
