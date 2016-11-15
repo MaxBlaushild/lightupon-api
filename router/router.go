@@ -47,7 +47,7 @@ func Init(){
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/extinguish", routes.LightHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/extinguish", routes.ExtinguishHandler).Methods("POST")
   
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
