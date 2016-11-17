@@ -49,7 +49,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/extinguish", routes.LightHandler).Methods("POST")
   
-  // PARTY STUFF
+  // TRIP STUFF
   routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
