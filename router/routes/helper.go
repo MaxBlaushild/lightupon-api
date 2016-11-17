@@ -22,3 +22,10 @@ func GetUIntFromVars(r *http.Request, field string)(uintToReturn uint){
   uintToReturn = uint(george) // Fuck unints
   return
 }
+
+func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
+  query := r.URL.Query()
+  lat = query["lat"][0]
+  lon = query["lon"][0]
+  return
+}

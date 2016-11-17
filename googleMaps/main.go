@@ -4,51 +4,77 @@ import (
     "log"
     "os"
     "googlemaps.github.io/maps"
-    "golang.org/x/net/context"
+    "fmt"
     "lightupon-api/models"
+    "strconv"
+    "net/http"
+    "encoding/json"
 )
 
 var (
   googleMaps *maps.Client
 )
 
+type MapsResponse struct {
+  SnappedPoints []struct {
+    PlaceID string
+    Location models.Location
+  }
+}
+
 func Init() {
     googleApiKey := os.Getenv("GOOGLE_MAPS_API")
     var err error
-    googleMaps, err = maps.NewClient(maps.WithAPIKey(googleApiKey))
+    googleMaps, err = maps.NewClient(maps.WithAPIKey(googleApiKey))  // Deprecated but let's let it hang around a little longer
 
     if err != nil {
         log.Fatalf("fatal error: %s", err)
     }
 }
 
-func SnapLocations(locations []models.Location)([]models.Location, error) {
-    path := locationsToLatLngs(locations)
-    newLocations := []models.Location{}
+func SmoothTrip(TripID int, rawLocations []models.Location) (smoothLocations []models.Location){
+  
+  // Build the URL 
+  url := BuildSmoothingURL(rawLocations)
 
-    request := &maps.SnapToRoadRequest{
-        Interpolate: true,
-        Path: path,
+  // Build a respond object and reflect onto it
+  response := MapsResponse{}
+  getJson(url, &response)
+
+  // Now we need to take that response and put all the locations up in the DB
+  if (len(response.SnappedPoints) > 0) {
+    for _, smoothLocation := range response.SnappedPoints {
+      locaish := smoothLocation.Location
+      locaish.TripID = uint(TripID)
+      smoothLocations = append(smoothLocations, locaish)
     }
-
-    snapToRoadResponse, err := googleMaps.SnapToRoad(context.Background(), request); if err == nil {
-        newLocations = snappedPointsToLocations(snapToRoadResponse.SnappedPoints)
-    }
-    return newLocations, err
-}
-
-func locationsToLatLngs(locations []models.Location)(latLngs []maps.LatLng) {
-  for i := 0; i < len(locations); i++ {
-      latLng := maps.LatLng{Lat: locations[i].Latitude, Lng: locations[i].Longitude}
-      latLngs = append(latLngs, latLng)
+  } else {
+    fmt.Println("ERROR: No smoothed locations returned from Google for TripID = " + strconv.Itoa(TripID))
   }
   return
 }
 
-func snappedPointsToLocations(snappedPoints []maps.SnappedPoint)(locations []models.Location) {
-  for i := 0; i < len(snappedPoints); i++ {
-      location := models.Location{Latitude: snappedPoints[i].Location.Lat, Longitude: snappedPoints[i].Location.Lng}
-      locations = append(locations, location)
+func BuildSmoothingURL(oldLocations []models.Location) string {
+  url := ""
+  if (len(oldLocations) > 0) {
+    // apiKey := strings.Trim(os.Getenv("GOOGLE_MAPS_API"), "⏎")  // TODO: need to make this a var on the package
+    url = url + "https://roads.googleapis.com/v1/snapToRoads?key=AIzaSyBS-y6hKLFKiM5yUWIO0AYR5-lrkCZSvp0&path=" // TODO: Probably want to set this as a var on the package
+    url = url + strconv.FormatFloat(oldLocations[0].Latitude, 'f', 6, 64) + "," + strconv.FormatFloat(oldLocations[0].Longitude, 'f', 6, 64)
+    for _, oldLocation := range oldLocations {
+      url = url + "|" + strconv.FormatFloat(oldLocation.Latitude, 'f', 6, 64) + "," + strconv.FormatFloat(oldLocation.Longitude, 'f', 6, 64)
+    }
   }
-  return
+  fmt.Println("url for google maps smoothing:")
+  fmt.Println(url)
+  return url
+}
+
+func getJson(url string, target interface{}) error {  
+  r, err := http.Get(url)
+  if err != nil {
+    return err
+  }
+  defer r.Body.Close()
+
+  return json.NewDecoder(r.Body).Decode(target)
 }
