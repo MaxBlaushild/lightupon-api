@@ -9,7 +9,6 @@ import (
     "strconv"
     "net/http"
     "encoding/json"
-    "strings"
 )
 
 var (
@@ -58,13 +57,15 @@ func SmoothTrip(TripID int, rawLocations []models.Location) (smoothLocations []m
 func BuildSmoothingURL(oldLocations []models.Location) string {
   url := ""
   if (len(oldLocations) > 0) {
-    apiKey := strings.Trim(os.Getenv("GOOGLE_MAPS_API"), "⏎")
-    url = url + "https://roads.googleapis.com/v1/snapToRoads?key=" + apiKey + "&path=" // TODO: Probably want to set this as a var on the package
+    // apiKey := strings.Trim(os.Getenv("GOOGLE_MAPS_API"), "⏎")  // TODO: need to make this a var on the package
+    url = url + "https://roads.googleapis.com/v1/snapToRoads?key=AIzaSyBS-y6hKLFKiM5yUWIO0AYR5-lrkCZSvp0&path=" // TODO: Probably want to set this as a var on the package
     url = url + strconv.FormatFloat(oldLocations[0].Latitude, 'f', 6, 64) + "," + strconv.FormatFloat(oldLocations[0].Longitude, 'f', 6, 64)
     for _, oldLocation := range oldLocations {
       url = url + "|" + strconv.FormatFloat(oldLocation.Latitude, 'f', 6, 64) + "," + strconv.FormatFloat(oldLocation.Longitude, 'f', 6, 64)
     }
   }
+  fmt.Println("url for google maps smoothing:")
+  fmt.Println(url)
   return url
 }
 
