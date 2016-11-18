@@ -83,7 +83,16 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 	return
 }
 
-func (u *User) Light()(err error) {
+func (u *User) ActiveTrip()(trip Trip) {
+  DB.Preload("Scenes").Where("user_id = ? AND active = true", u.ID).First(&trip)
+  return
+}
+
+func (u *User) DeactivateTrips() {
+	DB.Model(&Trip{}).Where("active = true AND user_id = ?", u.ID).Update("active", false)
+}
+
+func (u *User) Light(location Location)(err error) {
 	tx := DB.Begin()
 
   if err := tx.Model(&u).Update("lit", true).Error; err != nil {
@@ -102,11 +111,70 @@ func (u *User) Light()(err error) {
      return err
   }
 
+  scene := Scene{
+  	Name: "Start of Trip",
+  	Latitude: location.Latitude,
+  	Longitude: location.Longitude,
+  	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
+  	SceneOrder: 1,
+  }
+
+  if err := tx.Model(&trip).Association("scenes").Append(scene).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
+  card := Card{ 
+  	Text: u.FullName + " did a thing!",
+  	CardOrder: 1,
+		NibID: "TextHero",
+  }
+
+  if err := tx.Model(&scene).Association("cards").Append(card).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
   tx.Commit()
   return nil
 }
 
-func (u *User) Extinguish()(err error) {
-	err = DB.Model(&u).Update("lit", false).Error
-	return
+func (u *User) Extinguish(location Location)(err error) {
+	tx := DB.Begin()
+
+	if err := tx.Model(&u).Update("lit", false).Error; err != nil {
+    tx.Rollback()
+    return err
+  }
+
+  trip := u.ActiveTrip()
+
+  scene := Scene{
+  	Name: "Start of Trip",
+  	Latitude: location.Latitude,
+  	Longitude: location.Longitude,
+  	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
+  	SceneOrder: uint(len(trip.Scenes) + 1),
+  }
+
+  if err := tx.Model(&trip).Association("scenes").Append(scene).Error; err != nil {
+     tx.Rollback()
+     return err
+  }
+
+  card := Card{ 
+  	Text: u.FullName + " ended the trip!",
+  	CardOrder: 1,
+		NibID: "TextHero",
+  }
+
+  if err := tx.Model(&scene).Association("cards").Append(card).Error; err != nil {
+    tx.Rollback()
+    return err
+  }
+
+  u.DeactivateTrips()
+
+  tx.Commit()
+  return nil
 }
