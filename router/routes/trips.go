@@ -26,7 +26,7 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
     smoothLocations := redis.GetSmoothedLocationsFromRedis(int(trip.ID))
     if (len(smoothLocations) > 0) {
       trips[i].Locations = smoothLocations
-      fmt.Println("INFO: (Attempt 1) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + len(smoothLocations))
+      fmt.Println("INFO: (Attempt 1) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + strconv.Itoa(len(smoothLocations)))
     } else {
       fmt.Println("ERROR: (Attempt 1) Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)))
 
@@ -40,7 +40,7 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
         smoothLocations := redis.GetSmoothedLocationsFromRedis(int(trips[i].ID))
         if (len(smoothLocations) > 0) {
           trips[i].Locations = smoothLocations
-          fmt.Println("INFO: (Attempt 2) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + len(smoothLocations))
+          fmt.Println("INFO: (Attempt 2) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + strconv.Itoa(len(smoothLocations)))
         } else {
           fmt.Println("ERROR: (Attempt 2) Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)))
         }
