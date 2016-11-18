@@ -16,6 +16,7 @@ type Trip struct {
   User User
   Scenes []Scene
   Locations []Location
+  Active bool `gorm:"default:true"`
 }
 
 func (t *Trip) PutLocations(locations []Location) {
