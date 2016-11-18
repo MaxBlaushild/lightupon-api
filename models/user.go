@@ -120,8 +120,6 @@ func (u *User) Light(location Location)(err error) {
   	SceneOrder: 1,
   }
 
-  fmt.Println(trip)
-
   if err := tx.Model(&trip).Association("Scenes").Append(&scene).Error; err != nil {
   	fmt.Println(err)
      tx.Rollback()
