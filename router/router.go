@@ -34,25 +34,23 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.ModifyCardHandler).Methods("PUT")
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}", routes.DeleteTripHandler).Methods("DELETE")
-  muxRouter.HandleFunc("/lightupon/admin/assets/uploadUrls/{assetType}/{assetName}", routes.UploadAssetUrlHandler).Methods("GET")
+
   muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
 
   routerWithAuth := mux.NewRouter()
 
   // USER STUFF
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/user/{userID}/follow", routes.FollowHandler).Methods("POST")
 
-  // routerWithAuth.HandleFunc("/lightupon/getFollowers", routes.GetFollowersHandler).Methods("GET")
-  // routerWithAuth.HandleFunc("/lightupon/getFolloweringUsers", routes.GetFollowingUsersHandler).Methods("GET")
-
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.FollowHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/unfollow", routes.UnfollowHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/extinguish", routes.LightHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/extinguish", routes.ExtinguishHandler).Methods("POST")
   
-  // PARTY STUFF
+  // TRIP STUFF
   routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
@@ -61,6 +59,9 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
+
+  // LOCATION STUFF
+  routerWithAuth.HandleFunc("/lightupon/locations", routes.AddLocationHandler).Methods("POST")
   
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
@@ -73,6 +74,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls/", routes.UploadAssetUrlHandler).Methods("POST")
+
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

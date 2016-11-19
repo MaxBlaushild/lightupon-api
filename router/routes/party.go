@@ -108,15 +108,6 @@ func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(activeParty)
 }
 
-
-
-func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
-  query := r.URL.Query()
-  lat = query["lat"][0]
-  lon = query["lon"][0]
-  return
-}
-
 func GetUsersPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()

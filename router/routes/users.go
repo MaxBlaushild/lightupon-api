@@ -36,7 +36,15 @@ func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
 
 func LightHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  if err := user.Light(); err != nil {
+  decoder := json.NewDecoder(r.Body)
+  location := models.Location{}
+
+  err := decoder.Decode(&location); if err != nil {
+    respondWithBadRequest(w, "The location sent was bunk.")
+    return
+  }
+
+  if err := user.Light(location); err != nil {
     respondWithBadRequest(w, "There was an error getting user lit. They must be a heavyweight XD.")
     return
   }
@@ -46,7 +54,15 @@ func LightHandler(w http.ResponseWriter, r *http.Request) {
 
 func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  if err := user.Extinguish(); err != nil {
+  decoder := json.NewDecoder(r.Body)
+  location := models.Location{}
+
+  err := decoder.Decode(&location); if err != nil {
+    respondWithBadRequest(w, "The location sent was bunk.")
+    return
+  }
+
+  if err := user.Extinguish(location); err != nil {
     respondWithBadRequest(w, "There was an error extinguishing user. Call the terminator.")
     return
   }
@@ -57,15 +73,4 @@ func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
 func MeHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   json.NewEncoder(w).Encode(user)
-}
-
-func FollowHandler(w http.ResponseWriter, r *http.Request) {
-  followingUser := GetUserFromRequest(r)
-  userToFollow := GetUIntFromVars(r, "userID")
-
-  follow := models.Follow{FollowingUser:followingUser.ID, FollowedUser:userToFollow}
-
-  models.DB.FirstOrCreate(&follow) // using FirstOrCreate just to avoid adding dupes to the DB
-
-  respondWithCreated(w, "You just followed the shit out of that user!")
 }
