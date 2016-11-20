@@ -6,49 +6,11 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "github.com/jinzhu/gorm"
-       "fmt"
-       "lightupon-api/googleMaps"
-       "lightupon-api/redis"
        )
 
-func TripsHandler(w http.ResponseWriter, r *http.Request) {
+func TripsHandler(w http.ResponseWriter, r *http.Request) {  
   lat, lon := GetUserLocationFromRequest(r)
-  trips := []models.Trip{}
-  models.DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
-    return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
-  }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
-
-  // TODO: this should probably be abstracted in some way
-  // Now attach locations from redis
-  for i, trip := range trips {
-    // Ok what we're going to do here is attempt to pull smooth locations out of Redis. If we're not successful, then attempt to put them in there and try pulling them out again. 
-    smoothLocations := redis.GetSmoothedLocationsFromRedis(int(trip.ID))
-    if (len(smoothLocations) > 0) {
-      trips[i].Locations = smoothLocations
-      fmt.Println("INFO: (Attempt 1) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + strconv.Itoa(len(smoothLocations)))
-    } else {
-      fmt.Println("ERROR: (Attempt 1) Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)))
-
-      // see if there are actually any raw locations to be smoothed
-      rawLocations := []models.Location{}
-      models.DB.Where("trip_id = ?", trips[i].ID).Find(&rawLocations)
-      if (len(rawLocations) > 0) {
-        smoothLocationsFromGoogle := googleMaps.SmoothTrip(int(trips[i].ID), rawLocations)
-        // Now let's throw the smoothed trip up into the DB
-        redis.SaveSmoothedLocationsToRedis(int(trips[i].ID), smoothLocationsFromGoogle) //comment this out while testing the GET below
-        smoothLocations := redis.GetSmoothedLocationsFromRedis(int(trips[i].ID))
-        if (len(smoothLocations) > 0) {
-          trips[i].Locations = smoothLocations
-          fmt.Println("INFO: (Attempt 2) Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)) + ". Total points found was: " + strconv.Itoa(len(smoothLocations)))
-        } else {
-          fmt.Println("ERROR: (Attempt 2) Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(trips[i].ID)))
-        }
-      } else {
-        fmt.Println("INFO: Didn't find any raw locations in DB for TripID = " + strconv.Itoa(int(trips[i].ID)))
-      }
-    }
-  }
+  trips := models.GetTripsNearLocation(lat, lon)
 
   json.NewEncoder(w).Encode(trips)
 }
