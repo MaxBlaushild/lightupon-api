@@ -106,7 +106,8 @@ func (u *User) Light(location Location)(err error) {
   							Details: "And it goes on and on my friends.",
   						}
 
-  if err := tx.Model(&u).Association("trips").Append(trip).Error; err != nil {
+  if err := tx.Model(&u).Association("Trips").Append(&trip).Error; err != nil {
+  	fmt.Println(err)
      tx.Rollback()
      return err
   }
@@ -119,7 +120,8 @@ func (u *User) Light(location Location)(err error) {
   	SceneOrder: 1,
   }
 
-  if err := tx.Model(&trip).Association("scenes").Append(scene).Error; err != nil {
+  if err := tx.Model(&trip).Association("Scenes").Append(&scene).Error; err != nil {
+  	fmt.Println(err)
      tx.Rollback()
      return err
   }
@@ -130,7 +132,8 @@ func (u *User) Light(location Location)(err error) {
 		NibID: "TextHero",
   }
 
-  if err := tx.Model(&scene).Association("cards").Append(card).Error; err != nil {
+  if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
+  	fmt.Println(err)
      tx.Rollback()
      return err
   }
@@ -143,6 +146,7 @@ func (u *User) Extinguish(location Location)(err error) {
 	tx := DB.Begin()
 
 	if err := tx.Model(&u).Update("lit", false).Error; err != nil {
+		fmt.Println(err)
     tx.Rollback()
     return err
   }
@@ -157,7 +161,8 @@ func (u *User) Extinguish(location Location)(err error) {
   	SceneOrder: uint(len(trip.Scenes) + 1),
   }
 
-  if err := tx.Model(&trip).Association("scenes").Append(scene).Error; err != nil {
+  if err := tx.Model(&trip).Association("Scenes").Append(&scene).Error; err != nil {
+  	fmt.Println(err)
      tx.Rollback()
      return err
   }
@@ -168,7 +173,8 @@ func (u *User) Extinguish(location Location)(err error) {
 		NibID: "TextHero",
   }
 
-  if err := tx.Model(&scene).Association("cards").Append(card).Error; err != nil {
+  if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
+  	fmt.Println(err)
     tx.Rollback()
     return err
   }
