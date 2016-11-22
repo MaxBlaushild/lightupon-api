@@ -41,39 +41,45 @@ func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
 }
 
 func GetLocationsForTrip(tripID uint) (locations []Location){
-  locations = GetSmoothedLocationsFromRedis(int(tripID))
-
-  // If we find something in redis then return
-  if (len(locations) > 0) {
-    fmt.Println("INFO: Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(tripID)) + ". Total points found was: " + strconv.Itoa(len(locations)))
+  if (redis.GetRedisKey("smoothing_disabled") == "true") {
+    fmt.Println("INFO: Smoothing disabled. Incidentally, here's the TripID: " + strconv.Itoa(int(tripID)))
+    DB.Where("trip_id = ?", tripID).Find(&locations)
     return
   } else {
-    fmt.Println("INFO: Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(tripID)))
-  }
+    locations = GetSmoothedLocationsFromRedis(int(tripID))
 
-  // Try to pull the locations out of the DB. If we find nothing then we're SOL, so return. If we found something, we might need it later if we fail to smooth
-  rawLocations := []Location{}; DB.Where("trip_id = ?", tripID).Find(&rawLocations)  // If we decide later that we never want to display raw trips, then we should just reflect onto 'locations' here
-  if (len(rawLocations) == 0) {
-    fmt.Println("INFO: Didn't find any raw locations in DB for TripID = " + strconv.Itoa(int(tripID)))
-    return
-  }
+    // If we find something in redis then return
+    if (len(locations) > 0) {
+      fmt.Println("INFO: Found some smooth locations in Redis for TripID = " + strconv.Itoa(int(tripID)) + ". Total points found was: " + strconv.Itoa(len(locations)))
+      return
+    } else {
+      fmt.Println("INFO: Didn't find any smooth locations in Redis for TripID = " + strconv.Itoa(int(tripID)))
+    }
 
-  if (!AllowSmoothingRequestForTrip(tripID)) { 
-    fmt.Println("INFO: Smoothing request rate limited for TripID = " + strconv.Itoa(int(tripID)))
-    return
-  }
+    // Try to pull the locations out of the DB. If we find nothing then we're SOL, so return. If we found something, we might need it later if we fail to smooth
+    rawLocations := []Location{}; DB.Where("trip_id = ?", tripID).Find(&rawLocations)  // If we decide later that we never want to display raw trips, then we should just reflect onto 'locations' here
+    if (len(rawLocations) == 0) {
+      fmt.Println("INFO: Didn't find any raw locations in DB for TripID = " + strconv.Itoa(int(tripID)))
+      return
+    }
 
-  locations = RequestSmoothnessFromGoogle(int(tripID), rawLocations)
-  redis.SetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)), "x", 86400) // Rate limit to one day 86400
+    if (!AllowSmoothingRequestForTrip(tripID)) { 
+      fmt.Println("INFO: Smoothing request rate limited for TripID = " + strconv.Itoa(int(tripID)))
+      return
+    }
 
-  if (len(locations) == 0) { 
-    fmt.Println("ERROR: Didn't get any smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
-    return rawLocations // ok if we've tried all that stuff and nothing has worked, just return the raw locations
-  } else {
-    // AHA! we got some smoothness back from google, save that shit in redis and also return it
-    fmt.Println("INFO: We got some smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
-    SaveSmoothedLocationsToRedis(tripID, locations)
-    return
+    locations = RequestSmoothnessFromGoogle(int(tripID), rawLocations)
+    redis.SetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)), "x", 86400) // Rate limit to one day 86400
+
+    if (len(locations) == 0) { 
+      fmt.Println("ERROR: Didn't get any smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
+      return rawLocations // ok if we've tried all that stuff and nothing has worked, just return the raw locations
+    } else {
+      // AHA! we got some smoothness back from google, save that shit in redis and also return it
+      fmt.Println("INFO: We got some smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
+      SaveSmoothedLocationsToRedis(tripID, locations)
+      return
+    }
   }
 }
 
