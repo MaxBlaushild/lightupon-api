@@ -32,11 +32,14 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
   fmt.Println("  numberOfChunks:" + strconv.Itoa(numberOfChunks))
 
   for i := 0; i < numberOfChunks; i++ {
+    fmt.Println("  Chunk number:" + strconv.Itoa(i))    
     url := ""
     if (i == (numberOfChunks - 1)) {
       url = BuildSmoothingURL(rawLocations[100*i : numberOfLocations])
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : numberOfLocations])))    
     } else {
       url = BuildSmoothingURL(rawLocations[100*i : 100*(i + 1)])
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : 100*(i + 1)])))    
     }
 
     response := MapsResponse{}
@@ -47,8 +50,8 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
       smoothLocations = append(smoothLocations, smoothLocation)
     }
 
-    fmt.Println("  number of locations in response for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(response.SnappedPoints)))
-    fmt.Println("  total number of smooth locations for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(smoothLocations)))
+    fmt.Println("    number of locations in response for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(response.SnappedPoints)))
+    fmt.Println("    total number of smooth locations for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(smoothLocations)))
 
   }
 
