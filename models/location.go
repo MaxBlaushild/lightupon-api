@@ -23,16 +23,39 @@ type MapsResponse struct {
   }
 }
 
-func SmoothLocationsForTrip(TripID int, rawLocations []Location) (smoothLocations []Location){
-  url := BuildSmoothingURL(rawLocations)
-  response := MapsResponse{}
-  getJson(url, &response)
+func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLocations []Location){
+  numberOfLocations := len(rawLocations)
+  numberOfChunks := (numberOfLocations / 100) + 1
 
-  for _, smoothLocation := range response.SnappedPoints {
-    smoothLocation := smoothLocation.Location
-    smoothLocation.TripID = uint(TripID)
-    smoothLocations = append(smoothLocations, smoothLocation)
+  fmt.Println("RequestSmoothnessFromGoogle for TripID: " + strconv.Itoa(TripID))
+  fmt.Println("  numberOfLocations:" + strconv.Itoa(numberOfLocations))
+  fmt.Println("  numberOfChunks:" + strconv.Itoa(numberOfChunks))
+
+  for i := 0; i < numberOfChunks; i++ {
+    url := ""
+    if (i == (numberOfChunks - 1)) {
+      url = BuildSmoothingURL(rawLocations[100*i : numberOfLocations])
+    } else {
+      url = BuildSmoothingURL(rawLocations[100*i : 100*(i + 1)])
+    }
+
+    fmt.Println("  url for index(" + strconv.Itoa(i) + "): " + url)
+
+
+    response := MapsResponse{}
+    getJson(url, &response)
+    for _, smoothLocation := range response.SnappedPoints {
+      smoothLocation := smoothLocation.Location
+      smoothLocation.TripID = uint(TripID)
+      smoothLocations = append(smoothLocations, smoothLocation)
+    }
+
+    fmt.Println("  number of locations in response for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(response.SnappedPoints)))
+    fmt.Println("  total number of smooth locations for index(" + strconv.Itoa(i) + "): " + strconv.Itoa(len(smoothLocations)))
+
   }
+
+
   
   return
 }

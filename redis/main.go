@@ -25,16 +25,6 @@ func SaveByteArrayToRedis(key string, value []byte) {
 }
 
 
-func SetRedisKey(key string, value string) {
-    client, err := redis.Dial("tcp", ":6379")
-    if err != nil {
-        panic(err)
-    }
-    defer client.Close()
-    client.Do("SET", key, value)
-}
-
-
 func GetRedisKey(key string) string {
     client, err := redis.Dial("tcp", ":6379")
     if err != nil {
@@ -44,4 +34,15 @@ func GetRedisKey(key string) string {
     value, _ := redis.String(client.Do("GET", key))
 
     return value
+}
+
+
+func SetRedisKey(key string, value string, ttl int) {
+    client, err := redis.Dial("tcp", ":6379")
+    if err != nil {
+        panic(err)
+    }
+    defer client.Close()
+    client.Do("SET", key, value)
+    client.Do("EXPIRE", key, ttl)
 }

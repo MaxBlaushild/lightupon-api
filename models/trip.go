@@ -56,15 +56,15 @@ func GetLocationsForTrip(tripID uint) (locations []Location){
   if (len(rawLocations) == 0) {
     fmt.Println("INFO: Didn't find any raw locations in DB for TripID = " + strconv.Itoa(int(tripID)))
     return
-  } 
+  }
 
   if (!AllowSmoothingRequestForTrip(tripID)) { 
     fmt.Println("INFO: Smoothing request rate limited for TripID = " + strconv.Itoa(int(tripID)))
     return
   }
 
-  // TODO: fix import cycle where googMaps package is using models - so we can uncomment the line below
-  locations = SmoothLocationsForTrip(int(tripID), rawLocations)
+  locations = RequestSmoothnessFromGoogle(int(tripID), rawLocations)
+  redis.SetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)), "x", 86400) // Rate limit to one day
 
   if (len(locations) == 0) { 
     fmt.Println("ERROR: Didn't get any smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
@@ -78,15 +78,14 @@ func GetLocationsForTrip(tripID uint) (locations []Location){
 }
 
 func SaveSmoothedLocationsToRedis(tripID uint, locations []Location) {
-  // TODO: Use something more descriptive as the key when saving to redis
   value, _ := json.Marshal(locations) 
   key := "locations_" + strconv.Itoa(int(tripID))
   redis.SaveByteArrayToRedis(key, value) //comment this out while testing the GET below
 }
 
 func AllowSmoothingRequestForTrip(tripID uint) bool {
-  // TODO: add rate limiting for smoothing requests on a per-trip basis
-  return true
+  rate_limit := redis.GetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)))
+  return (rate_limit == "") // If we find anything in Redis, it won't be an empty string, so this will return false
 }
 
 func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
