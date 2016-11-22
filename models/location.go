@@ -8,6 +8,8 @@ import(
     "encoding/json"
 )
 
+var chunkSize = 99
+
 type Location struct {
 	gorm.Model
 	Latitude float64
@@ -25,7 +27,7 @@ type MapsResponse struct {
 
 func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLocations []Location){
   numberOfLocations := len(rawLocations)
-  numberOfChunks := (numberOfLocations / 100) + 1
+  numberOfChunks := (numberOfLocations / chunkSize) + 1
 
   fmt.Println("RequestSmoothnessFromGoogle for TripID: " + strconv.Itoa(TripID))
   fmt.Println("  numberOfLocations:" + strconv.Itoa(numberOfLocations))
@@ -35,11 +37,11 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
     fmt.Println("  Chunk number:" + strconv.Itoa(i))    
     url := ""
     if (i == (numberOfChunks - 1)) {
-      url = BuildSmoothingURL(rawLocations[100*i : numberOfLocations])
-      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : numberOfLocations])))
+      url = BuildSmoothingURL(rawLocations[chunkSize*i : numberOfLocations])
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[chunkSize*i : numberOfLocations])))
     } else {
-      url = BuildSmoothingURL(rawLocations[100*i : 100*(i + 1)])
-      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : 100*(i + 1)])))
+      url = BuildSmoothingURL(rawLocations[chunkSize*i : chunkSize*(i + 1)])
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[chunkSize*i : chunkSize*(i + 1)])))
     }
 
     fmt.Println("  Smoothing URL for chunk:" + url)
