@@ -36,11 +36,13 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
     url := ""
     if (i == (numberOfChunks - 1)) {
       url = BuildSmoothingURL(rawLocations[100*i : numberOfLocations])
-      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : numberOfLocations])))    
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : numberOfLocations])))
     } else {
       url = BuildSmoothingURL(rawLocations[100*i : 100*(i + 1)])
-      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : 100*(i + 1)])))    
+      fmt.Println("  Number of points in chunk:" + strconv.Itoa(len(rawLocations[100*i : 100*(i + 1)])))
     }
+
+    fmt.Println("  Smoothing URL for chunk:" + url)
 
     response := MapsResponse{}
     getJson(url, &response)
