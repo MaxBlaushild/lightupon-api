@@ -39,9 +39,6 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
       url = BuildSmoothingURL(rawLocations[100*i : 100*(i + 1)])
     }
 
-    fmt.Println("  url for index(" + strconv.Itoa(i) + "): " + url)
-
-
     response := MapsResponse{}
     getJson(url, &response)
     for _, smoothLocation := range response.SnappedPoints {
@@ -55,8 +52,6 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
 
   }
 
-
-  
   return
 }
 
@@ -69,8 +64,8 @@ func BuildSmoothingURL(oldLocations []Location) string {
       url = url + "|" + strconv.FormatFloat(oldLocation.Latitude, 'f', 6, 64) + "," + strconv.FormatFloat(oldLocation.Longitude, 'f', 6, 64)
     }
   }
-  fmt.Println("url for google maps smoothing:")
-  fmt.Println(url)
+  // fmt.Println("url for google maps smoothing:")
+  // fmt.Println(url)
   return url
 }
 

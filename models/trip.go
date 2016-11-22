@@ -64,7 +64,7 @@ func GetLocationsForTrip(tripID uint) (locations []Location){
   }
 
   locations = RequestSmoothnessFromGoogle(int(tripID), rawLocations)
-  redis.SetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)), "x", 86400) // Rate limit to one day
+  redis.SetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)), "x", 86400) // Rate limit to one day 86400
 
   if (len(locations) == 0) { 
     fmt.Println("ERROR: Didn't get any smooth locations back from Google for TripID = " + strconv.Itoa(int(tripID)))
@@ -85,7 +85,7 @@ func SaveSmoothedLocationsToRedis(tripID uint, locations []Location) {
 
 func AllowSmoothingRequestForTrip(tripID uint) bool {
   rate_limit := redis.GetRedisKey("smoothing_request_rate_limit_tripID_" + strconv.Itoa(int(tripID)))
-  return (rate_limit == "") // If we find anything in Redis, it won't be an empty string, so this will return false
+  return !(rate_limit == "x") // If we find anything in Redis, it won't be an empty string, so this will return false
 }
 
 func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
