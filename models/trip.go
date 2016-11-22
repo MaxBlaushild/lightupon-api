@@ -89,7 +89,7 @@ func AllowSmoothingRequestForTrip(tripID uint) bool {
 }
 
 func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
-  key := strconv.Itoa(TripID)
+  key := "locations_" + strconv.Itoa(TripID)
   redisResponseBytes := redis.GetByteArrayFromRedis(key)
   _ = json.Unmarshal(redisResponseBytes, &smoothLocations)
   return
