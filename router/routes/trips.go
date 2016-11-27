@@ -6,6 +6,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+       "fmt"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {  
@@ -15,26 +16,20 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
-func CreateSelfieTripHandler(w http.ResponseWriter, r *http.Request) {
+func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+
+  fmt.Println("INFO: Creating selfie trip")
   selfie := models.Selfie{}
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&selfie)
   if err != nil {
-    respondWithBadRequest(w, "The scene you sent us was bunk.")
+    respondWithBadRequest(w, "The selfie you sent us was bunk.")
     return
   }
 
-  trip := models.Trip{Title: "New Selfie" }
-  scene := models.Scene{ 
-    Latitude: selfie.Location.Latitude, 
-    Longitude: selfie.Location.Longitude, 
-    SceneOrder: 1, 
-    BackgroundUrl: selfie.ImageUrl,
-  }
-  card := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
-  scene.Cards = append (scene.Cards, card)
-  trip.Scenes = append (trip.Scenes, scene)
-  models.DB.Create(&trip)
+  models.CreateSelfieTrip(selfie, user.ID)
+
   respondWithCreated(w, "The trip was created.")
 }
 

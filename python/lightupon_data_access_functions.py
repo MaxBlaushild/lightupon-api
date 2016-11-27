@@ -16,12 +16,9 @@ def open_connection():
 
 
 def save_bookmark(title, url, pubDate):
-	conn = open_connection()
-	cur = conn.cursor()
+	conn = open_connection(); cur = conn.cursor()
 	cur.execute("INSERT INTO bookmarks (title, url, pub_date) VALUES (%s, %s, %s)", (title, url, pubDate))
-	conn.commit()
-	cur.close()
-	conn.close()
+	conn.commit(); cur.close(); conn.close()
 	
 
 # Really only gets one scene
@@ -63,3 +60,5 @@ def get_stuff_from_rss_url(rss_url_string):
 		else:
 			print 'ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR'
 
+def do_things():
+	print 'stuff and things'

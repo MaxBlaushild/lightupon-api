@@ -1,5 +1,5 @@
-import urllib2
-from xml.etree import ElementTree as etree
+# import urllib2
+# from xml.etree import ElementTree as etree
 import lightupon_data_access_functions
 
 rss_urls = [

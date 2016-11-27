@@ -6,6 +6,8 @@ import(
       "strconv"
        "encoding/json"
        "fmt"
+              "lightupon-api/feature"
+              "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -101,3 +103,47 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
+
+// Overloading the Selfie creation function until there is frontend stuff for drop stuff
+func CreateSelfieTrip(selfie Selfie, userID uint) {
+  cards := []Card{}
+  tripTitle := ""
+
+
+  if (feature.IsFeatureEnabledForUser("drop_stuff_instead_of_selfie", userID)) {
+    fmt.Println("INFO: Creating stuff trip")
+    // TODO: replace cards with a function that returns some ballin ass cards
+    bookmarks := []Bookmark{}
+    DB.Where("id in (" + strconv.Itoa(2) + ")").Find(&bookmarks)
+    fmt.Println("bookmarks")
+    spew.Dump(bookmarks)
+    tripTitle = tripTitle + "New stuff trip at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
+  } else {
+    fmt.Println("INFO: Creating selfie trip")
+    selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
+    cards = append (cards, selfieCard)
+    tripTitle = tripTitle + "New Selfie at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
+  }
+  CreateDegenerateTrip(selfie.Location, cards, tripTitle, userID, selfie.ImageUrl)
+
+  return
+}
+
+// This is meant to decouple the selfie model from the Trip/Scene/Card model, so now we can re-use this without selfies
+func CreateDegenerateTrip(location Location, cards []Card, title string, userID uint, backgroundUrl string) {
+  trip := Trip{}
+  trip.Title = title
+  trip.UserID = userID
+
+  scene := Scene{ 
+    Latitude: location.Latitude, 
+    Longitude: location.Longitude, 
+    SceneOrder: 1, 
+    BackgroundUrl: backgroundUrl,
+  }
+
+  scene.Cards = cards
+  trip.Scenes = append (trip.Scenes, scene)
+  DB.Create(&trip)
+  return
+}
