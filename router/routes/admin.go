@@ -47,6 +47,7 @@ func AdminGetTripsForUserHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, trips)
 }
 
+
 func AdminGetAllTripsHandler(w http.ResponseWriter, r *http.Request) {
   t := template.New("fieldname example")
   t, _ = t.Parse(trips_list_template)
