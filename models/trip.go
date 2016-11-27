@@ -6,8 +6,8 @@ import(
       "strconv"
        "encoding/json"
        "fmt"
-              "lightupon-api/feature"
-              "github.com/davecgh/go-spew/spew"
+              // "lightupon-api/feature"
+              // "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -30,6 +30,9 @@ func (t *Trip) PutLocations(locations []Location) {
 }
 
 func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
+
+
+
   DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
@@ -104,44 +107,41 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
 }
 
 
-// Overloading the Selfie creation function until there is frontend stuff for drop stuff
+
 func CreateSelfieTrip(selfie Selfie, userID uint) {
-  cards := []Card{}
-  tripTitle := ""
-
-
-  if (feature.IsFeatureEnabledForUser("drop_stuff_instead_of_selfie", userID)) {
-    fmt.Println("INFO: Creating stuff trip")
-    // TODO: replace cards with a function that returns some ballin ass cards
-    bookmarks := []Bookmark{}
-    DB.Limit(5).Order("created_at desc").Find(&bookmarks)
-    // fmt.Println("bookmarks")
-    // spew.Dump(bookmarks)
-    for i, bookmark := range bookmarks {
-      // bookmarkCard := Card{ NibID: "TextHero" }
-
-      bookmarkCard := Card{ 
-        Text: bookmark.URL,
-        CardOrder: uint(i),
-        NibID: "TextHero",
-      }
-      fmt.Println("bookmark xxxxxx potat " + strconv.Itoa(i))
-      spew.Dump(bookmarkCard)
-
-      cards = append (cards, bookmarkCard)
-      
-
-    }
-    tripTitle = tripTitle + "New stuff trip at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
-  } else {
-    fmt.Println("INFO: Creating selfie trip")
-    selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
-    cards = append (cards, selfieCard)
-    tripTitle = tripTitle + "New Selfie at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
-  }
-  CreateDegenerateTrip(selfie.Location, cards, tripTitle, userID, selfie.ImageUrl)
-
+  CreateAnActualSelfieTrip(selfie, userID)
   return
+}
+
+func CreateAnActualSelfieTrip(selfie Selfie, userID uint) {
+  fmt.Println("INFO: Creating selfie trip")
+  selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
+  cards := []Card{selfieCard}  
+  tripTitle := "New Selfie at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
+  CreateDegenerateTrip(selfie.Location, cards, tripTitle, userID, selfie.ImageUrl)
+}
+
+func CreateStuffTrip(userID uint) {
+  fmt.Println("INFO: Creating stuff trip")
+  cards := GetBookmarkCards()
+  betsyAndBerniesHouse := Location{Latitude:30.459032, Longitude:-84.265358}
+  tripTitle := "New stuff trip at " + strconv.FormatFloat(betsyAndBerniesHouse.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(betsyAndBerniesHouse.Longitude, 'f', -1, 64)
+  CreateDegenerateTrip(betsyAndBerniesHouse, cards, tripTitle, userID, "http://eskipaper.com/images/wood-planks-1.jpg")
+}
+
+func GetBookmarkCards() []Card {
+  cards := []Card{}
+  bookmarks := []Bookmark{}
+  DB.Limit(5).Order("created_at desc").Find(&bookmarks)
+  for i, bookmark := range bookmarks {
+    bookmarkCard := Card{ 
+      Text: bookmark.URL,
+      CardOrder: uint(i),
+      NibID: "TextHero",
+    }
+    cards = append (cards, bookmarkCard)
+  }
+  return cards
 }
 
 // This is meant to decouple the selfie model from the Trip/Scene/Card model, so now we can re-use this without selfies

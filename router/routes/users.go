@@ -5,6 +5,7 @@ import(
        "lightupon-api/models"
        "encoding/json"
        "github.com/gorilla/mux"
+       "lightupon-api/feature"
 )
 
 func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,6 +39,11 @@ func LightHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   decoder := json.NewDecoder(r.Body)
   location := models.Location{}
+
+
+  if (feature.IsFeatureEnabledForUser("drop_stuff_instead_of_selfie", user.ID)) {
+    models.CreateStuffTrip(user.ID)
+  }
 
   err := decoder.Decode(&location); if err != nil {
     respondWithBadRequest(w, "The location sent was bunk.")
