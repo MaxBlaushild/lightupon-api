@@ -114,9 +114,24 @@ func CreateSelfieTrip(selfie Selfie, userID uint) {
     fmt.Println("INFO: Creating stuff trip")
     // TODO: replace cards with a function that returns some ballin ass cards
     bookmarks := []Bookmark{}
-    DB.Where("id in (" + strconv.Itoa(2) + ")").Find(&bookmarks)
-    fmt.Println("bookmarks")
-    spew.Dump(bookmarks)
+    DB.Limit(5).Order("created_at desc").Find(&bookmarks)
+    // fmt.Println("bookmarks")
+    // spew.Dump(bookmarks)
+    for i, bookmark := range bookmarks {
+      // bookmarkCard := Card{ NibID: "TextHero" }
+
+      bookmarkCard := Card{ 
+        Text: bookmark.URL,
+        CardOrder: uint(i),
+        NibID: "TextHero",
+      }
+      fmt.Println("bookmark xxxxxx potat " + strconv.Itoa(i))
+      spew.Dump(bookmarkCard)
+
+      cards = append (cards, bookmarkCard)
+      
+
+    }
     tripTitle = tripTitle + "New stuff trip at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
   } else {
     fmt.Println("INFO: Creating selfie trip")
