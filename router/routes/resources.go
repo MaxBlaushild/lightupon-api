@@ -2,15 +2,17 @@ package routes
 
 import (
 				"lightupon-api/aws"
+        "lightupon-api/models"
 				"net/http"
 				"github.com/gorilla/mux"
+        "encoding/json"
 				)
 
 func UploadAssetUrlHandler(w http.ResponseWriter, r *http.Request) {
-  vars := mux.Vars(r)
-  assetType := vars["assetType"]
-  assetName := vars["assetName"]
-  urlStr, err := aws.PutAsset(assetType, assetName)
+  decoder := json.NewDecoder(r.Body)
+  asset := models.Asset{}
+  err := decoder.Decode(&asset)
+  urlStr, err := aws.PutAsset(asset.Type, asset.Name)
 
   if (err == nil) {
   	respondWithAccepted(w, urlStr)
@@ -21,8 +23,8 @@ func UploadAssetUrlHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetAssetUrlHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-  assetType := vars["assetType"]
-  assetName := vars["assetName"]
+  assetType := vars["type"]
+  assetName := vars["name"]
   urlStr, err := aws.GetAsset(assetType, assetName)
 
   if (err == nil) {

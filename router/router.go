@@ -74,7 +74,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls/", routes.UploadAssetUrlHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
 
   // BOOKMARKS
