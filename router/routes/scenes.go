@@ -22,6 +22,23 @@ func ScenesHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
+func CreateSelfieSceneHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  activeTrip := user.ActiveTrip()
+
+  selfie := models.Selfie{}
+  decoder := json.NewDecoder(r.Body)
+  err := decoder.Decode(&selfie)
+
+  selfieScene := models.CreateSelfieScene(selfie)
+  err = activeTrip.AppendScene(selfieScene); if err != nil {
+    respondWithBadRequest(w, "That selfie was shit!")
+    return
+  }
+
+  json.NewEncoder(w).Encode(selfieScene)
+}
+
 // request should look like {"SceneOrder":3, "Name":"new scene", "Latitude":76.567,"Longitude":87.345}
 func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)

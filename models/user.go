@@ -84,7 +84,7 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 }
 
 func (u *User) ActiveTrip()(trip Trip) {
-  DB.Preload("Scenes").Where("user_id = ? AND active = true", u.ID).First(&trip)
+  DB.Preload("Scenes.Cards").Where("user_id = ? AND active = true", u.ID).First(&trip)
   return
 }
 

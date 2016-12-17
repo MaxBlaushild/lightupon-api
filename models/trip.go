@@ -25,6 +25,14 @@ type Trip struct {
   Active bool `gorm:"default:true"`
 }
 
+func (t *Trip) AppendScene(scene Scene) (err error) {
+  sceneOrder := uint(len(t.Scenes) + 1)
+  scene.SceneOrder = sceneOrder
+  scene.TripID = t.ID
+  err = DB.Save(scene).Error
+  return
+}
+
 func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
@@ -109,25 +117,34 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
 
 
 func CreateSelfieTrip(selfie Selfie, userID uint) {
-  CreateAnActualSelfieTrip(selfie, userID)
+  scene := CreateSelfieScene(selfie)
+  CreateDegenerateTrip(scene, userID)
   return
 }
 
-func CreateAnActualSelfieTrip(selfie Selfie, userID uint) {
+func CreateSelfieScene(selfie Selfie) Scene {
   fmt.Println("INFO: Creating selfie trip")
   selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
   cards := []Card{selfieCard}  
-  tripTitle := "New Selfie at " + strconv.FormatFloat(selfie.Location.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(selfie.Location.Longitude, 'f', -1, 64)
-  CreateDegenerateTrip(selfie.Location, cards, tripTitle, userID, selfie.ImageUrl)
+
+  scene := Scene{ 
+    Latitude: selfie.Location.Latitude, 
+    Longitude: selfie.Location.Longitude, 
+    SceneOrder: 1, 
+    BackgroundUrl: selfie.ImageUrl,
+  }
+
+  scene.Cards = cards
+  return scene
 }
 
-func CreateStuffTrip(userID uint) {
-  fmt.Println("INFO: Creating stuff trip")
-  cards := GetBookmarkCards()
-  betsyAndBerniesHouse := Location{Latitude:30.459032, Longitude:-84.265358}
-  tripTitle := "New stuff trip at " + strconv.FormatFloat(betsyAndBerniesHouse.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(betsyAndBerniesHouse.Longitude, 'f', -1, 64)
-  CreateDegenerateTrip(betsyAndBerniesHouse, cards, tripTitle, userID, "http://eskipaper.com/images/wood-planks-1.jpg")
-}
+// func CreateStuffTrip(userID uint) {
+//   fmt.Println("INFO: Creating stuff trip")
+//   cards := GetBookmarkCards()
+//   betsyAndBerniesHouse := Location{Latitude:30.459032, Longitude:-84.265358}
+//   tripTitle := "New stuff trip at " + strconv.FormatFloat(betsyAndBerniesHouse.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(betsyAndBerniesHouse.Longitude, 'f', -1, 64)
+//   CreateDegenerateTrip(betsyAndBerniesHouse, cards, tripTitle, userID, "http://eskipaper.com/images/wood-planks-1.jpg")
+// }
 
 func GetBookmarkCards() []Card {
   cards := []Card{}
@@ -145,19 +162,12 @@ func GetBookmarkCards() []Card {
 }
 
 // This is meant to decouple the selfie model from the Trip/Scene/Card model, so now we can re-use this without selfies
-func CreateDegenerateTrip(location Location, cards []Card, title string, userID uint, backgroundUrl string) {
+func CreateDegenerateTrip(scene Scene, userID uint) {
+  title := "New Selfie at " + strconv.FormatFloat(scene.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(scene.Longitude, 'f', -1, 64)
   trip := Trip{}
   trip.Title = title
   trip.UserID = userID
 
-  scene := Scene{ 
-    Latitude: location.Latitude, 
-    Longitude: location.Longitude, 
-    SceneOrder: 1, 
-    BackgroundUrl: backgroundUrl,
-  }
-
-  scene.Cards = cards
   trip.Scenes = append (trip.Scenes, scene)
   DB.Create(&trip)
   return
