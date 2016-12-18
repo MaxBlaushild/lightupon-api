@@ -29,7 +29,7 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
   sceneOrder := uint(len(t.Scenes) + 1)
   scene.SceneOrder = sceneOrder
   scene.TripID = t.ID
-  err = DB.Save(scene).Error
+  err = DB.Save(&scene).Error
   return
 }
 
