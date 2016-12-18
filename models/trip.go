@@ -6,6 +6,8 @@ import(
       "strconv"
        "encoding/json"
        "fmt"
+              // "lightupon-api/feature"
+              // "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -23,11 +25,22 @@ type Trip struct {
   Active bool `gorm:"default:true"`
 }
 
+func (t *Trip) AppendScene(scene Scene) (err error) {
+  sceneOrder := uint(len(t.Scenes) + 1)
+  scene.SceneOrder = sceneOrder
+  scene.TripID = t.ID
+  err = DB.Save(&scene).Error
+  return
+}
+
 func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
 func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
+
+
+
   DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
     return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
   }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
@@ -101,3 +114,65 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
+
+
+func CreateSelfieTrip(selfie Selfie, userID uint) {
+  scene := CreateSelfieScene(selfie)
+  CreateDegenerateTrip(scene, userID)
+  return
+}
+
+func CreateSelfieScene(selfie Selfie) Scene {
+  fmt.Println("INFO: Creating selfie trip")
+  selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
+  cards := []Card{selfieCard}  
+
+  scene := Scene{ 
+    Latitude: selfie.Location.Latitude, 
+    Longitude: selfie.Location.Longitude, 
+    SceneOrder: 1, 
+    Name: "Thing of trip",
+    BackgroundUrl: selfie.ImageUrl,
+  }
+
+  scene.Cards = cards
+  return scene
+}
+
+// func CreateStuffTrip(userID uint) {
+//   fmt.Println("INFO: Creating stuff trip")
+//   cards := GetBookmarkCards()
+//   betsyAndBerniesHouse := Location{Latitude:30.459032, Longitude:-84.265358}
+//   tripTitle := "New stuff trip at " + strconv.FormatFloat(betsyAndBerniesHouse.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(betsyAndBerniesHouse.Longitude, 'f', -1, 64)
+//   CreateDegenerateTrip(betsyAndBerniesHouse, cards, tripTitle, userID, "http://eskipaper.com/images/wood-planks-1.jpg")
+// }
+
+func GetBookmarkCards() []Card {
+  cards := []Card{}
+  bookmarks := []Bookmark{}
+  DB.Limit(5).Order("created_at desc").Find(&bookmarks)
+  for i, bookmark := range bookmarks {
+    bookmarkCard := Card{ 
+      Text: bookmark.URL,
+      CardOrder: uint(i),
+      NibID: "TextHero",
+    }
+    cards = append (cards, bookmarkCard)
+  }
+  return cards
+}
+
+// This is meant to decouple the selfie model from the Trip/Scene/Card model, so now we can re-use this without selfies
+func CreateDegenerateTrip(scene Scene, userID uint) {
+  title := "New Selfie at " + strconv.FormatFloat(scene.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(scene.Longitude, 'f', -1, 64)
+  trip := Trip{}
+  trip.ImageUrl = scene.BackgroundUrl
+  trip.Description = "This is the song that never ends"
+  trip.Title = title
+  trip.Active = false
+  trip.UserID = userID
+
+  trip.Scenes = append (trip.Scenes, scene)
+  DB.Create(&trip)
+  return
+}

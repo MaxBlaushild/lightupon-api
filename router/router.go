@@ -35,7 +35,6 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}", routes.DeleteTripHandler).Methods("DELETE")
 
-  muxRouter.HandleFunc("/lightupon/trips/", routes.CreateSelfieTripHandler).Methods("POST")
 
   routerWithAuth := mux.NewRouter()
 
@@ -51,7 +50,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/extinguish", routes.ExtinguishHandler).Methods("POST")
   
   // TRIP STUFF
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST")
+  // routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST") // commenting this out since there are dupe routes for POST to /lightupon/trips
+  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateDegenerateTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.TripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
@@ -62,6 +62,9 @@ func Init(){
 
   // LOCATION STUFF
   routerWithAuth.HandleFunc("/lightupon/locations", routes.AddLocationHandler).Methods("POST")
+
+  // SCENE STUFF
+  routerWithAuth.HandleFunc("/lightupon/selfies", routes.CreateSelfieSceneHandler).Methods("POST")
   
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
@@ -74,8 +77,15 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls/", routes.UploadAssetUrlHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
+
+  // BOOKMARKS
+  muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/bookmarks/", routes.ServeBookmarks).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
+  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/fuckThis", routes.FuckThisBookmark).Methods("PUT")
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

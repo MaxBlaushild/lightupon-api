@@ -20,6 +20,7 @@ func PutAsset(assetType string, assetName string)(urlStr string, err error) {
 	req, _ := LightuponS3.PutObjectRequest(&s3.PutObjectInput{
 	  Bucket: aws.String("lightupon"),
 	  Key:    aws.String(key),
+	  ACL:    aws.String("public-read"),
 	})
 
 	urlStr, err = req.Presign(15 * time.Minute)
