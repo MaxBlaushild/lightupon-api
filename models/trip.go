@@ -48,6 +48,9 @@ func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
   for i, _ := range trips {
     locations := GetLocationsForTrip(trips[i])
     trips[i].Locations = locations
+
+    constellation := GetConstellation
+    // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
   }
 
   return
