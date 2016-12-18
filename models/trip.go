@@ -169,6 +169,7 @@ func CreateDegenerateTrip(scene Scene, userID uint) {
   trip.ImageUrl = scene.BackgroundUrl
   trip.Description = "This is the song that never ends"
   trip.Title = title
+  trip.Active = false
   trip.UserID = userID
 
   trip.Scenes = append (trip.Scenes, scene)
