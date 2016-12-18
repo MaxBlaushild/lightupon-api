@@ -131,6 +131,7 @@ func CreateSelfieScene(selfie Selfie) Scene {
     Latitude: selfie.Location.Latitude, 
     Longitude: selfie.Location.Longitude, 
     SceneOrder: 1, 
+    Name: "Thing of trip",
     BackgroundUrl: selfie.ImageUrl,
   }
 
@@ -165,6 +166,8 @@ func GetBookmarkCards() []Card {
 func CreateDegenerateTrip(scene Scene, userID uint) {
   title := "New Selfie at " + strconv.FormatFloat(scene.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(scene.Longitude, 'f', -1, 64)
   trip := Trip{}
+  trip.ImageUrl = scene.BackgroundUrl
+  trip.Description = "This is the song that never ends"
   trip.Title = title
   trip.UserID = userID
 
