@@ -64,7 +64,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/locations", routes.AddLocationHandler).Methods("POST")
 
   // SCENE STUFF
-  routerWithAuth.HandleFunc("lightupon/selfies", routes.CreateSelfieSceneHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/selfies", routes.CreateSelfieSceneHandler).Methods("POST")
   
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
