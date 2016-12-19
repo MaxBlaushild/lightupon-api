@@ -13,6 +13,7 @@ type Scene struct {
   Latitude float64
   Longitude float64
   TripID uint `gorm:"index"`
+  Trip Trip
   BackgroundUrl string `gorm:"not null"`
   SceneOrder uint `gorm:"not null"`
   Featured bool
