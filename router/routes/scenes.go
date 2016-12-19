@@ -14,6 +14,12 @@ func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
+func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
+  scenes := []models.Scene{}
+  models.DB.Preload("Trip.User").Preload("Cards").Order("created_at desc").Find(&scenes)
+  json.NewEncoder(w).Encode(scenes)
+}
+
 func ScenesHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   id, _ := strconv.Atoi(vars["tripId"])

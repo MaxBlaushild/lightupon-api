@@ -22,6 +22,7 @@ type Trip struct {
   User User
   Scenes []Scene
   Locations []Location
+  Comments []Comment
   Active bool `gorm:"default:true"`
 }
 

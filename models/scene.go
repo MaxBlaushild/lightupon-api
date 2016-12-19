@@ -17,6 +17,7 @@ type Scene struct {
   SceneOrder uint `gorm:"not null"`
   Featured bool
   Cards []Card
+  Comments []Comment
   SoundKey string
   SoundResource string
 }
