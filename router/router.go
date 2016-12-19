@@ -80,6 +80,9 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
+  // COMMENTS STUFF
+  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.TripsCommentsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.ScenesCommentsHandler).Methods("GET")
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

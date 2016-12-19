@@ -12,3 +12,13 @@ type Comment struct {
   SceneID uint
   Scene Scene
 }
+
+func GetCommentsForScene(sceneID int)(comments []Comment) {
+	DB.Where("scene_id = ?", sceneID).Preload("User").Find(&comments)
+	return
+}
+
+func GetCommentsForTrip(tripID int)(comments []Comment) {
+	DB.Where("trip_id = ?", tripID).Preload("User").Find(&comments)
+	return
+}
