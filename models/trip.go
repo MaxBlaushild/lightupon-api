@@ -6,8 +6,7 @@ import(
       "strconv"
        "encoding/json"
        "fmt"
-              // "lightupon-api/feature"
-              // "github.com/davecgh/go-spew/spew"
+       "hash/fnv"
       )
 
 type Trip struct {
@@ -24,6 +23,14 @@ type Trip struct {
   Locations []Location
   Comments []Comment
   Active bool `gorm:"default:true"`
+  Constellation []ConstellationPoint
+}
+
+
+
+type ConstellationPoint struct {
+  DeltaY float64
+  DistanceToPreviousPoint float64
 }
 
 func (t *Trip) AppendScene(scene Scene) (err error) {
@@ -44,21 +51,70 @@ func (t *Trip) PutLocations(locations []Location) {
 }
 
 func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
+
   DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
   for i, _ := range trips {
-    locations := GetLocationsForTrip(trips[i])
-    trips[i].Locations = locations
+    trips[i].SetLocations()
+
+    // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
+    trips[i].SetConstellation()
   }
 
   return
 }
 
-func GetLocationsForTrip(trip Trip) (locations []Location){
+// This function accepts a string and returns a float64 between 0 and 1
+func hashStringToDecimal(s string) float64 {
+  h := fnv.New32()
+  h.Write([]byte("xxxxx" + s + "xxxxx"))
+  intHash := h.Sum32()
+
+  blurg := float64(intHash) / 100000.0
+  return blurg - float64(int(blurg))
+}
+
+func (trip *Trip) SetConstellation() {
+  if (trip.Scenes == nil) {
+    // Should probably log an error here
+    return
+  }
+
+  var constellationPoints []ConstellationPoint
+
+  for i, _ := range trip.Scenes {
+    constellationPoint :=  ConstellationPoint{}
+    if (i != 0) {  // doesn't make sense to do this for the first scene // REMEMBER INDICIES START AT ZERO!!!!!!!
+      // CalculateDistance only accepts a UserLocation as opposed to a Location, so that's what we're gonna use
+      // TODO: Refactor the entire app to either use UserLocation or Location OR have UserLocation extend Location
+      location1, location2 := UserLocation{}, UserLocation{}
+      location1.Longitude = trip.Scenes[i - 1].Longitude
+      location1.Latitude = trip.Scenes[i - 1].Latitude
+      location2.Longitude = trip.Scenes[i].Longitude
+      location2.Latitude = trip.Scenes[i].Latitude
+      
+      constellationPoint.DistanceToPreviousPoint = CalculateDistance(location1, location2)
+    }
+
+    constellationPoint.DeltaY = hashStringToDecimal(string(trip.Scenes[i].ID))
+    constellationPoints = append(constellationPoints, constellationPoint)
+    trip.Scenes[i].ConstellationPoint = constellationPoint
+  }
+
+  trip.Constellation = constellationPoints
+
+  return
+}
+
+func (trip *Trip) SetLocations() {
+
+  locations := []Location{}
+
   // Don't do no smoothing if th e trip is ongoing or if the feature is toggled off
   if ((redis.GetRedisKey("smoothing_disabled") == "true") || trip.Active) {
-    fmt.Println("INFO: Smoothing disabled. Incidentally, here's the TripID: " + strconv.Itoa(int(trip.ID)))
+    fmt.Println("INFO: Smoothing disabled. Incidentally, here's the TripID: " + strconv.Itoa(int(trip.ID)) + ". Also this is the active flag for the trip " + strconv.FormatBool(trip.Active))
     DB.Where("trip_id = ?", trip.ID).Find(&locations)
+    trip.Locations = locations
     return
   } else {
     locations = GetSmoothedLocationsFromRedis(int(trip.ID))
@@ -75,11 +131,13 @@ func GetLocationsForTrip(trip Trip) (locations []Location){
     rawLocations := []Location{}; DB.Where("trip_id = ?", trip.ID).Find(&rawLocations)  // If we decide later that we never want to display raw trips, then we should just reflect onto 'locations' here
     if (len(rawLocations) == 0) {
       fmt.Println("INFO: Didn't find any raw locations in DB for TripID = " + strconv.Itoa(int(trip.ID)))
+      trip.Locations = locations
       return
     }
 
     if (!AllowSmoothingRequestForTrip(trip.ID)) { 
       fmt.Println("INFO: Smoothing request rate limited for TripID = " + strconv.Itoa(int(trip.ID)))
+      trip.Locations = locations
       return
     }
 
@@ -88,11 +146,13 @@ func GetLocationsForTrip(trip Trip) (locations []Location){
 
     if (len(locations) == 0) { 
       fmt.Println("ERROR: Didn't get any smooth locations back from Google for TripID = " + strconv.Itoa(int(trip.ID)))
-      return rawLocations // ok if we've tried all that stuff and nothing has worked, just return the raw locations
+      trip.Locations = rawLocations
+      return  // ok if we've tried all that stuff and nothing has worked, just return the raw locations
     } else {
       // AHA! we got some smoothness back from google, save that shit in redis and also return it
       fmt.Println("INFO: We got some smooth locations back from Google for TripID = " + strconv.Itoa(int(trip.ID)))
       SaveSmoothedLocationsToRedis(trip.ID, locations)
+      trip.Locations = locations
       return
     }
   }
@@ -116,6 +176,12 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
+// func GetConstellationFromRedis(TripID int) (c Constellation) {
+//   key := "constellation_" + strconv.Itoa(TripID)
+//   redisResponseBytes := redis.GetByteArrayFromRedis(key)
+//   _ = json.Unmarshal(redisResponseBytes, &smoothLocations)
+//   return
+// }
 
 
 func CreateSelfieTrip(selfie Selfie, userID uint) {
@@ -140,14 +206,6 @@ func CreateSelfieScene(selfie Selfie) Scene {
   scene.Cards = cards
   return scene
 }
-
-// func CreateStuffTrip(userID uint) {
-//   fmt.Println("INFO: Creating stuff trip")
-//   cards := GetBookmarkCards()
-//   betsyAndBerniesHouse := Location{Latitude:30.459032, Longitude:-84.265358}
-//   tripTitle := "New stuff trip at " + strconv.FormatFloat(betsyAndBerniesHouse.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(betsyAndBerniesHouse.Longitude, 'f', -1, 64)
-//   CreateDegenerateTrip(betsyAndBerniesHouse, cards, tripTitle, userID, "http://eskipaper.com/images/wood-planks-1.jpg")
-// }
 
 func GetBookmarkCards() []Card {
   cards := []Card{}
