@@ -10,6 +10,7 @@ type Card struct {
   TextTwo string
   ImageURL string
   SceneID uint
+  Comments []Comment
   CardOrder uint
   Universal bool
   NibID string `gorm:"not null"`
