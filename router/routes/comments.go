@@ -13,7 +13,7 @@ func ScenesCommentsHandler(w http.ResponseWriter, r *http.Request) {
   sceneIDString := vars["sceneID"]
   sceneID, err := strconv.Atoi(sceneIDString)
     if err != nil {
-  	respondWithBadRequest(w, "The trip ID you sent us was bunk.")
+  	respondWithBadRequest(w, "The scene ID you sent us was bunk.")
   } else {
   	 comments := models.GetCommentsForScene(sceneID)
   	json.NewEncoder(w).Encode(comments)
@@ -30,6 +30,20 @@ func TripsCommentsHandler(w http.ResponseWriter, r *http.Request) {
   } else {
   	 comments := models.GetCommentsForTrip(tripID)
   	json.NewEncoder(w).Encode(comments)
+  }
+
+}
+
+func CardsCommentsHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  cardIDString := vars["cardID"]
+  cardID, err := strconv.Atoi(cardIDString)
+
+  if err != nil {
+    respondWithBadRequest(w, "The card ID you sent us was bunk.")
+  } else {
+    comments := models.GetCommentsForCard(cardID)
+    json.NewEncoder(w).Encode(comments)
   }
 
 }
