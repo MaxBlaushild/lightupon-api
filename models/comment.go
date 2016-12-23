@@ -11,6 +11,8 @@ type Comment struct {
   Trip Trip
   SceneID uint
   Scene Scene
+  CardID uint
+  Card Card
 }
 
 func GetCommentsForScene(sceneID int)(comments []Comment) {
