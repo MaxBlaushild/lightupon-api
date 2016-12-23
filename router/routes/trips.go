@@ -34,10 +34,13 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TripHandler(w http.ResponseWriter, r *http.Request) {
-  vars := mux.Vars(r)
-  id := vars["id"]
-  trip := models.Trip{}
-  models.DB.First(&trip, id)
+  vars := mux.Vars(r) 
+  tripID, err := strconv.Atoi(vars["id"]); if err != nil {
+    respondWithBadRequest(w, "The id you sent us was bunk.")
+    return
+  }
+  
+  trip := models.GetTrip(tripID)
   json.NewEncoder(w).Encode(trip)
 }
 

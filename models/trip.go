@@ -34,14 +34,16 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
   return
 }
 
+func GetTrip(tripID int) (trip Trip) {
+  DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
+  return
+}
+
 func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
 func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
-
-
-
   DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
   for i, _ := range trips {
