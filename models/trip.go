@@ -21,6 +21,7 @@ type Trip struct {
   User User
   Scenes []Scene
   Locations []Location
+  Comments []Comment
   Active bool `gorm:"default:true"`
   Constellation []constellationPoint
 }
@@ -44,9 +45,7 @@ func (t *Trip) PutLocations(locations []Location) {
 
 func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
 
-  DB.Preload("User").Preload("Scenes", func(DB *gorm.DB) *gorm.DB {
-    return DB.Order("Scenes.scene_order ASC") // Preload and order scenes for the map view
-  }).Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
   for i, _ := range trips {
     trips[i].SetLocations()

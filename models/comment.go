@@ -1,0 +1,24 @@
+package models
+
+import("github.com/jinzhu/gorm")
+
+type Comment struct {
+  gorm.Model
+  User User
+  UserID uint
+  Text string
+  TripID uint
+  Trip Trip
+  SceneID uint
+  Scene Scene
+}
+
+func GetCommentsForScene(sceneID int)(comments []Comment) {
+	DB.Where("scene_id = ?", sceneID).Preload("User").Find(&comments)
+	return
+}
+
+func GetCommentsForTrip(tripID int)(comments []Comment) {
+	DB.Where("trip_id = ?", tripID).Preload("User").Find(&comments)
+	return
+}
