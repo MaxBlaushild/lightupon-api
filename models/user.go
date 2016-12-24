@@ -130,6 +130,7 @@ func (u *User) Light(location Location)(err error) {
   	Text: u.FullName + " did a thing!",
   	CardOrder: 1,
 		NibID: "TextHero",
+    ImageUrl: "https://i.ytimg.com/vi/HsG5uq9xOKo/maxresdefault.jpg",
   }
 
   if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
@@ -170,7 +171,8 @@ func (u *User) Extinguish(location Location)(err error) {
   card := Card{ 
   	Text: u.FullName + " ended the trip!",
   	CardOrder: 1,
-		NibID: "TextHero",
+		NibID: "PictureHero",
+    ImageUrl: "https://i.ytimg.com/vi/HsG5uq9xOKo/maxresdefault.jpg",
   }
 
   if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
