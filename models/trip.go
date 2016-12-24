@@ -43,6 +43,7 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
 
 func GetTrip(tripID int) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
+  trip.SetConstellation()
   return
 }
 
