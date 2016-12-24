@@ -21,6 +21,7 @@ type Scene struct {
   Comments []Comment
   SoundKey string
   SoundResource string
+  ConstellationPoint ConstellationPoint
 }
 
 func ShiftScenesUp(sceneOrder int, tripID int) bool {
