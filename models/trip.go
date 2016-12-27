@@ -24,9 +24,9 @@ type Trip struct {
   Comments []Comment
   Active bool `gorm:"default:true"`
   Constellation []ConstellationPoint
+  UserHasLikedTrip bool `sql:"-"`
+  TotalLikes int `sql:"-"`
 }
-
-
 
 type ConstellationPoint struct {
   DeltaY float64
@@ -41,9 +41,10 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
   return
 }
 
-func GetTrip(tripID int) (trip Trip) {
+func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
   trip.SetConstellation()
+  trip.SetLikeStuff(userID)
   return
 }
 
@@ -51,7 +52,7 @@ func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
-func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
+func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
 
   DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
 
@@ -60,6 +61,8 @@ func GetTripsNearLocation(lat string, lon string) (trips []Trip) {
 
     // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
     trips[i].SetConstellation()
+
+    trips[i].SetLikeStuff(userID)
   }
 
   return
@@ -177,14 +180,6 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
-// func GetConstellationFromRedis(TripID int) (c Constellation) {
-//   key := "constellation_" + strconv.Itoa(TripID)
-//   redisResponseBytes := redis.GetByteArrayFromRedis(key)
-//   _ = json.Unmarshal(redisResponseBytes, &smoothLocations)
-//   return
-// }
-
-
 func CreateSelfieTrip(selfie Selfie, userID uint) {
   scene := CreateSelfieScene(selfie)
   CreateDegenerateTrip(scene, userID)
@@ -237,3 +232,12 @@ func CreateDegenerateTrip(scene Scene, userID uint) {
   DB.Create(&trip)
   return
 }
+
+func (trip *Trip) SetLikeStuff(userID uint) {
+  // Find out whether the user has liked this trip
+  trip.UserHasLikedTrip = HasUserLikedTrip(userID, trip.ID)
+
+  // Find out the total number of likes for the trip
+  trip.TotalLikes = GetTotalLikesForTrip(trip.ID)
+}
+
