@@ -41,9 +41,10 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
   return
 }
 
-func GetTrip(tripID int) (trip Trip) {
+func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
   trip.SetConstellation()
+  trip.SetLikeStuff(userID)
   return
 }
 

@@ -25,18 +25,9 @@ func TripHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-
-  trip := models.GetTrip(tripID)
-
   user := GetUserFromRequest(r)
-  trip.SetLikeStuff(user.ID)
 
-  // // Find out whether the user has liked this trip
-
-  // trip.UserHasLikedTrip = models.HasUserLikedTrip(user.ID, trip.ID)
-
-  // // Find out the total number of likes for the trip
-  // trip.TotalLikes = models.GetTotalLikesForTrip(trip.ID)
+  trip := models.GetTrip(tripID, user.ID)
 
   json.NewEncoder(w).Encode(trip)
 }
