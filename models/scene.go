@@ -3,7 +3,8 @@ package models
 import(
       "fmt"
       "github.com/jinzhu/gorm"
-      "lightupon-api/aws"
+      "lightupon-api/services/aws"
+      "lightupon-api/services/googleMaps"
       "math"
       )
 
@@ -19,9 +20,33 @@ type Scene struct {
   Featured bool
   Cards []Card
   Comments []Comment
+  GooglePlaceID string
+  Route string
+  FormattedAddress string
+  Locality string
+  Neighborhood string
+  PostalCode string
+  Country string
+  AdministrativeLevelTwo string
+  AdministrativeLevelOne string
+  StreetNumber string
   SoundKey string
   SoundResource string
   ConstellationPoint ConstellationPoint
+}
+
+func (s *Scene) BeforeCreate() {
+  place := googleMaps.GetPrettyPlace(s.Latitude, s.Longitude)
+  s.FormattedAddress = place["FormattedAddress"]
+  s.StreetNumber = place["street_number"]
+  s.Route = place["route"]
+  s.Neighborhood = place["neighborhood"]
+  s.Locality = place["locality"]
+  s.AdministrativeLevelTwo = place["administrative_area_level_2"]
+  s.AdministrativeLevelOne = place["administrative_area_level_1"]
+  s.Country = place["country"]
+  s.PostalCode = place["postal_code"]
+  s.GooglePlaceID = place["PlaceID"]
 }
 
 func ShiftScenesUp(sceneOrder int, tripID int) bool {

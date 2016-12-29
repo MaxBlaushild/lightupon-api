@@ -155,7 +155,7 @@ func (u *User) Extinguish(location Location)(err error) {
   trip := u.ActiveTrip()
 
   scene := Scene{
-  	Name: "Start of Trip",
+  	Name: "End of Trip",
   	Latitude: location.Latitude,
   	Longitude: location.Longitude,
   	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
