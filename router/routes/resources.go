@@ -1,7 +1,7 @@
 package routes
 
 import (
-				"lightupon-api/aws"
+				"lightupon-api/services/aws"
         "lightupon-api/models"
 				"net/http"
 				"github.com/gorilla/mux"

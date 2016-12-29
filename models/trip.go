@@ -2,7 +2,7 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
-      "lightupon-api/redis"
+      "lightupon-api/services/redis"
       "strconv"
        "encoding/json"
        "fmt"
