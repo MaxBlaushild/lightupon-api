@@ -51,3 +51,37 @@ func GetPrettyPlace(latitude float64, longitude float64) (addressMap map[string]
   return
 }
 
+func GetPlaceDetails(placeID string) maps.PlaceDetailsResult {
+	c := newClient()
+
+	r := &maps.PlaceDetailsRequest{
+		PlaceID: placeID,
+	}
+
+	placeDetailsResponse, err := c.PlaceDetails(context.Background(), r)
+
+	if err != nil {
+		log.Fatalf("fatal error: %s", err)
+	}
+
+	return placeDetailsResponse
+}
+
+func GetNearbyPlaceDetails(latitude float64, longitude float64) maps.PlacesSearchResponse {
+	c := newClient()
+	latLng := maps.LatLng{Lat: latitude, Lng: longitude}
+
+	r := &maps.NearbySearchRequest{
+		Location: &latLng,
+		Radius: 20,
+	}
+
+	placesSearchResponse, err := c.NearbySearch(context.Background(), r)
+
+	if err != nil {
+		log.Fatalf("fatal error: %s", err)
+	}
+
+	return placesSearchResponse
+} 
+

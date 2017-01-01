@@ -49,6 +49,14 @@ func (s *Scene) BeforeCreate() {
   s.GooglePlaceID = place["PlaceID"]
 }
 
+func (s *Scene) AppendCard(card Card) (err error) {
+  cardOrder := uint(len(s.Cards) + 1)
+  card.CardOrder = cardOrder
+  card.SceneID = s.ID
+  err = DB.Save(&card).Error
+  return
+}
+
 func ShiftScenesUp(sceneOrder int, tripID int) bool {
   scene := Scene{}
   DB.Where("trip_id = $1 AND scene_order = $2", tripID, sceneOrder).First(&scene)

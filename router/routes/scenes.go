@@ -3,6 +3,7 @@ package routes
 import(
        "net/http"
        "lightupon-api/models"
+       "lightupon-api/services/redis"
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
@@ -36,13 +37,39 @@ func CreateSelfieSceneHandler(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&selfie)
 
-  selfieScene := models.CreateSelfieScene(selfie)
-  err = activeTrip.AppendScene(selfieScene); if err != nil {
-    respondWithBadRequest(w, "That selfie was shit!")
-    return
+  currentScene := getSceneFromCache(activeTrip.ID)
+  currentLocation := models.UserLocation{Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude}
+  isAtCurrentScene := currentScene.IsAtScene(currentLocation)  
+
+  if (isAtCurrentScene) {
+    selfieCard := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl } 
+    currentScene.AppendCard(selfieCard); if err != nil {
+      respondWithBadRequest(w, "That selfie was shit!")
+      return
+    }
+  } else {
+    selfieScene := models.CreateSelfieScene(selfie)
+    err = activeTrip.AppendScene(selfieScene); if err != nil {
+      respondWithBadRequest(w, "That selfie was shit!")
+      return
+    }
+    cacheCurrentScene(selfieScene)
   }
 
-  json.NewEncoder(w).Encode(selfieScene)
+  respondWithCreated(w, "The selfie was created")
+}
+
+func getSceneFromCache(tripID uint) (scene models.Scene) {
+  key := "currentScene_" + strconv.Itoa(int(tripID))
+  redisResponseBytes := redis.GetByteArrayFromRedis(key)
+  _ = json.Unmarshal(redisResponseBytes, &scene)
+  return
+}
+
+func cacheCurrentScene(scene models.Scene) {
+  value, _ := json.Marshal(scene)
+  key := "currentScene_" + strconv.Itoa(int(scene.TripID))
+  redis.SaveByteArrayToRedis(key, value)
 }
 
 // request should look like {"SceneOrder":3, "Name":"new scene", "Latitude":76.567,"Longitude":87.345}
