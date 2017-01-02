@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"os"
 	"time"
+  "github.com/kr/pretty"
 )
 
 type User struct {
@@ -32,6 +33,7 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func UpsertUser(user User) {
+  pretty.Println(user)
 	DB.Where("facebook_id = ?", user.FacebookId).Assign(user).FirstOrCreate(&user)
 	
 	if !DB.NewRecord(user) {
