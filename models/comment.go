@@ -29,3 +29,8 @@ func GetCommentsForCard(cardID int)(comments []Comment) {
   DB.Where("card_id = ?", cardID).Preload("User").Find(&comments)
   return
 }
+
+func (trip *Trip) LoadCommentsForTrip() {
+  trip.Comments = GetCommentsForTrip(int(trip.ID))
+  return
+}
