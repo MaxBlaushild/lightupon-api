@@ -2,9 +2,10 @@ package routes
 
 import("net/http"
        "lightupon-api/models"
+       "github.com/kr/pretty"
        "encoding/json")
 
-const locationThreshold float64 = 0.03
+const locationThreshold float64 = 0.05
 
 func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 	user := GetUserFromRequest(r)
@@ -18,8 +19,10 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 
 	facebookId := GetFacebookIdFromRequest(r)
 	currentLocation := models.GetCurrentLocationFromRedis(facebookId)
+	pretty.Println(location)
+	pretty.Println(currentLocation)
 	locationsAreSamish := models.LocationsAreWithinThreshold(currentLocation, location, locationThreshold)
-
+	pretty.Println(locationsAreSamish)
 	if (!locationsAreSamish) {
 		errTwo := user.AddLocationToCurrentTrip(location); if errTwo != nil {
 			respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
