@@ -33,7 +33,7 @@ type ConstellationPoint struct {
   DistanceToPreviousPoint float64
 }
 
-func (t *Trip) AppendScene(scene Scene) (err error) {
+func (t *Trip) AppendScene(scene *Scene) (err error) {
   sceneOrder := uint(len(t.Scenes) + 1)
   scene.SceneOrder = sceneOrder
   scene.TripID = t.ID

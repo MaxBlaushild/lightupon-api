@@ -56,7 +56,7 @@ func CreateSelfieSceneHandler(w http.ResponseWriter, r *http.Request) {
 
     fmt.Println("is not at current scene anymore")
     selfieScene := models.CreateSelfieScene(selfie)
-    err = activeTrip.AppendScene(selfieScene); if err != nil {
+    err = activeTrip.AppendScene(&selfieScene); if err != nil {
       respondWithBadRequest(w, "That selfie was shit!")
       return
     }
