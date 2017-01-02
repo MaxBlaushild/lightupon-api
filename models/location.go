@@ -6,6 +6,7 @@ import(
     "strconv"
     "net/http"
     "encoding/json"
+    "lightupon-api/services/redis"
 )
 
 var chunkSize = 99
@@ -59,6 +60,25 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
 
   }
 
+  return
+}
+
+func LocationsAreWithinThreshold(firstLocation Location, secondLocation Location, threshold float64) (isWithinThreshold bool) {
+  distance := CalculateLocationDistance(firstLocation, secondLocation)
+  isWithinThreshold = distance < threshold
+  return
+}
+
+func SaveCurrentLocationToRedis(facebookId string, location Location) {
+  value, _ := json.Marshal(location) 
+  key := "currentLocation_" + facebookId
+  redis.SaveByteArrayToRedis(key, value) //comment this out while testing the GET below
+}
+
+func GetCurrentLocationFromRedis(facebookId string) (location Location) {
+  key := "currentLocation_" + facebookId
+  redisResponseBytes := redis.GetByteArrayFromRedis(key)
+  _ = json.Unmarshal(redisResponseBytes, &location)
   return
 }
 

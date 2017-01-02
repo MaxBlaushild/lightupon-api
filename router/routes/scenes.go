@@ -7,8 +7,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "github.com/kr/pretty"
-       "fmt"
        )
 
 func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -42,19 +40,14 @@ func CreateSelfieSceneHandler(w http.ResponseWriter, r *http.Request) {
   currentScene := getSceneFromCache(activeTrip.ID)
   currentLocation := models.UserLocation{Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude}
   isAtCurrentScene := currentScene.IsAtScene(currentLocation)
-  fmt.Println("current scene:")
-  pretty.Println(currentScene)
 
   if (isAtCurrentScene) {
-    fmt.Println("is at current scene")
     selfieCard := models.Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl } 
     currentScene.AppendCard(selfieCard); if err != nil {
       respondWithBadRequest(w, "That selfie was shit!")
       return
     }
   } else {
-
-    fmt.Println("is not at current scene anymore")
     selfieScene := models.CreateSelfieScene(selfie)
     err = activeTrip.AppendScene(&selfieScene); if err != nil {
       respondWithBadRequest(w, "That selfie was shit!")

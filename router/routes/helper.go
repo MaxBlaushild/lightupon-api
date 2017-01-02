@@ -9,9 +9,14 @@ import(
        "strconv"
        )
 
-func GetUserFromRequest(r *http.Request)(user models.User){
+func GetFacebookIdFromRequest(r *http.Request) string {
   token := context.Get(r, "user")
   facebookID := token.(*jwt.Token).Claims["facebookId"].(string)
+  return facebookID
+}
+
+func GetUserFromRequest(r *http.Request)(user models.User){
+  facebookID := GetFacebookIdFromRequest(r)
   models.DB.Preload("Follows").Where("facebook_id = ?", facebookID).First(&user)
   return
 }

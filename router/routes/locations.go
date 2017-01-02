@@ -4,6 +4,8 @@ import("net/http"
        "lightupon-api/models"
        "encoding/json")
 
+const locationThreshold float64 = 0.03
+
 func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 	user := GetUserFromRequest(r)
 	decoder := json.NewDecoder(r.Body)
@@ -14,9 +16,15 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	errTwo := user.AddLocationToCurrentTrip(location); if errTwo != nil {
-		respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
-		return
+	facebookId := GetFacebookIdFromRequest(r)
+	currentLocation := models.GetCurrentLocationFromRedis(facebookId)
+	locationsAreSamish := models.LocationsAreWithinThreshold(currentLocation, location, locationThreshold)
+
+	if (!locationsAreSamish) {
+		errTwo := user.AddLocationToCurrentTrip(location); if errTwo != nil {
+			respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
+			return
+		}
 	}
 
 	respondWithCreated(w, "The location was added to the trip.")
