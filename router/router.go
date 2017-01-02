@@ -82,9 +82,13 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
   // COMMENTS STUFF
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.TripsCommentsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.ScenesCommentsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardsCommentsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.TripCommentsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
+
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

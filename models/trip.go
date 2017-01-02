@@ -43,8 +43,9 @@ func (t *Trip) AppendScene(scene Scene) (err error) {
 
 func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
-  trip.SetConstellation()
-  trip.SetLikeStuff(userID)
+  trip.LoadConstellation()
+  trip.LoadCommentsForTrip()
+  trip.LoadLikeStuff(userID)
   return
 }
 
@@ -60,9 +61,9 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
     trips[i].SetLocations()
 
     // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
-    trips[i].SetConstellation()
-
-    trips[i].SetLikeStuff(userID)
+    trips[i].LoadConstellation()
+    trips[i].LoadCommentsForTrip()
+    trips[i].LoadLikeStuff(userID)
   }
 
   return
@@ -78,7 +79,7 @@ func hashStringToDecimal(s string) float64 {
   return blurg - float64(int(blurg))
 }
 
-func (trip *Trip) SetConstellation() {
+func (trip *Trip) LoadConstellation() {
   if (trip.Scenes == nil) {
     // Should probably log an error here
     return
@@ -233,7 +234,7 @@ func CreateDegenerateTrip(scene Scene, userID uint) {
   return
 }
 
-func (trip *Trip) SetLikeStuff(userID uint) {
+func (trip *Trip) LoadLikeStuff(userID uint) {
   // Find out whether the user has liked this trip
   trip.UserHasLikedTrip = HasUserLikedTrip(userID, trip.ID)
 
