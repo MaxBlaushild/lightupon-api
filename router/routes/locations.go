@@ -28,7 +28,7 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 			respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
 			return
 		}
-		models.SaveCurrentLocationToRedis(location)
+		models.SaveCurrentLocationToRedis(facebookId, location)
 	}
 
 	respondWithCreated(w, "The location was added to the trip.")
