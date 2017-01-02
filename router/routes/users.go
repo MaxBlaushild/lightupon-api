@@ -16,9 +16,7 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  models.UpsertUser(jsonUser)
-  models.DB.First(&jsonUser) // Do this in order to make sure we populate the user's token for use in the login page
-
+  models.UpsertUser(&jsonUser)
   json.NewEncoder(w).Encode(jsonUser.Token)
 }
 
