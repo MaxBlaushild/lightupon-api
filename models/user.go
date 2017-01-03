@@ -77,10 +77,14 @@ func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
 }
 
 func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
-	trip := Trip{}
-	DB.Where("user_id = ?", u.ID).Last(&trip)
-	err = DB.Model(&trip).Association("Locations").Append(location).Error
-	return
+  trip := Trip{}
+  DB.Where("user_id = ? AND active = true", u.ID).First(&trip)
+
+  if (trip.ID > 0) {
+    err = DB.Model(&trip).Association("Locations").Append(location).Error
+  }
+
+  return
 }
 
 func (u *User) ActiveTrip()(trip Trip) {
