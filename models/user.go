@@ -105,6 +105,7 @@ func (u *User) Light(location Location)(err error) {
   }
 
   trip := Trip{ Title: "LOG DATE: TANGO",
+                Active: true,
   							ImageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
   							Description: "This is the song that never ends.",
   							Details: "And it goes on and on my friends.",

@@ -22,7 +22,7 @@ type Trip struct {
   Scenes []Scene
   Locations []Location
   Comments []Comment
-  Active bool `gorm:"default:true"`
+  Active bool
   Constellation []ConstellationPoint
   UserHasLikedTrip bool `sql:"-"`
   TotalLikes int `sql:"-"`
