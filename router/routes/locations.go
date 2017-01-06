@@ -24,7 +24,7 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 	currentLocation := models.GetCurrentLocationFromRedis(facebookId)
 
 	pretty.Println("CURRENTLOCATION*******************************")
-	pretty.Println(location)
+	pretty.Println(currentLocation)
 
 	if (locationShouldSave(location, currentLocation)) {
 		pretty.Println("SAVINGTHISSHIT*******************************")
