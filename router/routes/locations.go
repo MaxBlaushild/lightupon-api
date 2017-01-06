@@ -2,6 +2,7 @@ package routes
 
 import("net/http"
        "lightupon-api/models"
+       "github.com/kr/pretty"
        "encoding/json")
 
 const closeThreshold float64 = 0.05
@@ -16,11 +17,14 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 		respondWithBadRequest(w, "The location sent was bunk.")
 		return
 	}
+	pretty.Println("LOCATION*******************************")
+	pretty.Println(location)
 
 	facebookId := GetFacebookIdFromRequest(r)
 	currentLocation := models.GetCurrentLocationFromRedis(facebookId)
 
 	if (locationShouldSave(location, currentLocation)) {
+		pretty.Println("SAVINGTHISSHIT*******************************")
 		errTwo := user.AddLocationToCurrentTrip(location); if errTwo != nil {
 			respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
 			return
@@ -33,7 +37,13 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 
 func locationShouldSave(location models.Location, currentLocation models.Location) bool {
 	distance := models.CalculateLocationDistance(currentLocation, location)
+	pretty.Println("DISTANCE*******************************")
+	pretty.Println(distance)
 	locationsAreFarEnough := distance > closeThreshold
+	pretty.Println("LOCATIONSAREFARENOUGH*******************************")
+	pretty.Println(locationsAreFarEnough)
 	locationsAreCloseEnough := distance < farThresh
+	pretty.Println("LOCATIONSARECLOSEENOUGH*******************************")
+	pretty.Println(locationsAreCloseEnough)
 	return (locationsAreCloseEnough && locationsAreFarEnough)
 }
