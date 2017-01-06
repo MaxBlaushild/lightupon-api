@@ -45,7 +45,7 @@ func locationShouldSave(location models.Location, currentLocation models.Locatio
 	locationsAreFarEnough := distance > closeThreshold
 	pretty.Println("LOCATIONSAREFARENOUGH*******************************")
 	pretty.Println(locationsAreFarEnough)
-	locationsAreCloseEnough := distance < farThresh
+	locationsAreCloseEnough := (distance < farThresh || models.Location{} == currentLocation)
 	pretty.Println("LOCATIONSARECLOSEENOUGH*******************************")
 	pretty.Println(locationsAreCloseEnough)
 	return (locationsAreCloseEnough && locationsAreFarEnough)
