@@ -2,6 +2,7 @@ package routes
 
 import("net/http"
        "lightupon-api/models"
+       "fmt"
        "encoding/json")
 
 const closeThreshold float64 = 0.05
@@ -17,10 +18,12 @@ func AddLocationHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println(location)
 	facebookId := GetFacebookIdFromRequest(r)
 	currentLocation := models.GetCurrentLocationFromRedis(facebookId)
-
+	fmt.Println("maybe doing the thing")
 	if (locationShouldSave(location, currentLocation)) {
+		fmt.Println("did the thing")
 		errTwo := user.AddLocationToCurrentTrip(location); if errTwo != nil {
 			respondWithBadRequest(w, "There was an error adding the location to the user's current trip.")
 			return
