@@ -182,12 +182,12 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
 }
 
 func CreateSelfieTrip(selfie Selfie, userID uint) {
-  scene := CreateSelfieScene(selfie)
+  scene := CreateSelfieScene(selfie, userID)
   CreateDegenerateTrip(scene, userID)
   return
 }
 
-func CreateSelfieScene(selfie Selfie) Scene {
+func CreateSelfieScene(selfie Selfie, userID uint) Scene {
   fmt.Println("INFO: Creating selfie trip")
   selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
   cards := []Card{selfieCard}  
@@ -195,7 +195,8 @@ func CreateSelfieScene(selfie Selfie) Scene {
   scene := Scene{ 
     Latitude: selfie.Location.Latitude, 
     Longitude: selfie.Location.Longitude, 
-    SceneOrder: 1, 
+    SceneOrder: 1,
+    UserID: userID,
     Name: "Thing of trip",
     BackgroundUrl: selfie.ImageUrl,
   }

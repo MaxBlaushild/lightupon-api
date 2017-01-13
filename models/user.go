@@ -40,6 +40,12 @@ func UpsertUser(user *User) {
 	}
 }
 
+func (u *User) SetUserLikenessOfScenes(scenes []Scene) {
+  for i, scene := range scenes {
+    scenes[i].Liked = scene.UserHasLiked(u)
+  }
+}
+
 func FindUsers(query string) (users []User) {
 	fuzzyQuery := "%" + query
 	fuzzyQuery += "%"
@@ -122,6 +128,7 @@ func (u *User) Light(location Location)(err error) {
   	Name: "Start of Trip",
   	Latitude: location.Latitude,
   	Longitude: location.Longitude,
+    UserID: u.ID,
   	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
   	SceneOrder: 1,
   }
@@ -164,6 +171,7 @@ func (u *User) Extinguish(location Location)(err error) {
   	Name: "End of Trip",
   	Latitude: location.Latitude,
   	Longitude: location.Longitude,
+    UserID: u.ID,
   	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
   	SceneOrder: uint(len(trip.Scenes) + 1),
   }

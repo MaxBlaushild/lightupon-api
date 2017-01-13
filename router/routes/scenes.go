@@ -18,7 +18,17 @@ func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
 
 func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  scenes := models.IndexScenes(user)
+  scenes := models.IndexScenes()
+  user.SetUserLikenessOfScenes(scenes)
+  json.NewEncoder(w).Encode(scenes)
+}
+
+func ScenesForUserHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  user := GetUserFromRequest(r)
+  userID := vars["userID"]
+  scenes := models.GetScenesForUser(userID)
+  user.SetUserLikenessOfScenes(scenes)
   json.NewEncoder(w).Encode(scenes)
 }
 
@@ -49,7 +59,7 @@ func CreateSelfieSceneHandler(w http.ResponseWriter, r *http.Request) {
       return
     }
   } else {
-    selfieScene := models.CreateSelfieScene(selfie)
+    selfieScene := models.CreateSelfieScene(selfie, user.ID)
     err = activeTrip.AppendScene(&selfieScene); if err != nil {
       respondWithBadRequest(w, "That selfie was shit!")
       return
