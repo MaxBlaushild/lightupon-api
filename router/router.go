@@ -86,6 +86,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.LikeSceneHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.UnlikeSceneHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
 

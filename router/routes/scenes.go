@@ -7,6 +7,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+
        )
 
 func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,8 +17,8 @@ func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
-  scenes := []models.Scene{}
-  models.DB.Preload("Trip.User").Preload("Cards").Order("created_at desc").Find(&scenes)
+  user := GetUserFromRequest(r)
+  scenes := models.IndexScenes(user)
   json.NewEncoder(w).Encode(scenes)
 }
 

@@ -20,6 +20,7 @@ type User struct {
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
+  SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
 }
