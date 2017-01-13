@@ -23,6 +23,8 @@ type Scene struct {
   SceneLikes []SceneLike 
   GooglePlaceID string
   Route string
+  User User
+  UserID uint
   FormattedAddress string
   Locality string
   Neighborhood string
@@ -51,7 +53,7 @@ func (s *Scene) BeforeCreate() {
   s.GooglePlaceID = place["PlaceID"]
 }
 
-func (s *Scene) UserHasLiked(u User) (userHasLiked bool) {
+func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
   for _, like := range s.SceneLikes {
     if like.UserID == u.ID {
       userHasLiked = true
@@ -60,11 +62,13 @@ func (s *Scene) UserHasLiked(u User) (userHasLiked bool) {
   return
 }
 
-func IndexScenes(u User) (scenes []Scene) {
+func IndexScenes() (scenes []Scene) {
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
-  for i, scene := range scenes {
-    scenes[i].Liked = scene.UserHasLiked(u)
-  }
+  return
+}
+
+func GetScenesForUser(userID string) (scenes []Scene) {
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Where("user_id = ?", userID).Find(&scenes)
   return
 }
 
