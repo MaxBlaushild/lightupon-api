@@ -5,6 +5,7 @@ import(
       "github.com/jinzhu/gorm"
       "lightupon-api/services/aws"
       "lightupon-api/services/googleMaps"
+
       )
 
 type Scene struct {
@@ -19,6 +20,7 @@ type Scene struct {
   Featured bool
   Cards []Card
   Comments []Comment
+  SceneLikes []SceneLike 
   GooglePlaceID string
   Route string
   FormattedAddress string
@@ -32,6 +34,7 @@ type Scene struct {
   SoundKey string
   SoundResource string
   ConstellationPoint ConstellationPoint
+  Liked bool `sql:"-"`
 }
 
 func (s *Scene) BeforeCreate() {
@@ -46,6 +49,23 @@ func (s *Scene) BeforeCreate() {
   s.Country = place["country"]
   s.PostalCode = place["postal_code"]
   s.GooglePlaceID = place["PlaceID"]
+}
+
+func (s *Scene) UserHasLiked(u User) (userHasLiked bool) {
+  for _, like := range s.SceneLikes {
+    if like.UserID == u.ID {
+      userHasLiked = true
+    }
+  }
+  return
+}
+
+func IndexScenes(u User) (scenes []Scene) {
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
+  for i, scene := range scenes {
+    scenes[i].Liked = scene.UserHasLiked(u)
+  }
+  return
 }
 
 func (s *Scene) AppendCard(card Card) (err error) {
