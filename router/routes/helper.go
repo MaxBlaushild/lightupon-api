@@ -30,6 +30,8 @@ func GetUIntFromVars(r *http.Request, field string)(uintToReturn uint){
 
 func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
   query := r.URL.Query()
+  fmt.Println("query")
+  spew.Dump(query)
   lat = query["lat"][0]
   lon = query["lon"][0]
   return

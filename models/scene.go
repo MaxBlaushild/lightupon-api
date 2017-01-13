@@ -96,3 +96,23 @@ func (s *Scene) PopulateSound() {
 
   s.SoundResource = url
 }
+
+func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
+
+  // get followers for user
+  // create a where clause 
+
+  // get scenes
+
+  // query := "SELECT scene_stuff FROM scenes INNER JOIN follows ON scenes.creatorID = follows.followedUserID"
+
+
+  DB.Raw("SELECT id FROM scenes").Scan(&scenes)
+
+  // DB.Raw("SELECT id FROM scenes WHERE name = ?", 3).Scan(&result)
+
+  // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+
+
+  return
+}
