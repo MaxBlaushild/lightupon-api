@@ -37,7 +37,7 @@ func (u *User) BeforeCreate() (err error) {
 
 func (u *User) IsFollowing(user *User) bool {
   var count int
-  DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id", user.ID, u.ID).Count(&count)
+  DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id = ?", user.ID, u.ID).Count(&count)
   return (count > 0)
 }
 
