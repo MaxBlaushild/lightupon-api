@@ -20,6 +20,13 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(jsonUser.Token)
 }
 
+func GetUserHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  userID, _ := vars["userID"]
+  user := models.GetUserByID(userID)
+  json.NewEncoder(w).Encode(user)
+}
+
 func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   id, _ := vars["facebookId"]

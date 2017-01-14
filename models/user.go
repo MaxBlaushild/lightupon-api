@@ -23,12 +23,39 @@ type User struct {
   SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
+  NumberOfFollowers int `sql:"-"`
+  NumberOfTrips int `sql:"-"`
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
+  return
+}
+
+func GetUserByID(userID string) (user User){
+  DB.Where("id = ?", userID).First(&user)
+  user.PopulateNumberOfFollowers()
+  user.PopulatingNumberOfTrips()
+  return
+}
+
+func (u *User) GetNumberOfTrips() int {
+  count := DB.Model(&u).Association("Trips").Count()
+  return count
+}
+
+func (u *User) PopulatingNumberOfTrips() {
+  u.NumberOfTrips = u.GetNumberOfTrips()
+}
+
+func (u *User) PopulateNumberOfFollowers() {
+  u.NumberOfFollowers = u.GetFollowerCount()
+}
+
+func (u *User) GetFollowerCount() (count int) {
+  DB.Model(&Follow{}).Where("followed_user_id = ?", u.ID).Count(&count)
   return
 }
 
