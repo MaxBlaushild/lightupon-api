@@ -21,7 +21,7 @@ func UnfollowHandler(w http.ResponseWriter, r *http.Request) {
   userToUnfollow := GetUIntFromVars(r, "userID")
 
   follow := models.Follow{FollowingUserID:followingUser.ID, FollowedUserID:userToUnfollow}
-  models.DB.Where(follow).Delete(&models.Follow{})
+  models.DB.Where(follow).Unscoped().Delete(&models.Follow{})
 
   respondWithNoContent(w, "You just unfollowed the shit out of that user!")
 }
