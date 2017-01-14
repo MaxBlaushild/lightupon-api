@@ -11,7 +11,7 @@ func FollowHandler(w http.ResponseWriter, r *http.Request) {
 
   follow := models.Follow{FollowingUserID:followingUser.ID, FollowedUserID:userToFollow}
 
-  models.DB.FirstOrCreate(&follow) // using FirstOrCreate just to avoid adding dupes to the DB
+  models.DB.FirstOrCreate(&models.Follow{}, &follow) // using FirstOrCreate just to avoid adding dupes to the DB
 
   respondWithCreated(w, "You just followed the shit out of that user!")
 }
