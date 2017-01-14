@@ -16,7 +16,7 @@ type Scene struct {
   Trip Trip
   BackgroundUrl string `gorm:"not null"`
   SceneOrder uint `gorm:"not null"`
-  Featured bool
+  // Featured bool
   Cards []Card
   Comments []Comment
   GooglePlaceID string
