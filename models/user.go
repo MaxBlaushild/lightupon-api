@@ -42,7 +42,7 @@ func (u *User) IsFollowing(user *User) bool {
 }
 
 func (u *User) PopulateIsFollowing(user *User) {
-  user.Following = u.IsFollowing(user)
+  u.Following = user.IsFollowing(u)
 }
 
 func GetUserByID(userID string) (user User){
