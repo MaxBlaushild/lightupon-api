@@ -25,6 +25,7 @@ type User struct {
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
   NumberOfFollowers int `sql:"-"`
   NumberOfTrips int `sql:"-"`
+  Following bool `sql:"-"`
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -32,6 +33,16 @@ const threshold float64 = 0.05 // 0.05 km = 50 meters
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
   return
+}
+
+func (u *User) IsFollowing(user *User) bool {
+  var count int
+  DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id", user.ID, u.ID).Count(&count)
+  return (count > 0)
+}
+
+func (u *User) PopulateIsFollowing(user *User) {
+  user.Following = u.IsFollowing(user)
 }
 
 func GetUserByID(userID string) (user User){

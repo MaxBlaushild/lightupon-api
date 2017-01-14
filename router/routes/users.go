@@ -24,6 +24,8 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   userID, _ := vars["userID"]
   user := models.GetUserByID(userID)
+  currentUser := GetUserFromRequest(r)
+  user.PopulateIsFollowing(&currentUser)
   json.NewEncoder(w).Encode(user)
 }
 
