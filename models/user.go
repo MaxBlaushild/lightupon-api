@@ -6,6 +6,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"os"
 	"time"
+  "lightupon-api/services/redis"
 )
 
 type User struct {
@@ -26,6 +27,7 @@ type User struct {
   NumberOfFollowers int `sql:"-"`
   NumberOfTrips int `sql:"-"`
   Following bool `sql:"-"`
+
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -127,6 +129,7 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 
   if (trip.ID > 0) {
     err = DB.Model(&trip).Association("Locations").Append(location).Error
+    SaveCurrentLocationToRedis(u.FacebookId, location)
   }
 
   return
@@ -169,5 +172,6 @@ func (u *User) Light(location Location)(err error) {
 func (u *User) Extinguish(location Location)(err error) {
 	DB.Model(&u).Update("lit", false)
   u.DeactivateTrips()
+  redis.DeleteRedisKey("currentLocation_" + u.FacebookId)
   return nil
 }
