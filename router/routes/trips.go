@@ -18,6 +18,13 @@ func TripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
+func GetUsersTripsHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  userID := vars["userID"]
+  trips := models.GetTripsForUser(userID)
+  json.NewEncoder(w).Encode(trips)
+}
+
 func TripHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r) 
   tripID, err := strconv.Atoi(vars["id"]); if err != nil {
