@@ -49,6 +49,14 @@ func GetTrip(tripID int, userID uint) (trip Trip) {
   return
 }
 
+func GetTripsForUser(userID string) (trips []Trip) {
+  DB.Preload("Scenes.Cards").Order("created_at desc").Where("user_id = ?", userID).Find(&trips)
+  for i, _ := range trips {
+    trips[i].SetLocations()
+  }
+  return
+}
+
 func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
