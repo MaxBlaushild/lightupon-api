@@ -10,7 +10,8 @@ import(
        )
 
 
-// This function has a little bit of weird behavior. In case A, the user has an active scene and is still at that
+// http://localhost:5000/lightupon/scenes/nearby?lat=42.355228&lon=-71.067772
+// This endpoint has a little bit of weird behavior. In case A, the user has an active scene and is still at that
 // scene. Case B is everything else (the user eith has no active scene or is no longer at that scene).
 // In all cases, we will return a scene, along with a flag indicating case A or B. In case B, the scene will be 
 // populated with a suggestion for the scene name and nothing else.
@@ -19,15 +20,23 @@ func ActiveSceneHandler(w http.ResponseWriter, r *http.Request) {
   // try to get the user's active trip (if failure, return a bad request thing)
   // try to get the activeScene out of the trip
 
+  // user := GetUserFromRequest(r)
+  // activeTrip := user.ActiveTrip()
+
+  // currentScene := getSceneFromCache(activeTrip.ID)
+
+  // currentLocation := models.UserLocation{Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude}
+  // isAtCurrentScene := currentScene.IsAtScene(currentLocation)
+
   
 
 
 
 
 
-  scenes := []models.Scene{}
-  models.DB.Where("Featured = true").Find(&scenes)
-  json.NewEncoder(w).Encode(scenes)
+  // scenes := []models.Scene{}
+  // models.DB.Where("Featured = true").Find(&scenes)
+  // json.NewEncoder(w).Encode(scenes)
 }
 
 func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +120,6 @@ func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
     models.DB.Find(&scene)
     scene.ID = 0 // Set the sceneID to zero so it will insert properly below
     scene.SceneOrder = newSceneOrder
-    scene.Featured = false
   }
   models.ShiftScenesUp(int(scene.SceneOrder), tripID)
   models.DB.Create(&scene)
