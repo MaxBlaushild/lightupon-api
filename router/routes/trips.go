@@ -7,9 +7,12 @@ import(
        "github.com/gorilla/mux"
        "strconv"
        "fmt"
+       "runtime/debug"
        )
 
 func TripsHandler(w http.ResponseWriter, r *http.Request) {  
+
+  debug.PrintStack()
   user := GetUserFromRequest(r)
 
   lat, lon := GetUserLocationFromRequest(r)
