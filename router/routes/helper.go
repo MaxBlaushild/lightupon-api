@@ -17,7 +17,7 @@ func GetFacebookIdFromRequest(r *http.Request) string {
 
 func GetUserFromRequest(r *http.Request)(user models.User){
   facebookID := GetFacebookIdFromRequest(r)
-  models.DB.Preload("Follows").Where("facebook_id = ?", facebookID).First(&user)
+  models.DB.Where("facebook_id = ?", facebookID).First(&user)
   return
 }
 

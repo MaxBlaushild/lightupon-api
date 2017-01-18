@@ -8,7 +8,7 @@ import (
 	"time"
   "net/http"
   "strconv"
-  // "github.com/davecgh/go-spew/spew"
+  "lightupon-api/services/redis"
 )
 
 type User struct {
@@ -23,8 +23,13 @@ type User struct {
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
+  SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
+  NumberOfFollowers int `sql:"-"`
+  NumberOfTrips int `sql:"-"`
+  Following bool `sql:"-"`
+
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -34,12 +39,53 @@ func (u *User) BeforeCreate() (err error) {
   return
 }
 
+func (u *User) IsFollowing(user *User) bool {
+  var count int
+  DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id = ?", user.ID, u.ID).Count(&count)
+  return (count > 0)
+}
+
+func (u *User) PopulateIsFollowing(user *User) {
+  u.Following = user.IsFollowing(u)
+}
+
+func GetUserByID(userID string) (user User){
+  DB.Where("id = ?", userID).First(&user)
+  user.PopulateNumberOfFollowers()
+  user.PopulatingNumberOfTrips()
+  return
+}
+
+func (u *User) GetNumberOfTrips() int {
+  count := DB.Model(&u).Association("Trips").Count()
+  return count
+}
+
+func (u *User) PopulatingNumberOfTrips() {
+  u.NumberOfTrips = u.GetNumberOfTrips()
+}
+
+func (u *User) PopulateNumberOfFollowers() {
+  u.NumberOfFollowers = u.GetFollowerCount()
+}
+
+func (u *User) GetFollowerCount() (count int) {
+  DB.Model(&Follow{}).Where("followed_user_id = ?", u.ID).Count(&count)
+  return
+}
+
 func UpsertUser(user *User) {
 	DB.Where("facebook_id = ?", user.FacebookId).Assign(user).FirstOrCreate(&user)
 
 	if !DB.NewRecord(user) {
 		DB.Save(user)
 	}
+}
+
+func (u *User) SetUserLikenessOfScenes(scenes []Scene) {
+  for i, scene := range scenes {
+    scenes[i].Liked = scene.UserHasLiked(u)
+  }
 }
 
 func FindUsers(query string) (users []User) {
@@ -85,6 +131,7 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 
   if (trip.ID > 0) {
     err = DB.Model(&trip).Association("Locations").Append(location).Error
+    SaveCurrentLocationToRedis(u.FacebookId, location)
   }
 
   return
@@ -156,77 +203,13 @@ func (u *User) Light(location Location)(err error) {
      return err
   }
 
-  scene := Scene{
-  	Name: "Start of Trip",
-  	Latitude: location.Latitude,
-  	Longitude: location.Longitude,
-  	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
-  	SceneOrder: 1,
-  }
-
-  if err := tx.Model(&trip).Association("Scenes").Append(&scene).Error; err != nil {
-  	fmt.Println(err)
-     tx.Rollback()
-     return err
-  }
-
-  card := Card{ 
-  	Text: u.FullName + " did a thing!",
-  	CardOrder: 1,
-		NibID: "TextHero",
-    ImageURL: "https://i.ytimg.com/vi/HsG5uq9xOKo/maxresdefault.jpg",
-  }
-
-  if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
-  	fmt.Println(err)
-     tx.Rollback()
-     return err
-  }
-
   tx.Commit()
   return nil
 }
 
 func (u *User) Extinguish(location Location)(err error) {
-	tx := DB.Begin()
-
-	if err := tx.Model(&u).Update("lit", false).Error; err != nil {
-		fmt.Println(err)
-    tx.Rollback()
-    return err
-  }
-
-  trip := u.ActiveTrip()
-
-  scene := Scene{
-  	Name: "End of Trip",
-  	Latitude: location.Latitude,
-  	Longitude: location.Longitude,
-  	BackgroundUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
-  	SceneOrder: uint(len(trip.Scenes) + 1),
-  }
-
-  if err := tx.Model(&trip).Association("Scenes").Append(&scene).Error; err != nil {
-  	fmt.Println(err)
-     tx.Rollback()
-     return err
-  }
-
-  card := Card{ 
-  	Text: u.FullName + " ended the trip!",
-  	CardOrder: 1,
-		NibID: "PictureHero",
-    ImageURL: "https://i.ytimg.com/vi/HsG5uq9xOKo/maxresdefault.jpg",
-  }
-
-  if err := tx.Model(&scene).Association("Cards").Append(&card).Error; err != nil {
-  	fmt.Println(err)
-    tx.Rollback()
-    return err
-  }
-
+	DB.Model(&u).Update("lit", false)
   u.DeactivateTrips()
-
-  tx.Commit()
+  redis.DeleteRedisKey("currentLocation_" + u.FacebookId)
   return nil
 }

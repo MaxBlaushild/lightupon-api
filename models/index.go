@@ -45,7 +45,8 @@ func Connect(testMode bool) {
                  &Bookmark{}, 
                  &Like{},
                  &TripLike{},
-                 &Comment{})
+                 &Comment{},
+                 &SceneLike{})
   
   DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }
