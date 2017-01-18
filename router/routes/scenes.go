@@ -7,6 +7,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+
        )
 
 
@@ -16,27 +17,10 @@ import(
 // In all cases, we will return a scene, along with a flag indicating case A or B. In case B, the scene will be 
 // populated with a suggestion for the scene name and nothing else.
 func ActiveSceneHandler(w http.ResponseWriter, r *http.Request) {
-  // get the user from the request
-  // try to get the user's active trip (if failure, return a bad request thing)
-  // try to get the activeScene out of the trip
-
-  // user := GetUserFromRequest(r)
-  // activeTrip := user.ActiveTrip()
-
-  // currentScene := getSceneFromCache(activeTrip.ID)
-
-  // currentLocation := models.UserLocation{Latitude: selfie.Location.Latitude, Longitude: selfie.Location.Longitude}
-  // isAtCurrentScene := currentScene.IsAtScene(currentLocation)
-
-  
-
-
-
-
-
-  // scenes := []models.Scene{}
-  // models.DB.Where("Featured = true").Find(&scenes)
-  // json.NewEncoder(w).Encode(scenes)
+  user := GetUserFromRequest(r)
+  user.SetUserLocationFromRequest(r)
+  scene := user.GetActiveSceneOrSuggestion()
+  json.NewEncoder(w).Encode(scene)
 }
 
 func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {

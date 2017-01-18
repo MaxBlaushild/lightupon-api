@@ -32,7 +32,7 @@ func Connect(testMode bool) {
       log.Fatalln(err)
   }
 
-  DB.LogMode(true)
+  DB.LogMode(false)
   DB.AutoMigrate(&User{}, 
                  &Trip{}, 
                  &Party{}, 
