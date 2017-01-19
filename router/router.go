@@ -25,7 +25,6 @@ func Init(){
 
   // these serve/accept json
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/admin/popularScenes", routes.PopularScenesHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/trips", routes.AdminCreateTripHandler).Methods("POST")
