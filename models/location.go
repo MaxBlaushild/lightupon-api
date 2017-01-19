@@ -15,6 +15,9 @@ type Location struct {
 	gorm.Model
 	Latitude float64
 	Longitude float64
+  Course float64
+  Accuracy float64
+  Floor int
 	TripID uint
 }
 

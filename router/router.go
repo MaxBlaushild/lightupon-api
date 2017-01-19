@@ -42,8 +42,9 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
 
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.FollowHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/users/{userID}/unfollow", routes.UnfollowHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.UnfollowHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}", routes.GetUserHandler).Methods("GET")
   
   // LIGHT STUFF
   routerWithAuth.HandleFunc("/lightupon/light", routes.LightHandler).Methods("POST")
@@ -61,6 +62,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyScenesHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
 
   // LOCATION STUFF
   routerWithAuth.HandleFunc("/lightupon/locations", routes.AddLocationHandler).Methods("POST")
@@ -68,6 +70,7 @@ func Init(){
   // SCENE STUFF
   routerWithAuth.HandleFunc("/lightupon/selfies", routes.CreateSelfieSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes", routes.ScenesIndexHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/scenes", routes.ScenesForUserHandler).Methods("GET")
   
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
@@ -87,6 +90,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.LikeSceneHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.UnlikeSceneHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
 

@@ -44,5 +44,13 @@ func SetRedisKey(key string, value string, ttl int) {
     }
     defer client.Close()
     client.Do("SET", key, value)
-    client.Do("EXPIRE", key, ttl)
+}
+
+func DeleteRedisKey(key string) {
+  client, err := redis.Dial("tcp", ":6379")
+  if err != nil {
+      panic(err)
+  }
+  defer client.Close()
+  client.Do("DEL", key)
 }
