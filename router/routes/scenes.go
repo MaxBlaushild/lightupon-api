@@ -7,15 +7,8 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-
        )
 
-
-// http://localhost:5000/lightupon/scenes/nearby?lat=42.355228&lon=-71.067772
-// This endpoint has a little bit of weird behavior. In case A, the user has an active scene and is still at that
-// scene. Case B is everything else (the user eith has no active scene or is no longer at that scene).
-// In all cases, we will return a scene, along with a flag indicating case A or B. In case B, the scene will be 
-// populated with a suggestion for the scene name and nothing else.
 func ActiveSceneHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   user.SetUserLocationFromRequest(r)
