@@ -9,6 +9,7 @@ import (
   "net/http"
   "strconv"
   "lightupon-api/services/redis"
+  "lightupon-api/services/googleMaps"
 )
 
 type User struct {
@@ -173,8 +174,10 @@ func (u *User) GetActiveSceneOrSuggestion() (scene Scene) {
 
   return
 }
+
 func (u *User) GetSuggestedScene() (scene Scene) {
-  scene.Name = "SuggestedNameForScene"
+  place := googleMaps.GetPrettyPlace(u.Location.Latitude, u.Location.Longitude)
+  scene.Name = place["FormattedAddress"]
   return scene
 }
 
