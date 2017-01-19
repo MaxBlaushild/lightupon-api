@@ -7,7 +7,6 @@ import(
        "encoding/json"
        "fmt"
        "hash/fnv"
-       "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -240,8 +239,6 @@ func CreateDegenerateTrip(scene Scene, userID uint) {
   trip.UserID = userID
 
   trip.Scenes = append (trip.Scenes, scene)
-  fmt.Println("trip.Scenes")
-  spew.Dump(trip.Scenes)
   DB.Create(&trip)
   return
 }

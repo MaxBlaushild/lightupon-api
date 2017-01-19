@@ -12,7 +12,7 @@ func main() {
   godotenv.Load()
 
   //connect to the database
-  models.Connect(false)
+  models.Connect()
 
   //intialize the websocket hub and start waiting for connections
   go websockets.H.StartHub()
