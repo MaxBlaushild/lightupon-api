@@ -16,6 +16,19 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
+func ActiveSceneHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  user.SetUserLocationFromRequest(r)
+  scene := user.GetActiveSceneOrSuggestion()
+  json.NewEncoder(w).Encode(scene)
+}
+
+func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
+  scenes := []models.Scene{}
+  models.DB.Where("Featured = true").Find(&scenes)
+  json.NewEncoder(w).Encode(scenes)
+}
+
 
 func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
@@ -102,7 +115,6 @@ func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
     models.DB.Find(&scene)
     scene.ID = 0 // Set the sceneID to zero so it will insert properly below
     scene.SceneOrder = newSceneOrder
-    scene.Featured = false
   }
   models.ShiftScenesUp(int(scene.SceneOrder), tripID)
   models.DB.Create(&scene)
