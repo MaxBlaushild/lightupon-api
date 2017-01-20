@@ -6,7 +6,10 @@ import (
 	"github.com/jinzhu/gorm"
 	"os"
 	"time"
+  "net/http"
+  "strconv"
   "lightupon-api/services/redis"
+  "lightupon-api/services/googleMaps"
 )
 
 type User struct {
@@ -138,6 +141,44 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 func (u *User) ActiveTrip()(trip Trip) {
   DB.Preload("Scenes.Cards").Where("user_id = ? AND active = true", u.ID).First(&trip)
   return
+}
+
+func (u *User) SetUserLocationFromRequest(r *http.Request) {
+  query := r.URL.Query()
+
+  location := UserLocation{}
+  lat, _ := strconv.ParseFloat(query["lat"][0], 64)
+  lon, _ := strconv.ParseFloat(query["lon"][0], 64)
+  location.Latitude = lat
+  location.Longitude = lon
+
+  u.Location = location
+}
+
+func (u *User) GetActiveSceneOrSuggestion() (scene Scene) {
+  activeTrip := u.ActiveTrip()
+
+  lengthOfScenes := len(activeTrip.Scenes)
+
+  if (lengthOfScenes == 0) {
+    return u.GetSuggestedScene()
+  }
+
+  activeScene := activeTrip.Scenes[lengthOfScenes - 1]
+
+  if (u.IsAtScene(activeScene)) {
+    return activeScene
+  } else {
+    return u.GetSuggestedScene()
+  }
+
+  return
+}
+
+func (u *User) GetSuggestedScene() (scene Scene) {
+  place := googleMaps.GetPrettyPlace(u.Location.Latitude, u.Location.Longitude)
+  scene.Name = place["FormattedAddress"]
+  return scene
 }
 
 func (u *User) DeactivateTrips() {

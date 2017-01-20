@@ -17,7 +17,6 @@ type Scene struct {
   Trip Trip
   BackgroundUrl string `gorm:"not null"`
   SceneOrder uint `gorm:"not null"`
-  Featured bool
   Cards []Card
   Comments []Comment
   SceneLikes []SceneLike 
@@ -39,7 +38,7 @@ type Scene struct {
   Liked bool `sql:"-"`
 }
 
-func (s *Scene) BeforeCreate() {
+func (s *Scene) BerforeCreate() {
   place := googleMaps.GetPrettyPlace(s.Latitude, s.Longitude)
   s.FormattedAddress = place["FormattedAddress"]
   s.StreetNumber = place["street_number"]
