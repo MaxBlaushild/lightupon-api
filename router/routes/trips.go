@@ -9,7 +9,7 @@ import(
        "fmt"
        )
 
-func TripsHandler(w http.ResponseWriter, r *http.Request) {  
+func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {  
   user := GetUserFromRequest(r)
 
   lat, lon := GetUserLocationFromRequest(r)

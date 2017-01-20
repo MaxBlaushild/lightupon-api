@@ -1,11 +1,11 @@
 package models
 
 import(
+      "strconv"
       "fmt"
       "github.com/jinzhu/gorm"
       "lightupon-api/services/aws"
       "lightupon-api/services/googleMaps"
-
       )
 
 type Scene struct {
@@ -118,4 +118,17 @@ func (s *Scene) PopulateSound() {
   }
 
   s.SoundResource = url
+}
+
+func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
+  // TODO: Stick all of our data access in one file so Max doesn't ever have to look at it
+  sql := `SELECT * FROM scenes
+          INNER JOIN follows ON scenes.user_id = follows.followed_user_id
+          WHERE following_user_id = ` + strconv.Itoa(int(userID)) + `
+          AND ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 1
+          ORDER BY ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) asc;`
+
+  DB.Raw(sql).Scan(&scenes)
+
+  return
 }

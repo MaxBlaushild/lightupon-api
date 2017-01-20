@@ -9,6 +9,13 @@ import(
        "strconv"
        )
 
+func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  lat, lon := GetUserLocationFromRequest(r)  
+  scenes := models.GetScenesNearLocation(lat, lon, user.ID)  
+  json.NewEncoder(w).Encode(scenes)
+}
+
 func ActiveSceneHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   user.SetUserLocationFromRequest(r)
@@ -21,6 +28,7 @@ func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Where("Featured = true").Find(&scenes)
   json.NewEncoder(w).Encode(scenes)
 }
+
 
 func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
