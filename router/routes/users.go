@@ -89,14 +89,19 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
+
   user := GetUserFromRequest(r)
+  decoder := json.NewDecoder(r.Body)
+  
+  device := models.Device{}
 
-  vars := mux.Vars(r)
-  deviceTokenString, _ := vars["deviceToken"]
+  if err := decoder.Decode(&device); err != nil {
+    respondWithBadRequest(w, "Fuck that shit you sent us.")
+    return
+  }
 
-  deviceModel := models.Device{}
-  deviceModel.UserID = user.ID
-  deviceModel.DeviceToken = deviceTokenString
+  device.UserID = user.ID
+  models.DB.FirstOrCreate(&device)
+  respondWithCreated(w, "Token was inserted!")
 
-  models.DB.FirstOrCreate(&deviceModel)
 }
