@@ -101,7 +101,7 @@ func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
   }
 
   device.UserID = user.ID
-  models.DB.FirstOrCreate(&device)
+  models.DB.FirstOrCreate(&models.Device{}, &device)
   respondWithCreated(w, "Token was inserted!")
 
 }
