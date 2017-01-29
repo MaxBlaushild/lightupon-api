@@ -87,3 +87,21 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   json.NewEncoder(w).Encode(user)
 }
+
+func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
+
+  user := GetUserFromRequest(r)
+  decoder := json.NewDecoder(r.Body)
+  
+  device := models.Device{}
+
+  if err := decoder.Decode(&device); err != nil {
+    respondWithBadRequest(w, "Fuck that shit you sent us.")
+    return
+  }
+
+  device.UserID = user.ID
+  models.DB.FirstOrCreate(&device)
+  respondWithCreated(w, "Token was inserted!")
+
+}
