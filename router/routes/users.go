@@ -87,3 +87,16 @@ func MeHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   json.NewEncoder(w).Encode(user)
 }
+
+func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+
+  vars := mux.Vars(r)
+  deviceTokenString, _ := vars["deviceToken"]
+
+  deviceTokenModel := models.DeviceToken{}
+  deviceTokenModel.UserID = user.ID
+  deviceTokenModel.DeviceToken = deviceTokenString
+
+  models.DB.FirstOrCreate(&deviceTokenModel)
+}
