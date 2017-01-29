@@ -5,8 +5,9 @@ import(
       )
 
 
-type DeviceToken struct {
+type Device struct {
     gorm.Model
     UserID uint
+    User User
     DeviceToken string
 }

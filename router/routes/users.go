@@ -94,9 +94,9 @@ func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   deviceTokenString, _ := vars["deviceToken"]
 
-  deviceTokenModel := models.DeviceToken{}
-  deviceTokenModel.UserID = user.ID
-  deviceTokenModel.DeviceToken = deviceTokenString
+  deviceModel := models.Device{}
+  deviceModel.UserID = user.ID
+  deviceModel.DeviceToken = deviceTokenString
 
-  models.DB.FirstOrCreate(&deviceTokenModel)
+  models.DB.FirstOrCreate(&deviceModel)
 }

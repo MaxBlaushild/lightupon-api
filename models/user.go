@@ -20,6 +20,7 @@ type User struct {
 	ProfilePictureURL string
 	FullName string
 	DeviceID string
+  Devices []Device
 	Token string
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
