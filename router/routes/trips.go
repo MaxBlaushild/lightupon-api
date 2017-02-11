@@ -18,6 +18,12 @@ func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
+func ActiveTripHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  activeTrip := user.ActiveTrip()
+  json.NewEncoder(w).Encode(activeTrip)
+}
+
 func GetUsersTripsHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   userID := vars["userID"]
