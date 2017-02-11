@@ -178,7 +178,16 @@ func (u *User) GetActiveSceneOrSuggestion() (scene Scene) {
 
 func (u *User) GetSuggestedScene() (scene Scene) {
   place := googleMaps.GetPrettyPlace(u.Location.Latitude, u.Location.Longitude)
-  scene.Name = place["FormattedAddress"]
+  scene.FormattedAddress = place["FormattedAddress"]
+  scene.StreetNumber = place["street_number"]
+  scene.Route = place["route"]
+  scene.Neighborhood = place["neighborhood"]
+  scene.Locality = place["locality"]
+  scene.AdministrativeLevelTwo = place["administrative_area_level_2"]
+  scene.AdministrativeLevelOne = place["administrative_area_level_1"]
+  scene.Country = place["country"]
+  scene.PostalCode = place["postal_code"]
+  scene.GooglePlaceID = place["PlaceID"]
   return scene
 }
 
