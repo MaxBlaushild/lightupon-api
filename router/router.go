@@ -63,6 +63,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
 
 
   // LOCATION STUFF

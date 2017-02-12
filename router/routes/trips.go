@@ -18,10 +18,23 @@ func NearbyTripsHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(trips)
 }
 
+func UpdateActiveTrip(w http.ResponseWriter, r *http.Request) {
+  decoder := json.NewDecoder(r.Body)
+  trip := models.Trip{}
+  err := decoder.Decode(&trip); if err != nil {
+    respondWithBadRequest(w, "The trip you sent us was bunk.")
+  }
+  user := GetUserFromRequest(r)
+  activeTrip := user.ActiveTrip()
+  models.DB.Model(&activeTrip).Update(trip)
+  json.NewEncoder(w).Encode(activeTrip)
+}
+
 func ActiveTripHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeTrip := user.ActiveTrip()
   json.NewEncoder(w).Encode(activeTrip)
+
 }
 
 func GetUsersTripsHandler(w http.ResponseWriter, r *http.Request) {
