@@ -34,11 +34,17 @@ type ConstellationPoint struct {
 }
 
 func (t *Trip) AppendScene(scene *Scene) (err error) {
-  sceneOrder := uint(len(t.Scenes) + 1)
-  scene.SceneOrder = sceneOrder
-  scene.TripID = t.ID
-  err = DB.Save(&scene).Error
+  scene.SceneOrder = uint(len(t.Scenes) + 1)
+  err = DB.Model(&t).Association("Scenes").Append(scene).Error
   return
+}
+
+func (t *Trip) PutScene(scene *Scene) {
+  if &scene.TripID == nil {
+    DB.Save(&scene)
+  } else {
+    t.AppendScene(scene)
+  }
 }
 
 func GetTrip(tripID int, userID uint) (trip Trip) {
