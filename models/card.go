@@ -6,8 +6,9 @@ import(
 
 type Card struct {
   gorm.Model
-  Text string
-  TextTwo string
+  Caption string
+  Latitude float64
+  Longitude float64
   ImageURL string
   SceneID uint
   Comments []Comment

@@ -57,7 +57,7 @@ func ModifyCardHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   // TODO iterate through fields instead of doing this one-by-one
-  if (card.Text != "") {models.DB.Model(&card).Update("text", card.Text)}
+  if (card.Caption != "") {models.DB.Model(&card).Update("text", card.Caption)}
 
   respondWithNoContent(w, "The scene was modified.")
 }

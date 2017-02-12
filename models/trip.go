@@ -189,27 +189,23 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
-func CreateSelfieTrip(selfie Selfie, userID uint) {
-  scene := CreateSelfieScene(selfie, userID)
+func CreateSelfieTrip(card Card, userID uint) {
+  scene := CreateSelfieScene(card, userID)
   CreateDegenerateTrip(scene, userID)
   return
 }
 
-func CreateSelfieScene(selfie Selfie, userID uint) Scene {
-  fmt.Println("INFO: Creating selfie trip")
-  selfieCard := Card{ NibID: "PictureHero", ImageURL: selfie.ImageUrl }
-  cards := []Card{selfieCard}  
-
+func CreateSelfieScene(card Card, userID uint) Scene {
   scene := Scene{ 
-    Latitude: selfie.Location.Latitude, 
-    Longitude: selfie.Location.Longitude, 
+    Latitude: card.Latitude, 
+    Longitude: card.Longitude, 
     SceneOrder: 1,
     UserID: userID,
     Name: "Thing of trip",
-    BackgroundUrl: selfie.ImageUrl,
+    BackgroundUrl: card.ImageURL,
+    Cards: []Card{card},
   }
 
-  scene.Cards = cards
   return scene
 }
 
@@ -219,7 +215,7 @@ func GetBookmarkCards() []Card {
   DB.Limit(5).Order("created_at desc").Find(&bookmarks)
   for i, bookmark := range bookmarks {
     bookmarkCard := Card{ 
-      Text: bookmark.URL,
+      Caption: bookmark.URL,
       CardOrder: uint(i),
       NibID: "TextHero",
     }

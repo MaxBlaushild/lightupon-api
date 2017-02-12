@@ -62,15 +62,15 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
 
   fmt.Println("INFO: Creating selfie trip")
-  selfie := models.Selfie{}
+  card := models.Card{}
   decoder := json.NewDecoder(r.Body)
-  err := decoder.Decode(&selfie)
+  err := decoder.Decode(&card)
   if err != nil {
     respondWithBadRequest(w, "The selfie you sent us was bunk.")
     return
   }
 
-  models.CreateSelfieTrip(selfie, user.ID)
+  models.CreateSelfieTrip(card, user.ID)
 
   respondWithCreated(w, "The trip was created.")
 }
