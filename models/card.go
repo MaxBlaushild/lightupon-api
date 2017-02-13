@@ -10,6 +10,8 @@ type Card struct {
   Latitude float64
   Longitude float64
   ImageURL string
+  Pin string
+  SelectedPin string
   SceneID uint
   Comments []Comment
   CardOrder uint

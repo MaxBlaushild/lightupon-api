@@ -6,6 +6,10 @@ import(
       "github.com/jinzhu/gorm"
       "lightupon-api/services/aws"
       "lightupon-api/services/googleMaps"
+      "io/ioutil"
+      "net/http"
+      "os"
+      "path"
       )
 
 type Scene struct {
@@ -118,6 +122,40 @@ func (s *Scene) PopulateSound() {
   }
 
   s.SoundResource = url
+}
+
+func (s *Scene) GetImage() {
+  url, err :aws.GetAsset("image", s.BackgroundUrl)
+  if err != nil {
+    fmt.Println(err)
+  }
+  s.BackgroundUrl = url
+
+}
+
+func (s *Scene) downloadImage() {
+  resp, err := http.Get(s.BackgroundUrl)
+  defer resp.Body.Close()
+
+  if err != nil {
+    log.Fatal("Trouble making GET photo request!")
+  }
+
+  contents, err := ioutil.ReadAll(resp.Body)
+  if err != nil {
+    log.Fatal("Trouble reading response body!")
+  }
+
+  filename := path.Base(s.BackgroundUrl)
+  if filename == "" {
+    log.Fatal("Trouble deriving file name for %s", s.BackgroundUrl)
+  }
+
+  err = ioutil.WriteFile(filename, contents, 0644)
+  if err != nil {
+    log.Fatal("Trouble creating file! -- ", err)
+  }
+
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
