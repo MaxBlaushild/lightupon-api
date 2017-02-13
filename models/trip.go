@@ -41,7 +41,7 @@ func (t *Trip) AppendScene(scene *Scene) (err error) {
 }
 
 func (t *Trip) PutScene(scene *Scene) {
-  if scene.TripID != 0 {
+  if scene.ID != 0 {
     fmt.Println("not a dthing")
     pretty.Println(scene)
     DB.Save(&scene)
