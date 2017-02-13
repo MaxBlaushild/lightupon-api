@@ -40,9 +40,10 @@ func (t *Trip) AppendScene(scene *Scene) (err error) {
 }
 
 func (t *Trip) PutScene(scene *Scene) {
-  if &scene.TripID == nil {
+  if scene.TripID == 0 {
     DB.Save(&scene)
   } else {
+    scene.UserID = t.UserID
     t.AppendScene(scene)
   }
 }
