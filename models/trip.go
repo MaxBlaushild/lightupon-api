@@ -7,7 +7,6 @@ import(
        "encoding/json"
        "fmt"
        "hash/fnv"
-      "github.com/kr/pretty"
       )
 
 type Trip struct {
@@ -42,11 +41,11 @@ func (t *Trip) AppendScene(scene *Scene) (err error) {
 
 func (t *Trip) PutScene(scene *Scene) {
   if scene.ID != 0 {
-    fmt.Println("not a dthing")
-    pretty.Println(scene)
+    card := scene.Cards[0]
+    scene.Cards = nil
     DB.Save(&scene)
+    scene.AppendCard(card)
   } else {
-    pretty.Println(scene)
     scene.UserID = t.UserID
     t.AppendScene(scene)
   }
