@@ -41,6 +41,11 @@ func (u *User) BeforeCreate() (err error) {
   return
 }
 
+func (u *User) AddTrip(trip *Trip) (err error) {
+  err = DB.Model(&u).Association("Trips").Append(trip).Error
+  return
+}
+
 func (u *User) IsFollowing(user *User) bool {
   var count int
   DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id = ?", user.ID, u.ID).Count(&count)

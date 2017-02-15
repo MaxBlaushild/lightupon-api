@@ -199,26 +199,6 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   return
 }
 
-func CreateSelfieTrip(card Card, userID uint) {
-  scene := CreateSelfieScene(card, userID)
-  CreateDegenerateTrip(scene, userID)
-  return
-}
-
-func CreateSelfieScene(card Card, userID uint) Scene {
-  scene := Scene{ 
-    Latitude: card.Latitude, 
-    Longitude: card.Longitude, 
-    SceneOrder: 1,
-    UserID: userID,
-    Name: "Thing of trip",
-    BackgroundUrl: card.ImageURL,
-    Cards: []Card{card},
-  }
-
-  return scene
-}
-
 func GetBookmarkCards() []Card {
   cards := []Card{}
   bookmarks := []Bookmark{}
@@ -232,21 +212,6 @@ func GetBookmarkCards() []Card {
     cards = append (cards, bookmarkCard)
   }
   return cards
-}
-
-// This is meant to decouple the selfie model from the Trip/Scene/Card model, so now we can re-use this without selfies
-func CreateDegenerateTrip(scene Scene, userID uint) {
-  title := "New Selfie at " + strconv.FormatFloat(scene.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(scene.Longitude, 'f', -1, 64)
-  trip := Trip{}
-  trip.ImageUrl = scene.BackgroundUrl
-  trip.Description = "This is the song that never ends"
-  trip.Title = title
-  trip.Active = false
-  trip.UserID = userID
-
-  trip.Scenes = append (trip.Scenes, scene)
-  DB.Create(&trip)
-  return
 }
 
 func (trip *Trip) LoadLikeStuff(userID uint) {
