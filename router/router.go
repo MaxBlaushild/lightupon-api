@@ -63,7 +63,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
 
 
   // LOCATION STUFF
@@ -72,7 +72,7 @@ func Init(){
   // SCENE STUFF
   routerWithAuth.HandleFunc("/lightupon/scenes", routes.ScenesIndexHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeScene", routes.ActiveSceneHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/activeScene", routes.PutSceneHandler).Methods("PATCH")
+  routerWithAuth.HandleFunc("/lightupon/activeScene", routes.PutSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/scenes", routes.ScenesForUserHandler).Methods("GET")
   
   // PARTY STUFF
