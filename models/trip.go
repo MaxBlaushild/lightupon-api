@@ -43,9 +43,7 @@ func (t *Trip) PutScene(scene *Scene) {
   if scene.ID != 0 {
     card := scene.Cards[0]
     scene.Cards = nil
-    scene.UserID = t.UserID
-    scene.TripID = t.ID
-    DB.Save(&scene)
+    DB.Model(&scene).Update(scene)
     scene.AppendCard(card)
   } else {
     scene.UserID = t.UserID
