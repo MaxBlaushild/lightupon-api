@@ -73,7 +73,11 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
     Scenes: []models.Scene{scene},
   }
 
-  user.AddTrip(&trip)
+  err = user.AddTrip(&trip); if err != nil {
+    fmt.Println(err)
+    respondWithBadRequest(w, "The selfie you sent us was bunk.")
+    return
+  }
 
   respondWithCreated(w, "The trip was created.")
 }
