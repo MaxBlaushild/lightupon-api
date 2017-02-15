@@ -43,8 +43,8 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
-  // trip.Scenes[0].UserID = u.ID
-  err = DB.Model(&u).Association("Trips").Append(&trip).Error
+  trip.Scenes[0].UserID = u.ID
+  err = DB.Model(&u).Association("Trips").Append(trip).Error
   return
 }
 
