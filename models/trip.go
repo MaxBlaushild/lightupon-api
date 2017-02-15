@@ -44,6 +44,7 @@ func (t *Trip) PutScene(scene *Scene) {
     card := scene.Cards[0]
     scene.Cards = nil
     scene.UserID = t.UserID
+    scene.TripID = t.ID
     DB.Save(&scene)
     scene.AppendCard(card)
   } else {
