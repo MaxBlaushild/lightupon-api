@@ -22,6 +22,7 @@ type User struct {
 	DeviceID string
   Devices []Device
 	Token string
+  Scenes []Scene
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
