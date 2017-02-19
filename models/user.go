@@ -203,7 +203,7 @@ func (u *User) DeactivateTrips() {
 	DB.Model(&Trip{}).Where("active = true AND user_id = ?", u.ID).Update("active", false)
 }
 
-func (u *User) Light(location Location)(err error) {
+func (u *User) Light()(err error) {
 	tx := DB.Begin()
 
   if err := tx.Model(&u).Update("lit", true).Error; err != nil {
