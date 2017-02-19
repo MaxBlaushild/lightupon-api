@@ -228,7 +228,7 @@ func (u *User) Light()(err error) {
   return nil
 }
 
-func (u *User) Extinguish(location Location)(err error) {
+func (u *User) Extinguish()(err error) {
 	DB.Model(&u).Update("lit", false)
   u.DeactivateTrips()
   redis.DeleteRedisKey("currentLocation_" + u.FacebookId)

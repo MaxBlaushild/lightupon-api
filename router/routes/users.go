@@ -55,15 +55,8 @@ func LightHandler(w http.ResponseWriter, r *http.Request) {
 
 func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  decoder := json.NewDecoder(r.Body)
-  location := models.Location{}
 
-  err := decoder.Decode(&location); if err != nil {
-    respondWithBadRequest(w, "The location sent was bunk.")
-    return
-  }
-
-  if err := user.Extinguish(location); err != nil {
+  if err := user.Extinguish(); err != nil {
     respondWithBadRequest(w, "There was an error extinguishing user. Call the terminator.")
     return
   }
