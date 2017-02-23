@@ -2,6 +2,7 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
+      "lightupon-api/services/imageMagick"
       )
 
 type Card struct {
@@ -42,4 +43,8 @@ func ShiftCardsDown(cardOrder int, sceneID int) bool {
     return true
   }
 }
+func ResizeImageForPins(sceneID int) string {
+  card := Card{}
+  imageMagick.CropPin(downloadImage(getImage(sceneID)))
 
+}
