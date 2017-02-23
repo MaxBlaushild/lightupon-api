@@ -20,7 +20,7 @@ func CropPin(input) {
 		}
 
 		log.Print("Transforming")
-		err = image.Resize("400x200")
+		err = image.Resize("40x20")
 		if err != nil {
 			log.Print("Problem with transforming")
 			os.Exit(1)

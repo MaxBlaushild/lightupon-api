@@ -6,6 +6,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+       "imageMagick"
        )
 
 func CardsHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,6 +29,7 @@ func CreateCardHandler(w http.ResponseWriter, r *http.Request) {
   }
   models.ShiftCardsUp(int(card.CardOrder), sceneID)
   card.SceneID = uint(sceneID)
+  card.ResizeImageForPins(sceneID)
   models.DB.Create(&card)
   respondWithCreated(w, "The card was created.")
 }
