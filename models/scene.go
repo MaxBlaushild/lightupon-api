@@ -130,7 +130,7 @@ func (s *Scene) GetImage() {
     fmt.Println(err)
   }
   s.BackgroundUrl = url
-
+  return url
 }
 
 func (s *Scene) downloadImage() {
@@ -151,10 +151,11 @@ func (s *Scene) downloadImage() {
     log.Fatal("Trouble deriving file name for %s", s.BackgroundUrl)
   }
 
-  err = ioutil.WriteFile(filename, contents, 0644)
+  file, err := ioutil.WriteFile(filename, contents, 0644)
   if err != nil {
     log.Fatal("Trouble creating file! -- ", err)
   }
+  return file
 
 }
 
