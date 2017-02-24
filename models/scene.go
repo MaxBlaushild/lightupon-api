@@ -5,11 +5,10 @@ import(
       "fmt"
       "github.com/jinzhu/gorm"
       "lightupon-api/services/aws"
-      "lightupon-api/services/googleMaps"
+      "lightupon-api/services/imageMagick"
       "io/ioutil"
       "net/http"
-      "os"
-      "path"
+      "bytes"
       )
 
 type Scene struct {
@@ -38,22 +37,14 @@ type Scene struct {
   StreetNumber string
   SoundKey string
   SoundResource string
+  PinUrl string
+  SelectedPinUrl string
   ConstellationPoint ConstellationPoint
   Liked bool `sql:"-"`
 }
 
-func (s *Scene) BerforeCreate() {
-  place := googleMaps.GetPrettyPlace(s.Latitude, s.Longitude)
-  s.FormattedAddress = place["FormattedAddress"]
-  s.StreetNumber = place["street_number"]
-  s.Route = place["route"]
-  s.Neighborhood = place["neighborhood"]
-  s.Locality = place["locality"]
-  s.AdministrativeLevelTwo = place["administrative_area_level_2"]
-  s.AdministrativeLevelOne = place["administrative_area_level_1"]
-  s.Country = place["country"]
-  s.PostalCode = place["postal_code"]
-  s.GooglePlaceID = place["PlaceID"]
+func (s *Scene) AfterCreate() {
+  s.SetPins()
 }
 
 func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
@@ -125,38 +116,35 @@ func (s *Scene) PopulateSound() {
 }
 
 func (s *Scene) GetImage() {
-  url, err :aws.GetAsset("image", s.BackgroundUrl)
+  url, err := aws.GetAsset("image", s.BackgroundUrl)
   if err != nil {
     fmt.Println(err)
   }
   s.BackgroundUrl = url
-  return url
 }
 
-func (s *Scene) downloadImage() {
+func (s *Scene) DownloadImage() (imageBinary []byte){
   resp, err := http.Get(s.BackgroundUrl)
   defer resp.Body.Close()
 
-  if err != nil {
-    log.Fatal("Trouble making GET photo request!")
+  imageBinary, err = ioutil.ReadAll(resp.Body); if err != nil {
+    fmt.Println("ioutil.ReadAll -> %v", err)
   }
 
-  contents, err := ioutil.ReadAll(resp.Body)
-  if err != nil {
-    log.Fatal("Trouble reading response body!")
-  }
+  return
+}
 
-  filename := path.Base(s.BackgroundUrl)
-  if filename == "" {
-    log.Fatal("Trouble deriving file name for %s", s.BackgroundUrl)
+func (s *Scene) SetPins() {
+  imageBinary := s.DownloadImage()
+  pinBinary := imageMagick.CropPin(imageBinary)
+  putUrl, err := aws.PutAsset("image", "pinForScene" + s.Name)
+  client := &http.Client{}
+  request, err := http.NewRequest("PUT", putUrl, bytes.NewReader(pinBinary))
+  response, err := client.Do(request)
+  defer response.Body.Close()
+  if err == nil {
+    s.PinUrl = putUrl
   }
-
-  file, err := ioutil.WriteFile(filename, contents, 0644)
-  if err != nil {
-    log.Fatal("Trouble creating file! -- ", err)
-  }
-  return file
-
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
