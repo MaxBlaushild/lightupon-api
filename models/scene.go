@@ -44,10 +44,9 @@ type Scene struct {
 
 type cropper func([]byte) []byte
 
-func (s *Scene) AfterCreate() {
-  err := s.SetPins(); if err != nil {
-    fmt.Println(err)
-  }
+func (s *Scene) AfterCreate() (err error) {
+  err = s.SetPins()
+  return
 }
 
 func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
