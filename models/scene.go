@@ -8,7 +8,6 @@ import(
       "lightupon-api/services/imageMagick"
       "io/ioutil"
       "net/http"
-      "bytes"
       )
 
 type Scene struct {
@@ -43,8 +42,12 @@ type Scene struct {
   Liked bool `sql:"-"`
 }
 
+type cropper func([]byte) []byte
+
 func (s *Scene) AfterCreate() {
-  s.SetPins()
+  err := s.SetPins(); if err != nil {
+    fmt.Println(err)
+  }
 }
 
 func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
@@ -105,24 +108,6 @@ func (s *Scene) IsAtScene(location UserLocation)(isAtNextScene bool) {
   return
 }
 
-func (s *Scene) PopulateSound() {
-  url, err := aws.GetAsset("audio", s.SoundKey)
-
-  if err != nil {
-    fmt.Println(err)
-  }
-
-  s.SoundResource = url
-}
-
-func (s *Scene) GetImage() {
-  url, err := aws.GetAsset("image", s.BackgroundUrl)
-  if err != nil {
-    fmt.Println(err)
-  }
-  s.BackgroundUrl = url
-}
-
 func (s *Scene) DownloadImage() (imageBinary []byte){
   resp, err := http.Get(s.BackgroundUrl)
   defer resp.Body.Close()
@@ -134,17 +119,30 @@ func (s *Scene) DownloadImage() (imageBinary []byte){
   return
 }
 
-func (s *Scene) SetPins() {
+func (s *Scene) getAssetName(name string) (assetName string) {
+  assetName = "/scenes/" + fmt.Sprint(s.ID) + "/" + name
+  return
+}
+
+func (s *Scene) SetPins() (err error) {
   imageBinary := s.DownloadImage()
-  pinBinary := imageMagick.CropPin(imageBinary)
-  putUrl, err := aws.PutAsset("image", "pinForScene" + s.Name)
-  client := &http.Client{}
-  request, err := http.NewRequest("PUT", putUrl, bytes.NewReader(pinBinary))
-  response, err := client.Do(request)
-  defer response.Body.Close()
-  if err == nil {
-    s.PinUrl = putUrl
+  pinBinary := imageMagick.CropPin(imageBinary, "40x40!")
+  selectedPinBinary := imageMagick.CropPin(imageBinary, "80x80!")
+  s.PinUrl, err = s.uploadPin(pinBinary, "pin")
+  s.SelectedPinUrl, err = s.uploadPin(selectedPinBinary, "selectedPin")
+  DB.Save(&s)
+  return
+}
+
+func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error){
+  asset := aws.Asset{
+    Type: "images", 
+    Name: s.getAssetName(name), 
+    Extension: ".png",
+    Binary: binary,
   }
+  getUrl, err = aws.UploadAsset(asset)
+  return
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {

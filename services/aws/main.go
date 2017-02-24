@@ -5,17 +5,22 @@ import (
       "github.com/aws/aws-sdk-go/aws/session"
       "github.com/aws/aws-sdk-go/service/s3"
       "time"
+      "strings"
+      "net/http"
+      "bytes"
+      "fmt"
       )
 
-const AUDIO string = "audio"
-const VIDEO string = "video"
-const IMAGE string = "image"
+type Asset struct {
+	Type string
+	Name string
+	Extension string
+	Binary []byte
+}
 
-var UPLOAD_TYPES [3]string = [3]string{ AUDIO, VIDEO, IMAGE }
-
-func PutAsset(assetType string, assetName string)(urlStr string, err error) {
+func PutAsset(asset Asset)(urlStr string, err error) {
 	LightuponS3 := startS3Session()
-	key := formKey(assetType, assetName)
+	key := formKey(asset)
 
 	req, _ := LightuponS3.PutObjectRequest(&s3.PutObjectInput{
 	  Bucket: aws.String("lightupon"),
@@ -27,9 +32,30 @@ func PutAsset(assetType string, assetName string)(urlStr string, err error) {
 	return
 }
 
-func GetAsset(assetType string, assetName string) (urlStr string, err error) {
+func UploadAsset(asset Asset) (getUrl string, err error) {
+  putUrl, err := PutAsset(asset)
+  client := &http.Client{}
+  request, err := http.NewRequest("PUT", putUrl, bytes.NewReader(asset.Binary))
+  request.Header.Set("Content-Type", "image/png")
+  request.Header.Set("x-amz-acl", "public-read")
+  response, err := client.Do(request)
+  defer response.Body.Close()
+ 	fmt.Println(response.Status)
+  if err == nil && response.StatusCode == 200 {
+    getUrl = splitPutUrl(putUrl)
+  }
+  return
+}
+
+func splitPutUrl(putUrl string) (getUrl string){
+	urlSegments := strings.Split(putUrl, "?")
+	getUrl = urlSegments[0]
+	return
+}
+
+func GetAsset(asset Asset) (urlStr string, err error) {
 	LightuponS3 := startS3Session()
-	key := formKey(assetType, assetName)
+	key := formKey(asset)
 
 	req, _ := LightuponS3.GetObjectRequest(&s3.GetObjectInput{
 	  Bucket: aws.String("lightupon"),
@@ -45,6 +71,6 @@ func startS3Session() *s3.S3 {
 	return s3
 }
 
-func formKey(assetType string, assetName string) string {
-	return assetType + "/" + assetName
+func formKey(asset Asset) string {
+	return asset.Type + "/" + asset.Name + asset.Extension
 }
