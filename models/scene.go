@@ -44,7 +44,7 @@ type Scene struct {
 
 type cropper func([]byte) []byte
 
-func (s *Scene) AfterCreate() (err error) {
+func (s *Scene) BeforeCreate() (err error) {
   err = s.SetPins()
   return
 }
@@ -118,9 +118,8 @@ func (s *Scene) DownloadImage() (imageBinary []byte){
   return
 }
 
-func (s *Scene) getAssetName(name string) (assetName string) {
-  assetName = "/scenes/" + fmt.Sprint(s.ID) + "/" + name
-  return
+func (s *Scene) getAssetName(name string) string {
+  return "/scenes/" + fmt.Sprint(s.ID) + "/" + name
 }
 
 func (s *Scene) SetPins() (err error) {
@@ -129,7 +128,6 @@ func (s *Scene) SetPins() (err error) {
   selectedPinBinary := imageMagick.CropPin(imageBinary, "80x80!")
   s.PinUrl, err = s.uploadPin(pinBinary, "pin")
   s.SelectedPinUrl, err = s.uploadPin(selectedPinBinary, "selectedPin")
-  DB.Save(&s)
   return
 }
 
