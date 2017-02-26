@@ -44,8 +44,10 @@ type Scene struct {
 
 type cropper func([]byte) []byte
 
-func (s *Scene) BeforeCreate() (err error) {
+func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
   err = s.SetPins()
+  err = tx.Save(s).Error
+  fmt.Println(err)
   return
 }
 
