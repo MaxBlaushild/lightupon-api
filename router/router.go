@@ -65,7 +65,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
-  routerWithAuth.HandleFunc("/lightupon/activeTrip/scenes", routes.AppendSceneHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/trips/active/scenes", routes.AppendSceneHandler).Methods("POST")
 
 
   // LOCATION STUFF
