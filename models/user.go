@@ -43,8 +43,6 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
-  trip.Scenes[0].UserID = u.ID
-  trip.Scenes[0].SceneOrder = 1
   err = DB.Model(&u).Association("Trips").Append(trip).Error
   return
 }
@@ -203,30 +201,11 @@ func (u *User) DeactivateTrips() {
 	DB.Model(&Trip{}).Where("active = true AND user_id = ?", u.ID).Update("active", false)
 }
 
-func (u *User) Light()(err error) {
-	tx := DB.Begin()
-
-  if err := tx.Model(&u).Update("lit", true).Error; err != nil {
-    tx.Rollback()
-    return err
-  }
-
-  trip := Trip{
-                Active: true,
-  							ImageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Stourhead_garden.jpg",
-  							Description: "This is the song that never ends.",
-  							Details: "And it goes on and on my friends.",
-  						}
-
-  if err := tx.Model(&u).Association("Trips").Append(&trip).Error; err != nil {
-  	fmt.Println(err)
-     tx.Rollback()
-     return err
-  }
-
-  tx.Commit()
-  return nil
+func (u *User) Light() (err error) {
+  err = DB.Model(&u).Update("lit", true).Error
+  return
 }
+
 
 func (u *User) Extinguish()(err error) {
 	DB.Model(&u).Update("lit", false)

@@ -10,7 +10,7 @@ func CropPin(imageBinary []byte, size string) (transformedBinary []byte) {
 	image, err := magick.NewFromBlob(imageBinary, "png")
 	defer image.Destroy()
 
-	err = image.Resize(size); if err != nil {
+	err = image.Crop(size); if err != nil {
 		log.Print("Problem with transforming")
 	}
 

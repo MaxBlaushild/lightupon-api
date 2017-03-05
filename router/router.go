@@ -51,7 +51,8 @@ func Init(){
   
   // TRIP STUFF
   // routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST") // commenting this out since there are dupe routes for POST to /lightupon/trips
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateDegenerateTripHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/trips/generate", routes.CreateDegenerateTripHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTrip).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.NearbyTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
@@ -64,6 +65,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
+  routerWithAuth.HandleFunc("/lightupon/activeTrip/scenes", routes.AppendSceneHandler).Methods("POST")
 
 
   // LOCATION STUFF
@@ -93,6 +95,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.AppendCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.LikeSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.UnlikeSceneHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")

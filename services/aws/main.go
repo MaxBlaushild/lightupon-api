@@ -8,7 +8,6 @@ import (
       "strings"
       "net/http"
       "bytes"
-      "fmt"
       )
 
 type Asset struct {
@@ -40,7 +39,6 @@ func UploadAsset(asset Asset) (getUrl string, err error) {
   request.Header.Set("x-amz-acl", "public-read")
   response, err := client.Do(request)
   defer response.Body.Close()
- 	fmt.Println(response.Status)
   if err == nil && response.StatusCode == 200 {
     getUrl = splitPutUrl(putUrl)
   }

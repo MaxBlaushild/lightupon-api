@@ -32,6 +32,28 @@ func CreateCardHandler(w http.ResponseWriter, r *http.Request) {
   respondWithCreated(w, "The card was created.")
 }
 
+func AppendCardHandler(w http.ResponseWriter, r *http.Request) {
+  card := models.Card{}
+  decoder := json.NewDecoder(r.Body)
+
+  err := decoder.Decode(&card); if err != nil {
+    respondWithBadRequest(w, "The card you sent us was bunk!")
+    return
+  }
+
+  vars := mux.Vars(r)
+  sceneID, _ := strconv.Atoi(vars["sceneID"])
+  scene := models.Scene{}
+  models.DB.First(&scene, sceneID)
+
+  err = scene.AppendCard(&card); if err != nil {
+    respondWithBadRequest(w, "The card you sent us was bunk!")
+    return
+  }
+
+  respondWithCreated(w, "The scene was created")
+}
+
 func DeleteCardHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   cardIDint, _ := strconv.Atoi(vars["cardID"])

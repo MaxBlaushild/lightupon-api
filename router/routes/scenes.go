@@ -54,10 +54,29 @@ func ScenesHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
-func PutSceneHandler(w http.ResponseWriter, r *http.Request) {
+func AppendSceneHandler(w http.ResponseWriter, r *http.Request) {
+  scene := models.Scene{}
+  decoder := json.NewDecoder(r.Body)
+
+  err := decoder.Decode(&scene); if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk!")
+    return
+  }
+
   user := GetUserFromRequest(r)
   activeTrip := user.ActiveTrip()
 
+  err = activeTrip.AppendScene(&scene); if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk!")
+    return
+  }
+
+  respondWithCreated(w, "The scene was created")
+}
+
+func PutSceneHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  activeTrip := user.ActiveTrip()
   scene := models.Scene{}
   decoder := json.NewDecoder(r.Body)
   err := decoder.Decode(&scene); if err != nil {
@@ -68,7 +87,7 @@ func PutSceneHandler(w http.ResponseWriter, r *http.Request) {
   activeTrip.PutScene(&scene)
   cacheCurrentScene(scene)
 
-  respondWithCreated(w, "The selfie was created")
+  respondWithCreated(w, "The scene was created")
 }
 
 func getSceneFromCache(tripID uint) (scene models.Scene) {

@@ -46,7 +46,7 @@ func LightHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
 
   if err := user.Light(); err != nil {
-    respondWithBadRequest(w, "There was an error getting user lit. They must be a heavyweight XD.")
+    respondWithBadRequest(w, "There was an error getting user lit.")
     return
   }
 

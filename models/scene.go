@@ -47,7 +47,6 @@ type cropper func([]byte) []byte
 func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
   err = s.SetPins()
   err = tx.Save(s).Error
-  fmt.Println(err)
   return
 }
 
@@ -70,7 +69,7 @@ func GetScenesForUser(userID string) (scenes []Scene) {
   return
 }
 
-func (s *Scene) AppendCard(card Card) (err error) {
+func (s *Scene) AppendCard(card *Card) (err error) {
   cardOrder := uint(len(s.Cards) + 1)
   card.CardOrder = cardOrder
   card.SceneID = s.ID
@@ -130,6 +129,7 @@ func (s *Scene) SetPins() (err error) {
   selectedPinBinary := imageMagick.CropPin(imageBinary, "80x80!")
   s.PinUrl, err = s.uploadPin(pinBinary, "pin")
   s.SelectedPinUrl, err = s.uploadPin(selectedPinBinary, "selectedPin")
+  fmt.Println(err)
   return
 }
 
