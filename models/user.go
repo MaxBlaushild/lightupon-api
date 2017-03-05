@@ -43,6 +43,7 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
+  trip.Active = true
   err = DB.Model(&u).Association("Trips").Append(trip).Error
   return
 }

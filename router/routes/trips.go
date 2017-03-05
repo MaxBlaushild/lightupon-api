@@ -77,10 +77,13 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
 
   scene := models.Scene{}
   decoder := json.NewDecoder(r.Body)
+
   err := decoder.Decode(&scene); if err != nil {
     respondWithBadRequest(w, "The selfie you sent us was bunk.")
     return
   }
+
+  scene.SceneOrder = 1
 
   trip := models.Trip{
     Active: false,
