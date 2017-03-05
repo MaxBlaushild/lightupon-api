@@ -76,7 +76,27 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
 
+
   for i, _ := range trips {
+
+    // experimental inventory stuff
+    if len(trips[i].Scenes) > 0 {
+      fmt.Println("trips[i].Scenes[0].Name")
+      fmt.Println(trips[i].Scenes[0].Name)
+      if trips[i].Scenes[0].Name == "inventory" {
+        fmt.Println("let's do some shit to this scene!")
+        newLat, _ := strconv.ParseFloat(lat, 64)
+        newLon, _ := strconv.ParseFloat(lon, 64)
+        numCoins := strconv.Itoa(42)
+        numJewels := strconv.Itoa(3)
+        numPotions := strconv.Itoa(5)
+        trips[i].Scenes[0].Latitude = newLat
+        trips[i].Scenes[0].Longitude = newLon
+        trips[i].Scenes[0].Cards[0].Caption = numCoins + " coins, " + numJewels + " jewels " + numPotions + " potions"
+      }
+    }
+
+
     trips[i].SetLocations()
 
     // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
@@ -135,8 +155,8 @@ func (trip *Trip) SetLocations() {
   locations := []Location{}
 
   // Don't do no smoothing if th e trip is ongoing or if the feature is toggled off
-  if ((redis.GetRedisKey("smoothing_disabled") == "true") || trip.Active) {
-    fmt.Println("INFO: Smoothing disabled. Incidentally, here's the TripID: " + strconv.Itoa(int(trip.ID)) + ". Also this is the active flag for the trip " + strconv.FormatBool(trip.Active))
+  if ((redis.GetRedisKey("smoothing_enabled") != "true") || trip.Active) {
+    // fmt.Println("INFO: Smoothing disabled. Incidentally, here's the TripID: " + strconv.Itoa(int(trip.ID)) + ". Also this is the active flag for the trip " + strconv.FormatBool(trip.Active))
     DB.Where("trip_id = ?", trip.ID).Find(&locations)
     trip.Locations = locations
     return
