@@ -7,6 +7,7 @@ import(
        "encoding/json"
        "fmt"
        "hash/fnv"
+       "github.com/kr/pretty"
       )
 
 type Trip struct {
@@ -34,6 +35,7 @@ type ConstellationPoint struct {
 }
 
 func (t *Trip) AppendScene(scene *Scene) (err error) {
+  pretty.Println(scene)
   scene.SceneOrder = uint(len(t.Scenes) + 1)
   err = DB.Model(&t).Association("Scenes").Append(scene).Error
   return
