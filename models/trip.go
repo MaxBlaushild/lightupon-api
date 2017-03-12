@@ -75,16 +75,17 @@ func (t *Trip) PutLocations(locations []Location) {
 
 func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
 
-  // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
-  DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
+  DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+  trips = trips[:20] // Limit() appears to not work in GORM, so heres a hack
 
+  scene := trips[0].Scenes[0]
 
   for i, _ := range trips {
-
     // experimental inventory stuff
     if len(trips[i].Scenes) > 0 {
-      fmt.Println("trips[i].Scenes[0].Name")
-      fmt.Println(trips[i].Scenes[0].Name)
+      trips[i].Scenes = append(trips[i].Scenes, scene)
+      // fmt.Println("trips[i].Scenes[0].Name")
+      // fmt.Println(trips[i].Scenes[0].Name)
       if trips[i].Scenes[0].Name == "inventory" {
         fmt.Println("let's do some shit to this scene!")
         newLat, _ := strconv.ParseFloat(lat, 64)
