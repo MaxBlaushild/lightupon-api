@@ -8,6 +8,7 @@ import(
        "fmt"
        "hash/fnv"
        "github.com/kr/pretty"
+       "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -77,7 +78,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
 
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-  trips = trips[:20] // Limit() appears to not work in GORM, so heres a hack
+  trips = trips[:1] // Limit() appears to not work in GORM, so heres a hack
 
   scene := trips[0].Scenes[0]
 
@@ -99,6 +100,9 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
         trips[i].Scenes[0].Cards[0].Caption = numCoins + " coins, " + numJewels + " jewels " + numPotions + " potions"
       }
     }
+
+    fmt.Println("spew.Dump(trips)")
+    spew.Dump(trips)
 
 
     trips[i].SetLocations()
