@@ -71,7 +71,7 @@ func AppendSceneHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  respondWithCreated(w, "The scene was created")
+  json.NewEncoder(w).Encode(scene)
 }
 
 func PutSceneHandler(w http.ResponseWriter, r *http.Request) {

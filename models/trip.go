@@ -8,7 +8,6 @@ import(
        "fmt"
        "hash/fnv"
        "github.com/kr/pretty"
-       "github.com/davecgh/go-spew/spew"
       )
 
 type Trip struct {
@@ -102,7 +101,6 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
     }
 
     fmt.Println("spew.Dump(trips)")
-    spew.Dump(trips)
 
 
     trips[i].SetLocations()
