@@ -7,6 +7,7 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
+       "github.com/kr/pretty"
        )
 
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -62,7 +63,7 @@ func AppendSceneHandler(w http.ResponseWriter, r *http.Request) {
     respondWithBadRequest(w, "The scene you sent us was bunk!")
     return
   }
-
+  pretty.Println(scene)
   user := GetUserFromRequest(r)
   activeTrip := user.ActiveTrip()
 
