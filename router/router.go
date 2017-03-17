@@ -51,6 +51,7 @@ func Init(){
   
   // TRIP STUFF
   // routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST") // commenting this out since there are dupe routes for POST to /lightupon/trips
+  routerWithAuth.HandleFunc("/lightupon/trips/active/scenes", routes.AppendSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips/generate", routes.CreateDegenerateTripHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTrip).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/trips", routes.NearbyTripsHandler).Methods("GET")
@@ -65,7 +66,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
-  routerWithAuth.HandleFunc("/lightupon/trips/active/scenes", routes.AppendSceneHandler).Methods("POST")
 
 
   // LOCATION STUFF
