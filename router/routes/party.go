@@ -37,6 +37,8 @@ func GetPartyHandler(w http.ResponseWriter, r *http.Request) {
 func FinishPartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()
+  fmt.Println(user.ID)
+  fmt.Println(activeParty.ID)
   activeParty.DropUser(user)
   websockets.H.DeactivateUserFromParty(user, activeParty.Passcode)
   json.NewEncoder(w).Encode(activeParty)
