@@ -91,7 +91,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []
   for i := 0; i < 10; i++ {
     sceneBlarg := trips[i].Scenes[0]
 
-    sceneBlargPrevious := Scene
+    sceneBlargPrevious := Scene{}
     if (i == 0) {
       sceneBlargPrevious = autoTrip.Scenes[0]
     } else {
