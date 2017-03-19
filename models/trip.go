@@ -8,6 +8,7 @@ import(
        "fmt"
        "hash/fnv"
        "github.com/kr/pretty"
+       "math/rand"
       )
 
 type Trip struct {
@@ -77,7 +78,23 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
 
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-  trips = trips[:5] // Limit() appears to not work in GORM, so heres a hack
+  trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
+
+  autoTrip := trips[0]
+
+  autoTrip.Scenes[0].Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+  autoTrip.Scenes[0].Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+
+  scene1 := trips[1].Scenes[0]
+  scene1.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+  scene1.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+  scene2 := trips[2].Scenes[0]
+  scene2.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+  scene2.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+
+  autoTrip.Scenes = append(autoTrip.Scenes, scene1)
+  autoTrip.Scenes = append(autoTrip.Scenes, scene2)
+  trips = append(trips, autoTrip)
 
   scene := trips[0].Scenes[0]
 
@@ -85,8 +102,6 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
     // experimental inventory stuff
     if len(trips[i].Scenes) > 0 && i > 0 {
       trips[i].Scenes = append(trips[i].Scenes, scene)
-      // fmt.Println("trips[i].Scenes[0].Name")
-      // fmt.Println(trips[i].Scenes[0].Name)
       if trips[i].Scenes[0].Name == "inventory" {
         fmt.Println("let's do some shit to this scene!")
         newLat, _ := strconv.ParseFloat(lat, 64)
@@ -99,9 +114,6 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
         trips[i].Scenes[0].Cards[0].Caption = numCoins + " coins, " + numJewels + " jewels " + numPotions + " potions"
       }
     }
-
-    fmt.Println("spew.Dump(trips)")
-
 
     trips[i].SetLocations()
 
