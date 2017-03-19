@@ -83,8 +83,10 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []
 
   autoTrip := trips[0]
 
-  autoTrip.Scenes[0].Latitude = lat
-  autoTrip.Scenes[0].Longitude = lon
+latFloat, _ := strconv.ParseFloat(lat, 64)
+lonFloat, _ := strconv.ParseFloat(lon, 64)
+  autoTrip.Scenes[0].Latitude = latFloat
+  autoTrip.Scenes[0].Longitude = lonFloat
 
   for i := 0; i < 10; i++ {
     sceneBlarg := trips[i].Scenes[0]
