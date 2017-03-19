@@ -74,26 +74,37 @@ func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
-func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
+func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []Trip) {
 
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+  trips := []Trip{}
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
   trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
 
   autoTrip := trips[0]
 
-  autoTrip.Scenes[0].Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-  autoTrip.Scenes[0].Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+  autoTrip.Scenes[0].Latitude = lat
+  autoTrip.Scenes[0].Longitude = lon
 
-  scene1 := trips[1].Scenes[0]
-  scene1.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-  scene1.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
-  scene2 := trips[2].Scenes[0]
-  scene2.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-  scene2.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+  for i := 0; i < 10; i++ {
+    sceneBlarg := trips[i].Scenes[0]
+    sceneBlarg.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+    sceneBlarg.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+    autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
+  }
 
-  autoTrip.Scenes = append(autoTrip.Scenes, scene1)
-  autoTrip.Scenes = append(autoTrip.Scenes, scene2)
+
+  // scene1 := trips[1].Scenes[0]
+  // scene1.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+  // scene1.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+  // scene2 := trips[2].Scenes[0]
+  // scene2.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
+  // scene2.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
+
+  // autoTrip.Scenes = append(autoTrip.Scenes, scene1)
+  // autoTrip.Scenes = append(autoTrip.Scenes, scene2)
+  tripsToReturn = append(tripsToReturn, autoTrip)
+
   trips = append(trips, autoTrip)
 
   scene := trips[0].Scenes[0]
