@@ -88,32 +88,23 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []
   autoTrip.Scenes[0].Latitude = latFloat
   autoTrip.Scenes[0].Longitude = lonFloat
 
-  for i := 0; i < 10; i++ {
-    sceneBlarg := trips[i].Scenes[0]
+  for i := 1; i < 10; i++ {
+    sceneBlarg := trips[i].Scenes[0] // grab a scene from some trip
+    sceneBlargPrevious := autoTrip.Scenes[i-1]
 
-    sceneBlargPrevious := Scene{}
-    if (i == 0) {
-      sceneBlargPrevious = autoTrip.Scenes[0]
-    } else {
-      sceneBlargPrevious = autoTrip.Scenes[i-1]
+    latComponent := 0.0000001; lonComponent := 0.0000001 // initialize outside of the if block
+    
+    if (i == 1) {
+      latComponent = sceneBlarg.Latitude - sceneBlargPrevious.Latitude
+      lonComponent = sceneBlarg.Longitude - sceneBlargPrevious.Longitude
     }
-    // sceneBlarg.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-    // sceneBlarg.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
-    sceneBlarg.Latitude = sceneBlargPrevious.Latitude + 0.004*(0.5 - rand.Float64())
-    sceneBlarg.Longitude = sceneBlargPrevious.Longitude + 0.004*(0.5 - rand.Float64())
+
+    sceneBlarg.Latitude = sceneBlargPrevious.Latitude + 0.003*latComponent + 0.002*(0.5 - rand.Float64())
+    sceneBlarg.Longitude = sceneBlargPrevious.Longitude + 0.003*lonComponent + 0.002*(0.5 - rand.Float64())
+
     autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
   }
 
-
-  // scene1 := trips[1].Scenes[0]
-  // scene1.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-  // scene1.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
-  // scene2 := trips[2].Scenes[0]
-  // scene2.Latitude = 42.347457 + 0.002*(0.5 - rand.Float64())
-  // scene2.Longitude = -71.119349 + 0.002*(0.5 - rand.Float64())
-
-  // autoTrip.Scenes = append(autoTrip.Scenes, scene1)
-  // autoTrip.Scenes = append(autoTrip.Scenes, scene2)
   tripsToReturn = append(tripsToReturn, autoTrip)
 
   trips = append(trips, autoTrip)
