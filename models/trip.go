@@ -74,10 +74,12 @@ func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
-func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []Trip) {
+func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
 
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   trips := []Trip{}
+  tripsToReturn := []Trip{}
+
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
   trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
 
@@ -88,25 +90,26 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []
   autoTrip.Scenes[0].Latitude = latFloat
   autoTrip.Scenes[0].Longitude = lonFloat
 
+  latComponent := 0.004*(0.5 - rand.Float64())
+  lonComponent := 0.004*(0.5 - rand.Float64())
+  
   for i := 1; i < 10; i++ {
     sceneBlarg := trips[i].Scenes[0] // grab a scene from some trip
     sceneBlargPrevious := autoTrip.Scenes[i-1]
 
-    latComponent := 0.0000001; lonComponent := 0.0000001 // initialize outside of the if block
     
     if (i == 1) {
       latComponent = sceneBlarg.Latitude - sceneBlargPrevious.Latitude
       lonComponent = sceneBlarg.Longitude - sceneBlargPrevious.Longitude
     }
 
-    sceneBlarg.Latitude = sceneBlargPrevious.Latitude + 0.003*latComponent + 0.002*(0.5 - rand.Float64())
-    sceneBlarg.Longitude = sceneBlargPrevious.Longitude + 0.003*lonComponent + 0.002*(0.5 - rand.Float64())
+    sceneBlarg.Latitude = sceneBlargPrevious.Latitude + latComponent + 0.001*(0.5 - rand.Float64())
+    sceneBlarg.Longitude = sceneBlargPrevious.Longitude + lonComponent + 0.001*(0.5 - rand.Float64())
 
     autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
   }
 
   tripsToReturn = append(tripsToReturn, autoTrip)
-
   trips = append(trips, autoTrip)
 
   scene := trips[0].Scenes[0]
@@ -136,7 +139,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) (tripsToReturn []
     trips[i].LoadLikeStuff(userID)
   }
 
-  return
+  return trips
 }
 
 // This function accepts a string and returns a float64 between 0 and 1
