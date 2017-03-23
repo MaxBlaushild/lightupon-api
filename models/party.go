@@ -4,6 +4,7 @@ import(
       "math/rand"
       "github.com/jinzhu/gorm"
       "time"
+      "lightupon-api/live"
       )
 
 type Party struct {
@@ -25,9 +26,57 @@ func (p *Party) BeforeCreate() {
   p.setPasscode()
 }
 
+func (p *Party) AfterCreate() {
+  p.SyncWithLive()
+}
+
+func (p *Party) LiveParty() (liveParty live.Party) {
+  scenes := []Scene{}
+  DB.Where("trip_id = ?", p.TripID).Order("scene_order asc").Find(&scenes)
+
+  liveParty = live.Party{
+    Users: make(map[uint]*live.Connection),
+    Passcode: p.Passcode,
+    Objectives: scenesToObjectives(scenes),
+    CurrentObjectiveIndex: p.CurrentSceneOrderID,
+  }
+  return
+}
+
+func (p *Party) SyncWithLive() {
+  liveParty := p.LiveParty()
+  live.Hub.PutParty <- liveParty
+}
+
+func scenesToObjectives(scenes []Scene) []live.Objective {
+    objectives := make([]live.Objective, len(scenes))
+    for index, scene := range scenes {
+        location := live.Location{Latitude: scene.Latitude, Longitude: scene.Longitude}
+        objectives[index] = live.Objective{Location: location}
+    }
+    return objectives
+}
+
 func (p *Party) DropUser(user User) {
   DB.Model(user).Association("Parties").Delete(p)
+  live.Hub.DropUserFromParty(user.ID, p.Passcode)
   p.DeactivateIfEmpty()
+}
+
+func (p *Party) Connect(c *live.Connection) {
+  live.Hub.Register <- c
+  go c.ReadPump()
+  c.WritePump()
+}
+
+func (p *Party) AddUser(user User) (err error) {
+  err = DB.Model(p).Association("Users").Append(&user).Error
+  live.Hub.AddUserToParty(user.ID, p.Passcode)
+  return
+}
+
+func (p *Party) Broadcast() {
+  live.Hub.Broadcast <- live.Response{ Passcode: p.Passcode }
 }
 
 func (p *Party) setPasscode() {
@@ -51,12 +100,21 @@ func (p *Party) MoveToNextScene() {
     "current_scene_order_id": p.CurrentSceneOrderID + 1,
     "scene": p.NextScene(),
   })
+  p.SyncWithLive()
+}
+
+func (p *Party) Deactivate() (err error) {
+  live.Hub.UnregisterParty(p.Passcode)
+  err = DB.Model(&p).Update("active", false).Error
+  err = DB.Model(&p).Association("Users").Clear().Error
+  return
 }
 
 func (party *Party) DeactivateIfEmpty() {
   users := []User{}
   DB.Model(&party).Association("Users").Find(&users); if len(users) == 0 {
     DB.Model(&party).Update("active", false)
+    live.Hub.UnregisterParty(party.Passcode)
   }
 }
 

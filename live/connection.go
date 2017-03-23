@@ -1,14 +1,25 @@
-package websockets
+package live
 
 import (
 	"github.com/gorilla/websocket"
 	"log"
 	"time"
 	"encoding/json"
-	"lightupon-api/models"
 	"bytes"
   "fmt"
 )
+
+type Response struct {
+	NextSceneAvailable bool
+	CurrentSceneOrder int
+	Passcode string
+	Event string
+}
+
+type Location struct {
+	Latitude float64
+	Longitude float64
+}
 
 const (
 	writeWait = 10 * time.Second
@@ -30,28 +41,29 @@ type Message struct {
 type Connection struct {
 	WS *websocket.Conn
 	Passcode string
-	Send chan models.PullResponse
-	User models.User
+	Send chan Response
+	UserID uint
+	Location Location
 }
 
 func (c *Connection) ReadPump() {
 	defer func() {
 		fmt.Print("The read pump died a natural death.")
-		H.Unregister <- c
+		Hub.Unregister <- c
 		c.WS.Close()
 	}()
 
 	c.ConfigureRead()
 
 	for {
-		_, message, err := c.WS.ReadMessage()
+		_, locationBytes, err := c.WS.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
 			}
 			break
 		}
-		c.UpdateLocation(message)
+		c.SetLocation(locationBytes)
 		c.UpdateClient()
 	}
 }
@@ -65,17 +77,12 @@ func (c *Connection) ConfigureRead() {
 	})
 }
 
-func (c *Connection) UpdateLocation(message []byte) {
-	location := models.UserLocation{}
-	buffer := bytes.NewBuffer(message)
+func (c *Connection) SetLocation(locationBytes []byte) {
+	location := Location{}
+	buffer := bytes.NewBuffer(locationBytes)
 	decoder := json.NewDecoder(buffer)
-	err := decoder.Decode(&location); if err != nil {
-	  	fmt.Println(err)
-  }
-	c.User.Location = location
-	if (c.User.Lit) {
-		c.User.AddLocationToCurrentTrip(models.Location{Latitude: location.Latitude, Longitude: location.Longitude})
-	}
+	decoder.Decode(&location)
+	c.Location = location
 }
 
 func (c *Connection) Write(mt int, payload []byte) error {
@@ -84,32 +91,29 @@ func (c *Connection) Write(mt int, payload []byte) error {
 }
 
 func (c *Connection) UpdateClient() {
-	party := models.Party{}
-	models.DB.Preload("Scene.Cards").Where("passcode = ?", c.Passcode).First(&party)
-  H.Broadcast <- party
+	response := Response{ Passcode: c.Passcode }
+  Hub.Broadcast <- response
 }
 
 func (c *Connection) WritePump() {
 	ticker := time.NewTicker(pingPeriod)
 	defer func() {
-		fmt.Println("The write pump died a natural death.")
 		ticker.Stop()
 		c.WS.Close()
 	}()
 
 	for {
 		select {
-		case pullResponse, ok := <- c.Send:
+		case response, ok := <- c.Send:
 			if !ok {
-				H.Unregister <- c
+				Hub.Unregister <- c
 				return
 			}
-			if err := c.WS.WriteJSON(pullResponse); err != nil {
+			if err := c.WS.WriteJSON(response); err != nil {
 				return
 			}
 		case <- ticker.C:
 			if err := c.Write(websocket.PingMessage, []byte{}); err != nil {
-				fmt.Println(err)
 				return
 			}
 
