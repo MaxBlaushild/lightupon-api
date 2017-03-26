@@ -76,65 +76,54 @@ func (t *Trip) PutLocations(locations []Location) {
 
 func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
 
+  sceneLimit := 30
+
   // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   trips := []Trip{}
   tripsToReturn := []Trip{}
 
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-  trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
+  trips = trips[:sceneLimit] // Limit() appears to not work in GORM, so heres a hack
 
-  autoTrip := trips[0]
+  numTrips := rand.Intn(3) + 1
 
-  latFloat, _ := strconv.ParseFloat(lat, 64)
-  lonFloat, _ := strconv.ParseFloat(lon, 64)
-  autoTrip.Scenes[0].Latitude = latFloat
-  autoTrip.Scenes[0].Longitude = lonFloat
+  for k := 1; k < numTrips; k++ {
+    autoTrip := trips[rand.Intn(sceneLimit-1)]
 
-  latComponent := 0.002*(0.5 - rand.Float64())
-  lonComponent := 0.002*(0.5 - rand.Float64())
+    latFloat, _ := strconv.ParseFloat(lat, 64)
+    lonFloat, _ := strconv.ParseFloat(lon, 64)
+    autoTrip.Scenes[0].Latitude = latFloat
+    autoTrip.Scenes[0].Longitude = lonFloat
+
+    latComponent := 0.002*(0.5 - rand.Float64())
+    lonComponent := 0.002*(0.5 - rand.Float64())
+
+    numScenes := rand.Intn(10)
+
+    for i := 1; i < numScenes; i++ {
+      latComponent = latComponent + 0.001*(0.5 - rand.Float64())
+      lonComponent = lonComponent + 0.001*(0.5 - rand.Float64())
 
 
-  
-  for i := 1; i < 10; i++ {
-    latComponent = latComponent + 0.0006*(0.5 - rand.Float64())
-    lonComponent = lonComponent + 0.0006*(0.5 - rand.Float64())
+      sceneBlarg := trips[rand.Intn(sceneLimit-1)].Scenes[0] // grab a scene from some trip
+      sceneBlargPrevious := autoTrip.Scenes[i-1]
 
-    sceneBlarg := trips[i].Scenes[0] // grab a scene from some trip
-    sceneBlargPrevious := autoTrip.Scenes[i-1]
+      sceneBlarg.Latitude = sceneBlargPrevious.Latitude + latComponent + 0.0015*(0.5 - rand.Float64())
+      sceneBlarg.Longitude = sceneBlargPrevious.Longitude + lonComponent + 0.0015*(0.5 - rand.Float64())
+      
+      if (i == 1) {
+        latComponent = sceneBlarg.Latitude - sceneBlargPrevious.Latitude
+        lonComponent = sceneBlarg.Longitude - sceneBlargPrevious.Longitude
+      }
 
-    sceneBlarg.Latitude = sceneBlargPrevious.Latitude + latComponent + 0.0015*(0.5 - rand.Float64())
-    sceneBlarg.Longitude = sceneBlargPrevious.Longitude + lonComponent + 0.0015*(0.5 - rand.Float64())
-    
-    if (i == 1) {
-      latComponent = sceneBlarg.Latitude - sceneBlargPrevious.Latitude
-      lonComponent = sceneBlarg.Longitude - sceneBlargPrevious.Longitude
+      autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
     }
 
-    autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
-  }
-
-  tripsToReturn = append(tripsToReturn, autoTrip)
-  trips = append(trips, autoTrip)
-
-  scene := trips[0].Scenes[0]
+    tripsToReturn = append(tripsToReturn, autoTrip)
+    trips = append(trips, autoTrip)
+  } 
 
   for i, _ := range trips {
-    // experimental inventory stuff
-    if len(trips[i].Scenes) > 0 && i > 0 {
-      trips[i].Scenes = append(trips[i].Scenes, scene)
-      if trips[i].Scenes[0].Name == "inventory" {
-        fmt.Println("let's do some shit to this scene!")
-        newLat, _ := strconv.ParseFloat(lat, 64)
-        newLon, _ := strconv.ParseFloat(lon, 64)
-        numCoins := strconv.Itoa(42)
-        numJewels := strconv.Itoa(3)
-        numPotions := strconv.Itoa(5)
-        trips[i].Scenes[0].Latitude = newLat
-        trips[i].Scenes[0].Longitude = newLon
-        trips[i].Scenes[0].Cards[0].Caption = numCoins + " coins, " + numJewels + " jewels " + numPotions + " potions"
-      }
-    }
-
     trips[i].SetLocations()
 
     // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
@@ -143,7 +132,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
     trips[i].LoadLikeStuff(userID)
   }
 
-  return trips
+  return tripsToReturn
 }
 
 // This function accepts a string and returns a float64 between 0 and 1
