@@ -85,7 +85,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
   DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
   trips = trips[:sceneLimit] // Limit() appears to not work in GORM, so heres a hack
 
-  numTrips := rand.Intn(3) + 1
+  numTrips := rand.Intn(2) + 2
 
   for k := 1; k < numTrips; k++ {
     autoTrip := trips[rand.Intn(sceneLimit-1)]
@@ -98,7 +98,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
     latComponent := 0.002*(0.5 - rand.Float64())
     lonComponent := 0.002*(0.5 - rand.Float64())
 
-    numScenes := rand.Intn(10)
+    numScenes := rand.Intn(4) + 2
 
     for i := 1; i < numScenes; i++ {
       latComponent = latComponent + 0.001*(0.5 - rand.Float64())
