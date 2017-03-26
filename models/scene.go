@@ -42,8 +42,6 @@ type Scene struct {
   Liked bool `sql:"-"`
 }
 
-type cropper func([]byte) []byte
-
 func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
   err = s.SetPins()
   err = tx.Save(s).Error

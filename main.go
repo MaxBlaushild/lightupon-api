@@ -4,7 +4,7 @@ import (
         "github.com/joho/godotenv"
         "lightupon-api/router"
         "lightupon-api/models"
-        "lightupon-api/websockets"
+        "lightupon-api/live"
         )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
   models.Connect()
 
   //intialize the websocket hub and start waiting for connections
-  go websockets.H.StartHub()
+  go live.Hub.Start()
 
   //create the router and start listening for requests
   router.Init()

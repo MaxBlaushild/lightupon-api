@@ -84,9 +84,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/parties", routes.LeavePartyHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/pull", routes.PullHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler)
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
-  routerWithAuth.HandleFunc("/lightupon/parties/finishParty", routes.FinishPartyHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/end", routes.EndPartyHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 

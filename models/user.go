@@ -10,6 +10,7 @@ import (
   "strconv"
   "lightupon-api/services/redis"
   "lightupon-api/services/googleMaps"
+  "lightupon-api/live"
 )
 
 type User struct {
@@ -39,6 +40,13 @@ const threshold float64 = 0.05 // 0.05 km = 50 meters
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
+  return
+}
+
+func (u *User) StartParty(tripID uint) (party Party, err error) {
+  party = Party{ TripID: tripID }
+  err = DB.Model(&u).Association("Parties").Append(&party).Error
+  live.Hub.AddUserToParty(u.ID, party.Passcode)
   return
 }
 
@@ -117,6 +125,7 @@ func createToken(facebookId string) string {
 
 func (u *User) ActiveParty() (activeParty Party) {
   DB.Model(&u).Preload("Trip.Scenes.Cards").Where("active = true").Association("Parties").Find(&activeParty)
+  activeParty.SyncWithLive()
   return
 }
 
