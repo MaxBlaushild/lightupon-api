@@ -11,7 +11,6 @@ func (o *Objective) HasBeenMet(party *Party) (hasBeenMet bool) {
 		c := party.Users[userID]
 		hasBeenMet = hasBeenMet || o.isThere(c)
 	}
-	hasBeenMet = false
 	return 
 }
 
