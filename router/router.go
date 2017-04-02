@@ -63,6 +63,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyScenesHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyFollowingScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
