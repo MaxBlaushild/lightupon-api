@@ -8,7 +8,6 @@ import(
        "fmt"
        "hash/fnv"
        "github.com/kr/pretty"
-       "math/rand"
       )
 
 type Trip struct {
@@ -74,54 +73,10 @@ func (t *Trip) PutLocations(locations []Location) {
   DB.Model(&t).Association("Locations").Replace(locations)
 }
 
-func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
-
-  sceneLimit := 30
-
-  // DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
-  trips := []Trip{}
-  tripsToReturn := []Trip{}
-
-  DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-  trips = trips[:sceneLimit] // Limit() appears to not work in GORM, so heres a hack
-
-  numTrips := rand.Intn(2) + 2
-
-  for k := 1; k < numTrips; k++ {
-    autoTrip := trips[rand.Intn(sceneLimit-1)]
-
-    latFloat, _ := strconv.ParseFloat(lat, 64)
-    lonFloat, _ := strconv.ParseFloat(lon, 64)
-    autoTrip.Scenes[0].Latitude = latFloat
-    autoTrip.Scenes[0].Longitude = lonFloat
-
-    latComponent := 0.002*(0.5 - rand.Float64())
-    lonComponent := 0.002*(0.5 - rand.Float64())
-
-    numScenes := rand.Intn(4) + 2
-
-    for i := 1; i < numScenes; i++ {
-      latComponent = latComponent + 0.001*(0.5 - rand.Float64())
-      lonComponent = lonComponent + 0.001*(0.5 - rand.Float64())
-
-
-      sceneBlarg := trips[rand.Intn(sceneLimit-1)].Scenes[0] // grab a scene from some trip
-      sceneBlargPrevious := autoTrip.Scenes[i-1]
-
-      sceneBlarg.Latitude = sceneBlargPrevious.Latitude + latComponent + 0.0015*(0.5 - rand.Float64())
-      sceneBlarg.Longitude = sceneBlargPrevious.Longitude + lonComponent + 0.0015*(0.5 - rand.Float64())
-      
-      if (i == 1) {
-        latComponent = sceneBlarg.Latitude - sceneBlargPrevious.Latitude
-        lonComponent = sceneBlarg.Longitude - sceneBlargPrevious.Longitude
-      }
-
-      autoTrip.Scenes = append(autoTrip.Scenes, sceneBlarg)
-    }
-
-    tripsToReturn = append(tripsToReturn, autoTrip)
-    trips = append(trips, autoTrip)
-  } 
+func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
+  DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
+  // DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
+  trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
 
   for i, _ := range trips {
     trips[i].SetLocations()
@@ -132,7 +87,7 @@ func GetTripsNearLocation(lat string, lon string, userID uint) []Trip {
     trips[i].LoadLikeStuff(userID)
   }
 
-  return tripsToReturn
+  return
 }
 
 // This function accepts a string and returns a float64 between 0 and 1
