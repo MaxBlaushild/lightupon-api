@@ -76,7 +76,13 @@ func (t *Trip) PutLocations(locations []Location) {
 func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
   DB.Preload("User").Preload("Scenes.Cards").Order("((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc;").Find(&trips)
   // DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-  trips = trips[:30] // Limit() appears to not work in GORM, so heres a hack
+
+  // Limit() appears to not work in GORM, so heres a hack
+  if ( len(trips) < 30 ) {
+    trips = trips[:len(trips)]
+  } else {
+    trips = trips[:30]
+  }
 
   for i, _ := range trips {
     trips[i].SetLocations()
