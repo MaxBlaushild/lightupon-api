@@ -24,7 +24,7 @@ func Connect() {
       log.Fatalln(err)
   }
 
-  DB.LogMode(false)
+  DB.LogMode(true)
   DB.AutoMigrate(&User{}, 
                  &Trip{}, 
                  &Party{}, 
