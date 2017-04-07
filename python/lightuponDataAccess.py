@@ -22,11 +22,11 @@ def save_bookmark(title, url, pubDate):
 	
 
 # Really only gets one scene
-def get_all_scenes():
+def getOneScene():
 	conn = open_connection()
 	cur = conn.cursor()
 	cur.execute("SELECT * FROM scenes;")
-	print cur.fetchone()
+	return cur.fetchone()
 
 
 def get_stuff_from_rss_url(rss_url_string):
