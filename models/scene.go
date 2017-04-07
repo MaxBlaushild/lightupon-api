@@ -158,7 +158,6 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
   // TODO: Stick all of our data access in one file so Max doesn't ever have to look at it
   sql := `SELECT * FROM scenes
-          INNER JOIN follows ON scenes.user_id = follows.followed_user_id
           ORDER BY ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) asc
           LIMIT 20;`
 
