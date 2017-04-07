@@ -46,6 +46,7 @@ func (u *User) BeforeCreate() (err error) {
 func (u *User) StartParty(tripID uint) (party Party, err error) {
   party = Party{ TripID: tripID }
   err = DB.Model(&u).Association("Parties").Append(&party).Error
+  party.Trip = u.ActiveTrip()
   live.Hub.AddUserToParty(u.ID, party.Passcode)
   return
 }
