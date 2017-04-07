@@ -166,3 +166,11 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
 
   return
 }
+
+func MarkScenesRequest(lat string, lon string, userID uint, context string) {
+  latFloat, _ := strconv.ParseFloat(lat, 64)
+  lonFloat, _ := strconv.ParseFloat(lon, 64)
+  location := Location{UserID:userID, Latitude: latFloat, Longitude: lonFloat, Context: context}
+  DB.Create(&location)
+  return
+}

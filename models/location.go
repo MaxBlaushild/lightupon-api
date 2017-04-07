@@ -19,6 +19,8 @@ type Location struct {
   Accuracy float64
   Floor int
 	TripID uint
+  UserID uint
+  Context string
 }
 
 // So yeah this probably isn't the place to be doing any http stuff, but there's too little of it for me to really care about abstracting it away right now
