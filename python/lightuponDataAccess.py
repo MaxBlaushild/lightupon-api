@@ -7,8 +7,12 @@ from xml.etree import ElementTree as etree
 ## Connect to the database
 
 # def initialize():
-db_name = os.environ['DB_NAME']
-db_username = os.environ['DB_USERNAME']
+try:
+	db_name = os.environ['DB_NAMEsdfg']
+	db_username = os.environ['DB_USERNAME']
+except (KeyError):
+	print 'failed to post trip: '
+	print os.environ
 # conn = psycopg2.connect("dbname=" + db_name + " user=" + db_username)
 
 def open_connection():
