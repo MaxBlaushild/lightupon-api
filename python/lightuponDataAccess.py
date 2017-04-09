@@ -8,7 +8,7 @@ from xml.etree import ElementTree as etree
 
 # def initialize():
 try:
-	db_name = os.environ['DB_NAMEsdfg']
+	db_name = os.environ['DB_NAME']
 	db_username = os.environ['DB_USERNAME']
 except (KeyError):
 	print 'failed to post trip: '
