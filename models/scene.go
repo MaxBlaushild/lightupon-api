@@ -42,6 +42,12 @@ type Scene struct {
   Liked bool `sql:"-"`
 }
 
+type ExposedScene struct {
+  gorm.Model
+  UserID uint
+  SceneID uint
+}
+
 func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
   err = s.SetPins()
   err = tx.Save(s).Error
@@ -163,8 +169,29 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
 
   DB.Raw(sql).Scan(&scenes)
 
+  for i := 0; i < len(scenes); i++ {
+    fmt.Println(scenes[i].hiddenFromUser(userID))
+    if scenes[i].hiddenFromUser(userID) {
+      fmt.Println("do cool stuff")
+      scenes[i].BackgroundUrl = "http://wallpaperrs.com/uploads/nature/earth-moon-night-field-stupendous-wallpaper-88356-142977423728.jpg"
+      scenes[i].Name = "Darklands..."
+    }
+  }
+
+
   return
 }
+
+func (s *Scene) hiddenFromUser(userID uint) bool {
+  exposedScenes := []ExposedScene{}
+  sql := `SELECT * FROM exposed_scenes
+          WHERE user_id = ` + strconv.Itoa(int(userID)) + `
+          AND scene_id = ` + strconv.Itoa(int(s.ID)) + `;`
+  DB.Raw(sql).Scan(&exposedScenes)
+
+  return len(exposedScenes) == 0
+}
+
 
 func MarkScenesRequest(lat string, lon string, userID uint, context string) {
   latFloat, _ := strconv.ParseFloat(lat, 64)

@@ -224,3 +224,6 @@ func (u *User) Extinguish()(err error) {
   redis.DeleteRedisKey("currentLocation_" + u.FacebookId)
   return nil
 }
+
+// func (u *User) UpdateDarknessState(lat, lon)() {
+// }
