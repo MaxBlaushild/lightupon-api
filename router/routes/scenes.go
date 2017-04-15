@@ -13,11 +13,11 @@ import(
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)  
-  scenes := models.GetScenesNearLocation(lat, lon, user.ID)
 
   // experimental business. nothing to see here move along..
-  // user.UpdateDarknessState(lat, lon) // Update that sweet sweet user state
+  user.UpdateUserDarknessState(lat, lon) // Update that sweet sweet user state
 
+  scenes := models.GetScenesNearLocation(lat, lon, user.ID)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
   json.NewEncoder(w).Encode(scenes)
 }

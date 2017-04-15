@@ -172,12 +172,10 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
   for i := 0; i < len(scenes); i++ {
     fmt.Println(scenes[i].hiddenFromUser(userID))
     if scenes[i].hiddenFromUser(userID) {
-      fmt.Println("do cool stuff")
-      scenes[i].BackgroundUrl = "http://wallpaperrs.com/uploads/nature/earth-moon-night-field-stupendous-wallpaper-88356-142977423728.jpg"
+      scenes[i].BackgroundUrl = "http://sickerthanyouravg.com/data/wallpapers/34/WDF_813675.jpg"
       scenes[i].Name = "Darklands..."
     }
   }
-
 
   return
 }
@@ -192,6 +190,12 @@ func (s *Scene) hiddenFromUser(userID uint) bool {
   return len(exposedScenes) == 0
 }
 
+func GetScenesVeryNearLocation(lat string, lon string) (scenes []Scene) {
+  sql := `SELECT * FROM scenes
+          WHERE ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 0.0002;`; // pretty sure 0.000005 is 50 meters
+  DB.Raw(sql).Scan(&scenes)
+  return
+}
 
 func MarkScenesRequest(lat string, lon string, userID uint, context string) {
   latFloat, _ := strconv.ParseFloat(lat, 64)

@@ -225,5 +225,9 @@ func (u *User) Extinguish()(err error) {
   return nil
 }
 
-// func (u *User) UpdateDarknessState(lat, lon)() {
-// }
+func (u *User) UpdateUserDarknessState(lat string, lon string) {
+  scenes := GetScenesVeryNearLocation(lat, lon)
+  for i := 0; i < len(scenes); i++ {
+    DB.FirstOrCreate(&ExposedScene{UserID : u.ID, SceneID : scenes[i].ID}, ExposedScene{UserID : u.ID, SceneID : scenes[i].ID})
+  }
+}
