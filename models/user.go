@@ -46,7 +46,8 @@ func (u *User) BeforeCreate() (err error) {
 func (u *User) StartParty(tripID uint) (party Party, err error) {
   party = Party{ TripID: tripID }
   err = DB.Model(&u).Association("Parties").Append(&party).Error
-  party.Trip = u.ActiveTrip()
+  party.LoadTrip()
+  party.LoadCurrentScene()
   live.Hub.AddUserToParty(u.ID, party.Passcode)
   return
 }
@@ -231,3 +232,4 @@ func (u *User) UpdateUserDarknessState(lat string, lon string) {
     DB.FirstOrCreate(&ExposedScene{UserID : u.ID, SceneID : scenes[i].ID}, ExposedScene{UserID : u.ID, SceneID : scenes[i].ID})
   }
 }
+
