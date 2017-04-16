@@ -30,6 +30,14 @@ func (p *Party) AfterCreate() {
   p.SyncWithLive()
 }
 
+func (p *Party) LoadCurrentScene() {
+  DB.Where("trip_id = ? AND scene_order = ?", p.TripID, p.CurrentSceneOrderID+1).Find(&p.Scene)
+}
+
+func (p *Party) LoadTrip() {
+  DB.Model(&p).Association("Trip").Find(&p.Trip)
+}
+
 func (p *Party) LiveParty() (liveParty live.Party) {
   scenes := []Scene{}
   DB.Where("trip_id = ?", p.TripID).Order("scene_order asc").Find(&scenes)
