@@ -149,25 +149,13 @@ func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error)
 }
 
 func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  // TODO: Stick all of our data access in one file so Max doesn't ever have to look at it
-  sql := `SELECT * FROM scenes
-          INNER JOIN follows ON scenes.user_id = follows.followed_user_id
-          WHERE following_user_id = ` + strconv.Itoa(int(userID)) + `
-          AND ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 1
-          ORDER BY ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) asc;`
-
-  DB.Raw(sql).Scan(&scenes)
+  DB.Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(20).Find(&scenes)
 
   return
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  // TODO: Stick all of our data access in one file so Max doesn't ever have to look at it
-  sql := `SELECT * FROM scenes
-          ORDER BY ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) asc
-          LIMIT 20;`
-
-  DB.Raw(sql).Scan(&scenes)
+  DB.Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(20).Find(&scenes)
 
   for i := 0; i < len(scenes); i++ {
     fmt.Println(scenes[i].hiddenFromUser(userID))
