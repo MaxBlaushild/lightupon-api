@@ -72,6 +72,7 @@ func (p *Party) DropUser(user User) {
 }
 
 func (p *Party) Connect(c *live.Connection) {
+  p.SyncWithLive()
   live.Hub.Register <- c
   go c.ReadPump()
   c.WritePump()
