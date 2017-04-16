@@ -35,7 +35,7 @@ func (p *Party) LoadCurrentScene() {
 }
 
 func (p *Party) LoadTrip() {
-  DB.Model(&p).Association("Trip").Find(&p.Trip)
+  DB.Model(&p).Preload("Scenes.Cards").Association("Trip").Find(&p.Trip)
 }
 
 func (p *Party) LiveParty() (liveParty live.Party) {
