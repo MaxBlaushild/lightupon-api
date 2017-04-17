@@ -55,6 +55,10 @@ func (t *Trip) PutScene(scene *Scene) {
 
 func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
+  for i := 0; i < len(trip.Scenes); i++ {
+    trip.Scenes[i].BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
+    trip.Scenes[i].Name = "Darklands..."
+  }
   trip.LoadConstellation()
   trip.LoadCommentsForTrip()
   trip.LoadLikeStuff(userID)
