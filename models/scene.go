@@ -155,15 +155,34 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(20).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(50).Find(&scenes)
+
+  fmt.Println("\n\nGetScenesNearLocation\n")
+
+  userNeighborhood := getNeighborhoodIDForLocation(lat, lon)
+  fmt.Println("userID")
+  fmt.Println(userID)
+  fmt.Println("userNeighborhood")
+  fmt.Println(userNeighborhood)
 
   for i := 0; i < len(scenes); i++ {
+    fmt.Println("\nscenes[i].Name")
+    fmt.Println(scenes[i].Name)
+    fmt.Println("scenes[i].hiddenFromUser(userID)")
     fmt.Println(scenes[i].hiddenFromUser(userID))
-    if scenes[i].hiddenFromUser(userID) {
+
+    sceneNeighborhood := getNeighborhoodIDForLocation(strconv.FormatFloat(scenes[i].Latitude, 'f', 6, 64), strconv.FormatFloat(scenes[i].Longitude, 'f', 6, 64))
+    fmt.Println("sceneNeighborhood")
+    fmt.Println(sceneNeighborhood)
+    if (scenes[i].hiddenFromUser(userID) && (sceneNeighborhood != userNeighborhood)) {
       scenes[i].BackgroundUrl = "http://sickerthanyouravg.com/data/wallpapers/34/WDF_813675.jpg"
       scenes[i].Name = "Darklands..."
     }
   }
+
+  neighborhoodScenes := []Scene{}
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
+  scenes = append(scenes, neighborhoodScenes...)
 
   return
 }
@@ -180,7 +199,7 @@ func (s *Scene) hiddenFromUser(userID uint) bool {
 
 func GetScenesVeryNearLocation(lat string, lon string) (scenes []Scene) {
   sql := `SELECT * FROM scenes
-          WHERE ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 0.0002;`; // pretty sure 0.000005 is 50 meters
+          WHERE ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 0.00005;`; // pretty sure 0.000005 is 50 meters
   DB.Raw(sql).Scan(&scenes)
   return
 }
