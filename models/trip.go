@@ -56,8 +56,7 @@ func (t *Trip) PutScene(scene *Scene) {
 func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
   for i := 0; i < len(trip.Scenes); i++ {
-    trip.Scenes[i].BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
-    trip.Scenes[i].Name = "Darklands..."
+    trip.Scenes[i].darken()
   }
   trip.LoadConstellation()
   trip.LoadCommentsForTrip()
@@ -79,20 +78,8 @@ func (t *Trip) PutLocations(locations []Location) {
 
 func GetTripsNearLocation(lat string, lon string, userID uint) (trips []Trip) {
   DB.Preload("User").Preload("Scenes.Cards").Limit(20).Find(&trips)
-  // ((latitude - " + lat + ")^2.0 + ((longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc")
-  // DB.Preload("User").Preload("Scenes.Cards").Find(&trips)
-
-  // Limit() appears to not work in GORM, so heres a hack
-  // if ( len(trips) < 30 ) {
-  //   trips = trips[:len(trips)]
-  // } else {
-  //   trips = trips[:30]
-  // }
 
   for i, _ := range trips {
-    // trips[i].SetLocations()
-
-    // ok now take the those locations, try to make a constellation out of them, and attach that to the trip
     trips[i].LoadConstellation()
     trips[i].LoadCommentsForTrip()
     trips[i].LoadLikeStuff(userID)

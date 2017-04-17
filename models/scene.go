@@ -65,6 +65,9 @@ func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
 
 func IndexScenes() (scenes []Scene) {
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
+  for i := 0; i < len(scenes); i++ {
+    scenes[i].darken()
+  }
   return
 }
 
@@ -162,15 +165,26 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
   for i := 0; i < len(scenes); i++ {
     sceneNeighborhood := getNeighborhoodIDForLocation(strconv.FormatFloat(scenes[i].Latitude, 'f', 6, 64), strconv.FormatFloat(scenes[i].Longitude, 'f', 6, 64))
     if (scenes[i].hiddenFromUser(userID) && (sceneNeighborhood != userNeighborhood)) {
-      scenes[i].BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
-      scenes[i].Name = "Darklands..."
+      scenes[i].darken()
     }
   }
 
-  neighborhoodScenes := []Scene{}
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
-  scenes = append(scenes, neighborhoodScenes...)
+  scenes = append(scenes, getNeighborhoodScenes()...)
 
+  return
+}
+
+func (scene *Scene) darken() {
+  scene.BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
+  scene.Name = ""
+  if (len(scene.Cards) > 0) {
+    scene.Cards[0].Caption = ""
+  }
+  return
+}
+
+func getNeighborhoodScenes() (neighborhoodScenes []Scene) {
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
   return
 }
 
