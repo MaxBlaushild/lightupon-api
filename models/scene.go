@@ -155,7 +155,7 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(50).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(20).Find(&scenes)
 
   fmt.Println("\n\nGetScenesNearLocation\n")
 
@@ -180,9 +180,9 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
     }
   }
 
-  neighborhoodScenes := []Scene{}
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
-  scenes = append(scenes, neighborhoodScenes...)
+  // neighborhoodScenes := []Scene{}
+  // DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
+  // scenes = append(scenes, neighborhoodScenes...)
 
   return
 }
