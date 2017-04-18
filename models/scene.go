@@ -179,6 +179,7 @@ func (scene *Scene) darken() {
   scene.Name = ""
   if (len(scene.Cards) > 0) {
     scene.Cards[0].Caption = ""
+    // scene.Cards[0].ImageURL = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg" // Let's not darken this one just yet
   }
   return
 }

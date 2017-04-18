@@ -14,9 +14,6 @@ body {
 }
 th, td {
     border-bottom: 1px solid #ddd;
-}
-
-th, td {
     padding: 15px;
     text-align: left;
 }
@@ -28,26 +25,17 @@ th, td {
 <script>
 (function(){
 
-  // $('.stats').DataTable( {
-  //       "ajax": '/lightupon/stats/json'
-  //   } );
-
 	init();
 
   function init() {
 		var token = localStorage["lightuponToken"];
-		console.log("token")
-		console.log(token)
-		// TODO: actually make a request to lightupon server using token, and only try to proceed if successful
 		if (token) {
 	  		getBookmarks(token)
 		} else {
-			// You fucked up! Go to login!
 			window.alert("YA DONE GOOFED! You need to log in. Click ok and you'll be taken straight there.")
 			window.location = "/lightupon/login";
 		}
   }
-
 
   function getBookmarks(token) {
   	$.ajax({
@@ -62,14 +50,12 @@ th, td {
     });
   }
 
-
-
   function displayStats(stats) {
     if(!stats) {alert("No stats returned from the server!"); return;}
 
     var table = $('<table></table>');
 
-    var tableHeader = $('<thead><tr><th>User</th><th>Scene Unlocks</th><th>Scene GETs</th></tr></thead>');
+    var tableHeader = $('<thead><tr><th>User</th><th>Scene Unlocks</th><th>Scene GETs</th><th>Upvotes Given</th></tr></thead>');
     table.append(tableHeader)
     
     var tableBody = $('<tbody></tbody>');
@@ -82,12 +68,14 @@ th, td {
   		var linkTD = $('<td>' + statsRow["Name"] + '</td>');
       var unlocksTD = $('<td>' + statsRow["NumExposedScenes"] + '</td>');
       var getsTD = $('<td>' + statsRow["NumSceneGets"] + '</td>');
+      var upvotesTD = $('<td>' + statsRow["NumUpvotesGiven"] + '</td>');
   		
   		// Create the row and append the td's we made
   		var tr = $('<tr></tr>')
   		tr.append(linkTD)
       tr.append(unlocksTD)
       tr.append(getsTD)
+      tr.append(upvotesTD)
 
   		// Now stick the row on the table
   		tableBody.append(tr)

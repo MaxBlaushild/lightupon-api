@@ -235,16 +235,21 @@ type UserStats struct {
   Name string
   NumExposedScenes int
   NumSceneGets int
+  NumUpvotesGiven int
 }
 
 func GetUserStats() (stats []UserStats) {
-  sql := `SELECT a.name, a.num_exposed_scenes, COUNT(*) AS num_scene_gets FROM (
-            SELECT u.id AS user_id, u.first_name AS name, COUNT(*) AS num_exposed_scenes FROM users u
-            INNER JOIN exposed_scenes es ON es.user_id = u.id
-            GROUP BY u.id, u.first_name
-          ) a
-          INNER JOIN locations l ON a.user_id = l.user_id
-          GROUP BY a.name, a.num_exposed_scenes;`; // pretty sure 0.000005 is 50 meters
+  sql := `SELECT u.first_name AS name,
+                 es.num AS num_exposed_scenes,
+                 l.num AS num_scene_gets,
+                 sl.num AS num_upvotes_given
+          FROM users u
+          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM scene_likes GROUP BY user_id) sl
+          ON u.id = sl.user_id
+          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM exposed_scenes GROUP BY user_id) es
+          ON u.id = es.user_id
+          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM locations GROUP BY user_id) l
+          ON u.id = l.user_id;`;
   DB.Raw(sql).Scan(&stats)
   return
 }
