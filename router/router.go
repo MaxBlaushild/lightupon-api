@@ -104,7 +104,8 @@ func Init(){
 
   // BOOKMARKS
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/bookmarks/", routes.ServeBookmarks).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/stats/", routes.ServeStatsPage).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/stats/json", routes.GetStats).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
   routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/fuckThis", routes.FuckThisBookmark).Methods("PUT")

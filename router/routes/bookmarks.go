@@ -60,8 +60,8 @@ func GetBookmarksForUser(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(bookmarks)
 }
 
-func ServeBookmarks(w http.ResponseWriter, r *http.Request) {
-  http.ServeFile(w, r, "html/bookmarks.html")
+func ServeStatsPage(w http.ResponseWriter, r *http.Request) {
+  http.ServeFile(w, r, "html/stats.html")
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {

@@ -33,7 +33,6 @@ type User struct {
   NumberOfFollowers int `sql:"-"`
   NumberOfTrips int `sql:"-"`
   Following bool `sql:"-"`
-
 }
 
 const threshold float64 = 0.05 // 0.05 km = 50 meters
@@ -230,5 +229,23 @@ func (u *User) UpdateUserDarknessState(lat string, lon string) {
   for i := 0; i < len(scenes); i++ {
     DB.FirstOrCreate(&ExposedScene{UserID : u.ID, SceneID : scenes[i].ID}, ExposedScene{UserID : u.ID, SceneID : scenes[i].ID})
   }
+}
+
+type UserStats struct {
+  Name string
+  NumExposedScenes int
+  NumSceneGets int
+}
+
+func GetUserStats() (stats []UserStats) {
+  sql := `SELECT a.name, a.num_exposed_scenes, COUNT(*) AS num_scene_gets FROM (
+            SELECT u.id AS user_id, u.first_name AS name, COUNT(*) AS num_exposed_scenes FROM users u
+            INNER JOIN exposed_scenes es ON es.user_id = u.id
+            GROUP BY u.id, u.first_name
+          ) a
+          INNER JOIN locations l ON a.user_id = l.user_id
+          GROUP BY a.name, a.num_exposed_scenes;`; // pretty sure 0.000005 is 50 meters
+  DB.Raw(sql).Scan(&stats)
+  return
 }
 

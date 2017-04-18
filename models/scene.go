@@ -188,6 +188,20 @@ func getNeighborhoodScenes() (neighborhoodScenes []Scene) {
   return
 }
 
+func (scene *Scene) darken() {
+  scene.BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
+  scene.Name = ""
+  if (len(scene.Cards) > 0) {
+    scene.Cards[0].Caption = ""
+  }
+  return
+}
+
+func getNeighborhoodScenes() (neighborhoodScenes []Scene) {
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where("scenes.Name IN ('Brookline', 'Fenway', 'Back Bay', 'South End', 'Seaport', 'Downtown', 'Cambridge')").Find(&neighborhoodScenes)
+  return
+}
+
 func (s *Scene) hiddenFromUser(userID uint) bool {
   exposedScenes := []ExposedScene{}
   sql := `SELECT * FROM exposed_scenes
