@@ -201,7 +201,7 @@ func (s *Scene) hiddenFromUser(userID uint) bool {
 
 func GetScenesVeryNearLocation(lat string, lon string) (scenes []Scene) {
   sql := `SELECT * FROM scenes
-          WHERE ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 0.00005;`; // pretty sure 0.000005 is 50 meters
+          WHERE ((latitude - ` + lat + `)^2.0 + ((longitude - ` + lon + `)* cos(latitude / 57.3))^2.0) < 0.000003;`; // 0.000003 is about one block on newbury st
   DB.Raw(sql).Scan(&scenes)
   return
 }

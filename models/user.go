@@ -224,10 +224,32 @@ func (u *User) Extinguish()(err error) {
   return nil
 }
 
+// Adding auto-recompute of exposed_scenes so we can change the exposing logic, clean it the table, and not have everyone start fresh
 func (u *User) UpdateUserDarknessState(lat string, lon string) {
+  thing := ExposedScene{}
+  DB.First(&thing) // Try to pull ANY row out. If there are no rows then we need to recompute.
+  if (thing.ID == 0) {
+    fmt.Println("recomputing exposed_scenes...")
+    recomputeAllDarkness()
+  } else {
+    actuallyUpdateUserDarknessState(lat, lon, u.ID)
+  }
+}
+
+func recomputeAllDarkness() {
+  locations := []Location{}
+  DB.Find(&locations)
+  for i := 0; i < len(locations); i++ {
+    lat := strconv.FormatFloat(locations[i].Latitude, 'E', -1, 64)
+    lon := strconv.FormatFloat(locations[i].Longitude, 'E', -1, 64)
+    actuallyUpdateUserDarknessState(lat, lon, locations[i].UserID)
+  }
+}
+
+func actuallyUpdateUserDarknessState(lat string, lon string, userID uint) {
   scenes := GetScenesVeryNearLocation(lat, lon)
   for i := 0; i < len(scenes); i++ {
-    DB.FirstOrCreate(&ExposedScene{UserID : u.ID, SceneID : scenes[i].ID}, ExposedScene{UserID : u.ID, SceneID : scenes[i].ID})
+    DB.FirstOrCreate(&ExposedScene{UserID : userID, SceneID : scenes[i].ID}, ExposedScene{UserID : userID, SceneID : scenes[i].ID})
   }
 }
 
