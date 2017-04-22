@@ -40,6 +40,7 @@ type Scene struct {
   SelectedPinUrl string
   ConstellationPoint ConstellationPoint
   Liked bool `sql:"-"`
+  Hidden bool `sql:"-"`
 }
 
 type ExposedScene struct {
@@ -66,7 +67,7 @@ func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
 func IndexScenes() (scenes []Scene) {
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
   for i := 0; i < len(scenes); i++ {
-    scenes[i].darken()
+    scenes[i].obscure()
   }
   return
 }
@@ -165,7 +166,7 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
   for i := 0; i < len(scenes); i++ {
     sceneNeighborhood := getNeighborhoodIDForLocation(strconv.FormatFloat(scenes[i].Latitude, 'f', 6, 64), strconv.FormatFloat(scenes[i].Longitude, 'f', 6, 64))
     if (scenes[i].hiddenFromUser(userID) && (sceneNeighborhood != userNeighborhood)) {
-      scenes[i].darken()
+      scenes[i].obscure()
     }
   }
 
@@ -174,14 +175,8 @@ func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene)
   return
 }
 
-func (scene *Scene) darken() {
-  scene.BackgroundUrl = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg"
-  scene.Name = ""
-  if (len(scene.Cards) > 0) {
-    scene.Cards[0].Caption = ""
-    // scene.Cards[0].ImageURL = "http://www.solidbackgrounds.com/images/2560x1440/2560x1440-black-solid-color-background.jpg" // Let's not darken this one just yet
-  }
-  return
+func (scene *Scene) obscure() {
+  scene.Hidden = true
 }
 
 func getNeighborhoodScenes() (neighborhoodScenes []Scene) {
