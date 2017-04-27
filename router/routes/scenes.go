@@ -15,7 +15,7 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetUserLocationFromRequest(r)  
 
   // experimental business. nothing to see here move along..
-  user.UpdateUserDarknessState(lat, lon) // Update that sweet sweet user state
+  
 
   scenes := models.GetScenesNearLocation(lat, lon, user.ID)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")

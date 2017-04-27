@@ -55,9 +55,10 @@ func (t *Trip) PutScene(scene *Scene) {
 
 func GetTrip(tripID int, userID uint) (trip Trip) {
   DB.Preload("User").Preload("Scenes.Cards").First(&trip, tripID)
-  for i := 0; i < len(trip.Scenes); i++ {
-    trip.Scenes[i].obscure()
-  }
+  // Need to pass lat, lon to scene.obscure() 
+  // for i := 0; i < len(trip.Scenes); i++ {
+  //   trip.Scenes[i].obscure()
+  // }
   trip.LoadConstellation()
   trip.LoadCommentsForTrip()
   trip.LoadLikeStuff(userID)
@@ -198,21 +199,6 @@ func GetSmoothedLocationsFromRedis(TripID int) (smoothLocations []Location) {
   redisResponseBytes := redis.GetByteArrayFromRedis(key)
   _ = json.Unmarshal(redisResponseBytes, &smoothLocations)
   return
-}
-
-func GetBookmarkCards() []Card {
-  cards := []Card{}
-  bookmarks := []Bookmark{}
-  DB.Limit(5).Order("created_at desc").Find(&bookmarks)
-  for i, bookmark := range bookmarks {
-    bookmarkCard := Card{ 
-      Caption: bookmark.URL,
-      CardOrder: uint(i),
-      NibID: "TextHero",
-    }
-    cards = append (cards, bookmarkCard)
-  }
-  return cards
 }
 
 func (trip *Trip) LoadLikeStuff(userID uint) {
