@@ -12,10 +12,10 @@ import(
 
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  lat, lon := GetUserLocationFromRequest(r)  
+  lat, lon := GetUserLocationFromRequest(r)
 
   // experimental business. nothing to see here move along..
-  
+
 
   scenes := models.GetScenesNearLocation(lat, lon, user.ID)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
@@ -24,7 +24,7 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
 
 func NearbyFollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  lat, lon := GetUserLocationFromRequest(r)  
+  lat, lon := GetUserLocationFromRequest(r)
   scenes := models.GetFollowingScenesNearLocation(lat, lon, user.ID)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyFollowingScenesHandler")
   json.NewEncoder(w).Encode(scenes)
@@ -48,6 +48,7 @@ func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   scenes := models.IndexScenes()
   user.SetUserLikenessOfScenes(scenes)
+  w.Header().Set("Content-Type", "application/json")
   json.NewEncoder(w).Encode(scenes)
 }
 
