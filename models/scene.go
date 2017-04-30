@@ -5,10 +5,13 @@ import(
       "strconv"
       "fmt"
       "github.com/jinzhu/gorm"
+      "github.com/nfnt/resize"
       "lightupon-api/services/aws"
-      "lightupon-api/services/imageMagick"
-      "io/ioutil"
       "net/http"
+      "image"
+      "image/jpeg"
+      "log"
+      "bytes"
       )
 
 type Scene struct {
@@ -51,14 +54,13 @@ type ExposedScene struct {
   SceneID uint
   Blur float64
   Unlocked bool
-  // Should probably add a bool here like FullyDiscovered
 }
 
 const unlockThresholdSmall = 0.06
 const unlockThresholdLarge = 0.4
 
 func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
-  err = s.SetPins()
+  err = s.uploadAndSetPins()
   err = tx.Save(s).Error
   return
 }
@@ -121,13 +123,24 @@ func (s *Scene) IsAtScene(location UserLocation)(isAtNextScene bool) {
   return
 }
 
-func (s *Scene) DownloadImage() (imageBinary []byte){
-  resp, err := http.Get(s.BackgroundUrl)
-  defer resp.Body.Close()
+func (s *Scene) downloadAndCropImage() (pinImageBinary []byte, selectedPinImageBinary []byte){
+  response, _ := http.Get(s.BackgroundUrl)
+  image, _, _ := image.Decode(response.Body)
+  defer response.Body.Close()
 
-  imageBinary, err = ioutil.ReadAll(resp.Body); if err != nil {
-    fmt.Println("ioutil.ReadAll -> %v", err)
+  pinImage := resize.Resize(40, 0, image, resize.Lanczos3)
+  pinBuffer := new(bytes.Buffer)
+  if err := jpeg.Encode(pinBuffer, pinImage, nil); err != nil {
+    log.Println("unable to encode image.")
   }
+  pinImageBinary = pinBuffer.Bytes()
+
+  selectedPinImage := resize.Resize(80, 0, image, resize.Lanczos3)
+  selectedPinBuffer := new(bytes.Buffer)
+  if err := jpeg.Encode(selectedPinBuffer, selectedPinImage, nil); err != nil {
+    log.Println("unable to encode image.")
+  }
+  selectedPinImageBinary = selectedPinBuffer.Bytes()
 
   return
 }
@@ -136,13 +149,10 @@ func (s *Scene) getAssetName(name string) string {
   return "/scenes/" + fmt.Sprint(s.ID) + "/" + name
 }
 
-func (s *Scene) SetPins() (err error) {
-  imageBinary := s.DownloadImage()
-  pinBinary := imageMagick.CropPin(imageBinary, "40x40!")
-  selectedPinBinary := imageMagick.CropPin(imageBinary, "80x80!")
+func (s *Scene) uploadAndSetPins() (err error) {
+  pinBinary, selectedPinBinary := s.downloadAndCropImage()
   s.PinUrl, err = s.uploadPin(pinBinary, "pin")
   s.SelectedPinUrl, err = s.uploadPin(selectedPinBinary, "selectedPin")
-  fmt.Println(err)
   return
 }
 
