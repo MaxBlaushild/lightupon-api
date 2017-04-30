@@ -96,7 +96,7 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  respondWithCreated(w, "The trip was created.")
+  json.NewEncoder(w).Encode(trip)
 }
 
 func CreateTripHandler(w http.ResponseWriter, r *http.Request) {
