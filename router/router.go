@@ -93,6 +93,7 @@ func Init(){
   // COMMENTS STUFF
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.TripCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}", routes.SceneHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.AppendCardHandler).Methods("POST")

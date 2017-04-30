@@ -22,6 +22,16 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
+func SceneHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  sceneID := vars["sceneID"]
+  scene, err := models.GetSceneByID(sceneID); if err != nil {
+    respondWithBadRequest(w, "ID was was bad.")
+    return
+  }
+  json.NewEncoder(w).Encode(scene)
+}
+
 func NearbyFollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
