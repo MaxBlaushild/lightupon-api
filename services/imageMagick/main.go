@@ -1,19 +1,37 @@
 package imageMagick
 
 import (
-	"github.com/quirkey/magick"
-	"log"
+	"gopkg.in/gographics/imagick.v2/imagick"
+	"fmt"
 )
 
 
-func CropPin(imageBinary []byte, size string) (transformedBinary []byte) {
-	image, err := magick.NewFromBlob(imageBinary, "png")
-	defer image.Destroy()
+func CropPin(imageBinary []byte) (transformedBinary []byte) {
+	imagick.Initialize()
+	defer imagick.Terminate()
 
-	err = image.Crop(size); if err != nil {
-		log.Print("Problem with transforming")
+	var err error
+
+	mw := imagick.NewMagickWand()
+
+	err = mw.ReadImageBlob(imageBinary)
+
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	transformedBinary, err = image.ToBlob("png")
+	err = mw.ResizeImage(120, 120, imagick.FILTER_LANCZOS, 1)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	err = mw.SetImageCompressionQuality(100)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	transformedBinary = mw.GetImageBlob()
 	return
 }

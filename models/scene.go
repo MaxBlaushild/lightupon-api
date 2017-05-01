@@ -5,13 +5,10 @@ import(
       "strconv"
       "fmt"
       "github.com/jinzhu/gorm"
-      "github.com/nfnt/resize"
+      "lightupon-api/services/imageMagick"
+      "io/ioutil"
       "lightupon-api/services/aws"
       "net/http"
-      "image"
-      "image/jpeg"
-      "log"
-      "bytes"
       )
 
 type Scene struct {
@@ -60,7 +57,7 @@ const unlockThresholdSmall = 0.06
 const unlockThresholdLarge = 0.4
 
 func (s *Scene) AfterCreate(tx *gorm.DB) (err error) {
-  err = s.uploadAndSetPins()
+  err = s.SetPins()
   err = tx.Save(s).Error
   return
 }
@@ -128,37 +125,26 @@ func (s *Scene) IsAtScene(location UserLocation)(isAtNextScene bool) {
   return
 }
 
-func (s *Scene) downloadAndCropImage() (pinImageBinary []byte, selectedPinImageBinary []byte){
-  response, _ := http.Get(s.BackgroundUrl)
-  image, _, _ := image.Decode(response.Body)
-  defer response.Body.Close()
+func (s *Scene) DownloadImage() (imageBinary []byte){
+  resp, err := http.Get(s.BackgroundUrl)
 
-  pinImage := resize.Resize(40, 0, image, resize.Lanczos3)
-  pinBuffer := new(bytes.Buffer)
-  if err := jpeg.Encode(pinBuffer, pinImage, nil); err != nil {
-    log.Println("unable to encode image.")
+  defer resp.Body.Close()
+
+  imageBinary, err = ioutil.ReadAll(resp.Body); if err != nil {
+    fmt.Println("ioutil.ReadAll -> %v", err)
   }
-  pinImageBinary = pinBuffer.Bytes()
+  return 
+}
 
-  selectedPinImage := resize.Resize(80, 0, image, resize.Lanczos3)
-  selectedPinBuffer := new(bytes.Buffer)
-  if err := jpeg.Encode(selectedPinBuffer, selectedPinImage, nil); err != nil {
-    log.Println("unable to encode image.")
-  }
-  selectedPinImageBinary = selectedPinBuffer.Bytes()
-
+func (s *Scene) SetPins() (err error) {
+  imageBinary := s.DownloadImage()
+  pinBinary := imageMagick.CropPin(imageBinary)
+  s.PinUrl, err = s.uploadPin(pinBinary, "pin")
   return
 }
 
 func (s *Scene) getAssetName(name string) string {
   return "/scenes/" + fmt.Sprint(s.ID) + "/" + name
-}
-
-func (s *Scene) uploadAndSetPins() (err error) {
-  pinBinary, selectedPinBinary := s.downloadAndCropImage()
-  s.PinUrl, err = s.uploadPin(pinBinary, "pin")
-  s.SelectedPinUrl, err = s.uploadPin(selectedPinBinary, "selectedPin")
-  return
 }
 
 func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error){
