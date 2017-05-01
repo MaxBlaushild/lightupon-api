@@ -20,7 +20,7 @@ func CropPin(imageBinary []byte) (transformedBinary []byte) {
 		fmt.Println(err)
 	}
 
-	err = mw.ResizeImage(120, 120, imagick.FILTER_LANCZOS, 1)
+	err = mw.ResizeImage(150, 150, imagick.FILTER_LANCZOS, 1)
 
 	if err != nil {
 		fmt.Println(err)
