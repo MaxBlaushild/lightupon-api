@@ -75,7 +75,7 @@ func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
 }
 
 func GetSceneByID(sceneID string) (scene Scene, err error) {
-  err = DB.Where("id = ?", sceneID).Find(&scene).Error
+  err = DB.Preload("Trip.User").Preload("Cards").Where("id = ?", sceneID).Find(&scene).Error
   return
 }
 
