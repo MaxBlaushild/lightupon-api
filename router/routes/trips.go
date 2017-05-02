@@ -24,7 +24,10 @@ func CreateTrip(w http.ResponseWriter, r *http.Request) {
 
   err := decoder.Decode(&trip); if err != nil {
     respondWithBadRequest(w, "The trip you sent us was bunk.")
+    return
   }
+
+  trip.Active = true
 
   user := GetUserFromRequest(r)
   user.AddTrip(&trip)
@@ -91,7 +94,6 @@ func CreateDegenerateTripHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   err = user.AddTrip(&trip); if err != nil {
-    fmt.Println(err)
     respondWithBadRequest(w, "The selfie you sent us was bunk.")
     return
   }
