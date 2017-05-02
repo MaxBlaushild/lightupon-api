@@ -51,7 +51,6 @@ func (u *User) StartParty(tripID uint) (party Party, err error) {
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
-  trip.Active = true
   err = DB.Model(&u).Association("Trips").Append(trip).Error
   return
 }
@@ -174,24 +173,14 @@ func (u *User) SetUserLocationFromRequest(r *http.Request) {
 
 func (u *User) GetActiveSceneOrSuggestion() (scene Scene) {
   activeTrip := u.ActiveTrip()
-
   lengthOfScenes := len(activeTrip.Scenes)
-  fmt.Println("LENGTH OF SCENE: **********************************")
-  fmt.Println(lengthOfScenes)
+
   if (lengthOfScenes == 0) {
     return u.GetSuggestedScene()
   }
 
   activeScene := activeTrip.Scenes[lengthOfScenes - 1]
-  fmt.Println("ACTIVE SCENE ID: **********************************")
-  fmt.Println(activeScene.ID)
-  fmt.Println("USER LOCATION: **********************************")
-  fmt.Println(u.Location)
-  fmt.Println("SCENE LAT: **********************************")
-  fmt.Println(activeScene.Latitude)
-  fmt.Println("SCENE LON: **********************************")
-  fmt.Println(activeScene.Longitude)
-  fmt.Println(lengthOfScenes)
+
   if (u.IsAtScene(activeScene)) {
     return activeScene
   } else {
