@@ -67,9 +67,6 @@ func GetTrip(tripID int, userID uint) (trip Trip) {
 
 func GetTripsForUser(userID string) (trips []Trip) {
   DB.Preload("Scenes.Cards").Order("created_at desc").Where("user_id = ?", userID).Find(&trips)
-  for i, _ := range trips {
-    trips[i].SetLocations()
-  }
   return
 }
 
