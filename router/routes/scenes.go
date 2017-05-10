@@ -149,7 +149,7 @@ func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
   }
   models.ShiftScenesUp(int(scene.SceneOrder), tripID)
   models.DB.Create(&scene)
-  respondWithCreated(w, "The scene was created.")
+  json.NewEncoder(w).Encode(scene)
 }
 
 func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
