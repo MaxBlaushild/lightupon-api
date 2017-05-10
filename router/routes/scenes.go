@@ -12,11 +12,10 @@ import(
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
+  radius := getStringFromRequest(r, "radius", "0.01")
+  numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
 
-  // experimental business. nothing to see here move along..
-
-
-  scenes := models.GetScenesNearLocation(lat, lon, user.ID)
+  scenes := models.GetScenesNearLocation(lat, lon, user.ID, radius, numScenes)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
   json.NewEncoder(w).Encode(scenes)
 }
@@ -25,7 +24,7 @@ func SceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   sceneID := vars["sceneID"]
   scene, err := models.GetSceneByID(sceneID); if err != nil {
-    respondWithBadRequest(w, "ID was was bad.")
+    respondWithBadRequest(w, "ID was bad.")
     return
   }
   json.NewEncoder(w).Encode(scene)
@@ -51,7 +50,6 @@ func PopularScenesHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Where("Featured = true").Find(&scenes)
   json.NewEncoder(w).Encode(scenes)
 }
-
 
 func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)

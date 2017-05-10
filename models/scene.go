@@ -1,7 +1,6 @@
 package models
 
 import(
-// "github.com/davecgh/go-spew/spew"
       "strconv"
       "fmt"
       "github.com/jinzhu/gorm"
@@ -164,14 +163,14 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
   return
 }
 
-func GetScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(50).Find(&scenes)
+func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numScenes int) (scenes []Scene) {
+  distanceString :="((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(2).Find(&scenes)
 
+  possiblyRecomputeAllDiscovery(lat, lon, userID)
   for i := 0; i < len(scenes); i++ {
     scenes[i].discover(userID, lat, lon)
   }
-
-  // possiblyRecomputeAllDiscovery(lat, lon, userID)
 
   return
 }
@@ -231,26 +230,28 @@ func (exposedScene *ExposedScene) upsertExposedScene(newBlur float64, sceneID ui
   }
 }
 
-// Under construction
-// func recomputeAllDiscovery() {
-//   exposedScene := ExposedScene{}
+func possiblyRecomputeAllDiscovery(lat string, lon string, userID uint) {
+  exposedScene := ExposedScene{}
+  DB.First(&exposedScene)
+  if exposedScene.ID == 0 {
+    recomputeAllDiscovery()
+  }
+}
 
-//   locations := []Location{}
-//   DB.Find(&locations)
-//   for i := 0; i < len(locations); i++ {
-//     lat := strconv.FormatFloat(locations[i].Latitude, 'E', -1, 64)
-//     lon := strconv.FormatFloat(locations[i].Longitude, 'E', -1, 64)
-//     // Here we should grab ALL scenes out of the database and iterate over them
-//     scenes := []Scene{}
-//     DB.Find(&scenes)
-//     for i := 0; i < len(scenes); i++ {
-//       scene.discover(userID uint, userLat string, userLon string)
-      
-//     }
-
-//     actuallyUpdateUserDarknessState(lat, lon, locations[i].UserID)
-//   }
-// }
+func recomputeAllDiscovery() {
+  fmt.Println("NOTICE: Recomputing all discovery!")
+  locations := []Location{}
+  DB.Find(&locations)
+  for i := 0; i < len(locations); i++ {
+    lat := strconv.FormatFloat(locations[i].Latitude, 'E', -1, 64)
+    lon := strconv.FormatFloat(locations[i].Longitude, 'E', -1, 64)
+    scenes := []Scene{}
+    DB.Find(&scenes)
+    for i := 0; i < len(scenes); i++ {
+      scenes[i].discover(locations[i].UserID, lat, lon)
+    }
+  }
+}
 
 func MarkScenesRequest(lat string, lon string, userID uint, context string) {
   latFloat, _ := strconv.ParseFloat(lat, 64)

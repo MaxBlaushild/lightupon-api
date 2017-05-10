@@ -34,3 +34,13 @@ func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
   lon = query["lon"][0]
   return
 }
+
+func getStringFromRequest(r *http.Request, key string, defaultValue string) (value string) {
+  query := r.URL.Query()
+  if len(query[key]) > 0 {
+    value = query[key][0]
+  } else {
+    value = defaultValue
+  }
+  return
+}
