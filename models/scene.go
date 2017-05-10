@@ -165,7 +165,7 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 
 func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numScenes int) (scenes []Scene) {
   distanceString :="((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(2).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
 
   possiblyRecomputeAllDiscovery(lat, lon, userID)
   for i := 0; i < len(scenes); i++ {
