@@ -7,7 +7,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "github.com/kr/pretty"
        )
 
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +86,7 @@ func AppendSceneHandler(w http.ResponseWriter, r *http.Request) {
     respondWithBadRequest(w, "The scene you sent us was bunk!")
     return
   }
-  pretty.Println(scene)
+
   user := GetUserFromRequest(r)
   activeTrip := user.ActiveTrip()
 
@@ -128,27 +127,25 @@ func cacheCurrentScene(scene models.Scene) {
   redis.SaveByteArrayToRedis(key, value)
 }
 
-// request should look like {"SceneOrder":3, "Name":"new scene", "Latitude":76.567,"Longitude":87.345}
 func CreateSceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
-  tripID, _ := strconv.Atoi(vars["tripID"])
+
+  tripID := vars["tripID"]
+  trip := models.Trip{}
+  models.DB.First(&trip, tripID)
+
   scene := models.Scene{}
   decoder := json.NewDecoder(r.Body)
-  err := decoder.Decode(&scene)
-  if err != nil {
-    respondWithBadRequest(w, "The scene you sent us was bunk.")
+  err := decoder.Decode(&scene); if err != nil {
+    respondWithBadRequest(w, "That trip ID was not found.")
+    return
   }
 
-  scene.TripID = uint(tripID)
-  if (scene.ID > 0) {
-    // If wants to use a ole ass scene for their trip, so let's clone it and reset the ID to zero
-    newSceneOrder := scene.SceneOrder // Grab the requested new SceneOrder because reflecting on the next line will destroy it
-    models.DB.Find(&scene)
-    scene.ID = 0 // Set the sceneID to zero so it will insert properly below
-    scene.SceneOrder = newSceneOrder
+  err = trip.AppendScene(&scene); if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk!")
+    return
   }
-  models.ShiftScenesUp(int(scene.SceneOrder), tripID)
-  models.DB.Create(&scene)
+
   json.NewEncoder(w).Encode(scene)
 }
 
