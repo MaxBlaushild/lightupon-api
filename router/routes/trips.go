@@ -32,7 +32,7 @@ func CreateTrip(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   user.AddTrip(&trip)
 
-  respondWithCreated(w, "The trip was created.")
+  json.NewEncoder(w).Encode(trip)
 }
 
 func UpdateActiveTrip(w http.ResponseWriter, r *http.Request) {
