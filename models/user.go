@@ -51,6 +51,7 @@ func (u *User) StartParty(tripID uint) (party Party, err error) {
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
+  err = DB.Model(&Trip{}).Where("user_id = ?", u.ID).Update("Active", false).Error
   err = DB.Model(&u).Association("Trips").Append(trip).Error
   return
 }
