@@ -81,6 +81,17 @@ func (user *User) Discover(scene Scene) {
         scene.Hidden = true
       }
     }
+    fmt.Println("Discover")
+    fmt.Println("scene.ID")
+    fmt.Println(scene.ID)
+    fmt.Println("user.ID")
+    fmt.Println(user.ID)
+    fmt.Println("distanceFromScene")
+    fmt.Println(distanceFromScene)
+    fmt.Println("scene.Blur")
+    fmt.Println(scene.Blur)
+    fmt.Println("scene.Hidden")
+    fmt.Println(scene.Hidden)
   }
 }
 
