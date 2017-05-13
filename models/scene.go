@@ -156,7 +156,7 @@ func GetScenesNearLocation(lat string, lon string, userID uint, radius string, n
   distanceString :="((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
   for i, _ := range scenes {
-    err = scenes[i].GetExposure(userID)
+    scenes[i].GetExposure(userID)
   }
   return
 }
