@@ -162,8 +162,8 @@ func GetScenesNearLocation(lat string, lon string, userID uint, radius string, n
 }
 
 func (s *Scene) GetExposure(userID uint) (err error) {
-  exposedScene := ExposedScene{}
-  err = DB.Where("user_id = ? AND scene_id = ?", userID, s.ID).First(&exposedScene).Error; if err != nil {
+  exposedScene := ExposedScene{UserID : userID, SceneID : s.ID}
+  err = DB.First(&exposedScene, exposedScene).Error; if err != nil {
     s.Hidden = !exposedScene.Unlocked
     s.Blur = exposedScene.Blur
   }
