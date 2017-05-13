@@ -14,6 +14,12 @@ type Response struct {
 	CurrentSceneOrder int
 	Passcode string
 	Event string
+	UpdatedSceneID uint
+}
+
+type SceneUpdate struct {
+	UpdatedSceneID uint
+	UserID uint
 }
 
 type Location struct {

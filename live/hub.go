@@ -8,6 +8,7 @@ type hub struct {
 	Parties map[string]Party
 	Connections map[uint]*Connection
 	Broadcast chan Response
+	UpdateClient chan SceneUpdate
 	Register chan *Connection
 	Unregister chan *Connection
 	PutParty chan Party
@@ -23,6 +24,9 @@ func (h *hub) Start() {
 			h.RegisterConnection(c)
 		case party := <- h.PutParty:
 			h.SyncParty(party)
+		case sceneUpdate := <- h.UpdateClient:
+			response := Response{UpdatedSceneID: sceneUpdate.UpdatedSceneID}
+			h.Connections[sceneUpdate.UserID].Send <- response
 		case passcode := <- h.EndParty:
 			h.UnregisterParty(passcode)
 		case c := <- h.Unregister:

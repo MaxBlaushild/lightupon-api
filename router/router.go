@@ -70,7 +70,7 @@ func Init(){
 
 
   // LOCATION STUFF
-  routerWithAuth.HandleFunc("/lightupon/locations", routes.AddLocationHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/discover", routes.DiscoverHandler).Methods("POST")
 
   // SCENE STUFF
   routerWithAuth.HandleFunc("/lightupon/scenes", routes.ScenesIndexHandler).Methods("GET")
