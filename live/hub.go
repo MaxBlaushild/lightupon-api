@@ -26,7 +26,9 @@ func (h *hub) Start() {
 			h.SyncParty(party)
 		case sceneUpdate := <- h.UpdateClient:
 			response := Response{UpdatedSceneID: sceneUpdate.UpdatedSceneID}
-			h.Connections[sceneUpdate.UserID].Send <- response
+			if h.Connections[sceneUpdate.UserID] != nil {
+				h.Connections[sceneUpdate.UserID].Send <- response
+			}
 		case passcode := <- h.EndParty:
 			h.UnregisterParty(passcode)
 		case c := <- h.Unregister:
