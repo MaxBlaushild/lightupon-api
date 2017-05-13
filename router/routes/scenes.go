@@ -15,9 +15,14 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   radius := getStringFromRequest(r, "radius", "0.01")
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
 
-  scenes := models.GetScenesNearLocation(lat, lon, user.ID, radius, numScenes)
+  scenes, err := models.GetScenesNearLocation(lat, lon, user.ID, radius, numScenes)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
-  json.NewEncoder(w).Encode(scenes)
+
+  if err != nil {
+    respondWithBadRequest(w, "Something went wrong.")
+  } else {
+    json.NewEncoder(w).Encode(scenes)
+  }
 }
 
 func SceneHandler(w http.ResponseWriter, r *http.Request) {

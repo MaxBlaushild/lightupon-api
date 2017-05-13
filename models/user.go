@@ -42,6 +42,48 @@ func (u *User) BeforeCreate() (err error) {
   return
 }
 
+func (user *User) Explore() (err error)  {
+  scenes, err := GetScenesNearLocation(fmt.Sprintf("%.6f", user.Location.Latitude), fmt.Sprintf("%.6f", user.Location.Longitude), user.ID, "0.01", 100)
+  for i := 0; i < len(scenes); i++ {
+    user.Discover(scenes[i])
+  }
+  return
+}
+
+
+// There's not a lot of awesome abstraction here, but this could get computationally expensive so I'm trying to optimize for speed. It also requires some splainin so read the comments.
+func (user *User) Discover(scene Scene) {
+  // Try to get the current blur level
+  oldExposedScene := ExposedScene{UserID : user.ID, SceneID : scene.ID}
+  DB.First(&oldExposedScene, oldExposedScene)
+
+  if (oldExposedScene.Unlocked) { // UU, UB, UL
+    // If we found a record and it's fully unlocked, then we're done. Just set the properties - no need to persist anything.
+    scene.Blur = 0.0
+    scene.Hidden = false
+  } else { // BU, BB, BL, LU, LB, LL
+    distanceFromScene := CalculateDistance(user.Location, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
+    newBlur := calculateBlur(distanceFromScene)
+    if (distanceFromScene < unlockThresholdSmall) { // LU, BU
+      // Moving to Unlocked from unlockThresholdLarge non-Unlocked state, so we need to return and persist the new shit
+      scene.Blur = 0.0
+      scene.Hidden = false
+      oldExposedScene.upsertExposedScene(newBlur, scene.ID, user.ID, false)
+    } else {
+      if (newBlur > oldExposedScene.Blur) { // MM(change), LM
+        // save the new blur and return that new shit
+        scene.Blur = newBlur
+        scene.Hidden = true
+        oldExposedScene.upsertExposedScene(newBlur, scene.ID, user.ID, true)
+      } else { // MM(static), ML, LL
+        // save nothing and return the old shit
+        scene.Blur = oldExposedScene.Blur
+        scene.Hidden = true
+      }
+    }
+  }
+}
+
 func (u *User) StartParty(tripID uint) (party Party, err error) {
   party = Party{ TripID: tripID }
   err = DB.Model(&u).Association("Parties").Append(&party).Error
@@ -214,7 +256,6 @@ func (u *User) Light() (err error) {
   err = DB.Model(&u).Update("lit", true).Error
   return
 }
-
 
 func (u *User) Extinguish()(err error) {
 	DB.Model(&u).Update("lit", false)
