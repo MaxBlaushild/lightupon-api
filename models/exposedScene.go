@@ -27,8 +27,3 @@ func (exposedScene *ExposedScene) upsertExposedScene(newBlur float64, sceneID ui
   sceneUpdate := live.SceneUpdate{UpdatedSceneID: exposedScene.SceneID, UserID: exposedScene.UserID}
   live.Hub.UpdateClient <- sceneUpdate
 }
-
-type SceneUpdate struct {
-  UpdatedSceneID uint
-  UserID uint
-}
