@@ -70,7 +70,7 @@ func (user *User) Discover(scene Scene) {
       scene.Hidden = false
       oldExposedScene.upsertExposedScene(newBlur, scene.ID, user.ID, false)
     } else {
-      if (newBlur > oldExposedScene.Blur) { // MM(change), LM
+      if (newBlur < oldExposedScene.Blur) { // MM(change), LM
         // save the new blur and return that new shit
         scene.Blur = newBlur
         scene.Hidden = true
