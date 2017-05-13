@@ -79,7 +79,9 @@ func (user *User) Discover(scene Scene) {
         // save nothing and return the old shit
         scene.Blur = oldExposedScene.Blur
         scene.Hidden = true
-        fmt.Println("i dont do anything")
+        if oldExposedScene.ID == 0 {
+          fmt.Println("i dont do anything")
+        }
       }
     }
   }
