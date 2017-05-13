@@ -1,10 +1,8 @@
 package routes
 
 import("net/http"
+			 "fmt"
        "encoding/json")
-
-const closeThreshold float64 = 0.05
-const farThresh float64 = 0.25
 
 func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
 	user := GetUserFromRequest(r)
@@ -19,5 +17,6 @@ func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
 		respondWithBadRequest(w, "You goofed.")
 	} 
 
+	fmt.Println("discovering")
 	respondWithCreated(w, "Did the thing.")
 }

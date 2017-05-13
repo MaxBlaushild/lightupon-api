@@ -7,7 +7,6 @@ import(
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
-       "fmt"
        )
 
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +19,6 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
 
   if err != nil {
-    fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")
   } else {
     json.NewEncoder(w).Encode(scenes)
