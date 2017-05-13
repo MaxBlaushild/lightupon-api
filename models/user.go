@@ -54,22 +54,27 @@ func (user *User) Explore() (err error)  {
 // There's not a lot of awesome abstraction here, but this could get computationally expensive so I'm trying to optimize for speed. It also requires some splainin so read the comments.
 func (user *User) Discover(scene Scene) {
   // Try to get the current blur level
+  fmt.Println("exploring scene")
+  fmt.Println(scene.ID)
   oldExposedScene := ExposedScene{UserID : user.ID, SceneID : scene.ID}
   DB.First(&oldExposedScene, oldExposedScene)
 
   if (oldExposedScene.Unlocked) { // UU, UB, UL
     // If we found a record and it's fully unlocked, then we're done. Just set the properties - no need to persist anything.
+    fmt.Println("unlocked")
     scene.Blur = 0.0
     scene.Hidden = false
   } else { // BU, BB, BL, LU, LB, LL
     distanceFromScene := CalculateDistance(user.Location, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
     newBlur := calculateBlur(distanceFromScene)
     if (distanceFromScene < unlockThresholdSmall) { // LU, BU
+      fmt.Println("small")
       // Moving to Unlocked from unlockThresholdLarge non-Unlocked state, so we need to return and persist the new shit
       scene.Blur = 0.0
       scene.Hidden = false
       oldExposedScene.upsertExposedScene(newBlur, scene.ID, user.ID, false)
     } else {
+      fmt.Println("blurred")
       if (newBlur < oldExposedScene.Blur) { // MM(change), LM
         // save the new blur and return that new shit
         scene.Blur = newBlur
@@ -77,6 +82,7 @@ func (user *User) Discover(scene Scene) {
         oldExposedScene.upsertExposedScene(newBlur, scene.ID, user.ID, true)
       } else { // MM(static), ML, LL
         // save nothing and return the old shit
+        fmt.Println("still blurred")
         scene.Blur = oldExposedScene.Blur
         scene.Hidden = true
       }
