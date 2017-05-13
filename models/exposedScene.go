@@ -3,6 +3,7 @@ package models
 import(
       "github.com/jinzhu/gorm"
       "lightupon-api/live"
+      "fmt"
       )
 
 type ExposedScene struct {
@@ -18,6 +19,8 @@ const unlockThresholdLarge = 0.4
 
 
 func (exposedScene *ExposedScene) upsertExposedScene(newBlur float64, sceneID uint, userID uint, hidden bool) {
+  fmt.Println(exposedScene)
+  fmt.Println("exposing scene")
   if (exposedScene.ID == 0) {
     DB.Create(&ExposedScene{UserID : userID, SceneID : sceneID, Blur : newBlur, Unlocked : !hidden})
   } else {
