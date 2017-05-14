@@ -161,12 +161,12 @@ func GetScenesNearLocation(lat string, lon string, userID uint, radius string, n
   distanceString :="((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
   for i, _ := range scenes {
-    scenes[i].GetPercentDiscover(userID)
+    scenes[i].GetPercentDiscovered(userID)
   }
   return
 }
 
-func (s *Scene) GetPercentDiscover(userID uint) (err error) {
+func (s *Scene) GetPercentDiscovered(userID uint) (err error) {
   discoveredScene := DiscoveredScene{UserID : userID, SceneID : s.ID}
   err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
     s.PercentDiscovered = discoveredScene.PercentDiscovered

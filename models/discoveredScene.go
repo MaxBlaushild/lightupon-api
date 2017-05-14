@@ -19,6 +19,10 @@ func (dS *DiscoveredScene) NotFullyDiscovered() bool {
   return dS.PercentDiscovered < 1.0
 }
 
+func (dS *DiscoveredScene) NotFullyUndiscovered() bool {
+  return dS.PercentDiscovered > 0.0
+}
+
 func UpsertDiscoveredScene(discoveredScene *DiscoveredScene) {
   if DB.NewRecord(discoveredScene) {
     DB.Create(&discoveredScene)
@@ -32,7 +36,10 @@ func UpsertDiscoveredScene(discoveredScene *DiscoveredScene) {
 func (dS *DiscoveredScene) SetPercentDiscovered(user *User, scene *Scene) {
   distanceFromScene := CalculateDistance(user.Location, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
   dS.PercentDiscovered = calculatePercentDiscovered(distanceFromScene)
-  UpsertDiscoveredScene(dS)
+
+  if dS.NotFullyUndiscovered() {
+    UpsertDiscoveredScene(dS)
+  }
 }
 
 func calculatePercentDiscovered(distance float64) (percentDiscovered float64) {
