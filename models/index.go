@@ -40,7 +40,7 @@ func Connect() {
                  &Comment{},
                  &SceneLike{},
                  &Device{},
-                 &ExposedScene{},
+                 &DiscoveredScene{},
                  &NeighborhoodPoint{})
   
   DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")

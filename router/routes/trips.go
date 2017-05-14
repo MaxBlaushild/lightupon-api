@@ -73,15 +73,9 @@ func TripHandler(w http.ResponseWriter, r *http.Request) {
   trip := models.GetTrip(tripID, user.ID)
 
   for i, _ := range trip.Scenes {
-    exposedScene := models.ExposedScene{UserID : user.ID, SceneID : trip.Scenes[i].ID}
-    models.DB.First(&exposedScene, exposedScene)
-    if exposedScene.ID != 0 {
-      trip.Scenes[i].Hidden = !exposedScene.Unlocked
-      trip.Scenes[i].Blur = exposedScene.Blur
-    } else {
-      trip.Scenes[i].Hidden = true
-      trip.Scenes[i].Blur = 1.0
-    }
+    discoveredScene := models.DiscoveredScene{UserID: user.ID, SceneID: trip.Scenes[i].ID}
+    models.DB.First(&discoveredScene, discoveredScene)
+    trip.Scenes[i].PercentDiscovered = discoveredScene.PercentDiscovered
   }
 
   json.NewEncoder(w).Encode(trip)
