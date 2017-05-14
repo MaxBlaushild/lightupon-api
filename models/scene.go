@@ -40,8 +40,7 @@ type Scene struct {
   SelectedPinUrl string
   ConstellationPoint ConstellationPoint
   Liked bool `sql:"-"`
-  Hidden bool `sql:"-"`
-  Blur float64 `sql:"-"`
+  PercentDiscovered float64 `sql:"-"`
 }
 
 
@@ -58,6 +57,12 @@ func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
     }
   }
   return
+}
+
+func (s *Scene)GetDiscoveryForUser(userID uint) DiscoveredScene {
+  discoveredScene := DiscoveredScene{UserID: userID, SceneID: s.ID}
+  DB.First(&discoveredScene, discoveredScene)
+  return discoveredScene
 }
 
 func GetSceneByID(sceneID string) (scene Scene, err error) {
@@ -156,90 +161,19 @@ func GetScenesNearLocation(lat string, lon string, userID uint, radius string, n
   distanceString :="((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
   for i, _ := range scenes {
-    scenes[i].GetExposure(userID)
+    scenes[i].GetPercentDiscover(userID)
   }
   return
 }
 
-func (s *Scene) GetExposure(userID uint) (err error) {
-  exposedScene := ExposedScene{UserID : userID, SceneID : s.ID}
-  err = DB.First(&exposedScene, exposedScene).Error; if err == nil {
-    s.Hidden = !exposedScene.Unlocked
-    s.Blur = exposedScene.Blur
+func (s *Scene) GetPercentDiscover(userID uint) (err error) {
+  discoveredScene := DiscoveredScene{UserID : userID, SceneID : s.ID}
+  err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
+    s.PercentDiscovered = discoveredScene.PercentDiscovered
   }
 
   return
 }
-
-// // There's not a lot of awesome abstraction here, but this could get computationally expensive so I'm trying to optimize for speed. It also requires some splainin so read the comments.
-// func (scene *Scene) discover(userID uint, userLat string, userLon string) {
-//   // Try to get the current blur level
-//   oldExposedScene := ExposedScene{UserID : userID, SceneID : scene.ID}
-//   DB.First(&oldExposedScene, oldExposedScene)
-
-//   if (oldExposedScene.Unlocked) { // UU, UB, UL
-//     // If we found a record and it's fully unlocked, then we're done. Just set the properties - no need to persist anything.
-//     scene.Blur = 0.0
-//     scene.Hidden = false
-//   } else { // BU, BB, BL, LU, LB, LL
-//     userLatFloat, _ := strconv.ParseFloat(userLat, 64)
-//     userLonFloat, _ := strconv.ParseFloat(userLon, 64)
-//     distanceFromScene := CalculateDistance(UserLocation{Latitude: userLatFloat, Longitude: userLonFloat}, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
-//     newBlur := calculateBlur(distanceFromScene)
-//     if (distanceFromScene < unlockThresholdSmall) { // LU, BU
-//       // Moving to Unlocked from unlockThresholdLarge non-Unlocked state, so we need to return and persist the new shit
-//       scene.Blur = 0.0
-//       scene.Hidden = false
-//       oldExposedScene.upsertExposedScene(newBlur, scene.ID, userID, false)
-//     } else {
-//       if (newBlur > oldExposedScene.Blur) { // MM(change), LM
-//         // save the new blur and return that new shit
-//         scene.Blur = newBlur
-//         scene.Hidden = true
-//         oldExposedScene.upsertExposedScene(newBlur, scene.ID, userID, true)
-//       } else { // MM(static), ML, LL
-//         // save nothing and return the old shit
-//         scene.Blur = oldExposedScene.Blur
-//         scene.Hidden = true
-//       }
-//     }
-//   }
-// }
-
-func calculateBlur(distance float64) (blur float64) {
-  if (distance < unlockThresholdSmall) {
-    blur = 0.0
-  } else if (distance > unlockThresholdLarge) {
-    blur = 1.0
-  } else {
-    // TODO: Update this to be a nice smoove cosine function
-    blur = (distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall)
-  }
-  return
-}
-
-// func possiblyRecomputeAllDiscovery(lat string, lon string, userID uint) {
-//   exposedScene := ExposedScene{}
-//   DB.First(&exposedScene)
-//   if exposedScene.ID == 0 {
-//     recomputeAllDiscovery()
-//   }
-// }
-
-// func recomputeAllDiscovery() {
-//   fmt.Println("NOTICE: Recomputing all discovery!")
-//   locations := []Location{}
-//   DB.Find(&locations)
-//   for i := 0; i < len(locations); i++ {
-//     lat := strconv.FormatFloat(locations[i].Latitude, 'E', -1, 64)
-//     lon := strconv.FormatFloat(locations[i].Longitude, 'E', -1, 64)
-//     scenes := []Scene{}
-//     DB.Find(&scenes)
-//     for i := 0; i < len(scenes); i++ {
-//       scenes[i].discover(locations[i].UserID, lat, lon)
-//     }
-//   }
-// }
 
 func MarkScenesRequest(lat string, lon string, userID uint, context string) {
   latFloat, _ := strconv.ParseFloat(lat, 64)
