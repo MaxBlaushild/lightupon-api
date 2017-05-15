@@ -42,7 +42,7 @@ func calculatePercentDiscovered(distance float64) (percentDiscovered float64) {
     percentDiscovered = 0.0
   } else {
     // TODO: Update this to be a nice smoove cosine function
-    percentDiscovered = (distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall)
+    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
   }
   return
 }
