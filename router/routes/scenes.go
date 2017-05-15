@@ -27,11 +27,14 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
 
 func SceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
+  user := GetUserFromRequest(r)
   sceneID := vars["sceneID"]
   scene, err := models.GetSceneByID(sceneID); if err != nil {
     respondWithBadRequest(w, "ID was bad.")
     return
   }
+
+  scene.GetPercentDiscovered(user.ID)
   json.NewEncoder(w).Encode(scene)
 }
 
