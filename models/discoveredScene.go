@@ -12,8 +12,8 @@ type DiscoveredScene struct {
   PercentDiscovered float64
 }
 
-const unlockThresholdSmall = 0.06
-const unlockThresholdLarge = 0.4
+const unlockThresholdSmall = 0.02
+const unlockThresholdLarge = 0.2
 
 func (dS *DiscoveredScene) NotFullyDiscovered() bool {
   return dS.PercentDiscovered < 1.0
