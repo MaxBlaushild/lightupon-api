@@ -71,7 +71,7 @@ func GetSceneByID(sceneID string) (scene Scene, err error) {
 }
 
 func IndexScenes() (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Order("created_at > NOW() - INTERVAL '1 hour'").Find(&scenes)
   return
 }
 
@@ -176,6 +176,11 @@ func (s *Scene) GetPercentDiscovered(userID uint) (err error) {
 }
 
 func MarkScenesRequest(lat string, lon string, userID uint, context string) {
+  LogUserLocation(lat, lon, userID, context)
+  return
+}
+
+func LogUserLocation(lat string, lon string, userID uint, context string) {
   latFloat, _ := strconv.ParseFloat(lat, 64)
   lonFloat, _ := strconv.ParseFloat(lon, 64)
   location := Location{UserID:userID, Latitude: latFloat, Longitude: lonFloat, Context: context}

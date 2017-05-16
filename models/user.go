@@ -43,12 +43,16 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func (user *User) Explore() (err error)  {
-  scenes, err := GetScenesNearLocation(fmt.Sprintf("%.6f", user.Location.Latitude), fmt.Sprintf("%.6f", user.Location.Longitude), user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
+  latString := fmt.Sprintf("%.6f", user.Location.Latitude)
+  lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
+  LogUserLocation(latString, latString, user.ID, "Explore")
+  scenes, err := GetScenesNearLocation(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
   for i := 0; i < len(scenes); i++ {
     user.Discover(&scenes[i])
   }
   return
 }
+
 
 func (user *User) Discover(scene *Scene) {
   currentSceneDiscovery := scene.GetDiscoveryForUser(user.ID)
