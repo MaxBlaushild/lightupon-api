@@ -8,4 +8,5 @@ type Flag struct {
   gorm.Model
   UserID uint
   SceneID uint
+  Description string
 }

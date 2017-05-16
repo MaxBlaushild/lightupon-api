@@ -69,12 +69,19 @@ func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
 
 func FlagSceneHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  sceneID, err := GetUIntFromVars(r, "sceneID"); if err != nil {
+  sceneID, err1 := GetUIntFromVars(r, "sceneID"); if err1 != nil {
     respondWithBadRequest(w, "ID was bad.")
     return
   }
 
-  models.DB.Create(&models.Flag{UserID : user.ID, SceneID : sceneID})
+  decoder := json.NewDecoder(r.Body)
+  postParams := struct {Description string}{}
+  err2 := decoder.Decode(&postParams)
+  if err2 != nil {
+    respondWithBadRequest(w, "The flag description you supplied was somehow fucked up.")
+  }
+
+  models.DB.Create(&models.Flag{UserID : user.ID, SceneID : sceneID, Description : postParams.Description})
   respondWithCreated(w, "The scene was flagged")
 }
 
