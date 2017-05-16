@@ -71,7 +71,7 @@ func GetSceneByID(sceneID string) (scene Scene, err error) {
 }
 
 func IndexScenes() (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Order("created_at > NOW() - INTERVAL '1 hour'").Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Where("created_at > NOW() - INTERVAL '1 hour'").Find(&scenes)
   return
 }
 
