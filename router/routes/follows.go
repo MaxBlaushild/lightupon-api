@@ -7,7 +7,10 @@ import(
 
 func FollowHandler(w http.ResponseWriter, r *http.Request) {
   followingUser := GetUserFromRequest(r)
-  userToFollow := GetUIntFromVars(r, "userID")
+  userToFollow, err := GetUIntFromVars(r, "userID"); if err != nil {
+    respondWithBadRequest(w, "userID was bad.")
+    return
+  }
 
   follow := models.Follow{FollowingUserID:followingUser.ID, FollowedUserID:userToFollow}
 
@@ -18,7 +21,10 @@ func FollowHandler(w http.ResponseWriter, r *http.Request) {
 
 func UnfollowHandler(w http.ResponseWriter, r *http.Request) {
   followingUser := GetUserFromRequest(r)
-  userToUnfollow := GetUIntFromVars(r, "userID")
+  userToUnfollow, err := GetUIntFromVars(r, "userID"); if err != nil {
+    respondWithBadRequest(w, "userID was bad.")
+    return
+  }
 
   follow := models.Follow{FollowingUserID:followingUser.ID, FollowedUserID:userToUnfollow}
   models.DB.Where(follow).Unscoped().Delete(&models.Follow{})

@@ -53,7 +53,6 @@ func (user *User) Explore() (err error)  {
   return
 }
 
-
 func (user *User) Discover(scene *Scene) {
   currentSceneDiscovery := scene.GetDiscoveryForUser(user.ID)
   if currentSceneDiscovery.NotFullyDiscovered() {

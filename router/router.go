@@ -99,17 +99,15 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.AppendCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.LikeSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.UnlikeSceneHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/flag", routes.FlagSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
 
 
-  // BOOKMARKS
+  // WEB STUFF
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
   muxRouter.HandleFunc("/lightupon/stats/", routes.ServeStatsPage).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/stats/json", routes.GetStats).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/me/bookmarks", routes.GetBookmarksForUser).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/like", routes.LikeBookmark).Methods("PUT")
-  routerWithAuth.HandleFunc("/lightupon/bookmarks/{bookmarkID}/fuckThis", routes.FuckThisBookmark).Methods("PUT")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),

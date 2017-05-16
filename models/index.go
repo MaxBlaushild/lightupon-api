@@ -34,14 +34,13 @@ func Connect() {
                  &PartyInvite{}, 
                  &Location{}, 
                  &Follow{}, 
-                 &Bookmark{}, 
                  &Like{},
                  &TripLike{},
                  &Comment{},
                  &SceneLike{},
                  &Device{},
                  &DiscoveredScene{},
-                 &NeighborhoodPoint{})
+                 &Flag{})
   
   DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }

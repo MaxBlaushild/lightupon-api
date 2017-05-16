@@ -71,7 +71,7 @@ func GetSceneByID(sceneID string) (scene Scene, err error) {
 }
 
 func IndexScenes() (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Where("created_at > NOW() - INTERVAL '1 hour'").Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Find(&scenes)
   return
 }
 
@@ -79,6 +79,13 @@ func GetScenesForUser(userID string) (scenes []Scene) {
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Where("user_id = ?", userID).Find(&scenes)
   return
 }
+
+// func (scene *Scene) Flag(userID uint) {
+//   flag := Flag{UserID : userID, SceneID : Scene.ID}
+//   DB.Create(&flag)
+//   return
+// }
+
 
 func (s *Scene) AppendCard(card *Card) (err error) {
   cardOrder := uint(len(s.Cards) + 1)

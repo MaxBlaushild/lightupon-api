@@ -67,6 +67,17 @@ func ScenesIndexHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scenes)
 }
 
+func FlagSceneHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  sceneID, err := GetUIntFromVars(r, "sceneID"); if err != nil {
+    respondWithBadRequest(w, "ID was bad.")
+    return
+  }
+
+  models.DB.Create(&models.Flag{UserID : user.ID, SceneID : sceneID})
+  respondWithCreated(w, "The scene was flagged")
+}
+
 func ScenesForUserHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   user := GetUserFromRequest(r)

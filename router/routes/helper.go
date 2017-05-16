@@ -15,20 +15,20 @@ func GetFacebookIdFromRequest(r *http.Request) string {
   return facebookID
 }
 
-func GetUserFromRequest(r *http.Request)(user models.User){
+func GetUserFromRequest(r *http.Request) (user models.User) {
   facebookID := GetFacebookIdFromRequest(r)
   models.DB.Where("facebook_id = ?", facebookID).First(&user)
   return
 }
 
-func GetUIntFromVars(r *http.Request, field string)(uintToReturn uint){
+func GetUIntFromVars(r *http.Request, field string) (uint, error) {
   vars := mux.Vars(r)
-  george, _ := strconv.Atoi(vars[field])
-  uintToReturn = uint(george) // Fuck unints
-  return
+  intValue, err := strconv.Atoi(vars[field])
+  uintValue := uint(intValue) // Fuck unints
+  return uintValue, err
 }
 
-func GetUserLocationFromRequest(r *http.Request)(lat string, lon string){
+func GetUserLocationFromRequest(r *http.Request) (lat string, lon string) {
   query := r.URL.Query()
   lat = query["lat"][0]
   lon = query["lon"][0]
