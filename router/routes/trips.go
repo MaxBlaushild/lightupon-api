@@ -73,7 +73,7 @@ func TripHandler(w http.ResponseWriter, r *http.Request) {
   trip := models.GetTrip(tripID, user.ID)
 
   for i, _ := range trip.Scenes {
-    trip.Scenes[i].GetPercentDiscovered(user.ID)
+    trip.Scenes[i].SetPercentDiscovered(user.ID)
   }
 
   json.NewEncoder(w).Encode(trip)

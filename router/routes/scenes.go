@@ -34,7 +34,7 @@ func SceneHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  scene.GetPercentDiscovered(user.ID)
+  scene.SetPercentDiscovered(user.ID)
   json.NewEncoder(w).Encode(scene)
 }
 
