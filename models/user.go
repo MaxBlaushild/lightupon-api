@@ -54,9 +54,9 @@ func (user *User) Explore() (err error)  {
 }
 
 func (user *User) Discover(scene *Scene) {
-  currentSceneDiscovery := scene.GetDiscoveryForUser(user.ID)
-  if currentSceneDiscovery.NotFullyDiscovered() {
-    currentSceneDiscovery.SetPercentDiscovered(user, scene)
+  currentDiscoveredScene := GetCurrentDiscoveredScene(user.ID, scene.ID)
+  if currentDiscoveredScene.NotFullyDiscovered() {
+    currentDiscoveredScene.UpdatePercentDiscovered(user, scene)
   }
 }
 

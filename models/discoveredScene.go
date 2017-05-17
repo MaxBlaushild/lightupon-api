@@ -29,13 +29,16 @@ func UpsertDiscoveredScene(discoveredScene *DiscoveredScene) {
   live.Hub.UpdateClient <- sceneUpdate
 }
 
-func (dS *DiscoveredScene) SetPercentDiscovered(user *User, scene *Scene) {
-  distanceFromScene := CalculateDistance(user.Location, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
-  dS.PercentDiscovered = calculatePercentDiscovered(distanceFromScene)
-  UpsertDiscoveredScene(dS)
+func (dS *DiscoveredScene) UpdatePercentDiscovered(user *User, scene *Scene) {
+  newPercentDiscovered := calculatePercentDiscovered(user, scene)
+  if (newPercentDiscovered > dS.PercentDiscovered) {
+    dS.PercentDiscovered = newPercentDiscovered
+    UpsertDiscoveredScene(dS)
+  }
 }
 
-func calculatePercentDiscovered(distance float64) (percentDiscovered float64) {
+func calculatePercentDiscovered(user *User, scene *Scene) (percentDiscovered float64) {
+  distance := CalculateDistance(user.Location, UserLocation{Latitude: scene.Latitude, Longitude: scene.Longitude})
   if (distance < unlockThresholdSmall) {
     percentDiscovered = 1.0
   } else if (distance > unlockThresholdLarge) {
@@ -45,6 +48,12 @@ func calculatePercentDiscovered(distance float64) (percentDiscovered float64) {
     percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
   }
   return
+}
+
+func GetCurrentDiscoveredScene(userID uint, sceneID uint) DiscoveredScene {
+  discoveredScene := DiscoveredScene{UserID: userID, SceneID: sceneID}
+  DB.First(&discoveredScene, discoveredScene)
+  return discoveredScene
 }
 
 // func possiblyRecomputeAllDiscovery(lat string, lon string, userID uint) {

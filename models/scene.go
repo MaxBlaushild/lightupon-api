@@ -59,12 +59,6 @@ func (s *Scene) UserHasLiked(u *User) (userHasLiked bool) {
   return
 }
 
-func (s *Scene)GetDiscoveryForUser(userID uint) DiscoveredScene {
-  discoveredScene := DiscoveredScene{UserID: userID, SceneID: s.ID}
-  DB.First(&discoveredScene, discoveredScene)
-  return discoveredScene
-}
-
 func GetSceneByID(sceneID string) (scene Scene, err error) {
   err = DB.Preload("Trip.User").Preload("Cards").Where("id = ?", sceneID).Find(&scene).Error
   return
