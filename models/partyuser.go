@@ -23,7 +23,7 @@ func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene b
   latDiff := nextScene.Latitude - lat
   lonDiff := nextScene.Longitude - lon
   distanceFromScene := math.Pow(latDiff, 2) + math.Pow(lonDiff, 2)
-  isAtNextScene = distanceFromScene < threshold
+  isAtNextScene = distanceFromScene < unlockThresholdSmall
 
   return
 }

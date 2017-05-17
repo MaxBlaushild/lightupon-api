@@ -123,7 +123,7 @@ func ShiftScenesDown(sceneOrder int, tripID int) bool {
 func (s *Scene) IsAtScene(location UserLocation)(isAtNextScene bool) {
   sceneLocation := UserLocation{Latitude: s.Latitude, Longitude: s.Longitude}
   distanceFromScene := CalculateDistance(location, sceneLocation)
-  isAtNextScene = distanceFromScene < threshold
+  isAtNextScene = distanceFromScene < unlockThresholdSmall
   return
 }
 

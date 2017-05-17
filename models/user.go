@@ -35,8 +35,6 @@ type User struct {
   Following bool `sql:"-"`
 }
 
-const threshold float64 = 0.05 // 0.05 km = 50 meters
-
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
   return
@@ -163,7 +161,7 @@ func RefreshTokenByFacebookId(facebookId string) string {
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
 	sceneLocation := UserLocation{Latitude:scene.Latitude, Longitude: scene.Longitude}
 	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
-	isAtNextScene = distanceFromScene < threshold
+	isAtNextScene = distanceFromScene < unlockThresholdSmall
 	return
 }
 
