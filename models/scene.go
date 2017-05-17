@@ -76,7 +76,14 @@ func IndexScenes() (scenes []Scene) {
 }
 
 func GetScenesForUser(userID string) (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("created_at desc").Where("user_id = ?", userID).Find(&scenes)
+  trips := []Trip{}
+  DB.Preload("User").Preload("Scenes.Cards").Order("created_at desc").Where("user_id = ?", userID).Find(&trips)
+  for _, trip := range trips {
+    for _, scene := range trip.Scenes {
+      scene.Trip = trip
+      scenes = append(scenes, scene)
+    }
+  }
   return
 }
 
