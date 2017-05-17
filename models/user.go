@@ -117,6 +117,12 @@ func UpsertUser(user *User) {
 	}
 }
 
+func UserIsBlackListed(token string) bool {
+  blacklistUser := BlacklistUser{Token : token}
+  DB.First(&blacklistUser)
+  return blacklistUser.ID != 0
+}
+
 func (u *User) SetUserLikenessOfScenes(scenes []Scene) {
   for i, scene := range scenes {
     scenes[i].Liked = scene.UserHasLiked(u)

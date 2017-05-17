@@ -40,7 +40,8 @@ func Connect() {
                  &SceneLike{},
                  &Device{},
                  &DiscoveredScene{},
-                 &Flag{})
+                 &Flag{},
+                 &BlacklistUser{})
   
   DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }

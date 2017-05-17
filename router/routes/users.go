@@ -16,8 +16,12 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  models.UpsertUser(&jsonUser)
-  json.NewEncoder(w).Encode(jsonUser.Token)
+  if models.UserIsBlackListed(jsonUser.Token) {
+    respondeWithForbidden(w, "User blacklisted.")
+  } else {
+    models.UpsertUser(&jsonUser)
+    json.NewEncoder(w).Encode(jsonUser.Token)
+  }
 }
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {

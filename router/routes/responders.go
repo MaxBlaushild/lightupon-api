@@ -35,3 +35,8 @@ func respondeWithInternalServerError(w http.ResponseWriter, message string) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write(makeMessage(message))
 }
+
+func respondeWithForbidden(w http.ResponseWriter, message string) {
+	w.WriteHeader(http.StatusForbidden)
+	w.Write(makeMessage(message))
+}
