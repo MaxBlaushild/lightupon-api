@@ -159,9 +159,8 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 }
 
 func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numScenes int) (scenes []Scene, err error) {
-  // This is necessary because the string below doesn't actually represent the distance. Calucluating the actual distance
-  // is more expensive and unnecessary. The calculation of the modified radius should be a little more sophisticated tho.
-  radius = radius + "*0.00000003239"
+  // Modifying the radius is necessary because the distanceString below doesn't represent the actual distance in meters, which is more expensive to compute and unnecessary.
+  radius = "(" + radius + "^2)*0.000000000080815075"
   distanceString := "((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
   for i, _ := range scenes {
@@ -175,7 +174,6 @@ func (s *Scene) SetPercentDiscovered(userID uint) (err error) {
   err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
     s.PercentDiscovered = discoveredScene.PercentDiscovered
   }
-
   return
 }
 
