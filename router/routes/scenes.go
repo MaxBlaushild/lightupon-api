@@ -12,7 +12,7 @@ import(
 func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
-  radius := getStringFromRequest(r, "radius", "0.01")
+  radius := getStringFromRequest(r, "radius", "10000")
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
 
   scenes, err := models.GetScenesNearLocation(lat, lon, user.ID, radius, numScenes)

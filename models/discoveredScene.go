@@ -44,8 +44,7 @@ func calculatePercentDiscovered(user *User, scene *Scene) (percentDiscovered flo
   } else if (distance > unlockThresholdLarge) {
     percentDiscovered = 0.0
   } else {
-    // TODO: Update this to be a nice smoove cosine function
-    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
+    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall)) // TODO: Update this to be a nice smoove cosine function
   }
   return
 }
@@ -55,27 +54,3 @@ func GetCurrentDiscoveredScene(userID uint, sceneID uint) DiscoveredScene {
   DB.First(&discoveredScene, discoveredScene)
   return discoveredScene
 }
-
-// func possiblyRecomputeAllDiscovery(lat string, lon string, userID uint) {
-//   exposedScene := ExposedScene{}
-//   DB.First(&exposedScene)
-//   if exposedScene.ID == 0 {
-//     recomputeAllDiscovery()
-//   }
-// }
-
-// func recomputeAllDiscovery() {
-//   fmt.Println("NOTICE: Recomputing all discovery!")
-//   locations := []Location{}
-//   DB.Find(&locations)
-//   for i := 0; i < len(locations); i++ {
-//     lat := strconv.FormatFloat(locations[i].Latitude, 'E', -1, 64)
-//     lon := strconv.FormatFloat(locations[i].Longitude, 'E', -1, 64)
-//     scenes := []Scene{}
-//     DB.Find(&scenes)
-//     for i := 0; i < len(scenes); i++ {
-//       scenes[i].discover(locations[i].UserID, lat, lon)
-//     }
-//   }
-// }
-

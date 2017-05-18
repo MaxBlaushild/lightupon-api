@@ -81,13 +81,6 @@ func GetScenesForUser(userID string) (scenes []Scene) {
   return
 }
 
-// func (scene *Scene) Flag(userID uint) {
-//   flag := Flag{UserID : userID, SceneID : Scene.ID}
-//   DB.Create(&flag)
-//   return
-// }
-
-
 func (s *Scene) AppendCard(card *Card) (err error) {
   cardOrder := uint(len(s.Cards) + 1)
   card.CardOrder = cardOrder
