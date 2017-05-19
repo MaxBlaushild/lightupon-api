@@ -235,7 +235,7 @@ func scramble(str string, percentDiscovered float64) string {
 }
 
 func swapCharacters(str string) string {
-  stringLength := len(str)
+  stringLength := len([]rune(str))
   index1 := rand.Intn(stringLength)
   rune1 := []rune(str)[index1]
   index2 := rand.Intn(stringLength)
