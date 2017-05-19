@@ -8,6 +8,7 @@ import(
       "io/ioutil"
       "lightupon-api/services/aws"
       "net/http"
+      "time"
       )
 
 type Scene struct {
@@ -160,9 +161,8 @@ func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes
 
 func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numScenes int) (scenes []Scene, err error) {
   // Modifying the radius is necessary because the distanceString below doesn't represent the actual distance in meters, which is more expensive to compute and unnecessary.
-  radius = "(" + radius + "^2)*0.000000000080815075"
   distanceString := "((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < " + radius).Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < (" + radius + "^2)*0.000000000080815075").Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
   for i, _ := range scenes {
     scenes[i].SetPercentDiscovered(userID)
   }
@@ -174,6 +174,7 @@ func (s *Scene) SetPercentDiscovered(userID uint) (err error) {
   err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
     s.PercentDiscovered = discoveredScene.PercentDiscovered
   }
+  s.temporarilyAlterForJonNothingToSeeHere(userID)
   return
 }
 
@@ -188,4 +189,19 @@ func LogUserLocation(lat string, lon string, userID uint, context string) {
   location := Location{UserID:userID, Latitude: latFloat, Longitude: lonFloat, Context: context}
   DB.Create(&location)
   return
+}
+
+// Look just let me do this for just me to try it out ok
+func (scene *Scene) temporarilyAlterForJonNothingToSeeHere(userID uint) {
+  if !(userID == 15) {
+    return
+  }
+
+  var age float64 = time.Since(scene.Model.CreatedAt).Hours()
+  if age < fadePeriod {
+    alteredPercentDiscovered := 1 - (age / fadePeriod)
+    if alteredPercentDiscovered > scene.PercentDiscovered {
+      scene.PercentDiscovered = alteredPercentDiscovered
+    }
+  }
 }
