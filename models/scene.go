@@ -9,6 +9,7 @@ import(
       "lightupon-api/services/aws"
       "net/http"
       "time"
+      "math/rand"
       )
 
 type Scene struct {
@@ -174,7 +175,7 @@ func (s *Scene) SetPercentDiscovered(userID uint) (err error) {
   err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
     s.PercentDiscovered = discoveredScene.PercentDiscovered
   }
-  s.temporarilyAlterForJonNothingToSeeHere(userID)
+  s.TemporarilyAlterForJonNothingToSeeHere(userID)
   return
 }
 
@@ -192,8 +193,8 @@ func LogUserLocation(lat string, lon string, userID uint, context string) {
 }
 
 // Look just let me do this for just me to try it out ok
-func (scene *Scene) temporarilyAlterForJonNothingToSeeHere(userID uint) {
-  if !(userID == 15) {
+func (scene *Scene) TemporarilyAlterForJonNothingToSeeHere(userID uint) {
+  if userID != 15 {
     return
   }
 
@@ -204,4 +205,41 @@ func (scene *Scene) temporarilyAlterForJonNothingToSeeHere(userID uint) {
       scene.PercentDiscovered = alteredPercentDiscovered
     }
   }
+
+  scene.ScrambleWords(userID)
+}
+
+func (scene *Scene) ScrambleWords(userID uint) {
+  if scene.PercentDiscovered < 1 {
+    scene.Name = scramble(scene.Name, scene.PercentDiscovered)
+    for _ , card := range scene.Cards {
+      card.Caption = scramble(card.Caption, scene.PercentDiscovered)
+    }
+  }
+}
+
+func scramble(str string, percentDiscovered float64) string {
+  stringLength := len(str)
+  numScrambles := int((1 - percentDiscovered)*float64(stringLength) / 2)
+  for i := 0; i < numScrambles; i++ {
+    str = swapCharacters(str)
+  }
+  return str
+}
+
+func swapCharacters(str string) string {
+  stringLength := len(str)
+  index1 := rand.Intn(stringLength)
+  rune1 := []rune(str)[index1]
+  index2 := rand.Intn(stringLength)
+  rune2 := []rune(str)[index2]
+  str = replaceAtIndex(str, rune1, index2)
+  str = replaceAtIndex(str, rune2, index1)
+  return str
+}
+
+func replaceAtIndex(in string, r rune, i int) string {
+    out := []rune(in)
+    out[i] = r
+    return string(out)
 }

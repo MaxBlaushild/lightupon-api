@@ -74,6 +74,7 @@ func TripHandler(w http.ResponseWriter, r *http.Request) {
 
   for i, _ := range trip.Scenes {
     trip.Scenes[i].SetPercentDiscovered(user.ID)
+    trip.Scenes[i].TemporarilyAlterForJonNothingToSeeHere(user.ID)
   }
 
   json.NewEncoder(w).Encode(trip)
