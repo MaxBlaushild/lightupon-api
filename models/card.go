@@ -22,7 +22,7 @@ type Card struct {
 
 func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
   if c.ShareOnFacebook {
-    err = c.Share()
+    _ = c.Share()
   }
   return
 }
