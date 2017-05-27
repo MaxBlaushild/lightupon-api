@@ -14,7 +14,6 @@ type Card struct {
   Pin string
   SelectedPin string
   SceneID uint
-  UserID uint
   ShareOnFacebook bool
   Comments []Comment
   CardOrder uint
@@ -34,14 +33,20 @@ func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
 
 func (c *Card) Share() (err error) {
   fmt.Println("in share")
-  u := User{}
-  DB.First(&u, c.UserID)
+  u, err := c.User()
   fmt.Println("found user")
   fmt.Println(u)
   if c.ShareOnFacebook {
     fmt.Println("about to share to facebook")
     u.PostToFacebook(c)
   }
+  return
+}
+
+func (c *Card) User() (user User, err error) {
+  scene := Scene{}
+  err = DB.First(&scene, c.SceneID).Error
+  err = DB.First(&user, scene.UserID).Error
   return
 }
 
