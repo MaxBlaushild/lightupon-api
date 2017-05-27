@@ -122,22 +122,6 @@ func AppendSceneHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scene)
 }
 
-func PutSceneHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
-  activeTrip := user.ActiveTrip()
-  scene := models.Scene{}
-  decoder := json.NewDecoder(r.Body)
-  err := decoder.Decode(&scene); if err != nil {
-    respondWithBadRequest(w, "The scene you sent us was bunk!")
-    return
-  }
-
-  activeTrip.PutScene(&scene)
-  cacheCurrentScene(scene)
-
-  respondWithCreated(w, "The scene was created")
-}
-
 func getSceneFromCache(tripID uint) (scene models.Scene) {
   key := "currentScene_" + strconv.Itoa(int(tripID))
   redisResponseBytes := redis.GetByteArrayFromRedis(key)

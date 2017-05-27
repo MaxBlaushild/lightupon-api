@@ -75,7 +75,6 @@ func Init(){
   // SCENE STUFF
   routerWithAuth.HandleFunc("/lightupon/scenes", routes.ScenesIndexHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/activeScene", routes.ActiveSceneHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/activeScene", routes.PutSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/scenes", routes.ScenesForUserHandler).Methods("GET")
   
   // PARTY STUFF

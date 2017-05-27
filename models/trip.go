@@ -7,7 +7,7 @@ import(
        "encoding/json"
        "fmt"
        "hash/fnv"
-       "github.com/kr/pretty"
+       // "github.com/kr/pretty"
       )
 
 type Trip struct {
@@ -35,22 +35,9 @@ type ConstellationPoint struct {
 }
 
 func (t *Trip) AppendScene(scene *Scene) (err error) {
-  pretty.Println(scene)
   scene.SceneOrder = uint(len(t.Scenes) + 1)
   err = DB.Model(&t).Association("Scenes").Append(scene).Error
   return
-}
-
-func (t *Trip) PutScene(scene *Scene) {
-  if scene.ID != 0 {
-    card := scene.Cards[0]
-    scene.Cards = nil
-    DB.Model(&scene).Update(scene)
-    scene.AppendCard(&card)
-  } else {
-    scene.UserID = t.UserID
-    t.AppendScene(scene)
-  }
 }
 
 func GetTrip(tripID int, userID uint) (trip Trip) {
