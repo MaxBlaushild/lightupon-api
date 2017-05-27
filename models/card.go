@@ -45,8 +45,10 @@ func (c *Card) Share() (err error) {
 
 func (c *Card) User() (user User, err error) {
   scene := Scene{}
+  trip := Trip{}
   err = DB.First(&scene, c.SceneID).Error
-  err = DB.First(&user, scene.UserID).Error
+  err = DB.First(&trip, scene.TripID).Error
+  err = DB.First(&user, trip.UserID).Error
   return
 }
 
