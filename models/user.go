@@ -43,6 +43,7 @@ func (u *User) BeforeCreate() (err error) {
 }
 
 func (u *User) PostToFacebook(c *Card) (err error) {
+  fmt.Println("inside post to facebook")
   fbUser := facebook.User{
     ID: u.FacebookId,
     AccessToken: u.FacebookToken,
@@ -53,6 +54,9 @@ func (u *User) PostToFacebook(c *Card) (err error) {
     PictureUrl: c.ImageURL,
     Link: c.ImageURL,
   }
+
+  fmt.Println(fbUser)
+  fmt.Println(post)
 
   err = facebook.CreatePost(fbUser, post)
   return

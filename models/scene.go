@@ -165,12 +165,6 @@ func GetScenesNearLocation(lat string, lon string, userID uint, radius string, n
   // Modifying the radius is necessary because the distanceString below doesn't represent the actual distance in meters, which is more expensive to compute and unnecessary.
   distanceString := "((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < (" + radius + "^2)*0.000000000080815075").Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
-  fmt.Println("where clause")
-  fmt.Println(distanceString + " < (" + radius + "^2)*0.000000000080815075")
-  fmt.Println("numScenes")
-  fmt.Println(numScenes)
-  fmt.Println("len(scenes)")
-  fmt.Println(len(scenes))
 
   for i, _ := range scenes {
     scenes[i].SetPercentDiscovered(userID)

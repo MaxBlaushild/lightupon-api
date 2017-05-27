@@ -16,7 +16,6 @@ type hub struct {
 }
 
 func (h *hub) Start() {
-
 	fmt.Println("we are [live]")
 	for {
 		select {
@@ -25,11 +24,8 @@ func (h *hub) Start() {
 		case party := <- h.PutParty:
 			h.SyncParty(party)
 		case sceneUpdate := <- h.UpdateClient:
-			fmt.Println("in the hub")
-			fmt.Println(sceneUpdate)
 			response := Response{UpdatedSceneID: sceneUpdate.UpdatedSceneID}
 			if h.Connections[sceneUpdate.UserID] != nil {
-				fmt.Println("responding")
 				h.Connections[sceneUpdate.UserID].Send <- response
 			}
 		case passcode := <- h.EndParty:
