@@ -26,6 +26,7 @@ type Scene struct {
   SceneLikes []SceneLike 
   GooglePlaceID string
   Route string
+  ShareOnFacebook bool
   User User
   UserID uint
   FormattedAddress string

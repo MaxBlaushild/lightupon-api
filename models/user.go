@@ -10,6 +10,7 @@ import (
   "strconv"
   "lightupon-api/services/redis"
   "lightupon-api/services/googleMaps"
+  "lightupon-api/services/facebook"
   "lightupon-api/live"
 )
 
@@ -24,6 +25,7 @@ type User struct {
   Devices []Device
 	Token string
   Scenes []Scene
+  FacebookToken string
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
@@ -37,6 +39,22 @@ type User struct {
 
 func (u *User) BeforeCreate() (err error) {
   u.Token = createToken(u.FacebookId)
+  return
+}
+
+func (u *User) PostToFacebook(c *Card) (err error) {
+  fbUser := facebook.User{
+    ID: u.FacebookId,
+    AccessToken: u.FacebookToken,
+  }
+
+  post := facebook.Post {
+    Message: c.Caption,
+    PictureUrl: c.ImageURL,
+    Link: c.ImageURL,
+  }
+
+  err = facebook.CreatePost(fbUser, post)
   return
 }
 

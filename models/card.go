@@ -13,10 +13,29 @@ type Card struct {
   Pin string
   SelectedPin string
   SceneID uint
+  UserID uint
+  ShareOnFacebook bool
   Comments []Comment
   CardOrder uint
   Universal bool
   NibID string `gorm:"not null"`
+}
+
+func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
+  if c.ShareOnFacebook {
+    err = c.Share()
+  }
+  return
+}
+
+func (c *Card) Share() (err error) {
+  u := User{}
+  DB.First(&u, c.UserID)
+
+  if c.ShareOnFacebook {
+    u.PostToFacebook(c)
+  }
+  return
 }
 
 func ShiftCardsUp(cardOrder int, sceneID int) bool {
