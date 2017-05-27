@@ -2,7 +2,6 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
-      "fmt"
       )
 
 type Card struct {
@@ -22,24 +21,19 @@ type Card struct {
 }
 
 func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
-  fmt.Println("in after create hook:")
-  fmt.Println(c.ShareOnFacebook)
   if c.ShareOnFacebook {
-    fmt.Println("sharing")
     err = c.Share()
   }
   return
 }
 
 func (c *Card) Share() (err error) {
-  fmt.Println("in share")
   u, err := c.User()
-  fmt.Println("found user")
-  fmt.Println(u)
+
   if c.ShareOnFacebook {
-    fmt.Println("about to share to facebook")
     u.PostToFacebook(c)
   }
+  
   return
 }
 
