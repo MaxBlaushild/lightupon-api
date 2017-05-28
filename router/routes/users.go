@@ -24,6 +24,24 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
+func TwitterLoginHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  twitterCreds := models.User{}
+  decoder := json.NewDecoder(r.Body)
+
+  err := decoder.Decode(&twitterCreds); if err != nil {
+    respondWithBadRequest(w, "The user you sent us was no good.")
+    return
+  }
+
+  err = user.Update(twitterCreds); if err != nil {
+    respondWithBadRequest(w, "The user you sent us was no good.")
+    return
+  }
+
+  json.NewEncoder(w).Encode(user)
+}
+
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   userID, _ := vars["userID"]

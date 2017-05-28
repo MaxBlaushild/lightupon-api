@@ -27,6 +27,8 @@ type User struct {
 	Token string
   Scenes []Scene
   FacebookToken string
+  TwitterKey string
+  TwitterSecret string
 	Parties []Party `gorm:"many2many:partyusers;"`
 	Lit bool
 	Trips []Trip
@@ -56,6 +58,11 @@ func (u *User) PostToFacebook(c *Card) (err error) {
   }
 
   err = facebook.CreatePost(fbUser, post)
+  return
+}
+
+func (user *User) Update(updates User) (err error) {
+  err = DB.Model(&user).Update(updates).Error
   return
 }
 
