@@ -131,8 +131,10 @@ func (u *User) GetFollowerCount() (count int) {
   return
 }
 
-func UpsertUser(user *User) {
-	DB.Where("facebook_id = ?", user.FacebookId).Assign(user).FirstOrCreate(&user)
+func UpsertUser(userToUpsert *User) {
+  user := User{}
+  pretty.Println(userToUpsert)
+	DB.Where(User{ FacebookId: user.FacebookId}).Assign(userToUpsert).FirstOrCreate(&user)
 
 	if !DB.NewRecord(user) {
     pretty.Println(user)
