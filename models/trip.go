@@ -37,6 +37,8 @@ type ConstellationPoint struct {
 func (t *Trip) AppendScene(scene *Scene) (err error) {
   scene.SceneOrder = uint(len(t.Scenes) + 1)
   scene.ID = 0
+  fmt.Println("WHY IS THIS WEIRD:")
+  fmt.Println(scene.CreatedAt)
   err = DB.Model(&t).Association("Scenes").Append(scene).Error
   return
 }
