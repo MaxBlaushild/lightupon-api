@@ -5,6 +5,7 @@ import (
         "lightupon-api/router"
         "lightupon-api/models"
         "lightupon-api/live"
+        "lightupon-api/services/twitter"
         )
 
 func main() {
@@ -14,9 +15,12 @@ func main() {
   //connect to the database
   models.Connect()
 
+  // loads environment varaibles for twitter
+  twitter.Init()
+
   //intialize the websocket hub and start waiting for connections
   go live.Hub.Start()
-  // facebook.Post("EAANWMwWG4xABALd9yEAYWkfblFE0051PS2AspRSYjMPZBwYZCQWydxliYDbhxahGsSdvm4f80RE5SpCZCHFZCcFR7afutMJKSaZCa92IZAvRwULVZCurGMJ0U7355IoGFOVtzYwe7s5qqYUkmKzm768eoNyGC5tkNMEOx9yqTKacsjH3yRqZApYwBuibD61BXtRcXT1PrXZA2ncInjiQXKQT93X7NWuCpJicZD")
+  
   //create the router and start listening for requests
   router.Init()
 

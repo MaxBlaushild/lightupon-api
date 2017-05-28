@@ -11,6 +11,7 @@ import (
   "lightupon-api/services/redis"
   "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
+  "lightupon-api/services/twitter"
   "lightupon-api/live"
   // "github.com/kr/pretty"
 )
@@ -58,6 +59,22 @@ func (u *User) PostToFacebook(c *Card) (err error) {
   }
 
   err = facebook.CreatePost(fbUser, post)
+  return
+}
+
+func (u *User) PostToTwitter(c *Card) (err error) {
+  twitterUser := twitter.User{
+    AccessToken: u.TwitterKey,
+    AccessTokenSecret: u.TwitterSecret,
+  }
+
+  status := twitter.Status{
+    Status: c.Caption,
+    Lat: c.Latitude,
+    Long: c.Longitude,
+  }
+
+  err = twitter.PostStatus(twitterUser, status)
   return
 }
 

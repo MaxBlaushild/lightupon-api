@@ -14,6 +14,7 @@ type Card struct {
   SelectedPin string
   SceneID uint
   ShareOnFacebook bool
+  ShareOnTwitter bool
   Comments []Comment
   CardOrder uint
   Universal bool
@@ -21,7 +22,7 @@ type Card struct {
 }
 
 func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
-  if c.ShareOnFacebook {
+  if c.ShareOnFacebook || c.ShareOnTwitter {
     _ = c.Share()
   }
   return
@@ -32,6 +33,10 @@ func (c *Card) Share() (err error) {
 
   if c.ShareOnFacebook {
     u.PostToFacebook(c)
+  }
+
+  if c.ShareOnTwitter {
+    u.PostToTwitter(c)
   }
   
   return
