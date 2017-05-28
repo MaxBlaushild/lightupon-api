@@ -181,7 +181,7 @@ func (u *User) ActiveParty() (activeParty Party) {
 func RefreshTokenByFacebookId(facebookId string) string {
 	user := User{}
 	token := createToken(facebookId)
-	DB.Model(&user).Where("facebookId = ?", facebookId).Update("token", token)
+	DB.Model(&user).Where(User{ FacebookId: facebookId}).Update("token", token)
   return token
 }
 
