@@ -133,7 +133,7 @@ func (u *User) GetFollowerCount() (count int) {
 
 func UpsertUser(userToUpsert *User) {
   user := User{}
-	DB.Where(User{ FacebookId: user.FacebookId}).FirstOrCreate(&user)
+	DB.Where(User{ FacebookId: userToUpsert.FacebookId}).FirstOrCreate(&user)
   userToUpsert.ID = user.ID
 	DB.Save(userToUpsert)
 }
