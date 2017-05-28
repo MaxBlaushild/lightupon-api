@@ -12,7 +12,7 @@ import (
   "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
   "lightupon-api/live"
-  "github.com/kr/pretty"
+  // "github.com/kr/pretty"
 )
 
 type User struct {
@@ -133,13 +133,9 @@ func (u *User) GetFollowerCount() (count int) {
 
 func UpsertUser(userToUpsert *User) {
   user := User{}
-  pretty.Println(userToUpsert)
-	DB.Where(User{ FacebookId: user.FacebookId}).Assign(userToUpsert).FirstOrCreate(&user)
-
-	if !DB.NewRecord(user) {
-    pretty.Println(user)
-		DB.Save(user)
-	}
+	DB.Where(User{ FacebookId: user.FacebookId}).FirstOrCreate(&user)
+  userToUpsert.ID = user.ID
+	DB.Save(userToUpsert)
 }
 
 func UserIsBlackListed(token string) bool {
