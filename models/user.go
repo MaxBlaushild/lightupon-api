@@ -12,6 +12,7 @@ import (
   "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
   "lightupon-api/live"
+  "github.com/kr/pretty"
 )
 
 type User struct {
@@ -134,6 +135,7 @@ func UpsertUser(user *User) {
 	DB.Where("facebook_id = ?", user.FacebookId).Assign(user).FirstOrCreate(&user)
 
 	if !DB.NewRecord(user) {
+    pretty.Println(user)
 		DB.Save(user)
 	}
 }
