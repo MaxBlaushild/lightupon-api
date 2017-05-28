@@ -77,10 +77,15 @@ func (user *User) Discover(scene *Scene) {
 }
 
 func (u *User) StartParty(tripID uint) (party Party, err error) {
-  party = Party{ TripID: tripID }
-  err = DB.Model(&u).Association("Parties").Append(&party).Error
-  party.LoadTrip()
-  live.Hub.AddUserToParty(u.ID, party.Passcode)
+  activeParty := u.ActiveParty()
+
+  if activeParty.ID == 0 {
+    party = Party{ TripID: tripID }
+    err = DB.Model(&u).Association("Parties").Append(&party).Error
+    party.LoadTrip()
+    live.Hub.AddUserToParty(u.ID, party.Passcode)
+  }
+
   return
 }
 
