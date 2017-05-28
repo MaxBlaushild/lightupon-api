@@ -5,6 +5,7 @@ import(
 			"os"
 			"net/url"
 			"fmt"
+			"github.com/kr/pretty"
 )
 
 func Init() {
@@ -28,12 +29,16 @@ func newClient(user User) *anaconda.TwitterApi {
 }
 
 func PostStatus(user User, status Status) (err error) {
+	pretty.Println(os.Getenv("LIGHTUPON_TWITTER_KEY"))
+	pretty.Println(os.Getenv("LIGHTUPON_TWITTER_SECRET"))
 	client := newClient(user)
 	values := url.Values{}
 	latString := fmt.Sprintf("%.6f", status.Lat)
   longString := fmt.Sprintf("%.6f", status.Long)
 	values.Set("lat", latString)
 	values.Set("long", longString)
-	_, err = client.PostTweet(status.Status, values)
+	res, err := client.PostTweet(status.Status, values)
+	pretty.Println(err)
+	pretty.Println(res)
 	return
 }
