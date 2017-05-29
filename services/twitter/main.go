@@ -5,7 +5,6 @@ import(
 			"os"
 			"net/url"
 			"fmt"
-			"strconv"
 			"encoding/base64"
 			"github.com/kr/pretty"
 )
@@ -24,7 +23,7 @@ type Status struct {
 	Lat float64
 	Long float64
 	Status string
-	MediaID int64
+	MediaID string
 }
 
 func newClient(user User) *anaconda.TwitterApi {
@@ -36,7 +35,7 @@ func PostStatus(user User, status Status) (err error) {
 	values := url.Values{}
 	latString := fmt.Sprintf("%.6f", status.Lat)
   longString := fmt.Sprintf("%.6f", status.Long)
-  mediaIDString := strconv.FormatInt(status.MediaID, 10)
+  mediaIDString := status.MediaID
   mediaIDString = "[" + mediaIDString
   mediaIDString = mediaIDString + "]"
   pretty.Println(mediaIDString)
@@ -45,6 +44,7 @@ func PostStatus(user User, status Status) (err error) {
 	values.Set("media_ids", mediaIDString)
 	res, err := client.PostTweet(status.Status, values)
 	pretty.Println(res)
+	pretty.Println(err)
 	return
 }
 

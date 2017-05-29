@@ -77,7 +77,7 @@ func (u *User) PostToTwitter(c *Card) (err error) {
     Status: c.Caption,
     Lat: c.Latitude,
     Long: c.Longitude,
-    MediaID: media.MediaID,
+    MediaID: media.MediaIDString,
   }
 
   err = twitter.PostStatus(twitterUser, status)
