@@ -4,6 +4,7 @@ import(
        "net/http"
        "lightupon-api/models"
        "encoding/json"
+       "fmt"
        "github.com/gorilla/mux"
        // "lightupon-api/feature"
 )
@@ -40,6 +41,12 @@ func TwitterLoginHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   json.NewEncoder(w).Encode(user)
+}
+
+func InstagramLoginHandler(w http.ResponseWriter, r *http.Request) {
+  query := r.URL.Query()
+  fmt.Println(query)
+  respondWithCreated(w, "farts")
 }
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {

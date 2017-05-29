@@ -38,9 +38,7 @@ func PostStatus(user User, status Status) (err error) {
 	values.Set("lat", latString)
 	values.Set("long", longString)
 	values.Set("media_ids", status.MediaID)
-	res, err := client.PostTweet(status.Status, values)
-	pretty.Println(res)
-	pretty.Println(err)
+	_, err = client.PostTweet(status.Status, values)
 	return
 }
 
