@@ -6,7 +6,7 @@ import(
 			"net/url"
 			"fmt"
 			"encoding/base64"
-			"github.com/kr/pretty"
+			// "github.com/kr/pretty"
 )
 
 func Init() {
@@ -46,6 +46,5 @@ func PostMedia(user User, mediaBinary []byte) (media anaconda.Media, err error) 
 	client := newClient(user)
 	imgBase64Str := base64.StdEncoding.EncodeToString(mediaBinary)
 	media, err = client.UploadMedia(imgBase64Str)
-	pretty.Println(media)
 	return
 }
