@@ -2,6 +2,9 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
+      "net/http"
+      "io/ioutil"
+      "fmt"
       )
 
 type Card struct {
@@ -39,6 +42,18 @@ func (c *Card) Share() (err error) {
     u.PostToTwitter(c)
   }
   
+  return
+}
+
+func (c *Card) DownloadImage() (imageBinary []byte, err error) {
+  resp, err := http.Get(c.ImageURL)
+
+  defer resp.Body.Close()
+
+  imageBinary, err = ioutil.ReadAll(resp.Body); if err != nil {
+    fmt.Println("ioutil.ReadAll -> %v", err)
+  }
+
   return
 }
 

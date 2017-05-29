@@ -13,7 +13,7 @@ import (
   "lightupon-api/services/facebook"
   "lightupon-api/services/twitter"
   "lightupon-api/live"
-  "github.com/kr/pretty"
+  // "github.com/kr/pretty"
 )
 
 type User struct {
@@ -63,19 +63,22 @@ func (u *User) PostToFacebook(c *Card) (err error) {
 }
 
 func (u *User) PostToTwitter(c *Card) (err error) {
-  pretty.Println("posting to twitter")
   twitterUser := twitter.User{
     AccessToken: u.TwitterKey,
     AccessTokenSecret: u.TwitterSecret,
+  }
+
+  cardImageBinary, err := c.DownloadImage()
+  media, err := twitter.PostMedia(twitterUser, cardImageBinary); if err != nil {
+    return
   }
 
   status := twitter.Status{
     Status: c.Caption,
     Lat: c.Latitude,
     Long: c.Longitude,
+    MediaID: media.MediaID,
   }
-  pretty.Println(twitterUser)
-  pretty.Println(status)
 
   err = twitter.PostStatus(twitterUser, status)
   return

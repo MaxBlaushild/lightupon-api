@@ -5,7 +5,9 @@ import(
 			"os"
 			"net/url"
 			"fmt"
-			"github.com/kr/pretty"
+			"strconv"
+			"encoding/base64"
+			// "github.com/kr/pretty"
 )
 
 func Init() {
@@ -22,6 +24,7 @@ type Status struct {
 	Lat float64
 	Long float64
 	Status string
+	MediaID int64
 }
 
 func newClient(user User) *anaconda.TwitterApi {
@@ -29,16 +32,23 @@ func newClient(user User) *anaconda.TwitterApi {
 }
 
 func PostStatus(user User, status Status) (err error) {
-	pretty.Println(os.Getenv("LIGHTUPON_TWITTER_KEY"))
-	pretty.Println(os.Getenv("LIGHTUPON_TWITTER_SECRET"))
 	client := newClient(user)
 	values := url.Values{}
 	latString := fmt.Sprintf("%.6f", status.Lat)
   longString := fmt.Sprintf("%.6f", status.Long)
+  mediaIDString := strconv.FormatInt(status.MediaID, 10)
+  mediaIDString = "[" + mediaIDString
+  mediaIDString = mediaIDString + "]"
 	values.Set("lat", latString)
 	values.Set("long", longString)
-	res, err := client.PostTweet(status.Status, values)
-	pretty.Println(err)
-	pretty.Println(res)
+	values.Set("media_ids", mediaIDString)
+	_, err = client.PostTweet(status.Status, values)
+	return
+}
+
+func PostMedia(user User, mediaBinary []byte) (media anaconda.Media, err error) {
+	client := newClient(user)
+	imgBase64Str := base64.StdEncoding.EncodeToString(mediaBinary)
+	media, err = client.UploadMedia(imgBase64Str)
 	return
 }
