@@ -35,13 +35,9 @@ func PostStatus(user User, status Status) (err error) {
 	values := url.Values{}
 	latString := fmt.Sprintf("%.6f", status.Lat)
   longString := fmt.Sprintf("%.6f", status.Long)
-  mediaIDString := status.MediaID
-  mediaIDString = "[" + mediaIDString
-  mediaIDString = mediaIDString + "]"
-  pretty.Println(mediaIDString)
 	values.Set("lat", latString)
 	values.Set("long", longString)
-	values.Set("media_ids", mediaIDString)
+	values.Set("media_ids", status.MediaID)
 	res, err := client.PostTweet(status.Status, values)
 	pretty.Println(res)
 	pretty.Println(err)
