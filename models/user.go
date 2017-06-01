@@ -107,16 +107,17 @@ func (user *User) Discover(scene *Scene) {
   }
 }
 
-func (u *User) StartParty(tripID uint) (party Party, err error) {
+func (u *User) StartParty(tripID uint) (newParty Party, err error) {
   activeParty := u.ActiveParty()
+  newParty = Party{ TripID: tripID }
 
-  if activeParty.ID == 0 {
-    party = Party{ TripID: tripID }
-    err = DB.Model(&u).Association("Parties").Append(&party).Error
-    party.LoadTrip()
-    live.Hub.AddUserToParty(u.ID, party.Passcode)
+  if activeParty.ID != 0 {
+    activeParty.DropUser(u)
   }
 
+  err = DB.Model(&u).Association("Parties").Append(&newParty).Error
+  newParty.LoadTrip()
+  live.Hub.AddUserToParty(u.ID, newParty.Passcode)
   return
 }
 

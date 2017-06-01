@@ -102,7 +102,7 @@ func CreatePartyInviteHandler(w http.ResponseWriter, r *http.Request) {
 func LeavePartyHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   activeParty := user.ActiveParty()
-  activeParty.DropUser(user)
+  activeParty.DropUser(&user)
   json.NewEncoder(w).Encode(activeParty)
 }
 

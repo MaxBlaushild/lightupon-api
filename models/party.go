@@ -65,7 +65,7 @@ func scenesToObjectives(scenes []Scene) []live.Objective {
     return objectives
 }
 
-func (p *Party) DropUser(user User) {
+func (p *Party) DropUser(user *User) {
   DB.Model(user).Association("Parties").Delete(p)
   live.Hub.DropUserFromParty(user.ID, p.Passcode)
   p.DeactivateIfEmpty()
