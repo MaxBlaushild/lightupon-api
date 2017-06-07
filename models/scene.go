@@ -156,7 +156,7 @@ func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error)
   return
 }
 
-func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
+func GetFollowingScenes(userID uint) (scenes []Scene) {
   DB.Preload("Trip.User").Preload("Cards").Limit(20).Find(&scenes)
   return
 }

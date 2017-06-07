@@ -41,6 +41,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.FollowHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/follow", routes.UnfollowHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/feed", routes.FollowingScenesHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}", routes.GetUserHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/deviceToken", routes.AddDeviceToken).Methods("POST")

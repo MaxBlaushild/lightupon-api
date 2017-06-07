@@ -38,10 +38,10 @@ func SceneHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(scene)
 }
 
-func NearbyFollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
+func FollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
-  scenes := models.GetFollowingScenesNearLocation(lat, lon, user.ID)
+  scenes := models.GetFollowingScenes(user.ID)
   models.MarkScenesRequest(lat, lon, user.ID, "NearbyFollowingScenesHandler")
   json.NewEncoder(w).Encode(scenes)
 }
