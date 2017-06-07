@@ -157,7 +157,7 @@ func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error)
 }
 
 func GetFollowingScenesNearLocation(lat string, lon string, userID uint) (scenes []Scene) {
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Order("((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0) asc").Limit(20).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Limit(20).Find(&scenes)
   return
 }
 
