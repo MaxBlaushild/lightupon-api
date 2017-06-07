@@ -40,7 +40,9 @@ func SceneHandler(w http.ResponseWriter, r *http.Request) {
 
 func FollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  scenes := models.GetFollowingScenes(user.ID)
+  pageString := getStringFromRequest(r, "page", "1")
+  page, _ := strconv.Atoi(pageString)
+  scenes := models.GetFollowingScenes(user.ID, page)
   json.NewEncoder(w).Encode(scenes)
 }
 
