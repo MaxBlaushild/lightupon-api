@@ -40,9 +40,7 @@ func SceneHandler(w http.ResponseWriter, r *http.Request) {
 
 func FollowingScenesHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  lat, lon := GetUserLocationFromRequest(r)
   scenes := models.GetFollowingScenes(user.ID)
-  models.MarkScenesRequest(lat, lon, user.ID, "NearbyFollowingScenesHandler")
   json.NewEncoder(w).Encode(scenes)
 }
 
