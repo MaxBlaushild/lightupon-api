@@ -158,7 +158,7 @@ func (s *Scene) uploadPin(binary []byte, name string) (getUrl string, err error)
 
 func GetFollowingScenes(userID uint, page int) (scenes []Scene) {
   limit := 20
-  offset := limit * page
+  offset := limit * page - 20
   DB.Preload("Trip.User").Preload("Cards").Order("created_at desc").Offset(offset).Limit(limit).Find(&scenes)
   return
 }
