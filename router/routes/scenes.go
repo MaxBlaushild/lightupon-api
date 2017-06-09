@@ -169,6 +169,18 @@ func DeleteSceneHandler(w http.ResponseWriter, r *http.Request) {
   respondWithNoContent(w, "The scene was deleted.")
 }
 
+func DiscoverSceneHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  vars := mux.Vars(r)
+  sceneID := vars["sceneID"]
+  scene, err := models.GetSceneByID(sceneID); if err != nil {
+    respondWithBadRequest(w, "The scene you sent us was bunk.")
+  } else {
+    user.Discover(&scene)
+    respondWithNoContent(w, "Explored, my friend.")
+  }
+}
+
 func ModifySceneHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   sceneIDint, _ := strconv.Atoi(vars["sceneID"])
