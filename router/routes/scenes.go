@@ -173,12 +173,20 @@ func DiscoverSceneHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   vars := mux.Vars(r)
   sceneID := vars["sceneID"]
+  decoder := json.NewDecoder(r.Body)
+
+  err := decoder.Decode(&user.Location); if err != nil {
+    respondWithBadRequest(w, "The location sent was bunk.")
+    return
+  }
+
   scene, err := models.GetSceneByID(sceneID); if err != nil {
     respondWithBadRequest(w, "The scene you sent us was bunk.")
-  } else {
-    user.Discover(&scene)
-    respondWithNoContent(w, "Explored, my friend.")
+    return
   }
+  
+  user.Discover(&scene)
+  respondWithNoContent(w, "Explored, my friend.")
 }
 
 func ModifySceneHandler(w http.ResponseWriter, r *http.Request) {
