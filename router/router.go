@@ -122,7 +122,14 @@ func Init(){
   }
 
   // apply CORS
-  finalHandler := cors.Default().Handler(muxRouter)
+
+  c := cors.New(cors.Options{
+    AllowedOrigins: []string{"*"},
+    AllowedMethods: []string{"GET", "POST", "DELETE", "PUT"},
+    AllowCredentials: true,
+  })
+
+  finalHandler := c.Handler(muxRouter)
 
   n := negroni.Classic()
   n.UseHandler(finalHandler)
