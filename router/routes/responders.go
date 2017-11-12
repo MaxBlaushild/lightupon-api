@@ -40,3 +40,8 @@ func respondeWithForbidden(w http.ResponseWriter, message string) {
 	w.WriteHeader(http.StatusForbidden)
 	w.Write(makeMessage(message))
 }
+
+func respondeWithRecordExists(w http.ResponseWriter, message string) {
+	w.WriteHeader(http.StatusFound)
+	w.Write(makeMessage(message))
+}

@@ -105,6 +105,11 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
 
+  // VOTES
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/upvote", routes.PostUpvoteHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/downvote", routes.PostDownvoteHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/vote", routes.DeleteVoteHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/voteTotal", routes.GetVoteTotalHandler).Methods("GET")
 
   // WEB STUFF
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

@@ -26,3 +26,4 @@ func UnlikeSceneHandler(w http.ResponseWriter, r *http.Request) {
   models.DB.Where(&sceneLike).Delete(models.SceneLike{})
   respondWithCreated(w, "The scene was unliked.")
 }
+
