@@ -27,11 +27,8 @@ func Connect() {
   DB.LogMode(false)
   DB.AutoMigrate(&User{}, 
                  &Trip{}, 
-                 &Party{}, 
                  &Scene{}, 
                  &Card{}, 
-                 &Partyuser{}, 
-                 &PartyInvite{}, 
                  &Location{}, 
                  &Follow{}, 
                  &Like{},
@@ -43,5 +40,5 @@ func Connect() {
                  &Flag{},
                  &BlacklistUser{})
   
-  DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
+  // DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }

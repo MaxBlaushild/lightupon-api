@@ -12,7 +12,6 @@ import (
   "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
   "lightupon-api/services/twitter"
-  "lightupon-api/live"
   // "github.com/kr/pretty"
 )
 
@@ -30,8 +29,7 @@ type User struct {
   FacebookToken string
   TwitterKey string
   TwitterSecret string
-	Parties []Party `gorm:"many2many:partyusers;"`
-	Lit bool
+  Lit bool
 	Trips []Trip
   SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
@@ -105,20 +103,6 @@ func (user *User) Discover(scene *Scene) {
   if currentDiscoveredScene.NotFullyDiscovered() {
     currentDiscoveredScene.UpdatePercentDiscovered(user, scene)
   }
-}
-
-func (u *User) StartParty(tripID uint) (newParty Party, err error) {
-  activeParty := u.ActiveParty()
-  newParty = Party{ TripID: tripID }
-
-  if activeParty.ID != 0 {
-    activeParty.DropUser(u)
-  }
-
-  err = DB.Model(&u).Association("Parties").Append(&newParty).Error
-  newParty.LoadTrip()
-  live.Hub.AddUserToParty(u.ID, newParty.Passcode)
-  return
 }
 
 func (u *User) AddTrip(trip *Trip) (err error) {
@@ -197,12 +181,6 @@ func createToken(facebookId string) string {
   	fmt.Println(err)
   }
   return tokenString
-}
-
-func (u *User) ActiveParty() (activeParty Party) {
-  DB.Model(&u).Preload("Trip.Scenes.Cards").Where("active = true").Association("Parties").Find(&activeParty)
-  activeParty.SyncWithLive()
-  return
 }
 
 func RefreshTokenByFacebookId(facebookId string) string {

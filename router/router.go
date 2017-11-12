@@ -24,15 +24,9 @@ func Init(){
   muxRouter.HandleFunc("/lightupon/admin/scenes/{id}", routes.AdminSceneDetailsHandler).Methods("GET")
 
   // these serve/accept json
-  muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
-  muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
-  muxRouter.HandleFunc("/lightupon/admin/trips", routes.AdminCreateTripHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}", routes.DeleteSceneHandler).Methods("DELETE")
   muxRouter.HandleFunc("/lightupon/admin/scenes/{sceneID}", routes.ModifySceneHandler).Methods("PUT")
-  muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.ModifyCardHandler).Methods("PUT")
-  muxRouter.HandleFunc("/lightupon/admin/cards/{cardID}", routes.DeleteCardHandler).Methods("DELETE")
-  muxRouter.HandleFunc("/lightupon/admin/trips/{tripID}", routes.DeleteTripHandler).Methods("DELETE")
   // muxRouter.HandleFunc("/lightupon/me/instagram/login", routes.InstagramLoginHandler).Methods("GET")
 
   routerWithAuth := mux.NewRouter()
@@ -52,24 +46,8 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/extinguish", routes.ExtinguishHandler).Methods("POST")
   
   // TRIP STUFF
-  // routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTripHandler).Methods("POST") // commenting this out since there are dupe routes for POST to /lightupon/trips
-  routerWithAuth.HandleFunc("/lightupon/trips/active/scenes", routes.AppendSceneHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/trips/generate", routes.CreateDegenerateTripHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.CreateTrip).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/trips", routes.NearbyTripsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/tripsForUser", routes.GetTripsForUserHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips/{id}", routes.TripHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/like", routes.LikeTripHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripId}/scenes", routes.ScenesHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/scenes", routes.CreateSceneHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CardsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.CreateCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyScenesHandler).Methods("GET")
   // routerWithAuth.HandleFunc("/lightupon/scenes/nearby", routes.NearbyFollowingScenesHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/users/{userID}/trips", routes.GetUsersTripsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.ActiveTripHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/activeTrip", routes.UpdateActiveTrip).Methods("PATCH")
-
 
   // LOCATION STUFF
   routerWithAuth.HandleFunc("/lightupon/discover", routes.DiscoverHandler).Methods("POST")
@@ -81,29 +59,15 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/discover", routes.DiscoverSceneHandler).Methods("POST")
   
   // PARTY STUFF
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.CreatePartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.LeavePartyHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/pull", routes.PullHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/end", routes.EndPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
   // COMMENTS STUFF
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.TripCommentsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/trips/{tripID}/comments", routes.PostTripCommentHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}", routes.SceneHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.SceneCommentsHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/comments", routes.PostSceneCommentHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/cards", routes.AppendCardHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.LikeSceneHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/likes", routes.UnlikeSceneHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/flag", routes.FlagSceneHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.CardCommentsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/cards/{cardID}/comments", routes.PostCardCommentHandler).Methods("POST")
 
 
   // WEB STUFF
@@ -118,7 +82,7 @@ func Init(){
 
   port := os.Getenv("PORT")
   if (len(port) == 0) {
-    port = "5000"
+    port = "5001"
   }
 
   // apply CORS
