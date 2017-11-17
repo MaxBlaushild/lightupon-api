@@ -110,6 +110,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/downvote", routes.PostDownvoteHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/vote", routes.DeleteVoteHandler).Methods("DELETE")
   routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/voteTotal", routes.GetVoteTotalHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/user/walletTotal", routes.GetWalletPointsHandler).Methods("GET")
 
   // WEB STUFF
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

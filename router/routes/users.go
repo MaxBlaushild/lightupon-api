@@ -115,3 +115,8 @@ func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
   respondWithCreated(w, "Token was inserted!")
 
 }
+
+func GetWalletPointsHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  json.NewEncoder(w).Encode(struct {WalletTotal int}{models.GetWalletTotal(user.ID)})
+}

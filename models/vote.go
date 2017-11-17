@@ -56,3 +56,14 @@ func voteHasAlreadyBeenCast(userID uint, sceneID uint) bool {
 	}
 	return false
 }
+
+func GetWalletTotal(userID uint) int {
+	var scenes []Scene
+	DB.Where("user_id = ?", userID).Find(&scenes)
+	costPerScene := 5
+	walletTotal := 0
+	for i := 0; i < len(scenes); i++ {
+		walletTotal = walletTotal - costPerScene + GetVoteTotalForScene(scenes[i].ID)
+	}
+	return walletTotal
+}

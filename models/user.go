@@ -322,4 +322,3 @@ func GetUserStats() (stats []UserStats) {
   DB.Raw(sql).Scan(&stats)
   return
 }
-
