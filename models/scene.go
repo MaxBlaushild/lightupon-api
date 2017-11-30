@@ -8,8 +8,8 @@ import(
       "io/ioutil"
       "lightupon-api/services/aws"
       "net/http"
+      "math"
       "time"
-      "math/rand"
       )
 
 type Scene struct {
@@ -44,6 +44,9 @@ type Scene struct {
   ConstellationPoint ConstellationPoint
   Liked bool `sql:"-"`
   PercentDiscovered float64 `sql:"-"`
+  RawScore float64 `sql:"-"`
+  TimeVoteScore float64 `sql:"-"`
+  SpatialScore float64 `sql:"-"`
 }
 
 
@@ -90,18 +93,6 @@ func (s *Scene) AppendCard(card *Card) (err error) {
   card.SceneID = s.ID
   err = DB.Save(&card).Error
   return
-}
-
-func ShiftScenesUp(sceneOrder int, tripID int) bool {
-  scene := Scene{}
-  DB.Where("trip_id = $1 AND scene_order = $2", tripID, sceneOrder).First(&scene)
-  if scene.ID == 0 {
-    return true
-  } else {
-    ShiftScenesUp(sceneOrder + 1, 1)
-    DB.Model(&scene).Update("scene_order", sceneOrder + 1)
-    return true
-  }
 }
 
 func ShiftScenesDown(sceneOrder int, tripID int) bool {
@@ -163,28 +154,27 @@ func GetFollowingScenes(userID uint, page int) (scenes []Scene) {
   return
 }
 
-func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numScenes int) (scenes []Scene, err error) {
+func GetScenesNearLocation(lat string, lon string, userID uint, radius string, numResults int) (scenes []Scene, err error) {
   // Modifying the radius is necessary because the distanceString below doesn't represent the actual distance in meters, which is more expensive to compute and unnecessary.
   distanceString := "((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
-  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < (" + radius + "^2)*0.000000000080815075").Order(distanceString + " asc").Limit(numScenes).Find(&scenes)
+  DB.Preload("Trip.User").Preload("Cards").Preload("SceneLikes").Where(distanceString + " < (" + radius + "^2)*0.000000000080815075").Order(distanceString + " asc").Limit(3*numResults).Find(&scenes)
 
   for i, _ := range scenes {
     scenes[i].SetPercentDiscovered(userID)
   }
+
+  scenes = getTopNScoringScenes(scenes, numResults, userID)
+
   return
 }
+
+
 
 func (s *Scene) SetPercentDiscovered(userID uint) (err error) {
   discoveredScene := DiscoveredScene{UserID : userID, SceneID : s.ID}
   err = DB.First(&discoveredScene, discoveredScene).Error; if err == nil {
     s.PercentDiscovered = discoveredScene.PercentDiscovered
   }
-  s.TemporarilyAlterForJonNothingToSeeHere(userID)
-  return
-}
-
-func MarkScenesRequest(lat string, lon string, userID uint, context string) {
-  LogUserLocation(lat, lon, userID, context)
   return
 }
 
@@ -196,54 +186,48 @@ func LogUserLocation(lat string, lon string, userID uint, context string) {
   return
 }
 
-// Look just let me do this for just me to try it out ok
-func (scene *Scene) TemporarilyAlterForJonNothingToSeeHere(userID uint) {
-  if userID != 15 {
+func (s *Scene) SetTimeVoteScore() {
+  timeDiff := time.Now().Sub(s.CreatedAt).Minutes()
+  s.TimeVoteScore = s.RawScore / math.Log(timeDiff + 1)
+}
+
+func (s *Scene) SetSpatialScore(userLocation UserLocation) {
+  distance := CalculateDistance(UserLocation{Latitude: s.Latitude, Longitude: s.Longitude}, userLocation)
+  s.SpatialScore = s.TimeVoteScore / math.Log(distance)
+}
+
+func getTopNScoringScenes(inputScenes []Scene, n int, userID uint) (scenesToReturn []Scene) {
+  location := Location{}
+  DB.Where("user_id = ? and context = 'Explore'", userID).Order("created_at desc").First(&location)
+  if location.ID == 0 { return; }
+  var userLocation UserLocation; userLocation.Latitude = location.Latitude; userLocation.Longitude = location.Longitude // this sucks, we need to refactor
+
+  for i := 0; i < len(inputScenes); i++ {
+    inputScenes[i].SetTimeVoteScore()
+    inputScenes[i].SetSpatialScore(userLocation)
+  }
+
+  var topScoringIndex int
+  var topScore float64
+  for k := 0; k < n; k++ {
+    topScore = 0; topScoringIndex = 0
+    for i := 0; i < len(inputScenes); i++ {
+      if inputScenes[i].SpatialScore > topScore {
+        topScore = inputScenes[i].SpatialScore
+        topScoringIndex = i
+      }
+    }
+    scenesToReturn = append(scenesToReturn, inputScenes[topScoringIndex])
+    inputScenes = removeSceneFromSlice(inputScenes, topScoringIndex)
+  }
+  return
+}
+
+func removeSceneFromSlice(inputScenes []Scene, indexToRemove int) (scenesToReturn []Scene) {
+    for i := 0; i < len(inputScenes); i++ {
+        if i != indexToRemove {
+            scenesToReturn = append(scenesToReturn, inputScenes[i])
+        }
+    }
     return
-  }
-
-  var age float64 = time.Since(scene.Model.CreatedAt).Hours()
-  if age < fadePeriod {
-    alteredPercentDiscovered := 1 - (age / fadePeriod)
-    if alteredPercentDiscovered > scene.PercentDiscovered {
-      scene.PercentDiscovered = alteredPercentDiscovered
-    }
-  }
-
-  scene.ScrambleWords(userID)
-}
-
-func (scene *Scene) ScrambleWords(userID uint) {
-  if scene.PercentDiscovered < 1 {
-    scene.Name = scramble(scene.Name, scene.PercentDiscovered)
-    for _ , card := range scene.Cards {
-      card.Caption = scramble(card.Caption, scene.PercentDiscovered)
-    }
-  }
-}
-
-func scramble(str string, percentDiscovered float64) string {
-  stringLength := len(str)
-  numScrambles := int((1 - percentDiscovered)*float64(stringLength) / 2)
-  for i := 0; i < numScrambles; i++ {
-    str = swapCharacters(str)
-  }
-  return str
-}
-
-func swapCharacters(str string) string {
-  stringLength := len([]rune(str))
-  index1 := rand.Intn(stringLength)
-  rune1 := []rune(str)[index1]
-  index2 := rand.Intn(stringLength)
-  rune2 := []rune(str)[index2]
-  str = replaceAtIndex(str, rune1, index2)
-  str = replaceAtIndex(str, rune2, index1)
-  return str
-}
-
-func replaceAtIndex(in string, r rune, i int) string {
-    out := []rune(in)
-    out[i] = r
-    return string(out)
 }

@@ -16,7 +16,7 @@ func NearbyScenesHandler(w http.ResponseWriter, r *http.Request) {
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
 
   scenes, err := models.GetScenesNearLocation(lat, lon, user.ID, radius, numScenes)
-  models.MarkScenesRequest(lat, lon, user.ID, "NearbyScenesHandler")
+  models.LogUserLocation(lat, lon, user.ID, "NearbyScenesHandler")
 
   if err != nil {
     respondWithBadRequest(w, "Something went wrong.")
