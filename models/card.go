@@ -32,15 +32,6 @@ func (c *Card) AfterCreate(tx *gorm.DB) (err error) {
 }
 
 func (c *Card) Share() (err error) {
-  u, err := c.User()
-
-  if c.ShareOnFacebook {
-    u.PostToFacebook(c)
-  }
-
-  if c.ShareOnTwitter {
-    u.PostToTwitter(c)
-  }
   
   return
 }

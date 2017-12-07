@@ -41,7 +41,10 @@ func Connect() {
                  &DiscoveredScene{},
                  &Flag{},
                  &BlacklistUser{},
-                 &Vote{})
+                 &Vote{},
+                 &DiscoveredPost{},
+                 &Post{},
+                 &Pin{})
   
   DB.Model(&Partyuser{}).AddUniqueIndex("idx_partyuser", "party_id", "user_id")
 }

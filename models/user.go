@@ -35,6 +35,7 @@ type User struct {
 	Trips []Trip
   SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
+  ActualLocation Location
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
   NumberOfFollowers int `sql:"-"`
   NumberOfTrips int `sql:"-"`
@@ -46,37 +47,37 @@ func (u *User) BeforeCreate() (err error) {
   return
 }
 
-func (u *User) PostToFacebook(c *Card) (err error) {
+func (u *User) PostToFacebook(p *Post) (err error) {
   fbUser := facebook.User{
     ID: u.FacebookId,
     AccessToken: u.FacebookToken,
   }
 
   post := facebook.Post {
-    Message: c.Caption,
-    PictureUrl: c.ImageURL,
-    Link: c.ImageURL,
+    Message: p.Caption,
+    PictureUrl: p.ImageUrl,
+    Link: p.ImageUrl,
   }
 
   err = facebook.CreatePost(fbUser, post)
   return
 }
 
-func (u *User) PostToTwitter(c *Card) (err error) {
+func (u *User) PostToTwitter(p *Post) (err error) {
   twitterUser := twitter.User{
     AccessToken: u.TwitterKey,
     AccessTokenSecret: u.TwitterSecret,
   }
 
-  cardImageBinary, err := c.DownloadImage()
-  media, err := twitter.PostMedia(twitterUser, cardImageBinary); if err != nil {
+  postImageBinary, err := DownloadImage(p.ImageUrl)
+  media, err := twitter.PostMedia(twitterUser, postImageBinary); if err != nil {
     return
   }
 
   status := twitter.Status{
-    Status: c.Caption,
-    Lat: c.Latitude,
-    Long: c.Longitude,
+    Status: p.Caption,
+    Lat: p.Latitude,
+    Long: p.Longitude,
     MediaID: media.MediaIDString,
   }
 
@@ -93,17 +94,17 @@ func (user *User) Explore() (err error)  {
   latString := fmt.Sprintf("%.6f", user.Location.Latitude)
   lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
   LogUserLocation(latString, latString, user.ID, "Explore")
-  scenes, err := GetScenesNearLocation(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
-  for i := 0; i < len(scenes); i++ {
-    user.Discover(&scenes[i])
+  posts, err := GetPostsNearLocation(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
+  for i := 0; i < len(posts); i++ {
+    user.Discover(&posts[i])
   }
   return
 }
 
-func (user *User) Discover(scene *Scene) {
-  currentDiscoveredScene := GetCurrentDiscoveredScene(user.ID, scene.ID)
-  if currentDiscoveredScene.NotFullyDiscovered() {
-    currentDiscoveredScene.UpdatePercentDiscovered(user, scene)
+func (user *User) Discover(post *Post) {
+  currentDiscoveredPost := GetCurrentDiscoveredPost(user.ID, post.ID)
+  if currentDiscoveredPost.NotFullyDiscovered() {
+    currentDiscoveredPost.UpdatePercentDiscovered(user, post)
   }
 }
 
@@ -176,9 +177,9 @@ func UserIsBlackListed(token string) bool {
 }
 
 func (u *User) SetUserLikenessOfScenes(scenes []Scene) {
-  for i, scene := range scenes {
-    scenes[i].Liked = scene.UserHasLiked(u)
-  }
+  // for i, scene := range scenes {
+  //   scenes[i].Liked = scene.UserHasLiked(u)
+  // }
 }
 
 func FindUsers(query string) (users []User) {

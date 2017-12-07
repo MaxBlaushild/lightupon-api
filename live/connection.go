@@ -14,11 +14,11 @@ type Response struct {
 	CurrentSceneOrder int
 	Passcode string
 	Event string
-	UpdatedSceneID uint
+	UpdatedPostID uint
 }
 
-type SceneUpdate struct {
-	UpdatedSceneID uint
+type PostUpdate struct {
+	UpdatedPostID uint
 	UserID uint
 }
 

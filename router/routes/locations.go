@@ -1,7 +1,6 @@
 package routes
 
 import("net/http"
-			 "fmt"
        "encoding/json")
 
 func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,6 +16,5 @@ func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
 		respondWithBadRequest(w, "You goofed.")
 	} 
 
-	fmt.Println("discovering")
 	respondWithCreated(w, "Did the thing.")
 }
