@@ -14,12 +14,22 @@ type Post struct {
   ShareOnTwitter bool
   Comments []Comment
   User User
+  Name string
   PercentDiscovered float64 `sql:"-"`
   RawScore float64 `sql:"-"`
   TimeVoteScore float64 `sql:"-"`
   SpatialScore float64 `sql:"-"`
   Latitude float64
   Longitude float64
+  FormattedAddress string
+  Locality string
+  Neighborhood string
+  PostalCode string
+  Country string
+  AdministrativeLevelTwo string
+  AdministrativeLevelOne string
+  StreetNumber string
+  GooglePlaceID string
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
