@@ -27,6 +27,7 @@ type User struct {
   Devices []Device
 	Token string
   Scenes []Scene
+  Posts []Post
   FacebookToken string
   TwitterKey string
   TwitterSecret string
