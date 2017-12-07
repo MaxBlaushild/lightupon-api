@@ -69,7 +69,7 @@ func (p *Post) Share() (err error) {
 }
 
 func GetPostsNearLocation(lat string, lon string, userID uint, radius string, numResults int) (posts []Post, err error) {
-  distanceString := "((scenes.latitude - " + lat + ")^2.0 + ((scenes.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
+  distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
   order := distanceString + " asc"
   limit := 3 * numResults
