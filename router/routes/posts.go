@@ -5,10 +5,12 @@ import(
        "lightupon-api/models"
        "encoding/json"
        "strconv"
+       "fmt"
 )
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
+  fmt.Println(r.Body)
   post := models.Post{}
 
   err := decoder.Decode(&post); if err != nil {
@@ -17,6 +19,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   }
 
   user := GetUserFromRequest(r)
+  fmt.Println(post)
   models.DB.Model(&user).Association("Posts").Append(post)
 
   json.NewEncoder(w).Encode(post)
