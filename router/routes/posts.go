@@ -10,7 +10,6 @@ import(
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
-  fmt.Println(r.Body)
   post := models.Post{}
 
   err := decoder.Decode(&post); if err != nil {
@@ -19,8 +18,11 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   }
 
   user := GetUserFromRequest(r)
-  fmt.Println(post)
-  models.DB.Model(&user).Association("Posts").Append(post)
+
+  err = models.DB.Model(&user).Association("Posts").Append(post).Error; if err != nil {
+    fmt.Println(err)
+    respondWithBadRequest(w, "Something went wrong.")
+  }
 
   json.NewEncoder(w).Encode(post)
 }

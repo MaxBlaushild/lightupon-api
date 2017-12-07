@@ -20,6 +20,7 @@ type Pin struct {
 func NewPin(url string, id uint, ownerType string) (pin Pin, err error) {
 	binary, err := DownloadImage(url)
 	pinBinary := imageMagick.CropPin(binary)
+  fmt.Println("creating new pin")
 
   asset := aws.Asset{
     Type: "images", 
@@ -39,6 +40,7 @@ func NewPin(url string, id uint, ownerType string) (pin Pin, err error) {
   }
 
   err = DB.Create(&pin).Error
+  fmt.Println(err)
 
   return
 }

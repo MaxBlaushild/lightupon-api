@@ -2,6 +2,7 @@ package models
 
 import (
 	      "github.com/jinzhu/gorm"
+        "fmt"
 )
 
 type Post struct {
@@ -46,6 +47,7 @@ func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
 }
 
 func (p *Post) SetPin() error {
+  fmt.Println("trying to create pin")
   _, err := NewPin(p.ImageUrl, p.ID, "Post")
   return err
 }
