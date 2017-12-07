@@ -15,6 +15,7 @@ type Post struct {
   ShareOnTwitter bool
   Comments []Comment
   User User
+  UserID uint
   Name string
   PercentDiscovered float64 `sql:"-"`
   RawScore float64 `sql:"-"`
