@@ -32,11 +32,11 @@ func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetUserLocationFromRequest(r)
   radius := getStringFromRequest(r, "radius", "10000")
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
-  scenes, err := models.GetPostsNearLocation(lat, lon, user.ID, radius, numScenes)
+  posts, err := models.GetPostsNearLocation(lat, lon, user.ID, radius, numScenes)
 
   if err != nil {
     respondWithBadRequest(w, "Something went wrong.")
   } else {
-    json.NewEncoder(w).Encode(scenes)
+    json.NewEncoder(w).Encode(posts)
   }
 }
