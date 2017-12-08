@@ -82,7 +82,7 @@ func GetPostsNearLocation(lat string, lon string, userID uint, radius string, nu
   query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
   order := distanceString + " asc"
   limit := 3 * numResults
-  DB.Preload("Pin").Where(query).Order(order).Limit(limit).Find(&posts)
+  DB.Preload("Pin").Preload("User").Where(query).Order(order).Limit(limit).Find(&posts)
 
   for i, _ := range posts {
     posts[i].SetPercentDiscovered(userID)
