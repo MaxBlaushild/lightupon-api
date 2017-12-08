@@ -53,6 +53,15 @@ func (p *Post) SetPin() error {
   return err
 }
 
+func GetPostByID(postID string) (post Post, err error){
+  err = DB.Preload("Pin").Preload("User").Where("id = ?", postID).First(&post).Error
+  return
+}
+
+func GetUsersPosts(userID string) (posts []Post, err error) {
+  err = DB.Preload("Pin").Preload("User").Where("userID = ?", userID).Find(&posts).Error
+  return
+}
 
 func (p *Post) Share() (err error) {
   u := p.User

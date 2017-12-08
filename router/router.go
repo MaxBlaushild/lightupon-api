@@ -52,6 +52,8 @@ func Init(){
 
   // POSTS STUFF
   routerWithAuth.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/posts", routes.GetPostHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
 
   // VOTES

@@ -14,7 +14,6 @@ type Pin struct {
   Url string
   OwnerID uint
   OwnerType string
-  Owner User
 }
 
 func NewPin(url string, id uint, ownerType string) (pin Pin, err error) {
