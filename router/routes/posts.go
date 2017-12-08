@@ -19,7 +19,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   }
 
   user := GetUserFromRequest(r)
-
+  fmt.Println(post.Name)
   err = models.DB.Model(&user).Association("Posts").Append(post).Error; if err != nil {
     fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")
