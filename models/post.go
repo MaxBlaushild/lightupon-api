@@ -59,7 +59,7 @@ func GetPostByID(postID string) (post Post, err error){
 }
 
 func GetUsersPosts(userID string) (posts []Post, err error) {
-  err = DB.Preload("Pin").Preload("User").Where("userID = ?", userID).Find(&posts).Error
+  err = DB.Preload("Pin").Preload("User").Where("user_id = ?", userID).Find(&posts).Error
   return
 }
 
