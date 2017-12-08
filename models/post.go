@@ -32,6 +32,7 @@ type Post struct {
   AdministrativeLevelOne string
   StreetNumber string
   GooglePlaceID string
+  Route string
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
