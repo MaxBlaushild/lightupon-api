@@ -48,6 +48,7 @@ func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
   posts, err := models.GetPostsNearLocation(lat, lon, user.ID, radius, numScenes)
 
   if err != nil {
+    fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")
   } else {
     json.NewEncoder(w).Encode(posts)
@@ -60,6 +61,7 @@ func GetUsersPosts(w http.ResponseWriter, r *http.Request) {
   posts, err := models.GetUsersPosts(userID)
 
   if err != nil {
+    fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")
   } else {
     json.NewEncoder(w).Encode(posts)
