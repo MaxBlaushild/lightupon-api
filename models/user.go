@@ -41,6 +41,7 @@ type User struct {
   NumberOfFollowers int `sql:"-"`
   NumberOfTrips int `sql:"-"`
   Following bool `sql:"-"`
+  ManaTotal int `sql:"-"`
 }
 
 func (u *User) BeforeCreate() (err error) {
@@ -298,29 +299,4 @@ func (u *User) Extinguish()(err error) {
   u.DeactivateTrips()
   redis.DeleteRedisKey("currentLocation_" + u.FacebookId)
   return nil
-}
-
-
-
-type UserStats struct {
-  Name string
-  NumExposedScenes int
-  NumSceneGets int
-  NumUpvotesGiven int
-}
-
-func GetUserStats() (stats []UserStats) {
-  sql := `SELECT u.first_name AS name,
-                 es.num AS num_exposed_scenes,
-                 l.num AS num_scene_gets,
-                 sl.num AS num_upvotes_given
-          FROM users u
-          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM scene_likes GROUP BY user_id) sl
-          ON u.id = sl.user_id
-          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM exposed_scenes GROUP BY user_id) es
-          ON u.id = es.user_id
-          LEFT OUTER JOIN (SELECT user_id, COUNT(*) AS num FROM locations GROUP BY user_id) l
-          ON u.id = l.user_id;`;
-  DB.Raw(sql).Scan(&stats)
-  return
 }

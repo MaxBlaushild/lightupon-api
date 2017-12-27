@@ -11,9 +11,9 @@ import(
 func PostUpvoteHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   user := GetUserFromRequest(r)
-  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
-  sceneID := uint(sceneIDint)
-  if models.SaveVote(user.ID, sceneID, true) == nil {
+  postIDint, _ := strconv.Atoi(vars["postID"])
+  postID := uint(postIDint)
+  if models.SaveVote(user.ID, postID, true) == nil {
   	respondWithCreated(w, "vote was saved")
   } else {
   	respondeWithRecordExists(w, "vote has already been cast")
@@ -23,9 +23,9 @@ func PostUpvoteHandler(w http.ResponseWriter, r *http.Request) {
 func PostDownvoteHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   user := GetUserFromRequest(r)
-  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
-  sceneID := uint(sceneIDint)
-  if models.SaveVote(user.ID, sceneID, false) == nil {
+  postIDint, _ := strconv.Atoi(vars["postID"])
+  postID := uint(postIDint)
+  if models.SaveVote(user.ID, postID, false) == nil {
   	respondWithCreated(w, "vote was saved")
   } else {
   	respondeWithRecordExists(w, "vote has already been cast")
@@ -35,17 +35,17 @@ func PostDownvoteHandler(w http.ResponseWriter, r *http.Request) {
 func DeleteVoteHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   user := GetUserFromRequest(r)
-  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
-  sceneID := uint(sceneIDint)
-  if models.DeleteVote(user.ID, sceneID) == nil {
+  postIDint, _ := strconv.Atoi(vars["postID"])
+  postID := uint(postIDint)
+  if models.DeleteVote(user.ID, postID) == nil {
   	respondWithCreated(w, "vote was deleted")
   } else {
   	respondWithNotFound(w, "vote does not exist")
   }
 }
 
-func GetVoteTotalHandler(w http.ResponseWriter, r *http.Request) {
+func GetRawScoreHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
-  sceneIDint, _ := strconv.Atoi(vars["sceneID"])
-  json.NewEncoder(w).Encode(struct {VoteTotal int} { models.GetVoteTotalForScene(uint(sceneIDint)) })
+  postIDint, _ := strconv.Atoi(vars["postID"])
+  json.NewEncoder(w).Encode(struct {VoteTotal int} { models.GetRawScoreForPost(uint(postIDint)) })
 }

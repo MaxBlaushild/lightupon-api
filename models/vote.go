@@ -2,52 +2,37 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
-      "fmt"
       "errors"
+      "math"
       )
 
 type Vote struct {
   gorm.Model
   UserID uint `gorm:"not null"`
-  SceneID uint
+  PostID uint
   Upvote bool // true for upvote, false for downvote
 }
 
-func SaveVote(userID uint, sceneID uint, upvote bool) error {
-	if voteHasAlreadyBeenCast(userID, sceneID) {
-		return errors.New("user has already voted for this scene")
+func SaveVote(userID uint, postID uint, upvote bool) error {
+	if voteHasAlreadyBeenCast(userID, postID) {
+		return errors.New("user has already voted for this post")
 	}
-	vote := Vote{UserID: userID, SceneID: sceneID, Upvote: upvote}
+	vote := Vote{UserID: userID, PostID: postID, Upvote: upvote}
 	DB.Create(&vote)
 	return nil
 }
 
-func DeleteVote(userID uint, sceneID uint) error {
-	if !voteHasAlreadyBeenCast(userID, sceneID) {
+func DeleteVote(userID uint, postID uint) error {
+	if !voteHasAlreadyBeenCast(userID, postID) {
 		return errors.New("user has not voted for this scene")
 	}
-	vote := Vote{UserID: userID, SceneID: sceneID}
+	vote := Vote{UserID: userID, PostID: postID}
 	DB.Delete(&vote)
 	return nil
 }
 
-func GetVoteTotalForScene(sceneID uint) int {
-	votes := []Vote{}
-	DB.Where("scene_id = ?", sceneID).Find(&votes)
-	fmt.Println("votes", votes)
-	total := 0
-	for i := 0; i < len(votes); i++ {
-		if votes[i].Upvote {
-			total += 1
-		} else {
-			total += -1
-		}
-	}
-	return total
-}
-
-func voteHasAlreadyBeenCast(userID uint, sceneID uint) bool {
-	vote := Vote{UserID : userID, SceneID : sceneID}
+func voteHasAlreadyBeenCast(userID uint, postID uint) bool {
+	vote := Vote{UserID : userID, PostID : postID}
 	testVote := Vote{}
 	DB.Where(&vote).First(&testVote)
 	if testVote.ID != 0 {
@@ -56,13 +41,39 @@ func voteHasAlreadyBeenCast(userID uint, sceneID uint) bool {
 	return false
 }
 
-func GetWalletTotal(userID uint) int {
-	var scenes []Scene
-	DB.Where("user_id = ?", userID).Find(&scenes)
-	costPerScene := 5
-	walletTotal := 0
-	for i := 0; i < len(scenes); i++ {
-		walletTotal = walletTotal - costPerScene + GetVoteTotalForScene(scenes[i].ID)
+func GetManaTotalForUser(userID uint) int {
+	manaTotal := 100 // i guess let's start everybody at 100 mana for now
+	manaTotal = manaTotal + getManaTotalForSubmittedPosts(userID)
+	manaTotal = manaTotal + getManaTotalForSubmittedVotes(userID)
+	return manaTotal
+}
+
+func getManaTotalForSubmittedPosts(userID uint) int {
+	manaTotal := 0
+	var posts []Post
+	DB.Where("user_id = ?", userID).Find(&posts)
+	for i := 0; i < len(posts); i++ {
+		manaTotal = manaTotal - posts[i].Cost + GetRawScoreForPost(posts[i].ID)
 	}
-	return walletTotal
+	return manaTotal
+}
+
+func getManaTotalForSubmittedVotes(userID uint) int {
+	votes := []Vote{}
+	DB.Where("user_id = ?", userID).Find(&votes)
+	return len(votes) //* calculateVoteEffectiveness(votes)
+}
+
+// don't know about this yet... maybe we'll need this to deal with weird incentives created by rewarding users for giving out votes
+func calculateVoteEffectiveness(votes []Vote) float64 {
+	upvotes := 0
+	downvotes := 0
+	for i := 0; i < len(votes); i++ {
+		if votes[i].Upvote {
+			upvotes = upvotes + 1
+		} else {
+			downvotes = downvotes + 1
+		}
+	}
+	return 1.0 - math.Abs((float64(upvotes) / float64(upvotes + downvotes)) - 0.5) // should equal 1 if upvotes = downvotes and will go down to 0.5 if there is an imbalance
 }

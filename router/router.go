@@ -54,19 +54,19 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/cost", routes.CostToPostAtLocationHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
 
   // VOTES
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/upvote", routes.PostUpvoteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/downvote", routes.PostDownvoteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/vote", routes.DeleteVoteHandler).Methods("DELETE")
-  routerWithAuth.HandleFunc("/lightupon/scenes/{sceneID}/voteTotal", routes.GetVoteTotalHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/user/walletTotal", routes.GetWalletPointsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/upvote", routes.PostUpvoteHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/downvote", routes.PostDownvoteHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/vote", routes.DeleteVoteHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/voteTotal", routes.GetRawScoreHandler).Methods("GET")
+  
+  routerWithAuth.HandleFunc("/lightupon/walletTotal", routes.GetManaTotalHandler).Methods("GET")
 
   // WEB STUFF
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/stats/", routes.ServeStatsPage).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/stats/json", routes.GetStats).Methods("GET")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),
