@@ -58,6 +58,21 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
   json.NewEncoder(w).Encode(user)
 }
 
+func GetNearbyUsers(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  lat, lon := GetUserLocationFromRequest(r)
+  radius := getStringFromRequest(r, "radius", "10000")
+  numUsers, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
+  users, err := models.GetUsersNearLocation(lat, lon, user.ID, radius, numUsers)
+
+  if err != nil {
+    fmt.Println(err)
+    respondWithBadRequest(w, "Something went wrong.")
+  } else {
+    json.NewEncoder(w).Encode(users)
+  }
+}
+
 func UserTokenRefreshHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   id, _ := vars["facebookId"]

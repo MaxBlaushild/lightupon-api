@@ -35,7 +35,7 @@ type User struct {
 	Lit bool
 	Trips []Trip
   SceneLikes []SceneLike
-	Location UserLocation `gorm:"-"`
+	Location Location `gorm:"polymorphic:Owner;"`
   ActualLocation Location
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
   NumberOfFollowers int `sql:"-"`
@@ -61,6 +61,20 @@ func (u *User) PostToFacebook(p *Post) (err error) {
   }
 
   err = facebook.CreatePost(fbUser, post)
+  return
+}
+
+func GetUsersNearLocation(lat string, lon string, userID uint, radius string, numResults int) (users []User, err error) {
+  distanceString := "((location.latitude - " + lat + ")^2.0 + ((location.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
+  query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
+  order := distanceString + " asc"
+  limit := 3 * numResults
+  DB.Preload("User").Where(query).Order(order).Limit(limit).Find(&locations)
+
+  for i, _ := range posts {
+    posts[i].SetPercentDiscovered(userID)
+  }
+
   return
 }
 
@@ -215,9 +229,9 @@ func RefreshTokenByFacebookId(facebookId string) string {
 }
 
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	sceneLocation := UserLocation{Latitude:scene.Latitude, Longitude: scene.Longitude}
-	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
-	isAtNextScene = distanceFromScene < unlockThresholdSmall
+	// sceneLocation := UserLocation{Latitude:scene.Latitude, Longitude: scene.Longitude}
+	// distanceFromScene := CalculateDistance(sceneLocation, u.Location)
+	// isAtNextScene = distanceFromScene < unlockThresholdSmall
 	return
 }
 
@@ -241,7 +255,7 @@ func (u *User) ActiveTrip()(trip Trip) {
 func (u *User) SetUserLocationFromRequest(r *http.Request) {
   query := r.URL.Query()
 
-  location := UserLocation{}
+  location := Location{}
   lat, _ := strconv.ParseFloat(query["lat"][0], 64)
   lon, _ := strconv.ParseFloat(query["lon"][0], 64)
   location.Latitude = lat

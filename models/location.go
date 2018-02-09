@@ -21,6 +21,8 @@ type Location struct {
 	TripID uint
   UserID uint
   Context string
+  OwnerID uint
+  OwnerType string
 }
 
 // So yeah this probably isn't the place to be doing any http stuff, but there's too little of it for me to really care about abstracting it away right now
@@ -69,7 +71,7 @@ func RequestSmoothnessFromGoogle(TripID int, rawLocations []Location) (smoothLoc
 }
 
 func LocationsAreWithinThreshold(firstLocation Location, secondLocation Location, threshold float64) (isWithinThreshold bool) {
-  distance := CalculateLocationDistance(firstLocation, secondLocation)
+  distance := CalculateDistance(firstLocation, secondLocation)
   isWithinThreshold = distance < threshold
   return
 }

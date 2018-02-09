@@ -15,9 +15,9 @@ type Partyuser struct {
 	Completed bool `gorm:"default:false"`
 }
 
-func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {
-  DB.Where("trip_id = ? AND scene_order = ?", p.Party.TripID, p.CurrentSceneOrderID + 1).First(&nextScene)
-  distanceFromScene := CalculateDistance(UserLocation{Latitude: lat, Longitude: lon}, UserLocation{Latitude: nextScene.Latitude, Longitude: nextScene.Latitude})
-  isAtNextScene = distanceFromScene < unlockThresholdSmall
-  return
-}
+// func (p *Partyuser) IsUserAtNextScene(lat float64, lon float64) (isAtNextScene bool, nextScene Scene) {
+//   DB.Where("trip_id = ? AND scene_order = ?", p.Party.TripID, p.CurrentSceneOrderID + 1).First(&nextScene)
+//   distanceFromScene := CalculateDistance(UserLocation{Latitude: lat, Longitude: lon}, UserLocation{Latitude: nextScene.Latitude, Longitude: nextScene.Latitude})
+//   isAtNextScene = distanceFromScene < unlockThresholdSmall
+//   return
+// }
