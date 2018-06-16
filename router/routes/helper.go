@@ -3,15 +3,16 @@ package routes
 import(
        "net/http"
        "lightupon-api/models"
-       "github.com/gorilla/context"
        "github.com/dgrijalva/jwt-go"
        "github.com/gorilla/mux"
        "strconv"
        )
 
 func GetFacebookIdFromRequest(r *http.Request) string {
-  token := context.Get(r, "user")
-  facebookID := token.(*jwt.Token).Claims["facebookId"].(string)
+  ctx := r.Context()
+  token := ctx.Value("user").(*jwt.Token)
+  claims := token.Claims.(jwt.MapClaims)
+  facebookID := claims["facebookId"].(string)
   return facebookID
 }
 

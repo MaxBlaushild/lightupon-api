@@ -6,20 +6,28 @@ import (
       "github.com/jinzhu/gorm"
       "log"
       "os"
+      "fmt"
 )
 
 var (
   DB *gorm.DB
 )
 
-func Connect() {
-  var dbString string = os.Getenv("DATABASE_URL")
-  var err error
-  if len(dbString) == 0 {
-    dbString = "user=" + os.Getenv("DB_USERNAME") + " dbname=" + os.Getenv("DB_NAME") + " sslmode=disable"
-  }
+func getDatabaseString() (dbString string) {
+  dbString = fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+    os.Getenv("LIGHTUPON_DB_HOST"),
+    os.Getenv("LIGHTUPON_DB_PORT"),
+    os.Getenv("LIGHTUPON_DB_USERNAME"),
+    os.Getenv("LIGHTUPON_DB_NAME"),
+    os.Getenv("LIGHTUPON_DB_PASSWORD"))
 
-  DB, err = gorm.Open("postgres", dbString)
+  return
+}
+
+func Connect() {
+  var err error
+
+  DB, err = gorm.Open("postgres", getDatabaseString())
   if err != nil {
       log.Fatalln(err)
   }

@@ -192,9 +192,10 @@ func FindUsers(query string) (users []User) {
 }
 
 func createToken(facebookId string) string {
-	token := jwt.New(jwt.SigningMethodHS256)
-	token.Claims["facebookId"] = facebookId
-	token.Claims["exp"] = time.Now().Add(time.Hour * 72000).Unix() // For now, set tokens to expire never
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+    "facebookId": facebookId,
+    "exp": time.Now().Add(time.Hour * 72000).Unix(),
+  })
 	signingSecret := []byte(os.Getenv("JWT_SECRET"))
 	tokenString, err := token.SignedString(signingSecret); if err != nil {
   	fmt.Println(err)
