@@ -2,16 +2,16 @@ package models
 
 import (
 	      "github.com/jinzhu/gorm"
-        "fmt"
         "math"
         "time"
+        "fmt"
 )
 
 type Post struct {
 	gorm.Model
   Caption string
   Location Location
-  Pin Pin `gorm:"polymorphic:Owner;"`
+  Pin Pin
   ImageUrl string
   ShareOnFacebook bool
   ShareOnTwitter bool
@@ -50,10 +50,9 @@ func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
   return
 }
 
-func (p *Post) SetPin() error {
-  fmt.Println("trying to create pin")
-  _, err := NewPin(p.ImageUrl, p.ID, "Post")
-  return err
+func (p *Post) SetPin() (err error) {
+  _, err = NewPin(p.ImageUrl, p.ID)
+  return
 }
 
 func GetPostByID(postID string) (post Post, err error){
