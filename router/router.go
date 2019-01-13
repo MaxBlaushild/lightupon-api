@@ -11,6 +11,7 @@ import(
 
 func Init(){
   muxRouter := mux.NewRouter().StrictSlash(true)
+  muxRouter.HandleFunc("/health", routes.HealthHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/users", routes.UserLogisterHandler).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{facebookId}/token", routes.UserTokenRefreshHandler).Methods("PATCH")
 

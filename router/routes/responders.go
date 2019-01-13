@@ -1,6 +1,6 @@
 package routes
 
-import ("net/http")
+import "net/http"
 
 func makeMessage(message string) []byte {
 	return []byte("{\"message\": \"" + message + "\"}")
@@ -8,6 +8,11 @@ func makeMessage(message string) []byte {
 
 func respondWithNotFound(w http.ResponseWriter, message string) {
 	w.WriteHeader(http.StatusNotFound)
+	w.Write(makeMessage(message))
+}
+
+func respondWithOK(w http.ResponseWriter, message string) {
+	w.WriteHeader(http.StatusOK)
 	w.Write(makeMessage(message))
 }
 
