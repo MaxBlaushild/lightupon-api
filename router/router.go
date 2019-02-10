@@ -40,15 +40,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/discover", routes.DiscoverHandler).Methods("POST")
   
   // PARTY STUFF
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.GetUsersPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.CreatePartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties/{id}", routes.GetPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{passcode}/users", routes.AddUserToPartyHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/parties", routes.LeavePartyHandler).Methods("DELETE")
-  routerWithAuth.HandleFunc("/lightupon/pull", routes.PullHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/nextScene", routes.MovePartyToNextSceneHandler)
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/end", routes.EndPartyHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/parties/{partyID}/invite", routes.CreatePartyInviteHandler).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
   // POSTS STUFF
