@@ -34,7 +34,7 @@ func PostStatus(user User, status Status) (err error) {
 	client := newClient(user)
 	values := url.Values{}
 	latString := fmt.Sprintf("%.6f", status.Lat)
-  longString := fmt.Sprintf("%.6f", status.Long)
+  	longString := fmt.Sprintf("%.6f", status.Long)
 	values.Set("lat", latString)
 	values.Set("long", longString)
 	values.Set("media_ids", status.MediaID)

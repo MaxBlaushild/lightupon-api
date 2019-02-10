@@ -2,7 +2,6 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
-      "lightupon-api/live"
       )
 
 type DiscoveredPost struct {
@@ -26,8 +25,6 @@ func UpsertDiscoveredPost(discoveredPost *DiscoveredPost) {
   } else {
     DB.Model(&discoveredPost).Update("PercentDiscovered", discoveredPost.PercentDiscovered)
   }
-  postUpdate := live.PostUpdate{UpdatedPostID: discoveredPost.PostID, UserID: discoveredPost.UserID}
-  live.Hub.UpdateClient <- postUpdate
 }
 
 func (dS *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
