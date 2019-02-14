@@ -45,7 +45,6 @@ func Connect() {
                  &Device{},
                  &Flag{},
                  &BlacklistUser{},
-                 &Vote{},
                  &DiscoveredPost{},
                  &Post{},
                  &Pin{})
