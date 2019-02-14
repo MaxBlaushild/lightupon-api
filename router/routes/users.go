@@ -6,7 +6,6 @@ import(
        "encoding/json"
        "fmt"
        "github.com/gorilla/mux"
-       // "lightupon-api/feature"
 )
 
 func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
@@ -53,8 +52,6 @@ func GetUserHandler(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)
   userID, _ := vars["userID"]
   user := models.GetUserByID(userID)
-  currentUser := GetUserFromRequest(r)
-  user.PopulateIsFollowing(&currentUser)
   json.NewEncoder(w).Encode(user)
 }
 
@@ -69,28 +66,6 @@ func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
   query := r.FormValue("full_name")
   users := models.FindUsers(query)
   json.NewEncoder(w).Encode(users)
-}
-
-func LightHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
-
-  if err := user.Light(); err != nil {
-    respondWithBadRequest(w, "There was an error getting user lit.")
-    return
-  }
-
-  respondWithCreated(w, "User was lit!")
-}
-
-func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
-
-  if err := user.Extinguish(); err != nil {
-    respondWithBadRequest(w, "There was an error extinguishing user. Call the terminator.")
-    return
-  }
-
-  respondWithCreated(w, "User was Extinguished!")
 }
 
 func MeHandler(w http.ResponseWriter, r *http.Request) {

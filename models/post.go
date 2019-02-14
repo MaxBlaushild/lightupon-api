@@ -12,7 +12,6 @@ type Post struct {
   ImageUrl string
   ShareOnFacebook bool
   ShareOnTwitter bool
-  Comments []Comment
   User User
   UserID uint
   Name string
