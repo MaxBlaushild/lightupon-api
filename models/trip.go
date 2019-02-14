@@ -22,7 +22,6 @@ type Trip struct {
   User User
   Scenes []Scene
   Locations []Location
-  Comments []Comment
   Active bool
   Constellation []ConstellationPoint
   UserHasLikedTrip bool `sql:"-"`

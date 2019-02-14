@@ -18,7 +18,6 @@ type Card struct {
   SceneID uint
   ShareOnFacebook bool
   ShareOnTwitter bool
-  Comments []Comment
   CardOrder uint
   Universal bool
   NibID string `gorm:"not null"`

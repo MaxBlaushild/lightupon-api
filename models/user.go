@@ -32,7 +32,6 @@ type User struct {
   TwitterSecret string
 	Lit bool
 	Trips []Trip
-  SceneLikes []SceneLike
 	Location UserLocation `gorm:"-"`
   ActualLocation Location
 	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`

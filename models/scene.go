@@ -22,8 +22,6 @@ type Scene struct {
   BackgroundUrl string `gorm:"not null"`
   SceneOrder uint `gorm:"not null"`
   Cards []Card
-  Comments []Comment
-  SceneLikes []SceneLike 
   GooglePlaceID string
   Route string
   ShareOnFacebook bool
