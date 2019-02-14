@@ -5,7 +5,7 @@ import (
       "net/http"
       "io/ioutil"
       "lightupon-api/services/aws"
-      "lightupon-api/services/imageMagick"
+      // "lightupon-api/services/imageMagick"
       "fmt"
 )
 
@@ -16,11 +16,12 @@ type Pin struct {
 }
 
 func NewPin(url string, id uint) (pin Pin, err error) {
-	binary, err := DownloadImage(url); if err != nil {
-    return
-  }
+	// binary, err := DownloadImage(url); if err != nil {
+ //    return
+ //  }
 
-	pinBinary := imageMagick.CropPin(binary)
+	// pinBinary := imageMagick.CropPin(binary)
+  pinBinary := []byte{}
 
   asset := aws.Asset{
     Type: "images", 
