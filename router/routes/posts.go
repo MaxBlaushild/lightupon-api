@@ -9,14 +9,6 @@ import(
        "fmt"
 )
 
-func CostToPostAtLocationHandler(w http.ResponseWriter, r *http.Request) {
-  latString, lonString := GetUserLocationFromRequest(r)
-  lat, _ := strconv.ParseFloat(latString, 64)
-  lon, _ := strconv.ParseFloat(lonString, 64)
-
-  json.NewEncoder(w).Encode(struct { Cost int }{ models.CalculateCostToPostAtLocation(lat, lon) })
-}
-
 func CreatePost(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   post := models.Post{}
@@ -28,7 +20,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
   user := GetUserFromRequest(r)
   fmt.Println(post.Name)
-  post.Cost = models.CalculateCostToPostAtLocation(post.Latitude, post.Longitude)
   err = models.DB.Model(&user).Association("Posts").Append(post).Error; if err != nil {
     fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")

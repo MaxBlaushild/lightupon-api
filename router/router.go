@@ -35,7 +35,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/deviceToken", routes.AddDeviceToken).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/me/twitter/login", routes.TwitterLoginHandler).Methods("POST")
 
-
   // // LOCATION STUFF
   routerWithAuth.HandleFunc("/lightupon/discover", routes.DiscoverHandler).Methods("POST")
   
@@ -46,16 +45,7 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/posts/cost", routes.CostToPostAtLocationHandler).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
-
-  // VOTES
-  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/upvote", routes.PostUpvoteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/downvote", routes.PostDownvoteHandler).Methods("POST")
-  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/vote", routes.DeleteVoteHandler).Methods("DELETE")
-  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/voteTotal", routes.GetRawScoreHandler).Methods("GET")
-  
-  routerWithAuth.HandleFunc("/lightupon/walletTotal", routes.GetManaTotalHandler).Methods("GET")
 
   // WEB STUFF
   muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")

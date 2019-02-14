@@ -95,7 +95,6 @@ func ExtinguishHandler(w http.ResponseWriter, r *http.Request) {
 
 func MeHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  user.ManaTotal = models.GetManaTotalForUser(user.ID)
   json.NewEncoder(w).Encode(user)
 }
 
@@ -115,9 +114,4 @@ func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
   models.DB.FirstOrCreate(&models.Device{}, &device)
   respondWithCreated(w, "Token was inserted!")
 
-}
-
-func GetManaTotalHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
-  json.NewEncoder(w).Encode(struct {ManaTotal int}{models.GetManaTotalForUser(user.ID)})
 }

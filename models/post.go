@@ -2,9 +2,6 @@ package models
 
 import (
 	      "github.com/jinzhu/gorm"
-        "math"
-        "time"
-        "fmt"
 )
 
 type Post struct {
@@ -34,7 +31,6 @@ type Post struct {
   StreetNumber string
   GooglePlaceID string
   Route string
-  Cost int
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
@@ -89,10 +85,9 @@ func GetPostsNearLocation(lat string, lon string, userID uint, radius string, nu
   for i, _ := range posts {
     // posts[i].SetPercentDiscovered(userID)
     posts[i].PercentDiscovered = 1.0
-    posts[i].SetScores()
   }
 
-  posts = getTopNScoringPosts(posts, numResults)
+  //posts = getTopNScoringPosts(posts, numResults)
 
   return
 }
@@ -105,59 +100,6 @@ func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   return
 }
 
-func GetRawScoreForPost(postID uint) int {
-  votes := []Vote{}
-  DB.Where("post_id = ?", postID).Find(&votes)
-  total := 0
-  for i := 0; i < len(votes); i++ {
-    if votes[i].Upvote {
-      total += 1
-    } else {
-      total += -1
-    }
-  }
-  return total
-}
-
-// This seems like a good jumping off point for how to calculate costs for posts
-func CalculateCostToPostAtLocation(lat float64, lon float64) int {
-  cost := 0
-  latString := fmt.Sprintf("%.6f", lat)
-  lonString := fmt.Sprintf("%.6f", lon)
-  posts, _ := GetPostsNearLocation(latString, lonString, 1, "100", 10)
-  for i := 0; i < len(posts); i++ {
-    cost = cost + GetRawScoreForPost(posts[i].ID)
-  }
-
-  if cost <= 0 {
-    return 1
-  }
-
-  return cost
-}
-
-func (p *Post) SetScores() {
-  p.RawScore = GetRawScoreForPost(p.ID)
-  timeDiff := time.Now().Sub(p.CreatedAt).Minutes()
-  p.TemporalScore = float64(p.RawScore) / math.Log(timeDiff + 1)
-}
-
-func getTopNScoringPosts(inputPosts []Post, n int) (postsToReturn []Post) {
-  var topScoringIndex int
-  var topScore float64
-  for len(inputPosts) > 0 && len(postsToReturn) < n {
-    topScore = 0; topScoringIndex = 0
-    for i := 0; i < len(inputPosts); i++ {
-      if inputPosts[i].TemporalScore > topScore {
-        topScore = inputPosts[i].TemporalScore
-        topScoringIndex = i
-      }
-    }
-    postsToReturn = append(postsToReturn, inputPosts[topScoringIndex])
-    inputPosts = removePostFromSlice(inputPosts, topScoringIndex)
-  }
-  return
-}
 
 func removePostFromSlice(inputPosts []Post, indexToRemove int) (postsToReturn []Post) {
   for i := 0; i < len(inputPosts); i++ {
