@@ -8,11 +8,9 @@ import (
 	"time"
   "net/http"
   "strconv"
-  "lightupon-api/services/redis"
   "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
   "lightupon-api/services/twitter"
-  // "github.com/kr/pretty"
 )
 
 type User struct {
@@ -30,15 +28,9 @@ type User struct {
   FacebookToken string
   TwitterKey string
   TwitterSecret string
-	Lit bool
 	Trips []Trip
 	Location UserLocation `gorm:"-"`
   ActualLocation Location
-	Follows []Follow `gorm:"ForeignKey:FollowingUserID"`
-  NumberOfFollowers int `sql:"-"`
-  NumberOfTrips int `sql:"-"`
-  Following bool `sql:"-"`
-  ManaTotal int `sql:"-"`
 }
 
 func (u *User) BeforeCreate() (err error) {
@@ -114,38 +106,8 @@ func (u *User) AddTrip(trip *Trip) (err error) {
   return
 }
 
-func (u *User) IsFollowing(user *User) bool {
-  var count int
-  DB.Model(&Follow{}).Where("followed_user_id = ? AND following_user_id = ?", user.ID, u.ID).Count(&count)
-  return (count > 0)
-}
-
-func (u *User) PopulateIsFollowing(user *User) {
-  u.Following = user.IsFollowing(u)
-}
-
 func GetUserByID(userID string) (user User){
   DB.Where("id = ?", userID).First(&user)
-  user.PopulateNumberOfFollowers()
-  user.PopulatingNumberOfTrips()
-  return
-}
-
-func (u *User) GetNumberOfTrips() int {
-  count := DB.Model(&u).Association("Trips").Count()
-  return count
-}
-
-func (u *User) PopulatingNumberOfTrips() {
-  u.NumberOfTrips = u.GetNumberOfTrips()
-}
-
-func (u *User) PopulateNumberOfFollowers() {
-  u.NumberOfFollowers = u.GetFollowerCount()
-}
-
-func (u *User) GetFollowerCount() (count int) {
-  DB.Model(&Follow{}).Where("followed_user_id = ?", u.ID).Count(&count)
   return
 }
 
@@ -160,12 +122,6 @@ func UserIsBlackListed(token string) bool {
   blacklistUser := BlacklistUser{Token : token}
   DB.First(&blacklistUser)
   return blacklistUser.ID != 0
-}
-
-func (u *User) SetUserLikenessOfScenes(scenes []Scene) {
-  // for i, scene := range scenes {
-  //   scenes[i].Liked = scene.UserHasLiked(u)
-  // }
 }
 
 func FindUsers(query string) (users []User) {
@@ -207,7 +163,6 @@ func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
 
   if (trip.ID > 0) {
     err = DB.Model(&trip).Association("Locations").Append(location).Error
-    SaveCurrentLocationToRedis(u.FacebookId, location)
   }
 
   return
@@ -266,16 +221,4 @@ func (u *User) GetSuggestedScene() (scene Scene) {
 
 func (u *User) DeactivateTrips() {
 	DB.Model(&Trip{}).Where("active = true AND user_id = ?", u.ID).Update("active", false)
-}
-
-func (u *User) Light() (err error) {
-  err = DB.Model(&u).Update("lit", true).Error
-  return
-}
-
-func (u *User) Extinguish()(err error) {
-	DB.Model(&u).Update("lit", false)
-  u.DeactivateTrips()
-  redis.DeleteRedisKey("currentLocation_" + u.FacebookId)
-  return nil
 }
