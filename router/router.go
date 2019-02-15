@@ -36,9 +36,6 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
 
-  // WEB STUFF
-  muxRouter.HandleFunc("/lightupon/login/", routes.Login).Methods("GET")
-
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),
     negroni.Wrap(routerWithAuth),

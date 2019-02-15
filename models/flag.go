@@ -7,6 +7,6 @@ import(
 type Flag struct {
   gorm.Model
   UserID uint
-  SceneID uint
+  PostID uint
   Description string
 }

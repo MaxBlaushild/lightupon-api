@@ -15,7 +15,6 @@ type Location struct {
   Course float64
   Accuracy float64
   Floor int
-	TripID uint
   UserID uint
   Context string
 }
