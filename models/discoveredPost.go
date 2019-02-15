@@ -13,42 +13,43 @@ type DiscoveredPost struct {
 
 const unlockThresholdSmall float64 = 20
 const unlockThresholdLarge float64 = 200
-const fadePeriod float64 = 4
 
-func (dS *DiscoveredPost) NotFullyDiscovered() bool {
-  return dS.PercentDiscovered < 1.0
+func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
+  discoveredPost := GetDiscoveredPostOrCreateNew(user.ID, post.ID)
+  DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
 
-func UpsertDiscoveredPost(discoveredPost *DiscoveredPost) {
-  if DB.NewRecord(discoveredPost) {
-    DB.Create(&discoveredPost)
-  } else {
-    DB.Model(&discoveredPost).Update("PercentDiscovered", discoveredPost.PercentDiscovered)
+func tryToDiscover(post *Post, user *User) {
+  if post.PercentDiscovered == 1.0 {
+    return
   }
-}
 
-func (dS *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
   newPercentDiscovered := calculatePercentDiscovered(user, post)
-  if (newPercentDiscovered > dS.PercentDiscovered) {
-    dS.PercentDiscovered = newPercentDiscovered
-    UpsertDiscoveredPost(dS)
+
+  if (newPercentDiscovered > post.PercentDiscovered) {
+    saveNewPercentDiscoveredToDB(user, post, newPercentDiscovered)
   }
+
+  return
 }
 
 func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float64) {
-  distance := CalculateDistance(user.Location, UserLocation{Latitude: post.Latitude, Longitude: post.Longitude})
+  distance := CalculateDistance(user.Location, Location{Latitude: post.Latitude, Longitude: post.Longitude})
   if (distance < unlockThresholdSmall) {
     percentDiscovered = 1.0
   } else if (distance > unlockThresholdLarge) {
     percentDiscovered = 0.0
   } else {
-    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall)) // TODO: Update this to be a nice smoove cosine function
+    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
   }
   return
 }
 
-func GetCurrentDiscoveredPost(userID uint, postID uint) DiscoveredPost {
+func GetDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
   discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
   DB.First(&discoveredPost, discoveredPost)
+  if discoveredPost.ID == 0 {
+    DB.Create(&discoveredPost)
+  }
   return discoveredPost
 }

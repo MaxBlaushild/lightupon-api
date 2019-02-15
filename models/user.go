@@ -29,7 +29,7 @@ type User struct {
   TwitterKey string
   TwitterSecret string
 	Trips []Trip
-	Location UserLocation `gorm:"-"`
+	Location Location `gorm:"-"`
   ActualLocation Location
 }
 
@@ -84,21 +84,14 @@ func (user *User) Update(updates User) (err error) {
 func (user *User) Explore() (err error)  {
   latString := fmt.Sprintf("%.6f", user.Location.Latitude)
   lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
-  LogUserLocation(latString, latString, user.ID, "Explore")
-  posts, err := GetPostsNearLocation(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
-  for i := 0; i < len(posts); i++ {
-    user.Discover(&posts[i])
+  posts, err := GetPostsNearLocationWithUserDiscoveries(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
+
+  for i, _ := range posts {
+    tryToDiscover(&posts[i], user)
   }
+
   return
 }
-
-func (user *User) Discover(post *Post) {
-  currentDiscoveredPost := GetCurrentDiscoveredPost(user.ID, post.ID)
-  if currentDiscoveredPost.NotFullyDiscovered() {
-    currentDiscoveredPost.UpdatePercentDiscovered(user, post)
-  }
-}
-
 
 func (u *User) AddTrip(trip *Trip) (err error) {
   err = DB.Model(&Trip{}).Where("user_id = ?", u.ID).Update("Active", false).Error
@@ -151,7 +144,7 @@ func RefreshTokenByFacebookId(facebookId string) string {
 }
 
 func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	sceneLocation := UserLocation{Latitude:scene.Latitude, Longitude: scene.Longitude}
+	sceneLocation := Location{Latitude:scene.Latitude, Longitude: scene.Longitude}
 	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
 	isAtNextScene = distanceFromScene < unlockThresholdSmall
 	return
@@ -173,10 +166,10 @@ func (u *User) ActiveTrip()(trip Trip) {
   return
 }
 
-func (u *User) SetUserLocationFromRequest(r *http.Request) {
+func (u *User) SetLocationFromRequest(r *http.Request) {
   query := r.URL.Query()
 
-  location := UserLocation{}
+  location := Location{}
   lat, _ := strconv.ParseFloat(query["lat"][0], 64)
   lon, _ := strconv.ParseFloat(query["lon"][0], 64)
   location.Latitude = lat

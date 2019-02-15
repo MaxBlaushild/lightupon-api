@@ -21,7 +21,7 @@ type Location struct {
 }
 
 func LocationsAreWithinThreshold(firstLocation Location, secondLocation Location, threshold float64) (isWithinThreshold bool) {
-  distance := CalculateLocationDistance(firstLocation, secondLocation)
+  distance := CalculateDistance(firstLocation, secondLocation)
   isWithinThreshold = distance < threshold
   return
 }
