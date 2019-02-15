@@ -84,15 +84,15 @@ func (user *User) Update(updates User) (err error) {
 func (user *User) Explore() (err error)  {
   latString := fmt.Sprintf("%.6f", user.Location.Latitude)
   lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
-  LogUserLocation(latString, latString, user.ID, "Explore")
+  LogUserLocation(latString, lonString, user.ID, "Explore")
   posts, err := GetPostsNearLocation(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
   for i := 0; i < len(posts); i++ {
-    user.Discover(&posts[i])
+    discover(&posts[i], user)
   }
   return
 }
 
-func (user *User) Discover(post *Post) {
+func discover(post *Post, user *User) {
   currentDiscoveredPost := GetCurrentDiscoveredPost(user.ID, post.ID)
   if currentDiscoveredPost.NotFullyDiscovered() {
     currentDiscoveredPost.UpdatePercentDiscovered(user, post)

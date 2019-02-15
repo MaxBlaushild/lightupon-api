@@ -34,7 +34,6 @@ type Scene struct {
   ConstellationPoint ConstellationPoint
   Liked bool `sql:"-"`
   PercentDiscovered float64 `sql:"-"`
-  RawScore float64 `sql:"-"`
   TimeVoteScore float64 `sql:"-"`
   SpatialScore float64 `sql:"-"`
 }

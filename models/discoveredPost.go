@@ -19,20 +19,28 @@ func (dS *DiscoveredPost) NotFullyDiscovered() bool {
   return dS.PercentDiscovered < 1.0
 }
 
-func UpsertDiscoveredPost(discoveredPost *DiscoveredPost) {
-  if DB.NewRecord(discoveredPost) {
-    DB.Create(&discoveredPost)
+func (ds *DiscoveredPost) saveNewPercentDiscoveredToDB(newPercentDiscovered float64) {
+  ds.PercentDiscovered = newPercentDiscovered
+  if DB.NewRecord(ds) {
+    DB.Create(&ds)
   } else {
-    DB.Model(&discoveredPost).Update("PercentDiscovered", discoveredPost.PercentDiscovered)
+    DB.Model(&ds).Update("PercentDiscovered", ds.PercentDiscovered)
   }
 }
 
-func (dS *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
+func (ds *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
   newPercentDiscovered := calculatePercentDiscovered(user, post)
-  if (newPercentDiscovered > dS.PercentDiscovered) {
-    dS.PercentDiscovered = newPercentDiscovered
-    UpsertDiscoveredPost(dS)
+  if (newPercentDiscovered > ds.PercentDiscovered) {
+    ds.saveNewPercentDiscoveredToDB(newPercentDiscovered)
   }
+
+  if ((newPercentDiscovered == 1.0) && (ds.PercentDiscovered < 1.0)) {
+    logUnlockEvent()
+  }
+}
+
+func logUnlockEvent() {
+  return
 }
 
 func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float64) {
@@ -42,7 +50,7 @@ func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float
   } else if (distance > unlockThresholdLarge) {
     percentDiscovered = 0.0
   } else {
-    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall)) // TODO: Update this to be a nice smoove cosine function
+    percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
   }
   return
 }

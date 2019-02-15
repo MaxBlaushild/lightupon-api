@@ -16,8 +16,6 @@ type Post struct {
   UserID uint
   Name string
   PercentDiscovered float64 `sql:"-"`
-  RawScore int `sql:"-"`
-  TemporalScore float64 `sql:"-"`
   Latitude float64
   Longitude float64
   FormattedAddress string
@@ -74,31 +72,16 @@ func (p *Post) Share() (err error) {
   return
 }
 
+// TODO: Should refactor to use postGIS types but GORM doesn't support them, so that's a larger discussion
 func GetPostsNearLocation(lat string, lon string, userID uint, radius string, numResults int) (posts []Post, err error) {
   distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
   order := distanceString + " asc"
   limit := 5 * numResults
-  DB.Preload("Pin").Preload("User").Where(query).Order(order).Limit(limit).Find(&posts)
-
-  for i, _ := range posts {
-    // posts[i].SetPercentDiscovered(userID)
-    posts[i].PercentDiscovered = 1.0
-  }
-
-  //posts = getTopNScoringPosts(posts, numResults)
+  DB.Preload("Pin").Preload("User").Where(query).Order(order).Limit(limit).Find(&posts) // Why are we preloading the user here? Does it matter who created the post?
 
   return
 }
-
-func (p *Post) SetPercentDiscovered(userID uint) (err error) {
-  discoveredPost := DiscoveredPost{UserID : userID, PostID : p.ID}
-  err = DB.First(&discoveredPost, discoveredPost).Error; if err == nil {
-    p.PercentDiscovered = discoveredPost.PercentDiscovered
-  }
-  return
-}
-
 
 func removePostFromSlice(inputPosts []Post, indexToRemove int) (postsToReturn []Post) {
   for i := 0; i < len(inputPosts); i++ {

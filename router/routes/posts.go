@@ -40,6 +40,7 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
+// Looks like we're getting the user's location as top level query params here but getting it from the User object in user.Explore(); That's preventing me from 
 func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
 	user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
