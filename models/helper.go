@@ -15,11 +15,3 @@ func toRadians(angleInDegrees float64) (angleInRadians float64) {
   angleInRadians = angleInDegrees*(3.145/180.001)
   return
 }
-
-// TODO: this function needs to be destroyed, along with refactoring to not have Location and Location as separate things
-func CalculateLocationDistance(location1 Location, location2 Location) (distance float64){
-  Location1 := Location{Latitude : location1.Latitude, Longitude : location1.Longitude}
-  Location2 := Location{Latitude : location2.Latitude, Longitude : location2.Longitude}
-  distance = CalculateDistance(Location1, Location2)
-  return
-}
