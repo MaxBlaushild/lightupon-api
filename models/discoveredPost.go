@@ -30,16 +30,11 @@ func (ds *DiscoveredPost) saveNewPercentDiscoveredToDB(newPercentDiscovered floa
 
 func (ds *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
   newPercentDiscovered := calculatePercentDiscovered(user, post)
+
   if (newPercentDiscovered > ds.PercentDiscovered) {
     ds.saveNewPercentDiscoveredToDB(newPercentDiscovered)
   }
 
-  if ((newPercentDiscovered == 1.0) && (ds.PercentDiscovered < 1.0)) {
-    logUnlockEvent()
-  }
-}
-
-func logUnlockEvent() {
   return
 }
 
@@ -55,7 +50,7 @@ func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float
   return
 }
 
-func GetCurrentDiscoveredPost(userID uint, postID uint) DiscoveredPost {
+func GetCurrentDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
   discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
   DB.First(&discoveredPost, discoveredPost)
   return discoveredPost

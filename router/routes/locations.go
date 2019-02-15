@@ -12,6 +12,7 @@ func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// NOTE: I'd really like to use dependcy injection here in order to create unit tests for the explore function. So it would be user.Explore(databaseAccessor).
 	err = user.Explore(); if err != nil {
 		respondWithBadRequest(w, "You goofed.")
 	} 

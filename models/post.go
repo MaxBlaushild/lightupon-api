@@ -73,7 +73,7 @@ func (p *Post) Share() (err error) {
 }
 
 // TODO: Should refactor to use postGIS types but GORM doesn't support them, so that's a larger discussion
-func GetPostsNearLocation(lat string, lon string, userID uint, radius string, numResults int) (posts []Post, err error) {
+func GetPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {
   distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
   query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
   order := distanceString + " asc"

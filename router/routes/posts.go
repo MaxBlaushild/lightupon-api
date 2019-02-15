@@ -40,13 +40,11 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-// Looks like we're getting the user's location as top level query params here but getting it from the User object in user.Explore(); That's preventing me from 
 func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
-	user := GetUserFromRequest(r)
   lat, lon := GetUserLocationFromRequest(r)
   radius := getStringFromRequest(r, "radius", "10000")
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
-  posts, err := models.GetPostsNearLocation(lat, lon, user.ID, radius, numScenes)
+  posts, err := models.GetPostsNearLocation(lat, lon, radius, numScenes)
 
   if err != nil {
     fmt.Println(err)
