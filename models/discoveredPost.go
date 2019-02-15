@@ -39,7 +39,7 @@ func (ds *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
 }
 
 func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float64) {
-  distance := CalculateDistance(user.Location, UserLocation{Latitude: post.Latitude, Longitude: post.Longitude})
+  distance := CalculateDistance(user.Location, Location{Latitude: post.Latitude, Longitude: post.Longitude})
   if (distance < unlockThresholdSmall) {
     percentDiscovered = 1.0
   } else if (distance > unlockThresholdLarge) {
