@@ -33,10 +33,7 @@ func Connect() {
   }
 
   DB.LogMode(false)
-  DB.AutoMigrate(&User{}, 
-                 &Trip{}, 
-                 &Scene{}, 
-                 &Card{}, 
+  DB.AutoMigrate(&User{},
                  &Location{},
                  &Device{},
                  &Flag{},

@@ -8,7 +8,6 @@ import (
 	"time"
   "net/http"
   "strconv"
-  "lightupon-api/services/googleMaps"
   "lightupon-api/services/facebook"
   "lightupon-api/services/twitter"
 )
@@ -23,12 +22,10 @@ type User struct {
 	DeviceID string
   Devices []Device
 	Token string
-  Scenes []Scene
   Posts []Post
   FacebookToken string
   TwitterKey string
   TwitterSecret string
-	Trips []Trip
 	Location Location `gorm:"-"`
   ActualLocation Location
 }
@@ -93,12 +90,6 @@ func (user *User) Explore() (err error)  {
   return
 }
 
-func (u *User) AddTrip(trip *Trip) (err error) {
-  err = DB.Model(&Trip{}).Where("user_id = ?", u.ID).Update("Active", false).Error
-  err = DB.Model(&u).Association("Trips").Append(trip).Error
-  return
-}
-
 func GetUserByID(userID string) (user User){
   DB.Where("id = ?", userID).First(&user)
   return
@@ -143,29 +134,6 @@ func RefreshTokenByFacebookId(facebookId string) string {
   return token
 }
 
-func (u *User) IsAtScene(scene Scene)(isAtNextScene bool) {
-	sceneLocation := Location{Latitude:scene.Latitude, Longitude: scene.Longitude}
-	distanceFromScene := CalculateDistance(sceneLocation, u.Location)
-	isAtNextScene = distanceFromScene < unlockThresholdSmall
-	return
-}
-
-func (u *User) AddLocationToCurrentTrip(location Location)(err error) {
-  trip := Trip{}
-  DB.Where("user_id = ? AND active = true", u.ID).First(&trip)
-
-  if (trip.ID > 0) {
-    err = DB.Model(&trip).Association("Locations").Append(location).Error
-  }
-
-  return
-}
-
-func (u *User) ActiveTrip()(trip Trip) {
-  DB.Preload("Scenes.Cards").Where("user_id = ? AND active = true", u.ID).First(&trip)
-  return
-}
-
 func (u *User) SetLocationFromRequest(r *http.Request) {
   query := r.URL.Query()
 
@@ -176,42 +144,4 @@ func (u *User) SetLocationFromRequest(r *http.Request) {
   location.Longitude = lon
 
   u.Location = location
-}
-
-func (u *User) GetActiveSceneOrSuggestion() (scene Scene) {
-  activeTrip := u.ActiveTrip()
-  lengthOfScenes := len(activeTrip.Scenes)
-
-  if (lengthOfScenes == 0) {
-    return u.GetSuggestedScene()
-  }
-
-  activeScene := activeTrip.Scenes[lengthOfScenes - 1]
-
-  if (u.IsAtScene(activeScene)) {
-    return activeScene
-  } else {
-    return u.GetSuggestedScene()
-  }
-
-  return
-}
-
-func (u *User) GetSuggestedScene() (scene Scene) {
-  place := googleMaps.GetPrettyPlace(u.Location.Latitude, u.Location.Longitude)
-  scene.FormattedAddress = place["FormattedAddress"]
-  scene.StreetNumber = place["street_number"]
-  scene.Route = place["route"]
-  scene.Neighborhood = place["neighborhood"]
-  scene.Locality = place["locality"]
-  scene.AdministrativeLevelTwo = place["administrative_area_level_2"]
-  scene.AdministrativeLevelOne = place["administrative_area_level_1"]
-  scene.Country = place["country"]
-  scene.PostalCode = place["postal_code"]
-  scene.GooglePlaceID = place["PlaceID"]
-  return scene
-}
-
-func (u *User) DeactivateTrips() {
-	DB.Model(&Trip{}).Where("active = true AND user_id = ?", u.ID).Update("active", false)
 }
