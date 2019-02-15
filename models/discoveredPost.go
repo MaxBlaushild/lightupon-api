@@ -13,26 +13,21 @@ type DiscoveredPost struct {
 
 const unlockThresholdSmall float64 = 20
 const unlockThresholdLarge float64 = 200
-const fadePeriod float64 = 4
 
-func (dS *DiscoveredPost) NotFullyDiscovered() bool {
-  return dS.PercentDiscovered < 1.0
+func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
+  discoveredPost := GetDiscoveredPostOrCreateNew(user.ID, post.ID)
+  DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
 
-func (ds *DiscoveredPost) saveNewPercentDiscoveredToDB(newPercentDiscovered float64) {
-  ds.PercentDiscovered = newPercentDiscovered
-  if DB.NewRecord(ds) {
-    DB.Create(&ds)
-  } else {
-    DB.Model(&ds).Update("PercentDiscovered", ds.PercentDiscovered)
+func tryToDiscover(post *Post, user *User) {
+  if post.PercentDiscovered == 1.0 {
+    return
   }
-}
 
-func (ds *DiscoveredPost) UpdatePercentDiscovered(user *User, post *Post) {
   newPercentDiscovered := calculatePercentDiscovered(user, post)
 
-  if (newPercentDiscovered > ds.PercentDiscovered) {
-    ds.saveNewPercentDiscoveredToDB(newPercentDiscovered)
+  if (newPercentDiscovered > post.PercentDiscovered) {
+    saveNewPercentDiscoveredToDB(user, post, newPercentDiscovered)
   }
 
   return
@@ -50,8 +45,11 @@ func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float
   return
 }
 
-func GetCurrentDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
+func GetDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
   discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
   DB.First(&discoveredPost, discoveredPost)
+  if discoveredPost.ID == 0 {
+    DB.Create(&discoveredPost)
+  }
   return discoveredPost
 }

@@ -42,9 +42,10 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetLocationFromRequest(r)
+  user := GetUserFromRequest(r)
   radius := getStringFromRequest(r, "radius", "10000")
   numScenes, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100"))
-  posts, err := models.GetPostsNearLocationWithUserDiscoveries(lat, lon, 0, radius, numScenes)
+  posts, err := models.GetPostsNearLocationWithUserDiscoveries(lat, lon, user.ID, radius, numScenes)
 
   if err != nil {
     fmt.Println(err)

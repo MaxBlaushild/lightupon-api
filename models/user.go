@@ -84,23 +84,14 @@ func (user *User) Update(updates User) (err error) {
 func (user *User) Explore() (err error)  {
   latString := fmt.Sprintf("%.6f", user.Location.Latitude)
   lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
-  posts, err := GetPostsNearLocation(latString, lonString, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
+  posts, err := GetPostsNearLocationWithUserDiscoveries(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
 
-  for i := 0; i < len(posts); i++ {
-    discover(&posts[i], user)
+  for i, _ := range posts {
+    tryToDiscover(&posts[i], user)
   }
 
   return
 }
-
-func discover(post *Post, user *User) {
-  currentDiscoveredPost := GetCurrentDiscoveredPostOrCreateNew(user.ID, post.ID)
-  if currentDiscoveredPost.NotFullyDiscovered() {
-    currentDiscoveredPost.UpdatePercentDiscovered(user, post)
-  }
-  return
-}
-
 
 func (u *User) AddTrip(trip *Trip) (err error) {
   err = DB.Model(&Trip{}).Where("user_id = ?", u.ID).Update("Active", false).Error
