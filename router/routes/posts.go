@@ -60,8 +60,9 @@ func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
 
 func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   requestManager := newRequestManager(r)
+  databaseManager := models.NewDatabaseManager(models.DB)
 
-  posts, err := GetNearbyPostsWithDependencies(requestManager)
+  posts, err := GetNearbyPostsWithDependencies(requestManager, databaseManager)
 
   if err != nil {
     fmt.Println(err)
@@ -71,7 +72,10 @@ func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func GetNearbyPostsWithDependencies(requestAccessor requestAccessor) (posts []models.Post, err error) {
+// TODO: Want to refactor to get rid of this and just pass the accessor to GetPostsNearLocation, but the accessor is defined on the routes package, and that would create a circular dependency
+func GetNearbyPostsWithDependencies(requestAccessor requestAccessor, databaseAccessor models.DatabaseAccessor) (posts []models.Post, err error) {
+
+  // These need to be accessed here because only the router package knows about the requestAccessor
   lat, lon := requestAccessor.GetLocationFromRequest()
   user := requestAccessor.GetUserFromRequest()
   radius := requestAccessor.getStringFromRequest("radius", "5000")

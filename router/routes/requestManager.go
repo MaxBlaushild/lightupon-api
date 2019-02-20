@@ -53,7 +53,7 @@ func (rm requestManager) getStringFromRequest(key string, defaultValue string) (
 func (rm requestManager) GetUIntFromVars(field string) (uint, error) {
   vars := mux.Vars(rm.request)
   intValue, err := strconv.Atoi(vars[field])
-  uintValue := uint(intValue) // Fuck unints
+  uintValue := uint(intValue)
   return uintValue, err
 }
 

@@ -15,7 +15,7 @@ const unlockThresholdSmall float64 = 10
 const unlockThresholdLarge float64 = 40
 
 func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
-  discoveredPost := GetDiscoveredPostOrCreateNew(user.ID, post.ID)
+  discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
   DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
 
@@ -45,7 +45,7 @@ func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float
   return
 }
 
-func GetDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
+func getDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
   discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
   DB.First(&discoveredPost, discoveredPost)
   if discoveredPost.ID == 0 {
