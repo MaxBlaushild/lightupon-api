@@ -1,7 +1,6 @@
 package models
 
 import(
-    "github.com/jinzhu/gorm"
     "net/http"
     "encoding/json"
 )
@@ -9,7 +8,6 @@ import(
 var chunkSize = 99
 
 type Location struct {
-	gorm.Model
 	Latitude float64
 	Longitude float64
   Course float64

@@ -25,7 +25,7 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TwitterLoginHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
+  user := newRequestManager(r).GetUserFromRequest()
   twitterCreds := models.User{}
   decoder := json.NewDecoder(r.Body)
 
@@ -69,13 +69,13 @@ func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MeHandler(w http.ResponseWriter, r *http.Request) {
-  user := GetUserFromRequest(r)
+  user := newRequestManager(r).GetUserFromRequest()
   json.NewEncoder(w).Encode(user)
 }
 
 func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
 
-  user := GetUserFromRequest(r)
+  user := newRequestManager(r).GetUserFromRequest()
   decoder := json.NewDecoder(r.Body)
   
   device := models.Device{}

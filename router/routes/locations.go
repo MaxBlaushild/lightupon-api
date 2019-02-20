@@ -4,7 +4,7 @@ import("net/http"
        "encoding/json")
 
 func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
-	user := GetUserFromRequest(r)
+	user := newRequestManager(r).GetUserFromRequest()
 	decoder := json.NewDecoder(r.Body)
 
 	err := decoder.Decode(&user.Location); if err != nil {

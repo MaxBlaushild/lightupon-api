@@ -11,8 +11,8 @@ type DiscoveredPost struct {
   PercentDiscovered float64
 }
 
-const unlockThresholdSmall float64 = 20
-const unlockThresholdLarge float64 = 200
+const unlockThresholdSmall float64 = 10
+const unlockThresholdLarge float64 = 40
 
 func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
   discoveredPost := GetDiscoveredPostOrCreateNew(user.ID, post.ID)

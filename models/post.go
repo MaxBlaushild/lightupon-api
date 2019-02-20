@@ -14,6 +14,8 @@ type Post struct {
   ShareOnTwitter bool
   User User
   UserID uint
+  QuestID uint
+  QuestOrder uint // This is the order in which the Post appears in its parent quest
   Name string
   PercentDiscovered float64 `sql:"-"`
   Latitude float64
@@ -85,10 +87,18 @@ func GetPostsNearLocationWithUserDiscoveries(lat string, lon string, userID uint
 // TODO: Should refactor to use postGIS types
 func GetPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {
   distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
-  query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
-  order := distanceString + " asc"
-  DB.Preload("Pin").Preload("User").Where(query).Order(order).Limit(numResults).Find(&posts)
+  whereClause := distanceString + " < (" + radius + "^2)*0.000000000080815075"
+  orderClause := distanceString + " asc"
+  DB.Preload("Pin").Preload("User").Where(whereClause).Order(orderClause).Limit(numResults).Find(&posts)
+  return
+}
 
+func GetFirstPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {
+  distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
+  whereClause := distanceString + " < (" + radius + "^2)*0.000000000080815075"
+  whereClause += " AND QuestOrder = 1"
+  orderClause := distanceString + " asc"
+  DB.Preload("Pin").Preload("User").Where(whereClause).Order(orderClause).Limit(numResults).Find(&posts)
   return
 }
 
@@ -102,11 +112,14 @@ func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   return
 }
 
-func removePostFromSlice(inputPosts []Post, indexToRemove int) (postsToReturn []Post) {
-  for i := 0; i < len(inputPosts); i++ {
-      if i != indexToRemove {
-          postsToReturn = append(postsToReturn, inputPosts[i])
-      }
-  }
-  return
+func GetPostsNearLocation_NEW(lat string, lon string, userID uint, radius string) (posts []Post, err error) {
+  // Get all first posts in radius
+  posts, err = GetFirstPostsNearLocation(lat, lon, radius, 40)
+
+  // Get all discovered posts in radius
+
+  // Merge them
+
+
+  return posts, err
 }
