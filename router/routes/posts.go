@@ -66,7 +66,8 @@ func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   radius := GetStringFromRequest(r, "radius", "5000")
 
-  posts, err := app.GetNearbyPosts(lat, lon, user.ID, radius, 20, databaseManager)
+  posts, err := app.GetNearbyPosts(user.ID, lat, lon, radius, 20, databaseManager)
+  
 
   if err != nil {
     fmt.Println(err)

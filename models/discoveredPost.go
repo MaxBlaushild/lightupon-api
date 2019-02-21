@@ -54,3 +54,12 @@ func getDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
   }
   return discoveredPost
 }
+
+func getNearbyDiscoveredPosts(userID uint, postID uint) DiscoveredPost {
+  discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
+  DB.First(&discoveredPost, discoveredPost)
+  if discoveredPost.ID == 0 {
+    DB.Create(&discoveredPost)
+  }
+  return discoveredPost
+}

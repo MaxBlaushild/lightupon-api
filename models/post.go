@@ -100,8 +100,10 @@ func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   discoveredPost := DiscoveredPost{UserID : userID, PostID : p.ID}
   err = DB.First(&discoveredPost, discoveredPost).Error; if err == nil {
     p.PercentDiscovered = discoveredPost.PercentDiscovered
+    p.Completed = discoveredPost.Completed
   } else {
     p.PercentDiscovered = 0.0
+    p.Completed = false
   }
   return
 }
