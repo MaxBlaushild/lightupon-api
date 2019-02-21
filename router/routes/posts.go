@@ -1,8 +1,9 @@
 package routes
 
 import(
-       "net/http"
+       "lightupon-api/app"
        "lightupon-api/models"
+       "net/http"
        "encoding/json"
        "github.com/gorilla/mux"
        "strconv"
@@ -18,7 +19,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  user := newRequestManager(r).GetUserFromRequest()
+  user := GetUserFromRequest(r)
   fmt.Println(post.Name)
   err = models.DB.Model(&user).Association("Posts").Append(post).Error; if err != nil {
     fmt.Println(err)
@@ -42,11 +43,10 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
 
 // TODO: remove this because it's old
 func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
-  requestManager := newRequestManager(r)
-  lat, lon := requestManager.GetLocationFromRequest()
-  user := requestManager.GetUserFromRequest()
-  radius := requestManager.getStringFromRequest("radius", "10000")
-  numPosts, _ := strconv.Atoi(requestManager.getStringFromRequest("numScenes", "100")) // TODO: clean up numScenes in conjunction with client app
+  lat, lon := GetLocationFromRequest(r)
+  user := GetUserFromRequest(r)
+  radius := GetStringFromRequest(r, "radius", "10000")
+  numPosts, _ := strconv.Atoi(GetStringFromRequest(r, "numScenes", "100")) // TODO: clean up numScenes in conjunction with client app
 
   posts, err := models.GetPostsNearLocationWithUserDiscoveries(lat, lon, user.ID, radius, numPosts)
 
@@ -59,10 +59,14 @@ func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
-  requestManager := newRequestManager(r)
-  databaseManager := models.NewDatabaseManager(models.DB)
+  databaseManager := models.CreateNewDatabaseManager(models.DB)
 
-  posts, err := GetNearbyPostsWithDependencies(requestManager, databaseManager)
+  // These need to be accessed here because only the router package knows about the requestAccessor
+  lat, lon := GetLocationFromRequest(r)
+  user := GetUserFromRequest(r)
+  radius := GetStringFromRequest(r, "radius", "5000")
+
+  posts, err := app.GetNearbyPostsWithDependencies(lat, lon, user.ID, radius, databaseManager)
 
   if err != nil {
     fmt.Println(err)
@@ -72,18 +76,7 @@ func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-// TODO: Want to refactor to get rid of this and just pass the accessor to GetPostsNearLocation, but the accessor is defined on the routes package, and that would create a circular dependency
-func GetNearbyPostsWithDependencies(requestAccessor requestAccessor, databaseAccessor models.DatabaseAccessor) (posts []models.Post, err error) {
 
-  // These need to be accessed here because only the router package knows about the requestAccessor
-  lat, lon := requestAccessor.GetLocationFromRequest()
-  user := requestAccessor.GetUserFromRequest()
-  radius := requestAccessor.getStringFromRequest("radius", "5000")
-
-  posts, err = models.GetPostsNearLocation_NEW(lat, lon, user.ID, radius)
-
-  return
-}
 
 func GetUsersPosts(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)

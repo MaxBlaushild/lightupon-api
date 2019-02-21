@@ -1,8 +1,8 @@
 package routes
 
 import(
-       "net/http"
        "lightupon-api/models"
+       "net/http"
        "encoding/json"
        "fmt"
        "github.com/gorilla/mux"
@@ -25,7 +25,7 @@ func UserLogisterHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TwitterLoginHandler(w http.ResponseWriter, r *http.Request) {
-  user := newRequestManager(r).GetUserFromRequest()
+  user := GetUserFromRequest(r)
   twitterCreds := models.User{}
   decoder := json.NewDecoder(r.Body)
 
@@ -69,13 +69,13 @@ func SearchUsersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func MeHandler(w http.ResponseWriter, r *http.Request) {
-  user := newRequestManager(r).GetUserFromRequest()
+  user := GetUserFromRequest(r)
   json.NewEncoder(w).Encode(user)
 }
 
 func AddDeviceToken(w http.ResponseWriter, r *http.Request) {
 
-  user := newRequestManager(r).GetUserFromRequest()
+  user := GetUserFromRequest(r)
   decoder := json.NewDecoder(r.Body)
   
   device := models.Device{}
