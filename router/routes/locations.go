@@ -16,7 +16,7 @@ func DiscoverHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// NOTE: I'd really like to use dependency injection here in order to create unit tests for the explore function. So it would be user.Explore(ModelsDatabaseAccessor).
-	err = user.Explore(); if err != nil {
+	err = user.TryToDiscoverPosts(); if err != nil {
 		respondWithBadRequest(w, "You goofed.")
 	}
 

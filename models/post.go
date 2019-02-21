@@ -2,6 +2,7 @@ package models
 
 import (
 	      "github.com/jinzhu/gorm"
+        "fmt"
 )
 
 type Post struct {
@@ -108,19 +109,41 @@ func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   return
 }
 
-func GetPostsNearLocation_NEW(lat string, lon string, userID uint, radius string) (posts []Post, err error) {
-  // Get all first posts in radius
-  // posts, err = GetFirstPostsNearLocation(lat, lon, radius, 40)
+func GetNearbyPostsAndTryToDiscoverThem(user User, lat string, lon string, radius string, numPosts int, databaseAccessor DatabaseAccessor) (posts []Post, err error) {
+  nearbyUncompletedNonFirstPosts, _ := getNearbyUncompletedNonFirstPosts(user.ID, lat, lon, radius, databaseAccessor)
+  posts = append(posts, nearbyUncompletedNonFirstPosts...)
 
+  nearbyCompletedPosts, _ := databaseAccessor.GetNearbyCompletedPosts(user.ID, lat, lon, radius)
+  posts = append(posts, nearbyCompletedPosts...)
 
+  nearbyUncompletedFirstPosts, _ := databaseAccessor.GetNearbyUncompletedFirstPosts(user.ID, lat, lon, radius)
+  posts = append(posts, nearbyUncompletedFirstPosts...)
 
-  // Get all discovered posts in radius
+  // TODO: pass the database accessor here
+  err = user.TryToDiscoverPosts(posts); if err != nil {
+    fmt.Println("ERROR: Unable to discover posts.")
+  }
 
-  // Merge them
+  for i, _ := range posts {
+    posts[i].SetPercentDiscovered(userID)
+  }
 
-
-  return posts, err
+  return
 }
 
+func getNearbyUncompletedNonFirstPosts(userID uint, lat string, lon string, radius string, databaseAccessor DatabaseAccessor) (tipPosts []Post, err error) {
+  // This will get the quest_order and quest_id for the maximum completed post in each quest for the user.
+  results, _ := databaseAccessor.GetQuestOrderForLastCompletedPostInEachQuest(userID)
 
+  var post Post
 
+  for _, result := range results {
+    // Let's try to get the very next post in the quest (only if it's nearby). If we can't find one, then the user has completed the entire quest or the tip post is not nearby.
+    post, _ = databaseAccessor.FindNearbyPostInQuestWithParticularQuestOrder(lat, lon, radius, result.QuestID, result.MaxQuestOrder + 1)
+    if post.ID != 0 {
+      tipPosts = append(tipPosts, post)
+    }
+  }
+
+  return
+}

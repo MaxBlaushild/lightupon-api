@@ -1,7 +1,6 @@
 package routes
 
 import(
-       "lightupon-api/app"
        "lightupon-api/models"
        "net/http"
        "encoding/json"
@@ -41,16 +40,18 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
-  databaseManager := models.CreateNewDatabaseManager(models.DB)
-
-  // These need to be accessed here because only the router package knows about the requestAccessor
+func GetNearbyPostsAndTryToDiscoverThem(w http.ResponseWriter, r *http.Request) {
   lat, lon := GetLocationFromRequest(r)
   user := GetUserFromRequest(r)
   radius := GetStringFromRequest(r, "radius", "5000")
 
-  posts, err := app.GetNearbyPosts(user.ID, lat, lon, radius, 20, databaseManager)
+  err := decoder.Decode(&user.Location); if err != nil {
+    respondWithBadRequest(w, "The location sent was bunk.")
+    return
+  }
 
+  databaseManager := models.CreateNewDatabaseManager(models.DB)
+  posts, err := models.GetNearbyPostsAndTryToDiscoverThem(user, lat, lon, radius, 20, databaseManager)
 
   if err != nil {
     fmt.Println(err)
@@ -59,8 +60,6 @@ func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(posts)
   }
 }
-
-
 
 func GetUsersPosts(w http.ResponseWriter, r *http.Request) {
   vars := mux.Vars(r)

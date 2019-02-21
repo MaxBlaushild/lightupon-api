@@ -20,7 +20,7 @@ func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered f
   DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
 
-func tryToDiscover(post *Post, user *User) {
+func tryToDiscoverPost(post *Post, user *User) {
   if post.PercentDiscovered == 1.0 {
     return
   }
