@@ -18,6 +18,7 @@ type Post struct {
   QuestOrder uint // This is the order in which the Post appears in its parent quest
   Name string
   PercentDiscovered float64 `sql:"-"`
+  Completed bool `sql:"-"`
   Latitude float64
   Longitude float64
   FormattedAddress string

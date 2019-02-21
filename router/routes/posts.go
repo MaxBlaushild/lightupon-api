@@ -6,7 +6,7 @@ import(
        "net/http"
        "encoding/json"
        "github.com/gorilla/mux"
-       "strconv"
+       // "strconv"
        "fmt"
 )
 
@@ -42,21 +42,21 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO: remove this because it's old
-func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
-  lat, lon := GetLocationFromRequest(r)
-  user := GetUserFromRequest(r)
-  radius := GetStringFromRequest(r, "radius", "10000")
-  numPosts, _ := strconv.Atoi(GetStringFromRequest(r, "numScenes", "100")) // TODO: clean up numScenes in conjunction with client app
+// func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
+//   lat, lon := GetLocationFromRequest(r)
+//   user := GetUserFromRequest(r)
+//   radius := GetStringFromRequest(r, "radius", "10000")
+//   numPosts, _ := strconv.Atoi(GetStringFromRequest(r, "numScenes", "100")) // TODO: clean up numScenes in conjunction with client app
 
-  posts, err := models.GetPostsNearLocationWithUserDiscoveries(lat, lon, user.ID, radius, numPosts)
+//   posts, err := models.GetNearbyPosts(lat, lon, user.ID, radius, numPosts)
 
-  if err != nil {
-    fmt.Println(err)
-    respondWithBadRequest(w, "Something went wrong.")
-  } else {
-    json.NewEncoder(w).Encode(posts)
-  }
-}
+//   if err != nil {
+//     fmt.Println(err)
+//     respondWithBadRequest(w, "Something went wrong.")
+//   } else {
+//     json.NewEncoder(w).Encode(posts)
+//   }
+// }
 
 func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   databaseManager := models.CreateNewDatabaseManager(models.DB)
@@ -66,7 +66,7 @@ func GetNearbyPostsRoute(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
   radius := GetStringFromRequest(r, "radius", "5000")
 
-  posts, err := app.GetNearbyPostsWithDependencies(lat, lon, user.ID, radius, databaseManager)
+  posts, err := app.GetNearbyPosts(lat, lon, user.ID, radius, 20, databaseManager)
 
   if err != nil {
     fmt.Println(err)

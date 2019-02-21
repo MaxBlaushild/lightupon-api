@@ -9,6 +9,7 @@ type DiscoveredPost struct {
   UserID uint
   PostID uint
   PercentDiscovered float64
+  Completed bool
 }
 
 const unlockThresholdSmall float64 = 10
