@@ -1,15 +1,15 @@
 package models
 
 import (
-	      "github.com/jinzhu/gorm"
-        // "github.com/davecgh/go-spew/spew"
+  "github.com/jinzhu/gorm"
 )
-
 
 type DatabaseAccessor interface {
   GetFirstPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error)
   GetQuestOrderForLastCompletedPostInEachQuest(userID uint) (results []struct{QuestID uint; MaxQuestOrder uint;}, err error)
   FindNearbyPostInQuestWithParticularQuestOrder(lat string, lon string, radius string, questID uint, questOrder uint) (post Post, err error)
+  GetNearbyCompletedPosts(userID uint, lat string, lon string, radius string) (posts []Post, err error)
+  GetNearbyUncompletedFirstPosts(userID uint, lat string, lon string, radius string) (posts []Post, err error)
 }
 
 type databaseManager struct {
@@ -48,9 +48,53 @@ func (databaseManager databaseManager) FindNearbyPostInQuestWithParticularQuestO
   whereClause := `((posts.latitude - ?)^2.0 + ((posts.longitude - ?)* cos(latitude / 57.3))^2.0) < (?^2)*0.000000000080815075
                       AND quest_id = ?
                       AND quest_order = ?`
-  databaseManager.DB.Where(whereClause, lat, lon, radius, questID, questOrder).First(&post)
+  databaseManager.DB.Preload("Pin").Preload("User").Where(whereClause, lat, lon, radius, questID, questOrder).First(&post)
 
-  // databaseManager.DB.Where("WHERE quest_id = 1").First(&post)
-  // databaseManager.DB.First(&post)
   return
 }
+
+func (databaseManager databaseManager) GetNearbyCompletedPosts(userID uint, lat string, lon string, radius string) (posts []Post, err error) {
+  var results []struct{PostID uint}
+
+  query := `SELECT p.id AS post_id
+            FROM posts p
+            INNER JOIN discovered_posts dp ON dp.user_id = ? AND dp.post_id = p.id
+            WHERE ((p.latitude - ?)^2.0 + ((p.longitude - ?)* cos(p.latitude / 57.3))^2.0)  < (?^2)*0.000000000080815075
+            AND dp.completed = true`
+
+  databaseManager.DB.Raw(query, userID, lat, lon, radius).Scan(&results)
+
+  for _, result := range results {
+    var post Post
+    databaseManager.DB.Preload("Pin").Preload("User").Where("id = ?", result.PostID).First(&post)
+    if post.ID != 0 {
+      posts = append(posts, post)
+    }
+  }
+
+  return
+}
+
+func (databaseManager databaseManager) GetNearbyUncompletedFirstPosts(userID uint, lat string, lon string, radius string) (posts []Post, err error) {
+  var results []struct{PostID uint}
+
+  query := `SELECT p.id AS post_id
+            FROM posts p
+            LEFT JOIN discovered_posts dp ON dp.user_id = ? AND dp.post_id = p.id
+            WHERE ((p.latitude - ?)^2.0 + ((p.longitude - ?)* cos(p.latitude / 57.3))^2.0)  < (?^2)*0.000000000080815075
+            AND (dp.id IS NULL OR dp.completed = false)
+            AND p.quest_order = 1`
+
+  databaseManager.DB.Raw(query, userID, lat, lon, radius).Scan(&results)
+
+  for _, result := range results {
+    var post Post
+    databaseManager.DB.Preload("Pin").Preload("User").Where("id = ?", result.PostID).First(&post)
+    if post.ID != 0 {
+      posts = append(posts, post)
+    }
+  }
+
+  return
+}
+

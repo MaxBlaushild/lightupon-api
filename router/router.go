@@ -33,7 +33,6 @@ func Init(){
   // POSTS STUFF
   muxRouter.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
   muxRouter.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
-  // muxRouter.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
   muxRouter.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPostsRoute).Methods("GET")
   muxRouter.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
 
