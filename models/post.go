@@ -2,6 +2,7 @@ package models
 
 import (
 	      "github.com/jinzhu/gorm"
+        "fmt"
 )
 
 type Post struct {
@@ -14,8 +15,11 @@ type Post struct {
   ShareOnTwitter bool
   User User
   UserID uint
+  QuestID uint
+  QuestOrder uint // This is the order in which the Post appears in its parent quest
   Name string
   PercentDiscovered float64 `sql:"-"`
+  Completed bool `sql:"-"`
   Latitude float64
   Longitude float64
   FormattedAddress string
@@ -85,28 +89,73 @@ func GetPostsNearLocationWithUserDiscoveries(lat string, lon string, userID uint
 // TODO: Should refactor to use postGIS types
 func GetPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {
   distanceString := "((posts.latitude - " + lat + ")^2.0 + ((posts.longitude - " + lon + ")* cos(latitude / 57.3))^2.0)"
-  query := distanceString + " < (" + radius + "^2)*0.000000000080815075"
-  order := distanceString + " asc"
-  DB.Preload("Pin").Preload("User").Where(query).Order(order).Limit(numResults).Find(&posts)
-
+  whereClause := distanceString + " < (" + radius + "^2)*0.000000000080815075"
+  orderClause := distanceString + " asc"
+  DB.Preload("Pin").Preload("User").Where(whereClause).Order(orderClause).Limit(numResults).Find(&posts)
   return
 }
+
+
 
 func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   discoveredPost := DiscoveredPost{UserID : userID, PostID : p.ID}
   err = DB.First(&discoveredPost, discoveredPost).Error; if err == nil {
     p.PercentDiscovered = discoveredPost.PercentDiscovered
+    p.Completed = discoveredPost.Completed
   } else {
     p.PercentDiscovered = 0.0
+    p.Completed = false
   }
   return
 }
 
-func removePostFromSlice(inputPosts []Post, indexToRemove int) (postsToReturn []Post) {
-  for i := 0; i < len(inputPosts); i++ {
-      if i != indexToRemove {
-          postsToReturn = append(postsToReturn, inputPosts[i])
-      }
+func GetNearbyPostsAndTryToDiscoverThem(user User, lat string, lon string, radius string, numPosts int, databaseAccessor DatabaseAccessor) (posts []Post, err error) {
+  nearbyUncompletedNonFirstPosts, _ := getNearbyUncompletedNonFirstPosts(user.ID, lat, lon, radius, databaseAccessor)
+  posts = append(posts, nearbyUncompletedNonFirstPosts...)
+
+  nearbyCompletedPosts, _ := databaseAccessor.GetNearbyCompletedPosts(user.ID, lat, lon, radius)
+  posts = append(posts, nearbyCompletedPosts...)
+
+  nearbyUncompletedFirstPosts, _ := databaseAccessor.GetNearbyUncompletedFirstPosts(user.ID, lat, lon, radius)
+  posts = append(posts, nearbyUncompletedFirstPosts...)
+
+  // TODO: pass the database accessor here
+  err = user.TryToDiscoverPosts(posts); if err != nil {
+    fmt.Println("ERROR: Unable to discover posts.")
   }
+
+  for i, _ := range posts {
+    posts[i].SetPercentDiscovered(user.ID)
+  }
+
   return
+}
+
+func getNearbyUncompletedNonFirstPosts(userID uint, lat string, lon string, radius string, databaseAccessor DatabaseAccessor) (tipPosts []Post, err error) {
+  // This will get the quest_order and quest_id for the maximum completed post in each quest for the user.
+  results, _ := databaseAccessor.GetQuestOrderForLastCompletedPostInEachQuest(userID)
+
+  var post Post
+
+  for _, result := range results {
+    // Let's try to get the very next post in the quest (only if it's nearby). If we can't find one, then the user has completed the entire quest or the tip post is not nearby.
+    post, _ = databaseAccessor.FindNearbyPostInQuestWithParticularQuestOrder(lat, lon, radius, result.QuestID, result.MaxQuestOrder + 1)
+    if post.ID != 0 {
+      tipPosts = append(tipPosts, post)
+    }
+  }
+
+  return
+}
+
+func CompletePostForUser(postID string, user User) (err error) {
+  var discoveredPost DiscoveredPost
+  DB.Model(&discoveredPost).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true)
+  return
+}
+
+func DatabaseUpdateTemporary() {
+  var post Post
+  DB.Model(&post).Where("quest_id IS NULL").Update("quest_id", 1)
+  DB.Model(&post).Where("quest_order IS NULL").Update("quest_order", 1)
 }

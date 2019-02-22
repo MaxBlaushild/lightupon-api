@@ -12,7 +12,7 @@ func main() {
   godotenv.Load()
 
   //connect to the database
-  models.Connect()
+  models.Connect(true)
 
   // loads environment varaibles for twitter
   twitter.Init()

@@ -15,3 +15,8 @@ func toRadians(angleInDegrees float64) (angleInRadians float64) {
   angleInRadians = angleInDegrees*(3.145/180.001)
   return
 }
+
+// TODO: implement this and call it from the main function
+func UpdateDatabaseToWorkWithNewLogic() {
+
+}

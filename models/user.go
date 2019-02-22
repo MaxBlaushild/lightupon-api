@@ -78,13 +78,9 @@ func (user *User) Update(updates User) (err error) {
   return
 }
 
-func (user *User) Explore() (err error)  {
-  latString := fmt.Sprintf("%.6f", user.Location.Latitude)
-  lonString := fmt.Sprintf("%.6f", user.Location.Longitude)
-  posts, err := GetPostsNearLocationWithUserDiscoveries(latString, lonString, user.ID, fmt.Sprintf("%.6f", unlockThresholdLarge), 100)
-
+func (user *User) TryToDiscoverPosts(posts []Post) (err error)  {
   for i, _ := range posts {
-    tryToDiscover(&posts[i], user)
+    tryToDiscoverPost(&posts[i], user)
   }
 
   return

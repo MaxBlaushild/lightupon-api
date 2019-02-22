@@ -1,11 +1,11 @@
 package routes
 
 import(
-       "net/http"
        "lightupon-api/models"
+       "net/http"
        "encoding/json"
        "github.com/gorilla/mux"
-       "strconv"
+       // "strconv"
        "fmt"
 )
 
@@ -40,12 +40,34 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func GetNearbyPosts(w http.ResponseWriter, r *http.Request) {
+func CompletePostHandler(w http.ResponseWriter, r *http.Request) {
+  vars := mux.Vars(r)
+  user := GetUserFromRequest(r)
+  postID, _ := vars["postID"]
+
+  err := models.CompletePostForUser(postID, user)
+
+  if err != nil {
+    respondWithBadRequest(w, "Something went wrong.")
+  } else {
+    respondWithAccepted(w, "Post marked as completed.")
+  }
+}
+
+func GetNearbyPostsAndTryToDiscoverThem(w http.ResponseWriter, r *http.Request) {
+  decoder := json.NewDecoder(r.Body)
+
   lat, lon := GetLocationFromRequest(r)
   user := GetUserFromRequest(r)
-  radius := getStringFromRequest(r, "radius", "10000")
-  numPosts, _ := strconv.Atoi(getStringFromRequest(r, "numScenes", "100")) // TODO: clean up numScenes in conjunction with client app
-  posts, err := models.GetPostsNearLocationWithUserDiscoveries(lat, lon, user.ID, radius, numPosts)
+  radius := GetStringFromRequest(r, "radius", "5000")
+
+  err := decoder.Decode(&user.Location); if err != nil {
+    respondWithBadRequest(w, "The location sent was bunk.")
+    return
+  }
+
+  databaseManager := models.CreateNewDatabaseManager(models.DB)
+  posts, err := models.GetNearbyPostsAndTryToDiscoverThem(user, lat, lon, radius, 20, databaseManager)
 
   if err != nil {
     fmt.Println(err)
