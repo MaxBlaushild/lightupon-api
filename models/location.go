@@ -8,8 +8,8 @@ import(
 var chunkSize = 99
 
 type Location struct {
-	Latitude float64
-	Longitude float64
+  Latitude float64
+  Longitude float64
   Course float64
   Accuracy float64
   Floor int

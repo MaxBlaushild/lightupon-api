@@ -18,21 +18,21 @@ func Init(){
   routerWithAuth := mux.NewRouter()
 
   // USER STUFF
-  muxRouter.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/users/{userID}", routes.GetUserHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/deviceToken", routes.AddDeviceToken).Methods("POST")
-  muxRouter.HandleFunc("/lightupon/me/twitter/login", routes.TwitterLoginHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/me", routes.MeHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users", routes.SearchUsersHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}", routes.GetUserHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/deviceToken", routes.AddDeviceToken).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/me/twitter/login", routes.TwitterLoginHandler).Methods("POST")
 
   // PARTY STUFF
-  muxRouter.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
   // POSTS STUFF
-  muxRouter.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
-  muxRouter.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPostsAndTryToDiscoverThem).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
-  muxRouter.HandleFunc("/lightupon/posts/{postID}/complete", routes.CompletePostHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPostsAndTryToDiscoverThem).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/complete", routes.CompletePostHandler).Methods("POST")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),

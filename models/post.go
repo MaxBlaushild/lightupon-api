@@ -95,8 +95,6 @@ func GetPostsNearLocation(lat string, lon string, radius string, numResults int)
   return
 }
 
-
-
 func (p *Post) SetPercentDiscovered(userID uint) (err error) {
   discoveredPost := DiscoveredPost{UserID : userID, PostID : p.ID}
   err = DB.First(&discoveredPost, discoveredPost).Error; if err == nil {
