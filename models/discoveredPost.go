@@ -9,17 +9,13 @@ type DiscoveredPost struct {
   UserID uint
   PostID uint
   PercentDiscovered float64
+  Completed bool
 }
 
-const unlockThresholdSmall float64 = 20
-const unlockThresholdLarge float64 = 200
+const unlockThresholdSmall float64 = 10
+const unlockThresholdLarge float64 = 40
 
-func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
-  discoveredPost := GetDiscoveredPostOrCreateNew(user.ID, post.ID)
-  DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
-}
-
-func tryToDiscover(post *Post, user *User) {
+func tryToDiscoverPost(post *Post, user *User) {
   if post.PercentDiscovered == 1.0 {
     return
   }
@@ -31,6 +27,24 @@ func tryToDiscover(post *Post, user *User) {
   }
 
   return
+}
+
+func getDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
+  discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
+  DB.First(&discoveredPost, discoveredPost)
+  if discoveredPost.ID == 0 {
+    DB.Create(&discoveredPost)
+  }
+  return discoveredPost
+}
+
+func getNearbyDiscoveredPosts(userID uint, postID uint) DiscoveredPost {
+  discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
+  DB.First(&discoveredPost, discoveredPost)
+  if discoveredPost.ID == 0 {
+    DB.Create(&discoveredPost)
+  }
+  return discoveredPost
 }
 
 func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float64) {
@@ -45,11 +59,7 @@ func calculatePercentDiscovered(user *User, post *Post) (percentDiscovered float
   return
 }
 
-func GetDiscoveredPostOrCreateNew(userID uint, postID uint) DiscoveredPost {
-  discoveredPost := DiscoveredPost{UserID: userID, PostID: postID}
-  DB.First(&discoveredPost, discoveredPost)
-  if discoveredPost.ID == 0 {
-    DB.Create(&discoveredPost)
-  }
-  return discoveredPost
+func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
+  discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
+  DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }

@@ -1,8 +1,8 @@
 package routes
 
 import(
-       "net/http"
        "lightupon-api/models"
+       "net/http"
        "encoding/json"
        "fmt"
        "github.com/gorilla/mux"

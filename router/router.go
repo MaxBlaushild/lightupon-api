@@ -24,17 +24,15 @@ func Init(){
   routerWithAuth.HandleFunc("/lightupon/deviceToken", routes.AddDeviceToken).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/me/twitter/login", routes.TwitterLoginHandler).Methods("POST")
 
-  // // LOCATION STUFF
-  routerWithAuth.HandleFunc("/lightupon/discover", routes.DiscoverHandler).Methods("POST")
-  
   // PARTY STUFF
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
   // POSTS STUFF
   routerWithAuth.HandleFunc("/lightupon/posts", routes.CreatePost).Methods("POST")
   routerWithAuth.HandleFunc("/lightupon/users/{userID}/posts", routes.GetUsersPosts).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPosts).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/nearby", routes.GetNearbyPostsAndTryToDiscoverThem).Methods("GET")
   routerWithAuth.HandleFunc("/lightupon/posts/{postID}", routes.GetPostHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/posts/{postID}/complete", routes.CompletePostHandler).Methods("POST")
 
   muxRouter.PathPrefix("/").Handler(negroni.New(
     negroni.HandlerFunc(middleware.Auth().HandlerWithNext),
