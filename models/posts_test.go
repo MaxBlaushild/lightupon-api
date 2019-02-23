@@ -19,12 +19,10 @@ func TestGetNearbyPostsAndTryToDiscoverThem(t *testing.T) {
   Connect(false)
   setUpTestData()
 
-  databaseManager := CreateNewDatabaseManager(DB)
-
   var user User
-  databaseManager.DB.Where("id=1").First(&user) // Because of GORM, we're not allowed to set the ID of a user because it's an inherited field. So we have to insert it into the database (done in the test data set up below) and then retrieve it here.
+  DB.Where("id=1").First(&user) // Because of GORM, we're not allowed to set the ID of a user because it's an inherited field. So we have to insert it into the database (done in the test data set up below) and then retrieve it here.
 
-  posts, _ := GetNearbyPostsAndTryToDiscoverThem(user, "42.3459129", "-71.0759857", "5000", 20, databaseManager)
+  posts, _ := GetNearbyPostsAndTryToDiscoverThem(user, "42.3459129", "-71.0759857", "5000", 20)
   
   for _, k := range posts {
     fmt.Println(k.ID)
@@ -47,18 +45,18 @@ func setUpTestData() {
           INSERT INTO posts
           (id, quest_id, quest_order, latitude, longitude)
           VALUES
-          (1, 1, 1, 42.3439129,-71.0739857),
-          (2, 1, 2, 42.3449129,-71.0749857),
-          (3, 1, 3, 42.3459129,-71.0759857),
-          (4, 1, 4, 42.3459129,-71.0759857),
+          (1, 1, 1, 42.3439129, -71.0739857),
+          (2, 1, 2, 42.3449129, -71.0749857),
+          (3, 1, 3, 42.3459129, -71.0759857),
+          (4, 1, 4, 42.3459129, -71.0759857),
 
-          (5, 2, 1, 42.3459129,-71.0759857),
-          (6, 2, 2, 42.3459129,-71.0759857),
-          (7, 2, 3, 42.3459129,-71.0759857),
+          (5, 2, 1, 42.3459129, -71.0759857),
+          (6, 2, 2, 42.3459129, -71.0759857),
+          (7, 2, 3, 42.3459129, -71.0759857),
 
-          (8, 3, 1, 42.3459129,-71.0759857),
-          (9, 3, 2, 42.3459129,-71.0759857),
-          (10, 3, 3, 42.3459129,-71.0759857);
+          (8, 3, 1, 42.3459129, -71.0759857),
+          (9, 3, 2, 42.3459129, -71.0759857),
+          (10, 3, 3, 42.3459129, -71.0759857);
 
           INSERT INTO discovered_posts
           (id, user_id, post_id, percent_discovered, completed)

@@ -51,5 +51,5 @@ func Connect(productionMode bool) {
                  &Post{},
                  &Pin{})
 
-  DatabaseUpdateTemporary() // This will update fields that need to be updated in order for things to work
+  DatabaseUpdateTemporary() // This will update fields that need to be updated in order for things to work. Should be removed after it's been run on all machines (dev and prod).
 }

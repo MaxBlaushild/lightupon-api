@@ -66,8 +66,7 @@ func GetNearbyPostsAndTryToDiscoverThem(w http.ResponseWriter, r *http.Request) 
     return
   }
 
-  databaseManager := models.CreateNewDatabaseManager(models.DB)
-  posts, err := models.GetNearbyPostsAndTryToDiscoverThem(user, lat, lon, radius, 20, databaseManager)
+  posts, err := models.GetNearbyPostsAndTryToDiscoverThem(user, lat, lon, radius, 20)
 
   if err != nil {
     fmt.Println(err)
