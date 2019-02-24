@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>All Quests</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<link rel="icon" type="image/png" href="http://kentwilliam.com/assets/favicon.ico">
+<body>
+<style type="text/css">
+thead {
+  font-weight: bold;
+}
+</style>
+
+<h1>All Quests</h1>
+<table>
+	<thead>
+		<td>
+			ID
+		</td>
+		<td>
+			Description
+		</td>
+	</thead>
+	<tbody>
+  {{range .Quests}}
+    <tr>
+      <td class="done">
+        <a href="quests/{{.ID}}/edit">
+          {{.ID}}
+        </a>
+      </td>
+    <td class="done">{{.Description}}</td>
+    </tr>
+  {{end}}
+	</tbody>
+</table>
+</body>
