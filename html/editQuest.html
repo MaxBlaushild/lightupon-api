@@ -14,7 +14,7 @@
 </style>
 
 <h1>QuestID: <span id="quest_id">{{.QuestID}}</span></h1>
-<span id="instructions_button">Instructions</span><br><br>
+<input type="button" id="instructions_button" value="Instructions"></input><br><br>
 <span id="instructions_panel" style="display: none">ROB! Here's how you use this. You can edit any of the posts and they'll be saved to the database. If you want to add a new post, just copy one of the post blocks in the yaml below and put it wherever you want in the quest, but DONT INCLUDE THE ID. That's right, if you create a new post, it doesn't have an id yet, so don't try to put one in there. If you add a new post to the yaml below, hit save and then reload the page, and your new post should be there (accompanied by a shiny new id that's been generated for it, just like all the other posts). For now, you can't delete scenes. Maybe put a ticket on the backlog for that if you want.<br><br></span>
 <textarea id="quest_yaml" rows="30" cols="100">{{.QuestYaml}}</textarea>
 <br>
