@@ -152,15 +152,24 @@ func CompletePostForUser(postID string, user User) (err error) {
   return
 }
 
+// Here we'll look for posts without QuestIDs. For each one we find, we'll make a quest for it.
 func DatabaseUpdateTemporary() {
   var posts []Post
   DB.Find(&posts)
-  var questID uint = 0
+
   for _, post := range posts {
-    questID += 1
-    post.QuestID = questID
-    post.QuestOrder = 1
-    DB.Save(&post)
+    if post.QuestID == 0 {
+      fmt.Println("Found a post with a questID of 0. post.ID: ", post.ID, " post.QuestID: ", post.QuestID)
+      
+      var quest Quest
+      quest.Description = "This quest shouldnt exist."
+      DB.Create(&quest)
+      fmt.Println("Created a new quest for it: ", quest.ID)
+      
+      post.QuestID = quest.ID
+      post.QuestOrder = 1
+      DB.Save(&post)
+    }
   }
 }
 

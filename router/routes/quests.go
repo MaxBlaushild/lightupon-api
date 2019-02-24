@@ -15,6 +15,8 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   var quests []models.Quest
   models.DB.Find(&quests)
 
+  spew.Dump(quests)
+
   data := struct{Quests []models.Quest}{
     Quests: quests,
   }
