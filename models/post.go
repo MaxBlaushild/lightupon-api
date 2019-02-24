@@ -35,14 +35,14 @@ type Post struct {
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
-  // if p.ShareOnFacebook || p.ShareOnTwitter {
-  //   err = p.Share()
-  // }
+  if p.ShareOnFacebook || p.ShareOnTwitter {
+    err = p.Share()
+  }
 
-  // if err == nil {
-  // 	err = p.SetPin()
-  // 	err = tx.Save(p).Error
-  // }
+  if err == nil {
+  	err = p.SetPin()
+  	err = tx.Save(p).Error
+  }
 
   return
 }
