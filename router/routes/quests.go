@@ -5,11 +5,8 @@ import (
   "net/http"
   "github.com/davecgh/go-spew/spew"
   "lightupon-api/models"
+  "encoding/json"
 )
-
-// type TodoPageData struct {
-//   Quests    []models.Quest
-// }
 
 func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -25,35 +22,59 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, data)
 }
 
-type QuestForEditing struct {
-  ID uint
-  Description string
-  Posts []struct {
-    Latitude string
-    Longitude string
-    Caption string
-  }
-}
 
 func EditQuestHandler(w http.ResponseWriter, r *http.Request) {
+  questID, _ := GetUIntFromVars(r, "questID")
 
-  t := template.Must(template.ParseFiles("html/editQuest.html"))
+  questYaml := models.GetQuestYaml(questID)
 
-  var quest models.Quest
-  models.DB.Where("id = 1").First(&quest)
-
-  var posts []models.Post
-  models.DB.Where("quest_id = ?", 1).Order("quest_order asc").Find(&posts)
-
-  spew.Dump(posts)
-
-  var questForEditing QuestForEditing
-  questForEditing.Description = quest.Description
-  questForEditing.ID = quest.ID
-
-  data := struct{Quest QuestForEditing}{
-    Quest: questForEditing,
+  data := struct{
+    QuestID uint
+    QuestYaml string
+  }{
+    QuestID: questID,
+    QuestYaml: questYaml,
   }
 
+  t := template.Must(template.ParseFiles("html/editQuest.html"))
   t.Execute(w, data)
+}
+
+func UpdateQuestHandler(w http.ResponseWriter, r *http.Request) {
+
+  var user models.User
+  models.DB.First(&user)
+  spew.Dump(user)
+
+  questID, _ := GetUIntFromVars(r, "questID")
+
+  decoder := json.NewDecoder(r.Body)
+  questYamlStruct := struct{QuestYaml string}{}
+
+  err := decoder.Decode(&questYamlStruct); if err != nil {
+    respondWithBadRequest(w, "Couldnt pull the yaml out of the request body.")
+    return
+  }
+
+  
+  err = models.UpdateQuest(questID, questYamlStruct.QuestYaml, user)
+
+  if (err == nil) {
+    respondWithAccepted(w, "success")
+  } else {
+    respondWithBadRequest(w, "The type provided in the uri is invalid.")
+  }
+
+  // questYaml := models.GetQuestYaml(questID)
+
+  // data := struct{
+  //   QuestID uint
+  //   QuestYaml string
+  // }{
+  //   QuestID: questID,
+  //   QuestYaml: questYaml,
+  // }
+
+  // t := template.Must(template.ParseFiles("html/editQuest.html"))
+  // t.Execute(w, data)
 }

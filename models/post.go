@@ -35,14 +35,14 @@ type Post struct {
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
-  if p.ShareOnFacebook || p.ShareOnTwitter {
-    err = p.Share()
-  }
+  // if p.ShareOnFacebook || p.ShareOnTwitter {
+  //   err = p.Share()
+  // }
 
-  if err == nil {
-  	err = p.SetPin()
-  	err = tx.Save(p).Error
-  }
+  // if err == nil {
+  // 	err = p.SetPin()
+  // 	err = tx.Save(p).Error
+  // }
 
   return
 }
@@ -153,9 +153,15 @@ func CompletePostForUser(postID string, user User) (err error) {
 }
 
 func DatabaseUpdateTemporary() {
-  var post Post
-  DB.Model(&post).Where("quest_id IS NULL").Update("quest_id", 1)
-  DB.Model(&post).Where("quest_order IS NULL").Update("quest_order", 1)
+  var posts []Post
+  DB.Find(&posts)
+  var questID uint = 0
+  for _, post := range posts {
+    questID += 1
+    post.QuestID = questID
+    post.QuestOrder = 1
+    DB.Save(&post)
+  }
 }
 
 func GetFirstPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {

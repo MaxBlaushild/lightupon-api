@@ -16,7 +16,8 @@ User 2 should get Scenes 1,5,8
 */
 
 func TestGetNearbyPostsAndTryToDiscoverThem(t *testing.T) {
-  Connect(false)
+  // Connect(false)
+  Connect(true) // THIS WILL MODIFY THE PRIMARY DATABASE!
   setUpTestData()
 
   var user User
@@ -43,20 +44,20 @@ func setUpTestData() {
           (2);
 
           INSERT INTO posts
-          (id, quest_id, quest_order, latitude, longitude)
+          (id, quest_id, quest_order, caption, latitude, longitude)
           VALUES
-          (1, 1, 1, 42.3439129, -71.0739857),
-          (2, 1, 2, 42.3449129, -71.0749857),
-          (3, 1, 3, 42.3459129, -71.0759857),
-          (4, 1, 4, 42.3459129, -71.0759857),
+          (1, 1, 1, 'Caption for scene 1', 42.3439129, -71.0739857),
+          (2, 1, 2, 'Caption for scene 2', 42.3449129, -71.0749857),
+          (3, 1, 3, 'Caption for scene 3', 42.3459129, -71.0759857),
+          (4, 1, 4, 'Caption for scene 4', 42.3459129, -71.0759857),
 
-          (5, 2, 1, 42.3459129, -71.0759857),
-          (6, 2, 2, 42.3459129, -71.0759857),
-          (7, 2, 3, 42.3459129, -71.0759857),
+          (5, 2, 1, 'Caption for scene 5', 42.3459129, -71.0759857),
+          (6, 2, 2, 'Caption for scene 6', 42.3459129, -71.0759857),
+          (7, 2, 3, 'Caption for scene 7', 42.3459129, -71.0759857),
 
-          (8, 3, 1, 42.3459129, -71.0759857),
-          (9, 3, 2, 42.3459129, -71.0759857),
-          (10, 3, 3, 42.3459129, -71.0759857);
+          (8, 3, 1, 'Caption for scene 8', 42.3459129, -71.0759857),
+          (9, 3, 2, 'Caption for scene 9', 42.3459129, -71.0759857),
+          (10, 3, 3, 'Caption for scene 10', 42.3459129, -71.0759857);
 
           INSERT INTO discovered_posts
           (id, user_id, post_id, percent_discovered, completed)

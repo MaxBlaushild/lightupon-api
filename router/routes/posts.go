@@ -41,8 +41,8 @@ func GetPostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func CompletePostHandler(w http.ResponseWriter, r *http.Request) {
-  vars := mux.Vars(r)
   user := GetUserFromRequest(r)
+  vars := mux.Vars(r)
   postID, _ := vars["postID"]
 
   err := models.CompletePostForUser(postID, user)

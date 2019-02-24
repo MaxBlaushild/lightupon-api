@@ -1,3 +1,49 @@
-<h1>{{.Quest.ID}}<h1>
-<h1>{{.Quest.Description}}<h1>
-<textarea>aldksfjhlaksdjh</textarea>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Edit Quest {{.QuestID}}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<link rel="icon" type="image/png" href="http://kentwilliam.com/assets/favicon.ico">
+
+<body>
+
+<style type="text/css">
+	textarea { font-size: 14px; }
+</style>
+
+<h1>QuestID: <span id="quest_id">{{.QuestID}}</span></h1>
+<span id="instructions_button">Instructions</span><br><br>
+<span id="instructions_panel" style="display: none">ROB! Here's how you use this. You can edit any of the posts and they'll be saved to the database. If you want to add a new post, just copy one of the post blocks in the yaml below and put it wherever you want in the quest, but DONT INCLUDE THE ID. That's right, if you create a new post, it doesn't have an id yet, so don't try to put one in there. If you add a new post to the yaml below, hit save and then reload the page, and your new post should be there (accompanied by a shiny new id that's been generated for it, just like all the other posts). For now, you can't delete scenes. Maybe put a ticket on the backlog for that if you want.<br><br></span>
+<textarea id="quest_yaml" rows="30" cols="100">{{.QuestYaml}}</textarea>
+<br>
+<button id="save_quest"> Save </button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+	$("#save_quest").on('click', function(){
+		questID = $('#quest_id').html()
+		questYaml = $('#quest_yaml').val()
+
+		$.ajax({
+			method: "POST",
+			url: "/lightupon/quests/" + questID + "/update",
+			dataType: "json",
+			processData: false,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify({'questYaml' : questYaml}),
+			success: function(data, textStatus, xhr) {
+		        alert("Heck yeah! We parsed and saved that shit! Reload the page to see your changes reflected. Maybe save your precious yaml somewhere else first tho, just in case.");
+		    },
+		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+		        alert("Bad yaml, bro. Talk to Jon about that shit.");
+		    } 
+		})
+	})
+
+	$('#instructions_button').on('click', function() {
+		$('#instructions_panel').toggle();
+	})
+</script>
+</body>

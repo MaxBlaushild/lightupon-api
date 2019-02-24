@@ -34,6 +34,7 @@ func Init(){
   // QUESTS
   muxRouter.HandleFunc("/lightupon/quests", routes.AllQuestsHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/edit", routes.EditQuestHandler).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/quests/{questID}/update", routes.UpdateQuestHandler).Methods("POST")
 
   routerWithAuth.HandleFunc("/lightupon/admin/assets/uploadUrls", routes.UploadAssetUrlHandler).Methods("POST")
 
