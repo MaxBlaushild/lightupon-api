@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +25,16 @@ thead {
 		</td>
 	</thead>
 	<tbody>
-		{{range .Quests}}
-		<tr>
-	        <td class="done">
-	        	<a href="quests/{{.ID}}/edit">
-	        		{{.ID}}
-	        	</a>
-	    	</td>
-	        <td class="done">{{.Description}}</td>
-		</tr>
-    	{{end}}
+  {{range .Quests}}
+    <tr>
+      <td class="done">
+        <a href="quests/{{.ID}}/edit">
+          {{.ID}}
+        </a>
+      </td>
+    <td class="done">{{.Description}}</td>
+    </tr>
+  {{end}}
 	</tbody>
 </table>
 </body>

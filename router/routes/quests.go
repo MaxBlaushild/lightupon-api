@@ -3,19 +3,15 @@ package routes
 import (
   "html/template"
   "net/http"
-  "github.com/davecgh/go-spew/spew"
   "lightupon-api/models"
   "encoding/json"
 )
 
 func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
-
   t := template.Must(template.ParseFiles("html/quests.html"))
 
   var quests []models.Quest
   models.DB.Find(&quests)
-
-  spew.Dump(quests)
 
   data := struct{Quests []models.Quest}{
     Quests: quests,
@@ -24,10 +20,8 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, data)
 }
 
-
 func EditQuestHandler(w http.ResponseWriter, r *http.Request) {
   questID, _ := GetUIntFromVars(r, "questID")
-
   questYaml := models.GetQuestYaml(questID)
 
   data := struct{
@@ -43,10 +37,9 @@ func EditQuestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateQuestHandler(w http.ResponseWriter, r *http.Request) {
-
+  // For now, just assign ownership to the first user we find
   var user models.User
   models.DB.First(&user)
-  spew.Dump(user)
 
   questID, _ := GetUIntFromVars(r, "questID")
 
@@ -58,25 +51,11 @@ func UpdateQuestHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  
   err = models.UpdateQuest(questID, questYamlStruct.QuestYaml, user)
 
   if (err == nil) {
     respondWithAccepted(w, "success")
   } else {
-    respondWithBadRequest(w, "The type provided in the uri is invalid.")
+    respondWithBadRequest(w, "Error: Unable to update quest.")
   }
-
-  // questYaml := models.GetQuestYaml(questID)
-
-  // data := struct{
-  //   QuestID uint
-  //   QuestYaml string
-  // }{
-  //   QuestID: questID,
-  //   QuestYaml: questYaml,
-  // }
-
-  // t := template.Must(template.ParseFiles("html/editQuest.html"))
-  // t.Execute(w, data)
 }
