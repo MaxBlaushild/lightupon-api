@@ -51,14 +51,16 @@ func GetQuestYaml(questID uint) (questYaml string) {
 }
 
 func UpdateQuest(questID uint, questYaml string, user User) (err error) {
-  var quest QuestForEditing
-  err = yaml.Unmarshal([]byte(questYaml), &quest); if err != nil {
+  var questFromClient QuestForEditing
+  err = yaml.Unmarshal([]byte(questYaml), &questFromClient); if err != nil {
      err = errors.New("Unable to parse quest yaml!")
      return
   }
 
+  updateQuestDescription(questID, questFromClient.Description)
+
   var questOrder uint = 0
-  for _, postFromClient := range quest.Posts {
+  for _, postFromClient := range questFromClient.Posts {
 
     questOrder += 1
     var post Post
@@ -69,6 +71,7 @@ func UpdateQuest(questID uint, questYaml string, user User) (err error) {
 
     post.Latitude = postFromClient.Latitude
     post.Longitude = postFromClient.Longitude
+    post.ImageUrl = postFromClient.ImageUrl
     post.Caption = postFromClient.Caption
     post.QuestOrder = questOrder
     post.UserID = user.ID
@@ -84,3 +87,9 @@ func UpdateQuest(questID uint, questYaml string, user User) (err error) {
   return
 }
 
+func updateQuestDescription(questID uint, description string) {
+  var quest Quest
+  DB.Where("id = ?", questID).First(&quest)
+  quest.Description = description
+  DB.Save(&quest)
+}
