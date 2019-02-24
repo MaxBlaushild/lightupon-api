@@ -8,7 +8,9 @@ import (
 type Post struct {
 	gorm.Model
   Caption string
-  Location Location
+  Latitude float64
+  Longitude float64
+  Location Location // This seems redundant with Latitude and Longitude above. I'm in favor of getting rid of this and keep lat/lon if it's possible.
   Pin Pin
   ImageUrl string
   ShareOnFacebook bool
@@ -20,8 +22,6 @@ type Post struct {
   Name string
   PercentDiscovered float64 `sql:"-"`
   Completed bool `sql:"-"`
-  Latitude float64
-  Longitude float64
   FormattedAddress string
   Locality string
   Neighborhood string
@@ -153,9 +153,15 @@ func CompletePostForUser(postID string, user User) (err error) {
 }
 
 func DatabaseUpdateTemporary() {
-  var post Post
-  DB.Model(&post).Where("quest_id IS NULL").Update("quest_id", 1)
-  DB.Model(&post).Where("quest_order IS NULL").Update("quest_order", 1)
+  var posts []Post
+  DB.Find(&posts)
+  var questID uint = 0
+  for _, post := range posts {
+    questID += 1
+    post.QuestID = questID
+    post.QuestOrder = 1
+    DB.Save(&post)
+  }
 }
 
 func GetFirstPostsNearLocation(lat string, lon string, radius string, numResults int) (posts []Post, err error) {
@@ -234,4 +240,3 @@ func GetNearbyUncompletedFirstPosts(userID uint, lat string, lon string, radius 
 
   return
 }
-
