@@ -117,7 +117,6 @@ func GetNearbyPostsAndTryToDiscoverThem(user User, lat string, lon string, radiu
   nearbyUncompletedFirstPosts, _ := GetNearbyUncompletedFirstPosts(user.ID, lat, lon, radius)
   posts = append(posts, nearbyUncompletedFirstPosts...)
 
-  // TODO: pass the database accessor here
   err = user.TryToDiscoverPosts(posts); if err != nil {
     fmt.Println("ERROR: Unable to discover posts.")
   }
