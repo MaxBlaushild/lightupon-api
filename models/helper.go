@@ -1,8 +1,15 @@
 package models
 
-import("math")
+import(
+  "math"
+  )
 
 func CalculateDistance(location1 Location, location2 Location) (distance float64){
+  if location1 == location2 {
+    distance = 0
+    return
+  }
+
   R := 6371000.0
   phi1 := toRadians(location1.Latitude)
   phi2 := toRadians(location2.Latitude)

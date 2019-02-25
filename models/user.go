@@ -78,14 +78,6 @@ func (user *User) Update(updates User) (err error) {
   return
 }
 
-func (user *User) TryToDiscoverPosts(posts []Post) (err error)  {
-  for i, _ := range posts {
-    tryToDiscoverPost(&posts[i], user)
-  }
-
-  return
-}
-
 func GetUserByID(userID string) (user User){
   DB.Where("id = ?", userID).First(&user)
   return
