@@ -16,6 +16,7 @@ type PostForEditing struct {
   Longitude float64
   Caption string
   ImageUrl string
+  QuestID uint
   ID uint
 }
 
@@ -36,6 +37,7 @@ func GetQuestYaml(questID uint) (questYaml string) {
       Longitude: post.Longitude,
       Caption: post.Caption,
       ImageUrl: post.ImageUrl,
+      QuestID: post.QuestID,
     }
 
     questForEditing.Posts = append(questForEditing.Posts, postForEditing)
@@ -73,6 +75,7 @@ func UpdateQuest(questID uint, questYaml string, user User) (err error) {
     post.Longitude = postFromClient.Longitude
     post.ImageUrl = postFromClient.ImageUrl
     post.Caption = postFromClient.Caption
+    post.QuestID = postFromClient.QuestID
     post.QuestOrder = questOrder
     post.UserID = user.ID
 

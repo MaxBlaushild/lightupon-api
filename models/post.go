@@ -145,12 +145,24 @@ func getNearbyUncompletedNonFirstPosts(userID uint, lat string, lon string, radi
   return
 }
 
+// This is temporary until we take on the larger task of creating quests from the client app.
+func (post *Post) CreateNewQuestAndSetFieldsOnPost() {
+  var quest Quest
+  quest.Description = post.Caption
+  DB.Create(&quest)
+  fmt.Println("Created a new quest for post: ", post.ID, ".   New questID:", quest.ID)
+
+  post.QuestID = quest.ID
+  post.QuestOrder = 1
+}
+
 func CompletePostForUser(postID string, user User) (err error) {
   var discoveredPost DiscoveredPost
   DB.Model(&discoveredPost).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true)
   return
 }
 
+// This will update fields that need to be updated in order for things to work. Should be removed after it's been run on all machines (dev and prod).
 // Here we'll look for posts without QuestIDs. For each one we find, we'll make a quest for it.
 func DatabaseUpdateTemporary() {
   var posts []Post
@@ -161,7 +173,7 @@ func DatabaseUpdateTemporary() {
       fmt.Println("Found a post with a questID of 0. post.ID: ", post.ID, " post.QuestID: ", post.QuestID)
       
       var quest Quest
-      quest.Description = "This quest shouldnt exist."
+      quest.Description = post.Caption
       DB.Create(&quest)
       fmt.Println("Created a new quest for it: ", quest.ID)
       
