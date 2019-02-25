@@ -14,6 +14,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   post := models.Post{}
 
+  post.CreateNewQuestAndSetFieldsOnPost()
+
   err := decoder.Decode(&post); if err != nil {
     respondWithBadRequest(w, "The post you sent us was bunk.")
     return
