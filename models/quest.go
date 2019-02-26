@@ -7,4 +7,6 @@ import (
 type Quest struct {
 	gorm.Model
 	Description string
+	TimeToComplete int // Measured in minutes
+	UserID uint
 }

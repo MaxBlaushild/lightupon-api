@@ -14,7 +14,6 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   decoder := json.NewDecoder(r.Body)
   post := models.Post{}
 
-  post.CreateNewQuestAndSetFieldsOnPost()
 
   err := decoder.Decode(&post); if err != nil {
     respondWithBadRequest(w, "The post you sent us was bunk.")
@@ -22,7 +21,8 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
   }
 
   user := GetUserFromRequest(r)
-  fmt.Println(post.Name)
+  post.CreateNewQuestAndSetFieldsOnPost(&user)
+
   err = models.DB.Model(&user).Association("Posts").Append(post).Error; if err != nil {
     fmt.Println(err)
     respondWithBadRequest(w, "Something went wrong.")

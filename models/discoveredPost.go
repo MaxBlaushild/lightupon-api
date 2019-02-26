@@ -2,7 +2,6 @@ package models
 
 import(
       "github.com/jinzhu/gorm"
-      "fmt"
       "strconv"
       )
 
@@ -14,8 +13,8 @@ type DiscoveredPost struct {
   Completed bool
 }
 
-const unlockThresholdSmall float64 = 10
-const unlockThresholdLarge float64 = 40
+const unlockThresholdSmall float64 = 20
+const unlockThresholdLarge float64 = 80
 
 func tryToDiscoverPosts(posts []Post, user *User, lat string, lon string) (err error)  {
   for i, _ := range posts {
@@ -26,14 +25,11 @@ func tryToDiscoverPosts(posts []Post, user *User, lat string, lon string) (err e
 }
 
 func tryToDiscoverPost(post *Post, user *User, lat string, lon string) {
-  fmt.Println("____________trying to discover post: ", post.ID, " for user: ", user.ID)
   if post.PercentDiscovered == 1.0 {
-    fmt.Println("    fully discovered already.")
     return
   }
 
   newPercentDiscovered := calculatePercentDiscovered(post, lat, lon)
-  fmt.Println("    newPercentDiscovered: ", newPercentDiscovered)
 
   if (newPercentDiscovered > post.PercentDiscovered) {
     saveNewPercentDiscoveredToDB(user, post, newPercentDiscovered)
@@ -77,5 +73,11 @@ func calculatePercentDiscovered(post *Post, lat string, lon string) (percentDisc
 
 func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
   discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
+
+  // Until we have a "complete" button on the client app, this is how posts will be completed.
+  if newPercentDiscovered == 1.0 {
+    discoveredPost.Completed = true
+  }
+
   DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
