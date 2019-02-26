@@ -7,17 +7,20 @@ import (
 )
 
 type QuestForEditing struct {
+  ID uint
   Description string
+  TimeToComplete int
+  UserID uint
   Posts []PostForEditing
 }
 
 type PostForEditing struct {
+  ID uint
+  QuestID uint
   Latitude float64
   Longitude float64
   Caption string
   ImageUrl string
-  QuestID uint
-  ID uint
 }
 
 func GetQuestYaml(questID uint) (questYaml string) {
@@ -28,7 +31,10 @@ func GetQuestYaml(questID uint) (questYaml string) {
   DB.Where("quest_id = ?", questID).Order("quest_order asc").Find(&posts)
 
   var questForEditing QuestForEditing
+  questForEditing.ID = quest.ID
   questForEditing.Description = quest.Description
+  questForEditing.TimeToComplete = quest.TimeToComplete
+  questForEditing.UserID = quest.UserID
 
   for _, post := range posts {
     postForEditing := PostForEditing{
@@ -59,7 +65,9 @@ func UpdateQuest(questID uint, questYaml string, user User) (err error) {
      return
   }
 
-  updateQuestDescription(questID, questFromClient.Description)
+  err = updateQuestInDatabase(questFromClient); if err != nil {
+     return
+  }
 
   var questOrder uint = 0
   for _, postFromClient := range questFromClient.Posts {
@@ -90,9 +98,36 @@ func UpdateQuest(questID uint, questYaml string, user User) (err error) {
   return
 }
 
-func updateQuestDescription(questID uint, description string) {
+func updateQuestInDatabase(questFromClient QuestForEditing) (err error) {
+  deletePostsThatArentInTheQuestSentByTheClient(questFromClient)
+
   var quest Quest
-  DB.Where("id = ?", questID).First(&quest)
-  quest.Description = description
+  DB.Where("id = ?", questFromClient.ID).First(&quest)
+  if quest.ID == 0 {
+    err = errors.New("Couldn't update quest in the database because we couldn't find that shit up in the database.")
+    return
+  }
+  quest.Description = questFromClient.Description
+  quest.TimeToComplete = questFromClient.TimeToComplete
   DB.Save(&quest)
+  return
+}
+
+func deletePostsThatArentInTheQuestSentByTheClient(questFromClient QuestForEditing) {
+  var postsFromDB []Post
+  DB.Where("quest_id = ?", questFromClient.ID).Find(&postsFromDB)
+  for _, postsFromDB := range postsFromDB {
+    if !postIsInQuestFromClient(postsFromDB, questFromClient) {
+      DB.Delete(&postsFromDB)
+    }
+  }
+}
+
+func postIsInQuestFromClient(postsFromDB Post, questFromClient QuestForEditing) bool {
+  for _, postFromClient := range questFromClient.Posts {
+    if postFromClient.ID == postsFromDB.ID {
+      return true
+    }
+  }
+  return false
 }

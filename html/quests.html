@@ -17,22 +17,18 @@ thead {
 <h1>All Quests</h1>
 <table>
 	<thead>
-		<td>
-			ID
-		</td>
-		<td>
-			Description
-		</td>
+		<td>ID</td>
+		<td>Description</td>
+    <td>TimeToComplete</td>
+    <td>UserID</td>
 	</thead>
 	<tbody>
   {{range .Quests}}
     <tr>
-      <td class="done">
-        <a href="quests/{{.ID}}/edit">
-          {{.ID}}
-        </a>
-      </td>
-    <td class="done">{{.Description}}</td>
+      <td class="done"><a href="quests/{{.ID}}/edit">{{.ID}}</a></td>
+      <td class="done">{{.Description}}</td>
+      <td class="done">{{.TimeToComplete}}</td>
+      <td class="done">{{.UserID}}</td>
     </tr>
   {{end}}
 	</tbody>

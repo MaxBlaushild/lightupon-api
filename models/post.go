@@ -146,9 +146,10 @@ func getNearbyUncompletedNonFirstPosts(userID uint, lat string, lon string, radi
 }
 
 // This is temporary until we take on the larger task of creating quests from the client app.
-func (post *Post) CreateNewQuestAndSetFieldsOnPost() {
+func (post *Post) CreateNewQuestAndSetFieldsOnPost(user *User) {
   var quest Quest
   quest.Description = post.Caption
+  quest.UserID = user.ID
   DB.Create(&quest)
   fmt.Println("Created a new quest for post: ", post.ID, ".   New questID:", quest.ID)
 

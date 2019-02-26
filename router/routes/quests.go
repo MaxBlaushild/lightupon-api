@@ -11,7 +11,7 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   t := template.Must(template.ParseFiles("html/quests.html"))
 
   var quests []models.Quest
-  models.DB.Find(&quests)
+  models.DB.Order("id asc").Find(&quests)
 
   data := struct{Quests []models.Quest}{
     Quests: quests,
