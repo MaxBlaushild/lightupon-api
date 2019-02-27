@@ -7,20 +7,20 @@ import (
 )
 
 type QuestForEditing struct {
-  ID uint
   Description string
   TimeToComplete int
   UserID uint
   Posts []PostForEditing
+  ID uint
 }
 
 type PostForEditing struct {
-  ID uint
   QuestID uint
   Latitude float64
   Longitude float64
   Caption string
   ImageUrl string
+  ID uint
 }
 
 func GetQuestYaml(questID uint) (questYaml string) {
