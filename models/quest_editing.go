@@ -7,11 +7,11 @@ import (
 )
 
 type QuestForEditing struct {
+  ID uint
   Description string
   TimeToComplete int
   UserID uint
   Posts []PostForEditing
-  ID uint
 }
 
 type PostForEditing struct {
@@ -108,9 +108,19 @@ func updateQuestInDatabase(questFromClient QuestForEditing) (err error) {
     return
   }
   quest.Description = questFromClient.Description
-  quest.TimeToComplete = questFromClient.TimeToComplete
+  quest.TimeToComplete = calculateEstimatedTimeToComplete(questFromClient)
+  
   DB.Save(&quest)
   return
+}
+
+func calculateEstimatedTimeToComplete(questFromClient QuestForEditing) (walkingTime int) {
+  // Minus one because we want to iterate over pairs of consecutive posts in the quest, and there are n - 1 pairs.
+  var totalDistance float64 = 0.0
+  for i := 0; i < len(questFromClient.Posts) - 1; i++ {
+    totalDistance += CalculateDistance(Location{Latitude: questFromClient.Posts[i].Latitude, Longitude: questFromClient.Posts[i].Longitude}, Location{Latitude: questFromClient.Posts[i + 1].Latitude, Longitude: questFromClient.Posts[i + 1].Longitude})
+  }
+  return int((totalDistance / 1.4) / 60.0) // 1.4 meters per second is apparently how fast people so here's our stoichiometry to get to estimate time for the quest in minutes
 }
 
 func deletePostsThatArentInTheQuestSentByTheClient(questFromClient QuestForEditing) {
