@@ -33,6 +33,7 @@ func Init(){
 
   // QUESTS
   muxRouter.HandleFunc("/lightupon/quests", routes.AllQuestsHandler).Methods("GET")
+  muxRouter.HandleFunc("/lightupon/quests/{questID}/json", routes.GetQuestJsonHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/edit", routes.EditQuestHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/update", routes.UpdateQuestHandler).Methods("POST")
 

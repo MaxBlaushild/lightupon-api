@@ -10,7 +10,17 @@
 <body>
 
 <style type="text/css">
-	textarea { font-size: 14px; }
+	textarea {
+		font-size: 14px;
+	}
+	#map {
+		height: 100%;
+	}
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
 </style>
 
 <h1>QuestID: <span id="quest_id">{{.QuestID}}</span></h1>
@@ -19,31 +29,106 @@
 <textarea id="quest_yaml" rows="30" cols="100">{{.QuestYaml}}</textarea>
 <br>
 <button id="save_quest"> Save </button>
+<br><br>
+<div id="map"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
-	$("#save_quest").on('click', function(){
-		questID = $('#quest_id').html()
-		questYaml = $('#quest_yaml').val()
 
-		$.ajax({
-			method: "POST",
-			url: "/lightupon/quests/" + questID + "/update",
-			dataType: "json",
-			processData: false,
-			contentType: "application/json; charset=utf-8",
-			data: JSON.stringify({'questYaml' : questYaml}),
-			success: function(data, textStatus, xhr) {
-		        alert("Heck yeah! We parsed and saved that shit! Reload the page to see your changes reflected. Maybe save your precious yaml somewhere else first tho, just in case.");
-		    },
-		    error: function(XMLHttpRequest, textStatus, errorThrown) { 
-		        alert("Bad yaml, bro. Talk to Jon about that shit.");
-		    } 
+	function attach_save_onclick() {
+		$("#save_quest").on('click', function(){
+			questID = $('#quest_id').html()
+			questYaml = $('#quest_yaml').val()
+
+			$.ajax({
+				method: "POST",
+				url: "/lightupon/quests/" + questID + "/update",
+				dataType: "json",
+				processData: false,
+				contentType: "application/json; charset=utf-8",
+				data: JSON.stringify({'questYaml' : questYaml}),
+				success: function(data, textStatus, xhr) {
+			        alert("Heck yeah! We parsed and saved that shit! Reload the page to see your changes reflected. Maybe save your precious yaml somewhere else first tho, just in case.");
+			    },
+			    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			        alert("Bad yaml, bro. Talk to Jon about that shit.");
+			    } 
+			})
 		})
-	})
+	}
 
-	$('#instructions_button').on('click', function() {
-		$('#instructions_panel').toggle();
-	})
-</script>
+	function fetch_quest_and_load_map() {
+		questID = $('#quest_id').html()
+		$.ajax({
+				method: "GET",
+				url: "/lightupon/quests/" + questID + "/json",
+				dataType: "json",
+				processData: false,
+				contentType: "application/json; charset=utf-8",
+				success: function(data, textStatus, xhr) {
+			        initMap(data)
+			    },
+			    error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			    	console.log(textStatus)
+			    	console.log(errorThrown)
+			    } 
+			})
+	}
+
+	function init() {
+		fetch_quest_and_load_map()
+		attach_save_onclick()
+
+		$('#instructions_button').on('click', function() {
+			$('#instructions_panel').toggle();
+		})
+	}
+
+	function calculateCenterOfQuest(quest) {
+		var latTotal = 0; var lonTotal = 0
+		for (i = 0; i < quest.Posts.length; i++) { 
+			latTotal += quest.Posts[i].Latitude
+			lonTotal += quest.Posts[i].Longitude
+		}
+		return {lat: latTotal / quest.Posts.length, lng: lonTotal / quest.Posts.length}
+	}
+
+	function initMap(quest) {
+		var uluru = {lat: quest.Posts[0].Latitude, lng: quest.Posts[0].Longitude};
+
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: calculateCenterOfQuest(quest),
+			zoom: 14
+		});
+
+		postCoordinates = []
+
+		for (i = 0; i < quest.Posts.length; i++) { 
+			var uluru = {lat: quest.Posts[i].Latitude, lng: quest.Posts[i].Longitude};
+			postCoordinates.push(uluru)
+			var marker = new google.maps.Marker({position: uluru, map: map});
+		}
+
+		var lineSymbol = {
+	          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+	        };
+
+		var questPath = new google.maps.Polyline({
+			path: postCoordinates,
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2,
+			icons: [{
+				icon: lineSymbol,
+				offset: '100%'
+			}]
+
+		});
+
+		questPath.setMap(map);
+	}
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBbebkkFIEBAUHHIPsaPahGxtFbdQD_oU&callback=init"
+    async defer></script>
 </body>
