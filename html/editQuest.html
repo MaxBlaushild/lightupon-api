@@ -10,16 +10,17 @@
 <body>
 
 <style type="text/css">
-	textarea { font-size: 14px; }
+	textarea {
+		font-size: 14px;
+	}
 	#map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+		height: 100%;
+	}
+	html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
 </style>
 
 <h1>QuestID: <span id="quest_id">{{.QuestID}}</span></h1>
@@ -56,7 +57,7 @@
 		})
 	}
 
-	function fetch_quest_data() {
+	function fetch_quest_and_load_map() {
 		questID = $('#quest_id').html()
 		$.ajax({
 				method: "GET",
@@ -75,9 +76,8 @@
 	}
 
 	function init() {
-		quest_yaml = fetch_quest_data()
+		fetch_quest_and_load_map()
 		attach_save_onclick()
-		initMap()
 
 		$('#instructions_button').on('click', function() {
 			$('#instructions_panel').toggle();
@@ -94,9 +94,6 @@
 	}
 
 	function initMap(quest) {
-		// Got the JS example from here https://stackoverflow.com/questions/16349476/map-isnt-showing-on-google-maps-javascript-api-v3-when-nested-in-a-div-tag
-		// Got the marker esample from here https://developers.google.com/maps/documentation/javascript/adding-a-google-map
-
 		var uluru = {lat: quest.Posts[0].Latitude, lng: quest.Posts[0].Longitude};
 
 		map = new google.maps.Map(document.getElementById('map'), {
@@ -116,7 +113,7 @@
 	          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
 	        };
 
-		var flightPath = new google.maps.Polyline({
+		var questPath = new google.maps.Polyline({
 			path: postCoordinates,
 			geodesic: true,
 			strokeColor: '#FF0000',
@@ -129,7 +126,7 @@
 
 		});
 
-		flightPath.setMap(map);
+		questPath.setMap(map);
 	}
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBbebkkFIEBAUHHIPsaPahGxtFbdQD_oU&callback=init"
