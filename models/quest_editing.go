@@ -23,14 +23,13 @@ type PostForEditing struct {
   ID uint
 }
 
-func GetQuestYaml(questID uint) (questYaml string) {
+func GetQuestForEditing(questID uint) (questForEditing QuestForEditing) {
   var quest Quest
   DB.Where("id = ?", questID).First(&quest)
 
   var posts []Post
   DB.Where("quest_id = ?", questID).Order("quest_order asc").Find(&posts)
 
-  var questForEditing QuestForEditing
   questForEditing.ID = quest.ID
   questForEditing.Description = quest.Description
   questForEditing.TimeToComplete = quest.TimeToComplete
@@ -48,6 +47,12 @@ func GetQuestYaml(questID uint) (questYaml string) {
 
     questForEditing.Posts = append(questForEditing.Posts, postForEditing)
   }
+
+  return
+}
+
+func GetQuestYaml(questID uint) (questYaml string) {
+  questForEditing := GetQuestForEditing(questID)
 
   bytez, err := yaml.Marshal(&questForEditing); if err != nil {
     fmt.Println("ERROR: Fuuuuuck that quest couldnt yaml serialize.", err)
