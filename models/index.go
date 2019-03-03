@@ -41,7 +41,7 @@ func Connect(productionMode bool) {
       log.Fatalln(err)
   }
 
-  DB.LogMode(false)
+  DB.LogMode(true)
   DB.AutoMigrate(&User{},
                  &Location{},
                  &Device{},

@@ -51,6 +51,40 @@ func (u *User) PostToFacebook(p *Post) (err error) {
   return
 }
 
+func (u *User) ActiveQuests() (quests []Quest, err error) {
+  completedPosts := []DiscoveredPost{}
+
+  err = DB.Where(DiscoveredPost{ 
+    UserID: u.ID,
+    Completed: true,
+  }).Preload("Post").Find(&completedPosts).Error; if err != nil {
+    return
+  }
+
+  postCounts := map[uint]uint{}
+  uniqueIDs := []uint{}
+
+  for _, discoveredPost := range completedPosts {
+    questID := discoveredPost.Post.QuestID
+
+    _, isIncluded := postCounts[questID]; if isIncluded {
+      postCounts[questID] += 1
+    } else {
+      postCounts[questID] = 1
+      uniqueIDs = append(uniqueIDs, questID)
+    }
+  }
+
+  for _, id := range uniqueIDs {
+    quest := Quest{}
+    err = DB.Preload("Posts").First(&quest, id).Error; if err != nil { return }
+    quest.QuestProgress.CompletedPosts = postCounts[id]
+    quests = append(quests, quest)
+  }
+
+  return
+}
+
 func (u *User) PostToTwitter(p *Post) (err error) {
   twitterUser := twitter.User{
     AccessToken: u.TwitterKey,

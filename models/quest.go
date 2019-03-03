@@ -9,4 +9,6 @@ type Quest struct {
 	Description string
 	TimeToComplete int // Measured in minutes
 	UserID uint
+	QuestProgress QuestProgress `sql:"-"`
+	Posts []Post
 }
