@@ -48,6 +48,17 @@ func EditQuestHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, data)
 }
 
+func GetQuestJsonHandler(w http.ResponseWriter, r *http.Request) {
+  questID, err := GetUIntFromVars(r, "questID")
+
+  if err != nil {
+    respondWithBadRequest(w, "Something went wrong.")
+  } else {
+    json.NewEncoder(w).Encode(models.GetQuestForEditing(questID))
+
+  }
+}
+
 func UpdateQuestHandler(w http.ResponseWriter, r *http.Request) {
   // For now, just assign ownership to the first user we find
   var user models.User

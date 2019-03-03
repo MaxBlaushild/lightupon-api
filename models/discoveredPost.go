@@ -18,22 +18,18 @@ const unlockThresholdSmall float64 = 20
 const unlockThresholdLarge float64 = 80
 
 func tryToDiscoverPosts(posts []Post, user *User, lat string, lon string) (err error)  {
-  for i, _ := range posts {
-    tryToDiscoverPost(&posts[i], user, lat, lon)
-  }
+  for _, post := range posts {
+    if !post.Completed {
+      newPercentDiscovered, completed := calculatePercentDiscovered(&post, lat, lon)
 
-  return
-}
-
-func tryToDiscoverPost(post *Post, user *User, lat string, lon string) {
-  if post.PercentDiscovered == 1.0 {
-    return
-  }
-
-  newPercentDiscovered := calculatePercentDiscovered(post, lat, lon)
-
-  if (newPercentDiscovered > post.PercentDiscovered) {
-    saveNewPercentDiscoveredToDB(user, post, newPercentDiscovered)
+      if (newPercentDiscovered > post.PercentDiscovered) || completed {
+        discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
+        DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
+        if completed {
+          DB.Model(&discoveredPost).Update("Completed", completed)
+        }
+      }
+    }
   }
 
   return
@@ -57,28 +53,20 @@ func getNearbyDiscoveredPosts(userID uint, postID uint) DiscoveredPost {
   return discoveredPost
 }
 
-func calculatePercentDiscovered(post *Post, lat string, lon string) (percentDiscovered float64) {
+func calculatePercentDiscovered(post *Post, lat string, lon string) (percentDiscovered float64, completed bool) {
   latFloat, _ := strconv.ParseFloat(lat, 64)
   lonFloat, _ := strconv.ParseFloat(lon, 64)
 
   distance := CalculateDistance(Location{Latitude: latFloat, Longitude: lonFloat}, Location{Latitude: post.Latitude, Longitude: post.Longitude})
   if (distance < unlockThresholdSmall) {
     percentDiscovered = 1.0
+    completed = true
   } else if (distance > unlockThresholdLarge) {
     percentDiscovered = 0.0
+    completed = false
   } else {
     percentDiscovered = 1.0 - ((distance - unlockThresholdSmall) / (unlockThresholdLarge - unlockThresholdSmall))
+    completed = false
   }
   return
-}
-
-func saveNewPercentDiscoveredToDB(user *User, post *Post, newPercentDiscovered float64) {
-  discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
-
-  // Until we have a "complete" button on the client app, this is how posts will be completed.
-  if newPercentDiscovered == 1.0 {
-    discoveredPost.Completed = true
-  }
-
-  DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
 }
