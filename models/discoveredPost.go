@@ -9,6 +9,7 @@ type DiscoveredPost struct {
   gorm.Model
   UserID uint
   PostID uint
+  Post Post
   PercentDiscovered float64
   Completed bool
 }

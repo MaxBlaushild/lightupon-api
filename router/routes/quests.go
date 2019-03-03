@@ -20,6 +20,18 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, data)
 }
 
+func ActiveQuestsHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  activeQuests, err := user.ActiveQuests()
+
+  if err != nil {
+    respondWithBadRequest(w, "Unable to retrieve quests.")
+  } else {
+    json.NewEncoder(w).Encode(activeQuests)
+  }
+
+}
+
 func EditQuestHandler(w http.ResponseWriter, r *http.Request) {
   questID, _ := GetUIntFromVars(r, "questID")
   questYaml := models.GetQuestYaml(questID)
