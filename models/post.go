@@ -159,7 +159,7 @@ func (post *Post) CreateNewQuestAndSetFieldsOnPost(user *User) {
 
 func CompletePostForUser(postID string, user User) (err error) {
   var discoveredPost DiscoveredPost
-  DB.Model(&discoveredPost).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true)
+  err = DB.Model(&discoveredPost).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true).Error
   return
 }
 
@@ -203,7 +203,7 @@ func GetQuestOrderForLastCompletedPostInEachQuest(userID uint) (results []struct
               dp.post_id = p.id AND
               dp.Completed = true
             GROUP BY p.quest_id
-            AND p.deleted_at = NULL`
+            AND p.deleted_at IS NULL`
 
   DB.Raw(query, userID).Scan(&results)
 
@@ -227,7 +227,7 @@ func GetNearbyCompletedPosts(userID uint, lat string, lon string, radius string)
             INNER JOIN discovered_posts dp ON dp.user_id = ? AND dp.post_id = p.id
             WHERE ((p.latitude - ?)^2.0 + ((p.longitude - ?)* cos(p.latitude / 57.3))^2.0)  < (?^2)*0.000000000080815075
             AND dp.completed = true
-            AND p.deleted_at = NULL`
+            AND p.deleted_at IS NULL`
 
   DB.Raw(query, userID, lat, lon, radius).Scan(&results)
 
@@ -251,7 +251,7 @@ func GetNearbyUncompletedFirstPosts(userID uint, lat string, lon string, radius 
             WHERE ((p.latitude - ?)^2.0 + ((p.longitude - ?)* cos(p.latitude / 57.3))^2.0)  < (?^2)*0.000000000080815075
             AND (dp.id IS NULL OR dp.completed = false)
             AND p.quest_order = 1
-            AND p.deleted_at = NULL`
+            AND p.deleted_at IS NULL`
 
   DB.Raw(query, userID, lat, lon, radius).Scan(&results)
 
