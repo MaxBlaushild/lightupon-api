@@ -46,14 +46,14 @@ for placemark in root.Document.Folder.Placemark:
 	post['imageurl'] = imageurl
 
 	try:
-		splert = str(placemark.Point.coordinates).replace('\n', '').replace(' ', '').split(',')
+		lat_lon_split_list = str(placemark.Point.coordinates).replace('\n', '').replace(' ', '').split(',')
 	except:
 		print 'ERROR: Couldnt get the location for placemark. Lets just skip it.'
 		continue
 
 	# Longitude goes first because kml is backwards. Whyyyyyyy...
-	post['longitude'] = float(splert[0])
-	post['latitude'] = float(splert[1])
+	post['longitude'] = float(lat_lon_split_list[0])
+	post['latitude'] = float(lat_lon_split_list[1])
 	
 	posts.append(post)
 
