@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>New York Chinatown Walking Tour</name>
+    <description>Guided map for walking tour of Chinatown in New York City.</description>
+    <Style id="icon-22-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-22-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-22">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-22-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-22-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-22-nodesc-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-22-nodesc-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-22-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-22-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-22-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="line-0000FF-5000-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>5</width>
+      </LineStyle>
+    </Style>
+    <Style id="line-0000FF-5000-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>7.5</width>
+      </LineStyle>
+    </Style>
+    <StyleMap id="line-0000FF-5000">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-5000-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-5000-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Untitled layer</name>
+      <Placemark>
+        <name>Handbags and Street Vendors</name>
+        <description>Canal Street is a popular tourist shopping area, where people come looking to find a deal on all kinds of goods. This stretch of Canal between Baxter and Broadway is where you will find most of the handbag merchants (also watches, wallets, shoes, sunglasses, etc.), and street vendors.</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.999829,40.717664,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Dim Sum Go Go - 5 E. Broadway</name>
+        <description>One of the best Dim Sum restaurants. Try the Dim Sum Platter for 10 tasty dumplings (about $12).</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.99778,40.713324,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chatham Square</name>
+        <description><![CDATA[Also known as Kimlau Square, Chatham Square was an open market area through much of the 1800s, before becoming a seedier area known for tattoo parlors and flophouses, just 2 blocks from the infamous 5 Points area.<br><br>The Kimlau Memorial Arch is here (1962), dedicated to Chinese Americans who died fighting for democracy. The statue here is of Lin Ze Xu, an early Chinese drug-czar who tried to keep the opium trade out of China.]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.998064,40.713421,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Jing Fong - 20 Elizabeth St</name>
+        <description>Lively atmosphere sets this Chinatown favorite apart. Dim sum is the specialty, eggs rolls delicious. Crowded lobby leads to huge banquet hall where you will likely be seated next to other parties -- just grab your food from the carts that come around. Dim Sum daily from 10am-3:30 pm (get there early for the best, freshest dumplings).</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.99719,40.716058,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mulberry Bend - Columbus Park</name>
+        <description>This was one of the worst and most dangerous slums in New York in the 1800s, within spitting distance of Five Points. The entire area was razed in 1896 and Columbus Park was built. You may see people doing tai-chi here or playing table games.</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.999711,40.715188,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Five Points</name>
+        <description><![CDATA[If you've seen Gangs of New York, you know some of the history of this area. Five Points was one of the most infamous slum and crime-ridden areas in New York (and the world) in the mid to late 1800s - even police were afraid to walk alone here. After German immigrants, Irish immigrants poured into the area, especially in the 1840s during the time of the Great Potato Famine. <br><br>Five streets converged here, forming a star, giving rise to the "Five Points" name. Baxter Street used to be called Orange (and it continued south beyond Worth, connecting to Park Row), Worth was called Anthony (which dead-ended here coming from the West), and Mosco (which was called Cross Street) extended across the park area now found here and continued on to the southwest.]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -74.000376,40.714322,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>The Tombs Prison</name>
+        <description><![CDATA[This whole square area between Baxter and Lafayette, from Franklin to Worth, used to be under water. It was home to a swampy area around the Collect (CALL-ect) Pond, which provided drinking water to the city well into the 1700s, . Between 1807-1811, the city drained the area by building a canal, which was later covered over in 1821, and became Canal Street. The recovered swampy land here was turned into The Tombs Prison in 1838, though the original building, which looked like an Egyptian mausoleum, is now gone. The Manhattan House of Detention is still a jail facility today.<br><br>This is off the path of the tour and there is not much to see here -- do not walk down here unless you feel the need to. This is really just a point included for reference and history of the area around Canal Street]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -74.001809,40.716347,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bloody Angle - Doyers Street</name>
+        <description>They claim this was the most dangerous location in New York around the year 1900. Gangs would ambush rivals here - it was the murder capital of the US. These few blocks of Doyer, Pell, and Mott were the original boundaries of Chinatown. Brothels, opium dens, gambling houses, and saloons mixed with the tenement housing that filled this part of the city.</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.998156,40.714391,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Church of the Transfiguration</name>
+        <description><![CDATA[This multi-denominational, multi-cultural, multi-lingual church has served immigrants here since 1801 (the spire was added in the 1860s), starting with Irish, then Italian, and today Chinese. Originally a Lutheran church, it became Roman Catholic in 1853.<br><br>As Mulberry Street is the heart of Little Italy, Mott Street is the heart of Chinatown.]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.998958,40.71461,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mahayana Buddhist Temple - 133 Canal St.</name>
+        <description><![CDATA[Be careful crossing the street to get here, with all the traffic around the Manhattan Bridge. Take a peak at the majestic plaza and Manhattan Bridge Arch that dominates the open space here.<br><br>OK, now check out the temple. This is the largest Buddhist Temple in Chinatown. Check out the Chinese lions out in front. Go inside to see the 16 foot tall golden Buddha statue, complete with blue halo. You can buy a fortune scroll for $1 inside (strange note - this building used to be an adult movie theater in the 80s and early 90s -- however, still show respect when entering today...). When finished, turn back and walk back west along Canal Street, away from the Bridge.]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.995393,40.716156,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>First Tenement Building in NYC, 65 Mott St</name>
+        <styleUrl>#icon-22-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.998303,40.716147,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Confucius Statue and Plaza</name>
+        <description><![CDATA[This is Confucius Plaza. This plaza and 44 tower residential housing co-op was built in 1975-76. The statue is of Confucius, who lived around 500BC. He is the most revered Chinese philosopher (he didn't live here, obviously!).]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.997115,40.714203,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>First Shearith Israel Graveyard - 55 St James Place</name>
+        <description>This is the oldest cemetery in New York, dating to 1683. Spanish and Portuguese Jews were the original founders of the Shearith Israel congregation, the only one in New York for nearly 200 years until 1825.</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.99841,40.712819,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Edward Mooney House - 18 Bowery</name>
+        <description>This old (1785) Georgian and Federal-style red-brick building is the oldest row house (or townhouse) in New York City. Check out the quarter-round windows on the Pell St. side on the 4th floor. Over the years it has been a hotel, tavern, store, restaurant, etc. - now a Chinese bank.</description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.99734,40.714594,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chinatown Ice Cream Factory -  65 Bayard St</name>
+        <description><![CDATA[Chinese and American flavors will delight all. Try mango or ginger, but there are plenty of old-fashioned American flavors as well. It's a small place, keep your eyes open!]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <Point>
+          <coordinates>
+            -73.998131,40.715391,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Golden Unicorn - 18 E Broadway</name>
+        <styleUrl>#icon-22-nodesc</styleUrl>
+        <Point>
+          <coordinates>
+            -73.99706,40.7135,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Chinatown Walking Tour Path</name>
+        <description>This walking tour path is 1.6 miles long. It begins at one of the Canal Street subway stations and ends at Mulberry Street. You can either continue up Mulberry Street if you want to explore Little Italy, or follow Canal another clock or two and get back on the subway.</description>
+        <styleUrl>#line-0000FF-5000</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -74.000478,40.71838,0
+            -73.99881,40.717205,0
+            -73.998601,40.717104,0
+            -73.999341,40.715904,0
+            -73.999615,40.715266,0
+            -74.000478,40.714766,0
+            -74.000414,40.714347,0
+            -73.99851,40.71344,0
+            -73.998145,40.713595,0
+            -73.9983,40.713184,0
+            -73.998547,40.712956,0
+            -73.998504,40.712912,0
+            -73.998177,40.713213,0
+            -73.997968,40.712725,0
+            -73.997115,40.712822,0
+            -73.997501,40.714058,0
+            -73.997796,40.714233,0
+            -73.998118,40.714452,0
+            -73.998123,40.714636,0
+            -73.998048,40.714823,0
+            -73.997453,40.714701,0
+            -73.997447,40.714745,0
+            -73.998826,40.715002,0
+            -73.998778,40.71466,0
+            -73.998842,40.714656,0
+            -73.998891,40.71501,0
+            -73.998504,40.715628,0
+            -73.99689,40.715075,0
+            -73.996203,40.716209,0
+            -73.995414,40.716095,0
+            -73.995489,40.71614,0
+            -73.996155,40.716311,0
+            -73.99771,40.716844,0
+            -73.998284,40.715912,0
+            -73.998343,40.715925,0
+            -73.997769,40.716888,0
+            -73.998488,40.717197,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Mission Mural Tour</name>
+    <description><![CDATA[a map of San Francisco's vibrant Mission District, focused on viewing the beautiful murals that make this neighborhood colorful and unique.  ]]></description>
+    <Style id="icon-115-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/115-rail.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-115-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/115-rail.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-115">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-115-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-115-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-125-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/125-restaurant.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-125-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/125-restaurant.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-125">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-125-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-125-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-159-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/159-blue-pushpin.png</href>
+        </Icon>
+        <hotSpot x="10" xunits="pixels" y="31" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-159-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/159-blue-pushpin.png</href>
+        </Icon>
+        <hotSpot x="10" xunits="pixels" y="31" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-159">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-159-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-159-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="line-0000FF-5000-nodesc-normal">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="line-0000FF-5000-nodesc-highlight">
+      <LineStyle>
+        <color>ffff0000</color>
+        <width>7.5</width>
+      </LineStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="line-0000FF-5000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#line-0000FF-5000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#line-0000FF-5000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Untitled layer</name>
+      <Placemark>
+        <name><![CDATA[16th & Mission]]></name>
+        <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/PPYyZrT9D29kPAJ0w8OvSFrczb8rbf7Tk2ldQMCtNLhi1e9Io-2jjCOcOmjxodt6xDDJ1VjDRgsHfW-4pVA3wDsAqj57k1tyfMQAn5Y" height="200" width="auto" /><br><br>16th and Mission is a busy intersection with street vendors, the BART Station and various Muni buses that serve the area. this mural is at top of the escalators/stairway area]]></description>
+        <styleUrl>#icon-115</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/PPYyZrT9D29kPAJ0w8OvSFrczb8rbf7Tk2ldQMCtNLhi1e9Io-2jjCOcOmjxodt6xDDJ1VjDRgsHfW-4pVA3wDsAqj57k1tyfMQAn5Y</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.419581,37.764914,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Clarion Alleyway</name>
+        <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/gqp7-3bMOYzYVtVU2PFaCkdwXlyDNku4zHPdx6GXFFXIbsDBQu5cyeY0yI5kU7CQDxpi3RDD7ToIRecukj-VkyY" height="200" width="auto" /><br><br>Yelp reviewers talk about their visits to clarion alley (http://www.yelp.com/biz/clarion-alley-san-francisco)]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/gqp7-3bMOYzYVtVU2PFaCkdwXlyDNku4zHPdx6GXFFXIbsDBQu5cyeY0yI5kU7CQDxpi3RDD7ToIRecukj-VkyY</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.419528,37.762954,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[The Women's Building]]></name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/HN10HLgGz0LYLp0VODLOx7CUvBOI93qqlgoIEP7kgNzrdpXiGcX78ri93IE512hExE-cyN7fmlILmFM4kR35CMxsm-jFhVVomWsdT7THkg" height="200" width="auto" /><br><br>3543 18th St<br>the women's building is most known for their stunning mural Maestrapeace, which was painted in 1994 by  Juana Alicia, Miranda Bergman, Edythe Boone,    Susan Kelk Cervantes, Meera Desai, Yvonne Littleton and Irene Perez, and many    helpers.]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/HN10HLgGz0LYLp0VODLOx7CUvBOI93qqlgoIEP7kgNzrdpXiGcX78ri93IE512hExE-cyN7fmlILmFM4kR35CMxsm-jFhVVomWsdT7THkg</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.422575,37.761555,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bi-rite creamery</name>
+        <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/p7wVYoQ3B4klcuD8I2DNduMpbspVa9VNkp5TDAjjsKCjh9aMPOaWwwWZogzBCli6Xaj_M2G0Rf_CaBKSgyBmdA" height="200" width="auto" /><br><br>3692 18th Street <br>http://biritecreamery.com<br>Birite makes delicious ice cream flavors like coffee toffee, salted caramel, balsamic strawberry and they now make soft serve ice cream too.]]></description>
+        <styleUrl>#icon-125</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/p7wVYoQ3B4klcuD8I2DNduMpbspVa9VNkp5TDAjjsKCjh9aMPOaWwwWZogzBCli6Xaj_M2G0Rf_CaBKSgyBmdA</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.425708,37.761411,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Mission Pool Mural</name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/WCZIMiEv5uGAXzqhIggQ1GGFXqlAM31sYxmsuDzZTDZ0FoiT45JSF7X1YweyH6ThOuRj4Yqj9czGnqRLQP_ZZ2v_D6VjX-1_Yn-A_7NZYccn7ACV" height="200" width="auto" /><br><br>a mural covering the facade of Mission Pool at19th and Linda Sts.<br>Juana Alicia, the artists remembers the mission in this essay (http://www.juanaalicia.com/content/remembering-the-mission-a-reflection/)]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/WCZIMiEv5uGAXzqhIggQ1GGFXqlAM31sYxmsuDzZTDZ0FoiT45JSF7X1YweyH6ThOuRj4Yqj9czGnqRLQP_ZZ2v_D6VjX-1_Yn-A_7NZYccn7ACV</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.422628,37.759926,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[24th & Mission]]></name>
+        <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/PO6acAnlzgH0sXnx6IKQrWdl65ngZYMGOXWdX6fj-d-S0-4cyUK0smrnh0YwsURv4LFaCQlC2ut1sEn7R2IKYgFfGqB__trZ" height="200" width="auto" /><br><br>another major intersection, at 24th and mission, with a BART station with a mural that shows BART, built on the backs of the Latino working class in the Mission. Mural by Michael Rios, Anthony Machado, and Richard Montez, 1975. from FoundSF.org (http://foundsf.org/index.php?title=BART_Changes_the_Mission_from_BASTA_YA%21_April_1970)]]></description>
+        <styleUrl>#icon-115</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/PO6acAnlzgH0sXnx6IKQrWdl65ngZYMGOXWdX6fj-d-S0-4cyUK0smrnh0YwsURv4LFaCQlC2ut1sEn7R2IKYgFfGqB__trZ</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.418487,37.752292,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Lilac Alley</name>
+        <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/taEJ7BudfXZf9MaqodoTGByiY19CSwr5Ydo_wtTgCc0AL2n9XzQh6BGXtMj8UmBHQ53iaLJbzkLo8ud8Ono3nU3yizoBdTL7JjdulgfCa3Zi5g" height="200" width="auto" /><br><br>Another gem of an alley filled with art]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh4.googleusercontent.com/proxy/taEJ7BudfXZf9MaqodoTGByiY19CSwr5Ydo_wtTgCc0AL2n9XzQh6BGXtMj8UmBHQ53iaLJbzkLo8ud8Ono3nU3yizoBdTL7JjdulgfCa3Zi5g</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.417843,37.752131,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Precita Eyes Mural Arts Center</name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/QFLltzwtG45EWF4EmblH9P0ZHSoPepg7cygRGh103OknFuM3qURXZrY0-e8pnl2cSW5uKxNsZ-cDqX9zOt3xnN4" height="200" width="auto" /><br><br>Precita Eyes Mural Arts and Visitors Center<br>						2981 24th St. @ Harrison St.<br>http://precitaeyes.org (http://www.precitaeyes.org)]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/QFLltzwtG45EWF4EmblH9P0ZHSoPepg7cygRGh103OknFuM3qURXZrY0-e8pnl2cSW5uKxNsZ-cDqX9zOt3xnN4</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.411814,37.752699,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>La Llorona @ 24th and York Streets</name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/vG1VdnQ2JQ44u8anyIXP76X-8abc21FvgBty3EcAvbT_1Sxk5Lfuim7DkuV8vI_t6ZkJt2uwGWU6emllX8kvqX-AYNLenJ75OBfugR6hkcJj4P-R2s2Tg1Gm1P5m0An_" height="200" width="auto" /><br><br>a Juana Alicia mural at 24th and York Streets, based on the La Llorona myth.]]></description>
+        <styleUrl>#icon-159</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/vG1VdnQ2JQ44u8anyIXP76X-8abc21FvgBty3EcAvbT_1Sxk5Lfuim7DkuV8vI_t6ZkJt2uwGWU6emllX8kvqX-AYNLenJ75OBfugR6hkcJj4P-R2s2Tg1Gm1P5m0An_</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.408134,37.752835,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Line 11</name>
+        <styleUrl>#line-0000FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -122.419628,37.764841,0
+            -122.419453,37.763065,0
+            -122.421706,37.762895,0
+            -122.421602,37.761635,0
+            -122.426172,37.761381,0
+            -122.425958,37.75982,0
+            -122.419714,37.760244,0
+            -122.419134,37.760244,0
+            -122.418509,37.752275,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>Precita Eyes Mural Center</name>
+        <styleUrl>#line-0000FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -122.418469,37.752305,0
+            -122.40847,37.752915,0
+            -122.408402,37.75292,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+      <Placemark>
+        <name>Line 13</name>
+        <styleUrl>#line-0000FF-5000-nodesc</styleUrl>
+        <LineString>
+          <tessellate>1</tessellate>
+          <coordinates>
+            -122.418512,37.752288,0
+            -122.408491,37.752881,0
+          </coordinates>
+        </LineString>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>
