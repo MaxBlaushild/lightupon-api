@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Banksy in San Francisco</name>
+    <description>Locations of 6 recent murals by street artist Banksy.</description>
+    <Style id="icon-22-normal">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-22-highlight">
+      <IconStyle>
+        <scale>1.1</scale>
+        <Icon>
+          <href>http://www.gstatic.com/mapspro/images/stock/22-blue-dot.png</href>
+        </Icon>
+        <hotSpot x="16" xunits="pixels" y="32" yunits="insetPixels"/>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1.1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-22">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-22-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-22-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>Untitled layer</name>
+      <Placemark>
+        <name>Banksy Marker Rat</name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/HXil9346gniIQs4pQDrIu0hB--IAdHStzG9HQlkXYgyfobH8GqlZmYBfCE27p0fJ5VczrBtwlRFjZrE9CmPMiEB9hrBMgI-iqZVMxEeymGKcbjS8hh-J4_uVeW2PhnbQ" height="200" width="auto" /><br><br>1672 Haight St.<br>At Red Victorian Inn - "This is where I draw the line."]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/HXil9346gniIQs4pQDrIu0hB--IAdHStzG9HQlkXYgyfobH8GqlZmYBfCE27p0fJ5VczrBtwlRFjZrE9CmPMiEB9hrBMgI-iqZVMxEeymGKcbjS8hh-J4_uVeW2PhnbQ</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.449837,37.76968,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[This'll look nice when it's framed]]></name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/lQuFXp6uteoFSFvbfstAB-fN41Jg_B3Ny-Nl0dQxGVdeY3AsaoE5yhom_SOpN_YJ1-sDGhFcmdTkIjzOmXMa4vyZ7aYupf0iZXYnfQ4JBFsEN5laur4Owf5ZJsRVgTwRSL1Az8VjR-C_JAkbqI8o" height="200" width="auto" /><br><br>853 Valencia St.<br>Above Amnesia Bar]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/lQuFXp6uteoFSFvbfstAB-fN41Jg_B3Ny-Nl0dQxGVdeY3AsaoE5yhom_SOpN_YJ1-sDGhFcmdTkIjzOmXMa4vyZ7aYupf0iZXYnfQ4JBFsEN5laur4Owf5ZJsRVgTwRSL1Az8VjR-C_JAkbqI8o</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.421126,37.759197,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Peace Heart Doctor</name>
+        <description><![CDATA[<img src="https://lh5.googleusercontent.com/proxy/ZiBqSUgxB8dwzN5HL0dOzxAIs5NWQVus52ydGArOkemJD2kOXBjiBgOsiZHB1U-LZUkkQsAZFcAHjPXp3UGNXHJ0myG0Ti8NQ66lyKlwd2PMp0RjZhKxiNZqcGeEe3QAldOdQgtCLlysyMvXJB61wrDnRZNFNw" height="200" width="auto" /><br><br>720 Grant Ave. (at Commercial St.)]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh5.googleusercontent.com/proxy/ZiBqSUgxB8dwzN5HL0dOzxAIs5NWQVus52ydGArOkemJD2kOXBjiBgOsiZHB1U-LZUkkQsAZFcAHjPXp3UGNXHJ0myG0Ti8NQ66lyKlwd2PMp0RjZhKxiNZqcGeEe3QAldOdQgtCLlysyMvXJB61wrDnRZNFNw</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.405977,37.793779,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Bird Singing in Tree</name>
+        <description><![CDATA[<img src="https://lh6.googleusercontent.com/proxy/ePo7LEZUiMmjrA2DoBUCpEDEd5SFvjuKoESZqk7pvBIKgrBzHRr8XbuXyapu1ULNmZT2rA3ZvmO1cuJgzHBnwTtIyUvix9qIaBEyX3gQ93MvPrhoD2WVdjBKo3sVaEsOSouDo7Rg6A" height="200" width="auto" /><br><br>Empty parking lot at Mission and Erie Streets.]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh6.googleusercontent.com/proxy/ePo7LEZUiMmjrA2DoBUCpEDEd5SFvjuKoESZqk7pvBIKgrBzHRr8XbuXyapu1ULNmZT2rA3ZvmO1cuJgzHBnwTtIyUvix9qIaBEyX3gQ93MvPrhoD2WVdjBKo3sVaEsOSouDo7Rg6A</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.419946,37.768985,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>No Trespassing</name>
+        <description><![CDATA[<img src="https://lh4.googleusercontent.com/proxy/9x-bAYmV9byFLUsFIbsLwYqoA_UbOk9HjorgHcwlNC0iPk8h-mxom-EQ2yv0ylmxSCacYlQ23LE_PPN1gw4msMiam4rCETlNMspuiclFD0haSzTwIjya-zYg" height="200" width="auto" /><br><br>2140 Mission St.<br>At Cafe Prague]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh4.googleusercontent.com/proxy/9x-bAYmV9byFLUsFIbsLwYqoA_UbOk9HjorgHcwlNC0iPk8h-mxom-EQ2yv0ylmxSCacYlQ23LE_PPN1gw4msMiam4rCETlNMspuiclFD0haSzTwIjya-zYg</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.419753,37.762742,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name><![CDATA[Skull 'n Crossbones Rat]]></name>
+        <description><![CDATA[<img src="https://lh3.googleusercontent.com/proxy/jJOUXi0VkczbIkDMKU11UE2Cog8pXU5F-5j5yLjtP_8mwNx_sM-YE5YFGjMitM7lLIlJ0jFoZqOXtwYtwGTtwgQwdQ-DaisxV6ODz71JKkcQyUVBjAYtsI7OX4mFTLObdr3-iB0" height="200" width="auto" /><br><br>1309 Howard St.<br>H & R Home Furnishing]]></description>
+        <styleUrl>#icon-22</styleUrl>
+        <ExtendedData>
+          <Data name="gx_media_links">
+            <value>https://lh3.googleusercontent.com/proxy/jJOUXi0VkczbIkDMKU11UE2Cog8pXU5F-5j5yLjtP_8mwNx_sM-YE5YFGjMitM7lLIlJ0jFoZqOXtwYtwGTtwgQwdQ-DaisxV6ODz71JKkcQyUVBjAYtsI7OX4mFTLObdr3-iB0</value>
+          </Data>
+        </ExtendedData>
+        <Point>
+          <coordinates>
+            -122.413359,37.774904,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

@@ -1,0 +1,95 @@
+id: 8
+description: 'Chinatown San Francisco: A Visitors Guide Map'
+timetocomplete: 0
+userid: 5
+posts:
+- id: 108
+  questid: 8
+  latitude: 37.790633
+  longitude: -122.405645
+  caption: Chinatown Gate
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 109
+  questid: 8
+  latitude: 37.792626
+  longitude: -122.405795
+  caption: Old St. Mary's Church
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 110
+  questid: 8
+  latitude: 37.793643
+  longitude: -122.406085
+  caption: Wok Shop
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 111
+  questid: 8
+  latitude: 37.793753
+  longitude: -122.406138
+  caption: Eastern Bakery
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 112
+  questid: 8
+  latitude: 37.794873
+  longitude: -122.405323
+  caption: Portsmouth Square
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 113
+  questid: 8
+  latitude: 37.79511
+  longitude: -122.406127
+  caption: Telephone Exchange Building
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 114
+  questid: 8
+  latitude: 37.794728
+  longitude: -122.406524
+  caption: Red Blossom Tea
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 115
+  questid: 8
+  latitude: 37.796161
+  longitude: -122.405967
+  caption: Chinese Restaurant Row
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 116
+  questid: 8
+  latitude: 37.79734
+  longitude: -122.406836
+  caption: Poultry Shop
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 117
+  questid: 8
+  latitude: 37.797916
+  longitude: -122.407233
+  caption: Chinatown Mural
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 118
+  questid: 8
+  latitude: 37.796789
+  longitude: -122.408627
+  caption: Chinese Markets  (A Don't Miss Sight)
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 119
+  questid: 8
+  latitude: 37.795661
+  longitude: -122.407318
+  caption: Fortune Cookie Factory (A Don't Miss Sight)
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 120
+  questid: 8
+  latitude: 37.795568
+  longitude: -122.407447
+  caption: Sam Bo Trading Company
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 121
+  questid: 8
+  latitude: 37.794678
+  longitude: -122.40705
+  caption: Waverly Place (A Don't Miss Sight)
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
+- id: 122
+  questid: 8
+  latitude: 37.793448
+  longitude: -122.406578
+  caption: Clarion Music
+  imageurl: https://pixfeeds.com/images/usa-travel/1280-478192484-gateway-arch-on-grant-avenue.jpg
