@@ -57,6 +57,11 @@ func GetPostByID(postID string) (post Post, err error){
   return
 }
 
+func GetPostByUintID(postID uint) (post Post, err error){
+  err = DB.Preload("Pin").Preload("User").Where("id = ?", postID).First(&post).Error
+  return
+}
+
 func GetUsersPosts(userID string) (posts []Post, err error) {
   err = DB.Preload("Pin").Preload("User").Where("user_id = ?", userID).Find(&posts).Error
   return

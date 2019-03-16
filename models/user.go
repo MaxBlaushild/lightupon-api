@@ -61,7 +61,7 @@ func (u *User) ActiveQuests() (quests []Quest, err error) {
     return
   }
 
-  postCounts := map[uint]uint{}
+  postCounts := map[uint]int{}
   uniqueIDs := []uint{}
 
   for _, discoveredPost := range completedPosts {
@@ -79,7 +79,10 @@ func (u *User) ActiveQuests() (quests []Quest, err error) {
     quest := Quest{}
     err = DB.Preload("Posts").First(&quest, id).Error; if err != nil { return }
     quest.QuestProgress.CompletedPosts = postCounts[id]
-    quests = append(quests, quest)
+
+    if !quest.IsFinished() {
+      quests = append(quests, quest)
+    }
   }
 
   return

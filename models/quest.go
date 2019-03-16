@@ -12,3 +12,7 @@ type Quest struct {
 	QuestProgress QuestProgress `sql:"-"`
 	Posts []Post
 }
+
+func (q *Quest) IsFinished () bool {
+	return q.QuestProgress.CompletedPosts >= len(q.Posts)
+}
