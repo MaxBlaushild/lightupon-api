@@ -1,0 +1,6 @@
+psql \
+   --host=lightupon-dev.c7pqjm5qhybz.us-east-1.rds.amazonaws.com \
+   --port=5432 \
+   --username=lightupon_dev_user \
+   --password \
+   --dbname=lightupon_dev 
