@@ -51,40 +51,31 @@ func (u *User) PostToFacebook(p *Post) (err error) {
   return
 }
 
-func (u *User) ActiveQuests() (quests []Quest, err error) {
-  completedPosts := []DiscoveredPost{}
+func (u *User) TrackedQuests () (quests []Quest, err error) {
+  trackedQuests := []TrackedQuest{}
 
-  err = DB.Where(DiscoveredPost{ 
-    UserID: u.ID,
-    Completed: true,
-  }).Preload("Post").Find(&completedPosts).Error; if err != nil {
+  // surprised this works, but ok!!!!!
+  err = DB.Preload("Quest.Posts").Preload("Quest.QuestProgress").Where("user_id = ?", u.ID).Find(&trackedQuests).Error; if err !=  nil {
     return
   }
 
-  postCounts := map[uint]int{}
-  uniqueIDs := []uint{}
-
-  for _, discoveredPost := range completedPosts {
-    questID := discoveredPost.Post.QuestID
-
-    _, isIncluded := postCounts[questID]; if isIncluded {
-      postCounts[questID] += 1
-    } else {
-      postCounts[questID] = 1
-      uniqueIDs = append(uniqueIDs, questID)
-    }
+  for _, trackedQuest := range trackedQuests {
+    quest := trackedQuest.Quest
+    quests = append(quests, quest)
   }
 
-  for _, id := range uniqueIDs {
-    quest := Quest{}
-    err = DB.Preload("Posts").First(&quest, id).Error; if err != nil { return }
-    quest.QuestProgress.CompletedPosts = postCounts[id]
+  return
+}
 
-    if !quest.IsFinished() {
-      quests = append(quests, quest)
-    }
-  }
+func (u *User) TrackQuest(questID uint) (err error) {
+  trackedQuest := TrackedQuest{}
+  err = DB.FirstOrCreate(&trackedQuest, TrackedQuest{ QuestID: questID, UserID: u.ID }).Error
+  return
+}
 
+func (u *User) UntrackQuest(questID uint) (err error) {
+  trackedQuest := TrackedQuest{}
+  err = DB.Where("user_id = ? AND quest_id = ?", u.ID, questID).Delete(&trackedQuest).Error
   return
 }
 

@@ -163,8 +163,35 @@ func (post *Post) CreateNewQuestAndSetFieldsOnPost(user *User) {
 }
 
 func CompletePostForUser(postID string, user User) (err error) {
-  var discoveredPost DiscoveredPost
-  err = DB.Model(&discoveredPost).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true).Error
+  post := Post{}
+  questProgress := QuestProgress{}
+
+  err = DB.Find(&post, postID).Error
+
+  if err != nil {
+    return
+  }
+
+  err = DB.FirstOrCreate(&questProgress, QuestProgress{ QuestID: post.QuestID, UserID: user.ID }).Error
+
+  if err != nil {
+    return
+  }
+
+  err = DB.Model(&questProgress).UpdateColumn("completed_posts", questProgress.CompletedPosts + 1).Error
+
+  if err != nil {
+    return
+  }
+
+  err = DB.Model(&DiscoveredPost{}).Where("post_id = ? AND user_id = ?", postID, user.ID).Update("completed", true).Error
+
+  if err != nil {
+    return
+  }
+
+  err = user.TrackQuest(post.QuestID)
+
   return
 }
 

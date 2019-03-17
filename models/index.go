@@ -50,5 +50,7 @@ func Connect(productionMode bool) {
                  &DiscoveredPost{},
                  &Post{},
                  &Pin{},
-                 &Quest{})
+                 &Quest{},
+                 &TrackedQuest{},
+                 &QuestProgress{})
 }

@@ -7,7 +7,6 @@ import(
        "github.com/gorilla/mux"
        // "strconv"
        "fmt"
-       "github.com/davecgh/go-spew/spew"
 )
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
@@ -63,9 +62,6 @@ func GetNearbyPostsAndTryToDiscoverThem(w http.ResponseWriter, r *http.Request) 
   radius := GetStringFromRequest(r, "radius", "5000")
 
   posts, err := models.GetNearbyPostsAndTryToDiscoverThem(user, lat, lon, radius, 20)
-
-  // For now, let's spew all the scenes out for debugging, to make sure we're getting the right ones.
-  spew.Dump(posts)
 
   if err != nil {
     fmt.Println(err)

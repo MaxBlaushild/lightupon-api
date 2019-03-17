@@ -25,9 +25,6 @@ func tryToDiscoverPosts(posts []Post, user *User, lat string, lon string) (err e
       if (newPercentDiscovered > post.PercentDiscovered) || completed {
         discoveredPost := getDiscoveredPostOrCreateNew(user.ID, post.ID)
         DB.Model(&discoveredPost).Update("PercentDiscovered", newPercentDiscovered)
-        if completed {
-          DB.Model(&discoveredPost).Update("Completed", completed)
-        }
       }
     }
   }

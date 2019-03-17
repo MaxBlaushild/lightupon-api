@@ -33,7 +33,10 @@ func Init(){
 
   // QUESTS
   muxRouter.HandleFunc("/lightupon/quests", routes.AllQuestsHandler).Methods("GET")
-  routerWithAuth.HandleFunc("/lightupon/quests/active", routes.ActiveQuestsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/quests/active", routes.TrackedQuestsHandler).Methods("GET")
+  routerWithAuth.HandleFunc("/lightupon/quests/{questID}/track", routes.TrackQuestHandler).Methods("POST")
+  routerWithAuth.HandleFunc("/lightupon/quests/{questID}/untrack", routes.UntrackQuestHandler).Methods("DELETE")
+  routerWithAuth.HandleFunc("/lightupon/quests/{questID}", routes.GetQuestWithUserContextHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/json", routes.GetQuestJsonHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/edit", routes.EditQuestHandler).Methods("GET")
   muxRouter.HandleFunc("/lightupon/quests/{questID}/update", routes.UpdateQuestHandler).Methods("POST")

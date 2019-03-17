@@ -20,14 +20,51 @@ func AllQuestsHandler(w http.ResponseWriter, r *http.Request) {
   t.Execute(w, data)
 }
 
-func ActiveQuestsHandler(w http.ResponseWriter, r *http.Request) {
+func TrackQuestHandler(w http.ResponseWriter, r *http.Request) {
   user := GetUserFromRequest(r)
-  activeQuests, err := user.ActiveQuests()
+  questID, err := GetUIntFromVars(r, "questID")
+
+  if err != nil {
+    respondWithBadRequest(w, "Bad quest ID given")
+    return
+  }
+
+  err = user.TrackQuest(questID)
+
+  if err != nil {
+    respondWithBadRequest(w, "Can't follow that quest.")
+  } else {
+    respondWithAccepted(w, "Quest successfully tracked.")
+  }
+}
+
+func UntrackQuestHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+  questID, err := GetUIntFromVars(r, "questID")
+
+  if err != nil {
+    respondWithBadRequest(w, "Bad quest ID given")
+    return
+  }
+
+  err = user.UntrackQuest(questID)
+
+  if err != nil {
+    respondWithBadRequest(w, "Can't untrack that quest.")
+  } else {
+    respondWithAccepted(w, "Quest successfully untracked.")
+  }
+}
+
+func TrackedQuestsHandler(w http.ResponseWriter, r *http.Request) {
+  user := GetUserFromRequest(r)
+
+  trackedQuests, err := user.TrackedQuests()
 
   if err != nil {
     respondWithBadRequest(w, "Unable to retrieve quests.")
   } else {
-    json.NewEncoder(w).Encode(activeQuests)
+    json.NewEncoder(w).Encode(trackedQuests)
   }
 
 }
@@ -56,6 +93,24 @@ func GetQuestJsonHandler(w http.ResponseWriter, r *http.Request) {
   } else {
     json.NewEncoder(w).Encode(models.GetQuestForEditing(questID))
 
+  }
+}
+
+func GetQuestWithUserContextHandler(w http.ResponseWriter, r *http.Request) {
+  questID, err := GetUIntFromVars(r, "questID")
+  user := GetUserFromRequest(r)
+
+  if err != nil {
+    respondWithBadRequest(w, "Bad quest ID given")
+    return
+  }
+
+  quest, err := models.GetQuestWithUserContext(questID, user.ID)
+
+  if err != nil {
+    respondWithBadRequest(w, "Something went wrong! You're SOL.")
+  } else {
+    json.NewEncoder(w).Encode(quest)
   }
 }
 
